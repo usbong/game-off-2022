@@ -16,7 +16,9 @@
 -->
 <?php
 
+//TO-DO: -delete: excess instructions
 //TO-DO: -use: image icons
+
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
@@ -434,7 +436,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							background-color: #b80000;
 						}
 						
-						
 						.Button-emptyStonePosCornerBottomRightPillar {
 							padding: 9px;
 							background-color: #ff9300;
@@ -482,6 +483,180 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						.Button-emptyStonePosCornerBottomRight:focus {
 							background-color: #b80000;
 						}
+						
+						
+						
+						.Button-emptyStonePosTopPillarLeftSide:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+						}
+
+						.Button-emptyStonePosTopPillarLeftSide:focus {
+							background-color: #b80000;
+						}
+
+						/*
+						TO-DO: -reverify: this; size SQUARE, NOT as rest
+						*/
+						.Button-emptyStonePosTopPillarLeftSideImmediate {
+							padding: 8px;
+							padding-bottom: 10px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+							margin-top: 2px;
+							margin-right: 1px;
+							margin-left: 2px;
+							margin-bottom: 0px;
+						}
+
+						.Button-emptyStonePosTopPillarLeftSideImmediate:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+						}
+
+						.Button-emptyStonePosTopPillarLeftSideImmediate:focus {
+							background-color: #b80000;
+						}
+						
+						.Button-emptyStonePosTopPillarRightSide {
+							padding: 9px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+							margin-top: 2px;
+							margin-left: 0px;
+						}
+						
+						.Button-emptyStonePosTopPillarRightSide:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+						}
+
+						.Button-emptyStonePosTopPillarRightSide:focus {
+							background-color: #b80000;
+						}
+						
+						
+						.Button-emptyStonePosBottom {
+							padding: 10px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+							margin-top: 0px;
+							margin-right: 0px;
+						}
+
+						.Button-emptyStonePosBottom:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+						}
+
+						.Button-emptyStonePosBottom:focus {
+							background-color: #b80000;
+						}
+						
+						/*
+						TO-DO: -reverify: this; size SQUARE, NOT as rest
+						*/
+						.Button-emptyStonePosBottomPillarLeftSideImmediate {
+							padding: 8px;
+							padding-bottom: 10px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+							margin-top: 0px;
+							margin-right: 1px;
+							margin-left: 2px;
+							margin-bottom: 2px;
+						}
+
+						.Button-emptyStonePosBottomPillarLeftSideImmediate:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+						}
+
+						.Button-emptyStonePosBottomPillarLeftSideImmediate:focus {
+							background-color: #b80000;
+						}
+						
+						.Button-emptyStonePosBottomPillarLeftSide {
+							padding: 9px;
+							padding-bottom: 10px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+							margin-top: 0px;
+							margin-right: 0px;
+							margin-left: 0px;
+							margin-bottom: 2px;
+						}
+
+						.Button-emptyStonePosBottomPillarLeftSide:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+						}
+
+						.Button-emptyStonePosBottomPillarLeftSide:focus {
+							background-color: #b80000;
+						}
+						
+						
+						
+						.Button-emptyStonePosBottomPillarRightSide {
+							padding: 9px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+							margin-bottom: 2px;
+							margin-left: 0px;
+						}
+						
+						.Button-emptyStonePosBottomPillarRightSide:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+						}
+
+						.Button-emptyStonePosBottomPillarRightSide:focus {
+							background-color: #b80000;
+						}
+						
 						
 						
 
@@ -1039,7 +1214,49 @@ function myUpdateFunction( )
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerTopRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
 						</td>
 					</tr>							
-<?php
+<?php 	
+				}
+				//immediately to the right of BOTTOM-LEFT Pillar
+				else if (($iRowCount==$iRowCountMax-1) and ($iColumnCount==1) and ($iColumnCount<$iColumnCountMax-1)) {
+?>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottomPillarLeftSideImmediate" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottomPillarRightSide" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottom" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottom" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+					</tr>		
+<?php 						
+
+				}
+				else if (($iRowCount==$iRowCountMax-1) and ($iColumnCount>1) and ($iColumnCount<$iColumnCountMax-1)) {
+?>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottomPillarLeftSide" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottomPillarRightSide" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>					
+					</tr>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottom" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottom" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+					</tr>		
+<?php 						
 				}
 				else {
 ?>				
