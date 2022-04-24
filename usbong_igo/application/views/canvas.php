@@ -230,7 +230,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}
 
 
-.Button-emptyStonePosCornerTopLeftPillar {
+						.Button-emptyStonePosCornerTopLeftPillar {
 							padding: 9px;
 							background-color: #ff9300;
 							color: #222222;
@@ -278,6 +278,112 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						.Button-emptyStonePosCornerTopLeft:focus {
 							background-color: #b80000;
 						}
+
+
+						.Button-emptyStonePosTopPillarLeftSide {
+							padding: 9px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+							margin-top: 2px;
+							margin-right: 2px;
+						}
+
+						.Button-emptyStonePosTopPillarLeftSide:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+						}
+
+						.Button-emptyStonePosTopPillarLeftSide:focus {
+							background-color: #b80000;
+						}
+
+						/*
+						TO-DO: -reverify: this; size SQUARE, NOT as rest
+						*/
+						.Button-emptyStonePosTopPillarLeftSideImmediate {
+							padding: 8px;
+							padding-bottom: 10px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+							margin-top: 2px;
+							margin-right: 1px;
+							margin-left: 2px;
+							margin-bottom: 0px;
+						}
+
+						.Button-emptyStonePosTopPillarLeftSideImmediate:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+						}
+
+						.Button-emptyStonePosTopPillarLeftSideImmediate:focus {
+							background-color: #b80000;
+						}
+						
+						.Button-emptyStonePosTopPillarRightSide {
+							padding: 9px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+							margin-top: 2px;
+							margin-left: 0px;
+						}
+						
+						.Button-emptyStonePosTopPillarRightSide:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+						}
+
+						.Button-emptyStonePosTopPillarRightSide:focus {
+							background-color: #b80000;
+						}
+						
+						
+						.Button-emptyStonePosTop {
+							padding: 10px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+							margin-top: 0px;
+							margin-right: 0px;
+						}
+
+						.Button-emptyStonePosTop:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+						}
+
+						.Button-emptyStonePosTop:focus {
+							background-color: #b80000;
+						}
+						
+						
 
 
 						.Button-emptyStonePosCornerBottomLeftPillar {
@@ -452,137 +558,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}
 						
 
-						.Button-attackPunch {
-							padding: 12px;
-							background-color: #ff0000;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 4px;
-
-							float: left;
-							margin-left: 4px;
-						}
-
-						.Button-attackPunch:hover {
-							background-color: #b80000;
-						}
-
-						.Button-attackPunch:focus {
-							background-color: #b80000;
-						}
-						
-						.Button-attackThrow {
-							padding: 12px;
-							background-color: #ffa100;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 4px;
-
-							float: left;
-							margin-left: 4px;
-						}
-
-						.Button-attackThrow:hover {
-							background-color: #ff7000;
-						}
-
-						.Button-attackThrow:focus {
-							background-color: #ff7000;
-						}
-									
-						.Button-attackSpecial {
-							padding: 12px;
-							background-color: #005eff;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 4px;
-
-							float: left;
-							margin-left: 4px;
-						}
-
-						.Button-attackSpecial:hover {
-							background-color: #0a00da;
-						}
-
-						.Button-attackSpecial:focus {
-							background-color: #0a00da;
-						}
-
-						.Button-defendGuard {
-							padding: 12px;
-							background-color: #a1a1a1;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 4px;
-
-							float: left;
-							margin-left: 4px;
-						}
-
-						.Button-defendGuard:hover {
-							background-color: #827c7c;
-						}
-
-						.Button-defendGuard:focus {
-							background-color: #827c7c;
-						}
-
-						.Button-defendReflect {
-							padding: 12px;
-							background-color: #53cf20;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 4px;
-
-							float: left;
-							margin-left: 4px;
-						}
-
-						.Button-defendReflect:hover {
-							background-color: #409c1a;
-						}
-
-						.Button-defendReflect:focus {
-							background-color: #409c1a;
-						}
-
-						.Button-charge {
-							padding: 12px;
-							background-color: #ffe400;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 4px;
-
-							float: left;
-							margin-left: 4px;
-						}
-
-						.Button-charge:hover {
-							background-color: #d4be00;
-						}
-
-						.Button-charge:focus {
-							background-color: #d4be00;
-						}
 						
 
 <!-- Reference: https://stackoverflow.com/questions/7291873/disable-color-change-of-anchor-tag-when-visited; 
@@ -604,6 +579,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </style>
   </head>
 	  <script>
+	  
+
+/* NOTE:
+//reference: https://stackoverflow.com/questions/8663246/javascript-timer-loop;
+//last accessed: 20220424
+//answer by: keyboardP, 20111229T0158
+//edited by: Ken Browning, 20111229T0200
+
+//every 5secs
+setInterval(myUpdateFunction, 5000);
+
+function myUpdateFunction( )
+{
+	alert("count!");
+}
+*/	  
 		//SVGH
 		function copyText(iCount){
 //			alert("hello"+iCount);
@@ -983,8 +974,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td>
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
 						</td>
-					</tr>		
+					</tr>	
+
+
 <?php 	
+				}
+				//immediately to the right of TOP-LEFT Pillar
+				else if (($iRowCount==0) and ($iColumnCount==1) and ($iColumnCount<$iColumnCountMax-1)) {
+?>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTop" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTop" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTopPillarLeftSideImmediate" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTopPillarRightSide" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+					</tr>		
+<?php 						
+
+				}
+				else if (($iRowCount==0) and ($iColumnCount>1) and ($iColumnCount<$iColumnCountMax-1)) {
+?>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTop" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTop" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTopPillarLeftSide" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTopPillarRightSide" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+					</tr>		
+<?php 						
 				}
 				else if (($iRowCount==0) and ($iColumnCount==$iColumnCountMax-1)) {
 ?>
