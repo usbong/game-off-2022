@@ -31,6 +31,16 @@ Subukang buuin ang BOARD GAME na "IGO" ang tawag, ibahagi ang matutuklasang yama
 
 <img src="https://github.com/usbong/IGO/blob/main/screenshots/usbongIgoScreenshotPart4V20220424T1854.png" width="80%">
 
+
+### PART 5
+<b>START:</b> 2022-04-25T08:11<br/>
+<b>END:</b> 2022-04-25T08:27<br/>
+<b>ELAPSED TIME:</b> 16MINS<br/>
+<br/>
+http://store.usbong.ph/canvas/<br/>
+<br/>
+<img src="https://github.com/usbong/IGO/blob/main/screenshots/usbongIgoScreenshotPart5V20220425T0825.png" width="80%">
+
 ## Open Source Software License
 Copyright 2022 SYSON, MICHAEL B.
 
