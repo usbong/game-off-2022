@@ -2,6 +2,9 @@
 囲碁というボードゲームを作ってみながら、発見できる宝物とかを分け合うこと。<br/>  
 Subukang buuin ang BOARD GAME na "IGO" ang tawag, ibahagi ang matutuklasang yaman, atbp
 
+## Current Version (PUBLIC) 
+http://store.usbong.ph/canvas/
+
 ## ELAPSED TIME
 ### PART 1
 <b>START:</b> 2022-04-24T12:45<br/>
@@ -31,7 +34,6 @@ Subukang buuin ang BOARD GAME na "IGO" ang tawag, ibahagi ang matutuklasang yama
 
 <img src="https://github.com/usbong/IGO/blob/main/screenshots/usbongIgoScreenshotPart4V20220424T1854.png" width="80%">
 
-
 ### PART 5
 <b>START:</b> 2022-04-25T08:11<br/>
 <b>END:</b> 2022-04-25T08:27<br/>
@@ -40,6 +42,17 @@ Subukang buuin ang BOARD GAME na "IGO" ang tawag, ibahagi ang matutuklasang yama
 http://store.usbong.ph/canvas/<br/>
 <br/>
 <img src="https://github.com/usbong/IGO/blob/main/screenshots/usbongIgoScreenshotPart5V20220425T0825.png" width="80%">
+
+### PART 6
+<b>START:</b> 2022-04-28T05:00<br/>
+<b>END:</b> 2022-04-28T05:44<br/>
+<b>ELAPSED TIME:</b> 44MINS<br/>
+<br/>
+<img src="https://github.com/usbong/IGO/blob/main/screenshots/usbongIgoScreenshotPart6-1V20220428T0519.png" width="60%">
+<br/>
+<img src="https://github.com/usbong/IGO/blob/main/screenshots/usbongIgoScreenshotPart6-2V20220428T0525.png" width="60%">
+<br/>
+<img src="https://github.com/usbong/IGO/blob/main/screenshots/usbongIgoScreenshotPart6-3V20220428T0537.png" width="60%">
 
 ## Open Source Software License
 Copyright 2022 SYSON, MICHAEL B.
