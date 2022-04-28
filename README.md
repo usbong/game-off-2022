@@ -54,6 +54,15 @@ http://store.usbong.ph/canvas/<br/>
 <br/>
 <img src="https://github.com/usbong/IGO/blob/main/screenshots/usbongIgoScreenshotPart6-3V20220428T0537.png" width="60%">
 
+### PART 7
+<b>START:</b> 2022-04-29T07:31<br/>
+<b>END:</b> 2022-04-29T07:46<br/>
+<b>ELAPSED TIME:</b> 15MINS<br/>
+<br/>
+<img src="https://github.com/usbong/IGO/blob/main/screenshots/usbongIgoScreenshotPart7V20220429T0742.png" width="60%">
+<br/>
+<img src="https://github.com/usbong/IGO/blob/main/screenshots/usbongIgoScreenshotPart7UpdatedV20220429T0742.png" width="60%">
+
 ## Open Source Software License
 Copyright 2022 SYSON, MICHAEL B.
 
