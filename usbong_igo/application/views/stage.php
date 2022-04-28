@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220428; from 20220425
+' @date updated: 20220429; from 20220428
 '
 ' Note: re-used computer instructions from Usbong Knowledge Management System (KMS)
 -->
@@ -202,10 +202,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							margin-left: 2px;
 */							
 
+/*	edited by Mike, 20220429
 							margin-top: -2px;
 							margin-left: -2px;
 							border-top: 2px solid;		
 							border-left: 2px solid;		
+*/							
+							/* note: negative VALUE for opposite side */
+							box-shadow:inset 2px 2px 0 0px black;														
 						}
 
 						.Button-emptyStonePosCornerTopLeft:hover {
