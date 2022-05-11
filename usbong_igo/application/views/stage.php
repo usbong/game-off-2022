@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220429; from 20220428
+' @date updated: 20220511; from 20220429
 '
 ' Note: re-used computer instructions from Usbong Knowledge Management System (KMS)
 -->
@@ -212,15 +212,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							box-shadow:inset 2px 2px 0 0px black;														
 						}
 
-						.Button-emptyStonePosCornerTopLeft:hover {
+						.Button-emptyStonePosCornerTopLeftPillar:hover {
 							background-color: #b80000;
 							border-radius: 45px;
+							box-shadow:inset 0px 0px 0 0px black;														
 						}
 
-						.Button-emptyStonePosCornerTopLeft:focus {
+						.Button-emptyStonePosCornerTopLeftPillar:focus {
 							background-color: #b80000;
+							box-shadow:inset 0px 0px 0 0px black;														
 						}
-
 						
 						.Button-emptyStonePosCornerTopLeft {
 							padding: 10px;
@@ -248,6 +249,182 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						.Button-emptyStonePosCornerTopLeft:focus {
 							background-color: #b80000;
 						}
+
+/*
+	TOP-RIGHT CORNER
+*/
+						.Button-emptyStonePosCornerTopRightPillar {
+							padding: 10px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+						
+							/* note: negative VALUE for opposite side */
+							box-shadow:inset -2px 2px 0 0px black;														
+						}
+
+						.Button-emptyStonePosCornerTopRightPillar:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+							box-shadow:inset 0px 0px 0 0px black;														
+						}
+
+						.Button-emptyStonePosCornerTopRightPillar:focus {
+							background-color: #b80000;
+							box-shadow:inset 0px 0px 0 0px black;														
+						}
+						
+						.Button-emptyStonePosCornerTopRight {
+							padding: 10px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+/*
+							margin-top: 0px;
+							margin-left: 0px;
+*/							
+							margin: 0px;
+						}
+
+						.Button-emptyStonePosCornerTopRight:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+						}
+
+						.Button-emptyStonePosCornerTopRight:focus {
+							background-color: #b80000;
+						}
+						
+
+/*
+	BOTTOM-LEFT CORNER
+*/
+						.Button-emptyStonePosCornerBottomLeftPillar {
+							padding: 10px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+
+							/* note: negative VALUE for opposite side */
+							box-shadow:inset 2px -2px 0 0px black;														
+						}
+
+						.Button-emptyStonePosCornerBottomLeftPillar:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+							box-shadow:inset 0px 0px 0 0px black;														
+						}
+
+						.Button-emptyStonePosCornerBottomLeftPillar:focus {
+							background-color: #b80000;
+							box-shadow:inset 0px 0px 0 0px black;														
+						}
+						
+						.Button-emptyStonePosCornerBottomLeft {
+							padding: 10px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+/*
+							margin-top: 0px;
+							margin-left: 0px;
+*/							
+							margin: 0px;
+						}
+
+						.Button-emptyStonePosCornerBottomLeft:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+						}
+
+						.Button-emptyStonePosCornerBottomLeft:focus {
+							background-color: #b80000;
+						}
+						
+/*
+	BOTTOM-RIGHT CORNER
+*/
+						.Button-emptyStonePosCornerBottomRightPillar {
+							padding: 10px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+						
+							/* note: negative VALUE for opposite side */
+							box-shadow:inset -2px -2px 0 0px black;														
+						}
+
+						.Button-emptyStonePosCornerBottomRightPillar:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+							box-shadow:inset 0px 0px 0 0px black;														
+						}
+
+						.Button-emptyStonePosCornerBottomRightPillar:focus {
+							background-color: #b80000;
+							box-shadow:inset 0px 0px 0 0px black;														
+						}
+						
+						.Button-emptyStonePosCornerBottomRight {
+							padding: 10px;
+							background-color: #ff9300;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px;
+
+							float: left;
+/*
+							margin-top: 0px;
+							margin-left: 0px;
+*/							
+							margin: 0px;
+						}
+
+						.Button-emptyStonePosCornerBottomRight:hover {
+							background-color: #b80000;
+							border-radius: 45px;
+						}
+
+						.Button-emptyStonePosCornerBottomRight:focus {
+							background-color: #b80000;
+						}
+						
+						
+						
+
 
 
 						.Button-emptyStonePosLeft {
@@ -389,103 +566,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						
 
-
-						.Button-emptyStonePosCornerBottomLeftPillar {
-							padding: 9px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-bottom: 2px;
-							margin-left: 2px;
-						}
-
-						.Button-emptyStonePosCornerBottomLeft:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosCornerBottomLeft:focus {
-							background-color: #b80000;
-						}
-						
-						.Button-emptyStonePosCornerBottomLeft {
-							padding: 10px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-bottom: 0px;
-							margin-left: 0px;
-						}
-
-						.Button-emptyStonePosCornerBottomLeft:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosCornerBottomLeft:focus {
-							background-color: #b80000;
-						}
-						
-						.Button-emptyStonePosCornerBottomRightPillar {
-							padding: 9px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-bottom: 2px;
-							margin-right: 2px;
-						}
-
-						.Button-emptyStonePosCornerBottomRight:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosCornerBottomRight:focus {
-							background-color: #b80000;
-						}
-						
-						.Button-emptyStonePosCornerBottomRight {
-							padding: 10px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-bottom: 0px;
-							margin-right: 0px;
-						}
-
-						.Button-emptyStonePosCornerBottomRight:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosCornerBottomRight:focus {
-							background-color: #b80000;
-						}
-						
 						
 						
 						.Button-emptyStonePosTopPillarLeftSide:hover {
@@ -660,57 +740,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}
 						
 						
-						
-
-						.Button-emptyStonePosCornerTopRightPillar {
-							padding: 9px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-top: 2px;
-							margin-right: 2px;
-						}
-
-						.Button-emptyStonePosCornerTopRight:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosCornerTopRight:focus {
-							background-color: #b80000;
-						}
-						
-						.Button-emptyStonePosCornerTopRight {
-							padding: 10px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-top: 0px;
-							margin-right: 0px;
-						}
-
-						.Button-emptyStonePosCornerTopRight:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosCornerTopRight:focus {
-							background-color: #b80000;
-						}
-						
-
 						.Button-stonePos {
 							padding: 9px;
 							background-color: #ff0000;
@@ -1158,7 +1187,6 @@ function myUpdateFunction( )
 				}
 				else if (($iRowCount==$iRowCountMax-1) and ($iColumnCount==0)) {
 ?>
-<!--
 					<tr>
 						<td>
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomLeft" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
@@ -1175,12 +1203,10 @@ function myUpdateFunction( )
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomLeft" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
 						</td>
 					</tr>		
--->					
 <?php 	
 				}
 				else if (($iRowCount==$iRowCountMax-1) and ($iColumnCount==$iColumnCountMax-1)) {
 ?>
-<!--
 					<tr>
 						<td>
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomRightPillar" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
@@ -1197,7 +1223,6 @@ function myUpdateFunction( )
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
 						</td>
 					</tr>	
--->
 <?php 	
 				}
 				//immediately to the right of TOP-LEFT Pillar
@@ -1248,7 +1273,6 @@ function myUpdateFunction( )
 				}
 				else if (($iRowCount==0) and ($iColumnCount==$iColumnCountMax-1)) {
 ?>
-<!--
 					<tr>
 						<td>
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerTopRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
@@ -1265,7 +1289,6 @@ function myUpdateFunction( )
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerTopRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
 						</td>
 					</tr>							
--->
 <?php 	
 
 				}
