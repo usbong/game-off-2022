@@ -63,6 +63,13 @@ http://store.usbong.ph/canvas/<br/>
 <br/>
 <img src="https://github.com/usbong/IGO/blob/main/screenshots/usbongIgoScreenshotPart7UpdatedV20220429T0742.png" width="60%">
 
+### PART 8
+<b>START:</b> 2022-05-11T19:12<br/>
+<b>END:</b> 2022-05-11T19:30<br/>
+<b>ELAPSED TIME:</b> 18MINS<br/>
+<br/>
+<img src="https://github.com/usbong/IGO/blob/main/screenshots/usbongIgoScreenshotPart8V20220511T1926.png" width="60%">
+
 ## Open Source Software License
 Copyright 2022 SYSON, MICHAEL B.
 
