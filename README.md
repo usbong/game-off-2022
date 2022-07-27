@@ -3,7 +3,7 @@
 Subukang buuin ang BOARD GAME na "IGO" ang tawag, ibahagi ang matutuklasang yaman, atbp
 
 ## Current Version (PUBLIC) 
-http://store.usbong.ph/canvas/
+http://store.usbong.ph/stage/
 
 ## ELAPSED TIME
 ### PART 1
