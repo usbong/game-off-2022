@@ -1,8 +1,9 @@
 # Usbong FLASH
 set of reusable computer instructions that execute via the <b>Web Browser</b> 
 
-## Additional Note
-1) Javascript+ : ActionScript 2.0
+## Additional Notes
+1) Javascript+ as ActionScript 2.0
+2) PHP + CodeIgniter (version 3)
 
 ## Reference
 1) [USBONG 囲碁](https://github.com/usbong/IGO)
