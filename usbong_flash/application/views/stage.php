@@ -765,12 +765,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							background-color: #b80000;
 						}
 						
+						/* noted by Mike, 20220820
+						using: absolute positions; 
+						add: auto-identify IF mobile*/
 						.Image64x64Tile {
 							position: absolute;
   							clip: rect(0px,64px,64px,0px);
 						}
 						
+						.Image64x64TileFrame1 {
+							position: absolute;
+  							clip: rect(0px,64px,64px,0px);
+						}
 
+						.Image64x64TileFrame2 {
+							position: absolute;
+  							/*clip: rect(0px,128px,64px,64px);*/
+  							clip: rect(0px,64px,64px,0px);
+							object-position: -64px; /*TO-DO: -add: current position*/
+						}
 						
 
 <!-- Reference: https://stackoverflow.com/questions/7291873/disable-color-change-of-anchor-tag-when-visited; 
@@ -810,12 +823,29 @@ function myUpdateFunction( )
 	var imgUsbongLogo = document.getElementById("usbongLogoId");
 	//imgUsbongLogo.style.visibility="hidden";
 	
-	 if(imgUsbongLogo.style.visibility === "visible"){
-		imgUsbongLogo.style.visibility="hidden";
-	 }
-	 else {
-		imgUsbongLogo.style.visibility="visible";
-	 }	
+	//added by Mike, 20220820
+	var imgIpisTile = document.getElementById("ipisTileImageId");
+
+
+	if(imgUsbongLogo.style.visibility === "visible"){
+	  imgUsbongLogo.style.visibility="hidden";
+	}
+	else {
+	  imgUsbongLogo.style.visibility="visible";
+	}	
+	 
+	//added by Mike, 20220820
+	//if class exists, remove; else, add the class;
+	//imgIpisTile.classList.toggle('Image64x64TileFrame2');	 
+
+	//reference: https://www.w3schools.com/jsref/prop_html_classname.asp;
+	//last accessed: 20220820
+	if (imgIpisTile.className=='Image64x64TileFrame1') {
+	  imgIpisTile.className='Image64x64TileFrame2';
+	}
+	else {
+	  imgIpisTile.className='Image64x64TileFrame1';
+	}
 }
 
 //every 5secs
@@ -1415,8 +1445,9 @@ setInterval(myUpdateFunction, 200); //1/5 of second
 <br/>			
 	<!-- added by Mike, 20220820; 
 		 reference: https://www.w3schools.com/cssref/pr_pos_clip.asp; last accessed: 20220820
+		 //Image64x64Tile
 	-->
-	<img id="ipisTileImage" class="Image64x64Tile" src="<?php echo base_url('assets/images/ipis.png');?>">	
+	<img id="ipisTileImageId" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/ipis.png');?>">	
 	
 	
 <!-- removed by Mike, 20220424
