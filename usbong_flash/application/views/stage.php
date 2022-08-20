@@ -765,6 +765,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							background-color: #b80000;
 						}
 						
+						.Image64x64Tile {
+							position: absolute;
+  							clip: rect(0px,64px,64px,0px);
+						}
+						
 
 						
 
@@ -1406,6 +1411,14 @@ setInterval(myUpdateFunction, 200); //1/5 of second
 	}
 ?>	
 	</table>
+<br/>
+<br/>			
+	<!-- added by Mike, 20220820; 
+		 reference: https://www.w3schools.com/cssref/pr_pos_clip.asp; last accessed: 20220820
+	-->
+	<img id="ipisTileImage" class="Image64x64Tile" src="<?php echo base_url('assets/images/ipis.png');?>">	
+	
+	
 <!-- removed by Mike, 20220424
 	<br />
 	<br />
