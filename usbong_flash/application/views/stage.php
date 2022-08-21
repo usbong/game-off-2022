@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220820; from 20220511
+' @date updated: 20220821; from 20220820
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -846,6 +846,12 @@ function myUpdateFunction( )
 	else {
 	  imgIpisTile.className='Image64x64TileFrame1';
 	}
+	
+	//added by Mike, 20220821; OK
+	//note: myUpdateFunction() executes only 
+	//when Web Browser is set to be FOCUSED;
+	let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
+	imgIpisTile.style.left =  imgIpisTileX+1+"px";
 }
 
 //every 5secs
