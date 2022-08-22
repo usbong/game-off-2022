@@ -817,7 +817,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 function myUpdateFunction( )
 {
 //	alert("count!");
-	//TO-DO: -add: update logic
+	//TO-DO: -add: update logic	
+	//--> TO-DO: -add: collision detection and output
+	
 	//TO-DO: -add: re-draw stage/canvas
 	
 	var imgUsbongLogo = document.getElementById("usbongLogoId");
@@ -873,17 +875,32 @@ function onLoad() {
 		//note: myUpdateFunction() executes only 
 		//when Web Browser is set to be FOCUSED;
 		let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
-		
+		//added by Mike, 20220822
+		let imgIpisTileY = imgIpisTile.getBoundingClientRect().y;
+			
+		let iStepX=4;
+		let iStepY=4;
+
+		//note: no simultaneous keypress yet;
+		//appears: to be still OK, as with NOKIA series 40 mobile telephones;
+		//remembes: Dragon Quest 6 (sfc), to also have no simultaneous keypresses
+				
 		//OK; //note: unicode keycode, where: key D : 100?
 		//note: auto-accepts keyhold; however, with noticeable delay 
-		if (e.keyCode==68) { //key D
+		if (e.keyCode==68) { //key d
 //			alert("dito");
-			imgIpisTile.style.left =  imgIpisTileX+2+"px";				
+			imgIpisTile.style.left =  imgIpisTileX+iStepX+"px";				
 		}
-		else if (e.keyCode==65) { //key A			
-			imgIpisTile.style.left =  imgIpisTileX-2+"px";				
+		else if (e.keyCode==65) { //key a			
+			imgIpisTile.style.left =  imgIpisTileX-iStepX+"px";				
 		}
-
+		//added by Mike, 20220822
+		if (e.keyCode==87) { //key w			
+			imgIpisTile.style.top =  imgIpisTileY-iStepY+"px";				
+		}
+		else if (e.keyCode==83) { //key s			
+			imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
+		}
 
 	}
 }		
