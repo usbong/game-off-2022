@@ -806,6 +806,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   </head>
 	  <script>
 	  
+//added by Mike, 20220822
+//OK; this technique solves noticeable delay when holding the key press;
+//can add simultaneous keypresses;
+//TO-DO: add: remaining key presses
+bKeyDownRight = false;
 
 // NOTE:
 //reference: https://stackoverflow.com/questions/8663246/javascript-timer-loop;
@@ -814,8 +819,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //edited by: Ken Browning, 20111229T0200
 //edited by Mike, 20220820
 
-function myUpdateFunction( )
-{
+function myUpdateFunction() {
 //	alert("count!");
 	//TO-DO: -add: update logic	
 	//--> TO-DO: -add: collision detection and output
@@ -852,9 +856,30 @@ function myUpdateFunction( )
 	//added by Mike, 20220821; OK
 	//note: myUpdateFunction() executes only 
 	//when Web Browser is set to be FOCUSED;
+/*	
 	let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
+*/	
 	//edited by Mike, 20220822; OK
 	//imgIpisTile.style.left =  imgIpisTileX+1+"px";	
+	
+	
+	//added by Mike, 20220822
+	//update logic; object positions
+	//var imgIpisTile = document.getElementById("ipisTileImageId");
+	
+	let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
+	let imgIpisTileY = imgIpisTile.getBoundingClientRect().y;			
+	let iStepX=4;
+	let iStepY=4;
+
+	//note: no simultaneous keypress yet;
+	//appears: to be still OK, as with NOKIA series 40 mobile telephones;
+	//remembes: Dragon Quest 6 (sfc), to also have no simultaneous keypresses
+				
+	if (bKeyDownRight) { //key d
+		imgIpisTile.style.left =  imgIpisTileX+iStepX+"px";				
+	}	
+
 }
 
 //every 5secs
@@ -885,11 +910,13 @@ function onLoad() {
 		//appears: to be still OK, as with NOKIA series 40 mobile telephones;
 		//remembes: Dragon Quest 6 (sfc), to also have no simultaneous keypresses
 				
-		//OK; //note: unicode keycode, where: key D : 100?
+		//OK; //note: unicode keycode, where: key d : 100?
 		//note: auto-accepts keyhold; however, with noticeable delay 
+		//solved: via bKeyDownRight = false; et cetera
 		if (e.keyCode==68) { //key d
-//			alert("dito");
-			imgIpisTile.style.left =  imgIpisTileX+iStepX+"px";				
+	//			alert("dito");
+			//imgIpisTile.style.left =  imgIpisTileX+iStepX+"px";				
+			bKeyDownRight=true;
 		}
 		else if (e.keyCode==65) { //key a			
 			imgIpisTile.style.left =  imgIpisTileX-iStepX+"px";				
@@ -901,8 +928,15 @@ function onLoad() {
 		else if (e.keyCode==83) { //key s			
 			imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
 		}
-
 	}
+	
+	//added by Mike, 20220822
+	document.body.onkeyup = function(e){
+		//alert("KEYUP; e.keyCode: "+e.keyCode);
+		if (e.keyCode==68) { //key d
+			bKeyDownRight=false;
+		}
+	}	
 }		
 
 		//SVGH
