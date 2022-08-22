@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220822; from 20220821
+' @date updated: 20220823; from 20220822
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -809,8 +809,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //added by Mike, 20220822
 //OK; this technique solves noticeable delay when holding the key press;
 //can add simultaneous keypresses;
-//TO-DO: add: remaining key presses
-bKeyDownRight = false;
+//edited by Mike, 20220823
+//bKeyDownRight = false;
+const iKEY_W = 0;
+const iKEY_S = 1;
+const iKEY_A = 2;
+const iKEY_D = 3;
+
+const iTotalKeyCount = 4;
+
+//https://www.w3schools.com/js/js_arrays.asp; last accessed: 20220823
+const arrayKeyPressed = [];
+for (iCount=0; iCount<iTotalKeyCount; iCount++) {
+	arrayKeyPressed[iCount]=false;
+}
 
 // NOTE:
 //reference: https://stackoverflow.com/questions/8663246/javascript-timer-loop;
@@ -869,17 +881,30 @@ function myUpdateFunction() {
 	
 	let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
 	let imgIpisTileY = imgIpisTile.getBoundingClientRect().y;			
-	let iStepX=4;
-	let iStepY=4;
+	
+	//edited by Mike, 20220823
+	let iStepX=10; //4;
+	let iStepY=10; //4;
 
-	//note: no simultaneous keypress yet;
-	//appears: to be still OK, as with NOKIA series 40 mobile telephones;
-	//remembes: Dragon Quest 6 (sfc), to also have no simultaneous keypresses
-				
-	if (bKeyDownRight) { //key d
+	//note: simultaneous keypresses now OK ;
+	
+	//edited by Mike, 20220823
+	//if (bKeyDownRight) { //key d
+	if (arrayKeyPressed[iKEY_D]) {
 		imgIpisTile.style.left =  imgIpisTileX+iStepX+"px";				
 	}	
-
+	else if (arrayKeyPressed[iKEY_A]) {
+		imgIpisTile.style.left =  imgIpisTileX-iStepX+"px";				
+	}
+	
+	//note: inverted Y-axis; where: @top of window is 0px
+	if (arrayKeyPressed[iKEY_W]) {
+		imgIpisTile.style.top =  imgIpisTileY-iStepY+"px";				
+	}	
+	else if (arrayKeyPressed[iKEY_S]) {
+		imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
+	}
+	
 }
 
 //every 5secs
@@ -894,6 +919,7 @@ function onLoad() {
 	document.body.onkeydown = function(e){
 	//alert("e.keyCode: "+e.keyCode);
 		
+/* //removed by Mike, 20220823		
 		var imgIpisTile = document.getElementById("ipisTileImageId");
 
 		//added by Mike, 20220821; OK
@@ -905,10 +931,8 @@ function onLoad() {
 			
 		let iStepX=4;
 		let iStepY=4;
-
-		//note: no simultaneous keypress yet;
-		//appears: to be still OK, as with NOKIA series 40 mobile telephones;
-		//remembes: Dragon Quest 6 (sfc), to also have no simultaneous keypresses
+*/
+		//note: simultaneous keypresses now OK;
 				
 		//OK; //note: unicode keycode, where: key d : 100?
 		//note: auto-accepts keyhold; however, with noticeable delay 
@@ -916,17 +940,26 @@ function onLoad() {
 		if (e.keyCode==68) { //key d
 	//			alert("dito");
 			//imgIpisTile.style.left =  imgIpisTileX+iStepX+"px";				
-			bKeyDownRight=true;
+			//edited by Mike, 20220823
+			//bKeyDownRight=true;
+			arrayKeyPressed[iKEY_D]=true;			
 		}
 		else if (e.keyCode==65) { //key a			
-			imgIpisTile.style.left =  imgIpisTileX-iStepX+"px";				
+			//edited by Mike, 20220823
+			//imgIpisTile.style.left =  imgIpisTileX-iStepX+"px";				
+			arrayKeyPressed[iKEY_A]=true;			
 		}
+		
 		//added by Mike, 20220822
-		if (e.keyCode==87) { //key w			
-			imgIpisTile.style.top =  imgIpisTileY-iStepY+"px";				
+		if (e.keyCode==87) { //key w		
+			//edited by Mike, 20220823
+			//imgIpisTile.style.top =  imgIpisTileY-iStepY+"px";				
+			arrayKeyPressed[iKEY_W]=true;			
 		}
-		else if (e.keyCode==83) { //key s			
-			imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
+		else if (e.keyCode==83) { //key s
+			//edited by Mike, 20220823
+			//imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
+			arrayKeyPressed[iKEY_S]=true;			
 		}
 	}
 	
@@ -934,8 +967,22 @@ function onLoad() {
 	document.body.onkeyup = function(e){
 		//alert("KEYUP; e.keyCode: "+e.keyCode);
 		if (e.keyCode==68) { //key d
-			bKeyDownRight=false;
+			//edited by Mike, 20220823
+			//bKeyDownRight=false;
+			arrayKeyPressed[iKEY_D]=false;			
 		}
+		else if (e.keyCode==65) { //key a			
+			arrayKeyPressed[iKEY_A]=false;			
+		}
+
+		//added by Mike, 20220823
+		if (e.keyCode==87) { //key w			
+			arrayKeyPressed[iKEY_W]=false;			
+		}
+		else if (e.keyCode==83) { //key s			
+			arrayKeyPressed[iKEY_S]=false;			
+		}
+
 	}	
 }		
 
