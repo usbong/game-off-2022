@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220823; from 20220822
+' @date updated: 20220824; from 20220823
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -916,6 +916,12 @@ setInterval(myUpdateFunction, 100); //200); //1/5 of second
 
 //added by Mike, 20220822
 function onLoad() {
+	//added by Mike, 20220824	
+	//reference: https://stackoverflow.com/questions/70415416/how-hide-address-bar-in-mobile-using-javascript-or-css; last accessed: 20220824;
+	//answer by: JS_basic_knowledge, 20211219T2149	
+	//TO-DO: -reverify: this; "Hide the address bar"
+    window.scrollTo(0, 1);
+		
 	document.body.onkeydown = function(e){
 	//alert("e.keyCode: "+e.keyCode);
 		
