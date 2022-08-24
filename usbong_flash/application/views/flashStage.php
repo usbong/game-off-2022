@@ -37,13 +37,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	
     <style type="text/css">
 	/**/
-	                    body
+	                    html, body
                         {
                             font-family: Arial;
 							font-size: 11pt;
 								
-							/* This makes the width of the output page that is displayed on a browser equal with that of the printed page. */
-							width: 670px								
+							/* This makes the width of the output page that is displayed on a browser equal with that of the printed page. //670 */
+							
+							width: 640px;								
+							height: 640px; 
                         }
 						
 						div.checkBox
@@ -919,9 +921,20 @@ function onLoad() {
 	//added by Mike, 20220824	
 	//reference: https://stackoverflow.com/questions/70415416/how-hide-address-bar-in-mobile-using-javascript-or-css; last accessed: 20220824;
 	//answer by: JS_basic_knowledge, 20211219T2149	
-	//TO-DO: -reverify: this; "Hide the address bar"
-    window.scrollTo(0, 1);
-		
+/*
+	//reverified: this; "Hide the address bar"
+    window.scrollTo(0, 100); //100px for address bar
+
+	//note: incorrect output	
+//	document.documentElement.requestFullScreen();  
+//	document.documentElement.mozRequestFullScreen();  
+*/		
+	//note: smaller screen width x height for game canvas;
+	//as with Legend of Zelda Game&Watch; landscape view
+	//IF identified to be mobile,
+	//remaining space, for touch button inputs;
+	//IF keyboard inputs: W, S, A, D, et cetera
+
 	document.body.onkeydown = function(e){
 	//alert("e.keyCode: "+e.keyCode);
 		
