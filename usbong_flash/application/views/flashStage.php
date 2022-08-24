@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	
     <style type="text/css">
 	/**/
-	                    html, body
+	                    body
                         {
                             font-family: Arial;
 							font-size: 11pt;
@@ -45,9 +45,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							/* This makes the width of the output page that is displayed on a browser equal with that of the printed page. //670 */
 							
 							width: 640px;								
-							height: 640px; 
+							/*height: 640px;*/ 
+							
+							/*	//note: rotation technique
+								transform: rotate(-90deg);
+							*/
                         }
-						
+
 						div.checkBox
 						{
 								border: 1.5pt solid black; height: 9pt; width: 9pt;
