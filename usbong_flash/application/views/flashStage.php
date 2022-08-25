@@ -791,6 +791,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							object-position: -64px; /*TO-DO: -add: current position*/
 						}
 						
+						/* added by Mike, 20220825 
+						reference: https://stackoverflow.com/questions/15533636/playing-sound-in-hidden-tag; last accessed: 20220825
+						//answer by: couzzi, 20130320T2013						
+						*/
+						audio { 
+							display:none;
+						}
+						
 
 <!-- Reference: https://stackoverflow.com/questions/7291873/disable-color-change-of-anchor-tag-when-visited; 
 	last accessed: 20200321
@@ -809,6 +817,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style type="text/css">
     </style>
+  
+  <base href="http://store.usbong.ph/"> <!--target="_blank"-->
+  
   </head>
 	  <script>
 	  
@@ -830,6 +841,23 @@ for (iCount=0; iCount<iTotalKeyCount; iCount++) {
 	arrayKeyPressed[iCount]=false;
 }
 
+
+/*
+//added by Mike, 20220825
+//reference: https://www.w3schools.com/jsref/met_audio_play.asp;
+//last accessed: 20220825
+var x = document.getElementById("myAudioId");
+
+function playAudio() {
+  x.play();
+}
+
+function pauseAudio() {
+  x.pause();
+} 
+*/
+
+
 //--
 	//note: learned: to be doable via Android (Samsung Galaxy S Duos)
 	//after observing successful execution of the following:
@@ -839,6 +867,10 @@ for (iCount=0; iCount<iTotalKeyCount; iCount++) {
 	//reference: https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API;
 	//last accessed: 20220825
 	function toggleFullScreen() {
+	  //added by Mike, 20220825
+	  //playAudio();
+	  document.getElementById("myAudioId").play();
+
 	  if (!document.fullscreenElement) {
 		document.documentElement.requestFullscreen();
 	  } else if (document.exitFullscreen) {
@@ -1031,6 +1063,7 @@ function onLoad() {
 
 	}	
 }		
+
 
 		//SVGH
 		function copyText(iCount){
@@ -1240,7 +1273,8 @@ function onLoad() {
 //answer by: Sally Hammel, 20120409T1402
 //edited by: BenMorel, 20131209T1511
 -->
-<a href="#" onClick="toggleFullScreen()">Full Screen Mode</a>
+<!-- href="/flashStage"; href="#"  -->
+<a onClick="toggleFullScreen()"><u>Full Screen Mode</u></a>
 <br/>
 <br/>
 
@@ -1253,7 +1287,21 @@ function onLoad() {
 					echo 0;							
 				}?>" 
 	required>
-	
+<br/>
+<!--
+		<audio width="416" height="312" controls>
+		  <source src="assets/audio/Tinig 112.m4a" type="audio/x-m4a">
+		  Your browser does not support the audio tag.
+		</audio><br/>	
+-->
+		<audio id="myAudioId" width="416" height="312" controls loop>
+		  <source src="assets/audio/Tinig 112.m4a" type="audio/x-m4a">
+		  Your browser does not support the audio tag.
+		</audio><br/>	
+
+<br/>
+<br/>
+		
 	<?php	
 		//added by Mike, 20220416
 		if (!isset($iMyCurrentChargeCountP1)) {
