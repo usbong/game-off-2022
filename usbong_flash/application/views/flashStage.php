@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220824; from 20220823
+' @date updated: 20220825; from 20220824
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -830,6 +830,29 @@ for (iCount=0; iCount<iTotalKeyCount; iCount++) {
 	arrayKeyPressed[iCount]=false;
 }
 
+//--
+	//note: learned: to be doable via Android (Samsung Galaxy S Duos)
+	//after observing successful execution of the following:
+	//1) https://invertedhat.itch.io/postie; last accessed: 20220825
+	//2) https://allalonegamez.itch.io/rewind-time; last accessed: 20220825
+	//
+	//reference: https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API;
+	//last accessed: 20220825
+	function toggleFullScreen() {
+	  if (!document.fullscreenElement) {
+		document.documentElement.requestFullscreen();
+	  } else if (document.exitFullscreen) {
+		document.exitFullscreen();
+	  }
+	}
+
+	document.addEventListener("keydown", (e) => {
+	  if (e.key === "Enter") {
+		toggleFullScreen();
+	  }
+	}, false);
+//--
+
 // NOTE:
 //reference: https://stackoverflow.com/questions/8663246/javascript-timer-loop;
 //last accessed: 20220424
@@ -1210,6 +1233,17 @@ function onLoad() {
 <!-- removed by Mike, 20220424
 	<br/>
 -->		
+
+<!--
+//reference: https://stackoverflow.com/questions/9454125/javascript-request-fullscreen-is-unreliable;
+//last accessed: 20220825
+//answer by: Sally Hammel, 20120409T1402
+//edited by: BenMorel, 20131209T1511
+-->
+<a href="#" onClick="toggleFullScreen()">Full Screen Mode</a>
+<br/>
+<br/>
+
 	<input type="hidden" id="myCurrentChargeCountId" 
 		value="<?php //TO-DO: -update: this to have >= 2 Players
 				if (isset($iMyCurrentChargeCountP1)) {		
