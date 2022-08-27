@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220825; from 20220824
+' @date updated: 20220827; from 20220825
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -20,6 +20,11 @@
 
 //TO-DO: -delete: excess instructions
 //TO-DO: -use: image icons
+
+//added by Mike, 20220827
+//observed: css+HTML OUTPUT error in iPAD, but NOT in MacBookPro
+//observed: no sound output from .m4a via Android Firefox
+//TO-DO: -update: sound file from .m4a to .mp3 via Musescore, et cetera
 
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -905,13 +910,14 @@ function myUpdateFunction() {
 	//added by Mike, 20220820
 	var imgIpisTile = document.getElementById("ipisTileImageId");
 
-
+/* //removed by Mike, 20220827; output: still noticeable delay in animation of ipis
 	if(imgUsbongLogo.style.visibility === "visible"){
 	  imgUsbongLogo.style.visibility="hidden";
 	}
 	else {
 	  imgUsbongLogo.style.visibility="visible";
 	}	
+*/
 	 
 	//added by Mike, 20220820
 	//if class exists, remove; else, add the class;
@@ -972,7 +978,22 @@ function myUpdateFunction() {
 //setInterval(myUpdateFunction, 5000);
 //edited by Mike, 20220822; increase world's repaint speed;
 //add: delay in object's repaint speed
-setInterval(myUpdateFunction, 100); //200); //1/5 of second
+//setInterval(myUpdateFunction, 100); //200); //1/5 of second
+
+//remembered: from https://www.youtube.com/watch?v=SxAFLXSeMjI; last accessed: 20220827; keyphrase: 桜井政博のゲーム作るには, フレームはコマ数
+//setInterval(myUpdateFunction, 16.66); //1000/60=16.66; 60 frames per second
+//setInterval(myUpdateFunction, 33.33); //1000/30=33.33; 30 frames per second
+//output: via Android Samsung Duos, noticeable delay in frame update
+
+setInterval(myUpdateFunction, 100); //1/5/2 of second
+//setInterval(myUpdateFunction, 50); //200); //1/5 of second
+
+//TO-DO: -verify: internet connectivity to successfully load page
+//TO-DO: -verify: setting image tile to be smaller than 64x64px
+//reference: https://invertedhat.itch.io/postie; last accessed: 20220825;
+//however, NOT as RUN&JUMP ACTION GAME; 
+//where: OUTPUT via CONTROLS noticeably INCORRECT 
+//to cause multiple attempts to execute correct JUMP to platform;
 
 
 //added by Mike, 20220822
