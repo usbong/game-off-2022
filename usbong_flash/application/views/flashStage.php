@@ -22,7 +22,7 @@
 //TO-DO: -use: image icons
 
 //added by Mike, 20220827
-//observed: css+HTML OUTPUT error in iPAD, but NOT in MacBookPro
+//observed: css+HTML OUTPUT error in iPAD (Safari browser), but NOT in MacBookPro (Firefox browser; Safari browser error)
 //observed: no sound output from .m4a via Android Firefox
 //TO-DO: -update: sound file from .m4a to .mp3 via Musescore, et cetera
 
@@ -981,14 +981,16 @@ function myUpdateFunction() {
 //setInterval(myUpdateFunction, 100); //200); //1/5 of second
 
 //remembered: from https://www.youtube.com/watch?v=SxAFLXSeMjI; last accessed: 20220827; keyphrase: 桜井政博のゲーム作るには, フレームはコマ数
-//setInterval(myUpdateFunction, 16.66); //1000/60=16.66; 60 frames per second
+setInterval(myUpdateFunction, 16.66); //1000/60=16.66; 60 frames per second
 //setInterval(myUpdateFunction, 33.33); //1000/30=33.33; 30 frames per second
 //output: via Android Samsung Duos, noticeable delay in frame update
 
-setInterval(myUpdateFunction, 100); //1/5/2 of second
+//setInterval(myUpdateFunction, 100); //1/5/2 of second
 //setInterval(myUpdateFunction, 50); //200); //1/5 of second
 
-//TO-DO: -verify: internet connectivity to successfully load page
+//verified: internet connectivity to successfully load page;
+//OUTPUT: 60 frames per second execution appears to be CORRECT
+
 //TO-DO: -verify: setting image tile to be smaller than 64x64px
 //reference: https://invertedhat.itch.io/postie; last accessed: 20220825;
 //however, NOT as RUN&JUMP ACTION GAME; 
