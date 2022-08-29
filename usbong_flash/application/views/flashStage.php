@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220827; from 20220825
+' @date updated: 20220829; from 20220827
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -828,6 +828,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   </head>
 	  <script>
 	  
+//added by Mike, 20220829
+const iImgIpisTileAnimationCountMax=6;
+iImgIpisTileAnimationCount=0;	  
+	  
 //added by Mike, 20220822
 //OK; this technique solves noticeable delay when holding the key press;
 //can add simultaneous keypresses;
@@ -925,12 +929,21 @@ function myUpdateFunction() {
 
 	//reference: https://www.w3schools.com/jsref/prop_html_classname.asp;
 	//last accessed: 20220820
-	if (imgIpisTile.className=='Image64x64TileFrame1') {
-	  imgIpisTile.className='Image64x64TileFrame2';
+	
+	//added by Mike, 20220829
+	if (iImgIpisTileAnimationCount==iImgIpisTileAnimationCountMax) {
+		if (imgIpisTile.className=='Image64x64TileFrame1') {
+		  imgIpisTile.className='Image64x64TileFrame2';
+		}
+		else {
+		  imgIpisTile.className='Image64x64TileFrame1';
+		}
+		iImgIpisTileAnimationCount=0;
 	}
 	else {
-	  imgIpisTile.className='Image64x64TileFrame1';
+		iImgIpisTileAnimationCount++;
 	}
+	
 	
 	//added by Mike, 20220821; OK
 	//note: myUpdateFunction() executes only 
