@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220829; from 20220827
+' @date updated: 20220830; from 20220829
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -152,12 +152,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							border-collapse: collapse;
 							padding: 0;		
 							margin: 0;
+
+							/*added by: Mike, 20220830 */
+							overflow: hidden;								
+
 						}
 
 						td.column
 						{
 							border: 1px dotted #ab9c7d;		
-							text-align: right
+							text-align: right							
 						}						
 						
 						td.imageColumn
@@ -173,23 +177,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							text-align: right;
 						}
 						
-						.Button-emptyStonePosCenter {
-							padding: 10px;
-							background-color: #ff0000;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-/*
-							margin: 2px;
-*/							
-							margin: 0px;
-						}
-
 						.Button-emptyStonePosCenter:hover {
 							background-color: #b80000;
 							border-radius: 45px;
@@ -201,6 +188,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						.Button-emptyStonePosCornerTopLeftPillar {
 							padding: 10px;
+
+							/*added by: Mike, 20220830 */
+							overflow: hidden;								
+							
 							background-color: #ff9300;
 							color: #222222;
 							font-size: 16px;
@@ -209,19 +200,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							border: 0px solid;		
 							border-radius: 0px;
 
-							float: left;
-/*							
-							margin-top: 2px;
-							margin-left: 2px;
-*/							
+/*	//removed by Mike, 20220830
 
-/*	edited by Mike, 20220429
-							margin-top: -2px;
-							margin-left: -2px;
-							border-top: 2px solid;		
-							border-left: 2px solid;		
-*/							
+							float: left;
+*/
+							/* added by Mike, 20220830 */
+							margin: 0px;
+
 							/* note: negative VALUE for opposite side */
+
 							box-shadow:inset 2px 2px 0 0px black;														
 						}
 
@@ -238,19 +225,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						.Button-emptyStonePosCornerTopLeft {
 							padding: 10px;
+
+/* //added by Mike, 20220830
+   //reference: https://stackoverflow.com/questions/3795888/extra-padding-on-chrome-safari-webkit-any-ideas;
+   //last accessed: 20220830
+   //"This has to do with the way margins collapse together so that two margins between elements don't accumulate."
+   //answer by: Andrew Vit, 20100926T0001
+*/
+							overflow: hidden;	
+							
 							background-color: #ff9300;
+
+/*	//removed by Mike, 20220830
 							color: #222222;
+*/
+
 							font-size: 16px;
 							font-weight: bold;
 
 							border: 0px solid;		
 							border-radius: 0px;
 
+/*	//removed by Mike, 20220830
 							float: left;
-/*
-							margin-top: 0px;
-							margin-left: 0px;
-*/							
+*/
+
 							margin: 0px;
 						}
 
@@ -268,6 +267,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 						.Button-emptyStonePosCornerTopRightPillar {
 							padding: 10px;
+							
+							/*added by: Mike, 20220830 */
+							overflow: hidden;	
+														
 							background-color: #ff9300;
 							color: #222222;
 							font-size: 16px;
@@ -277,6 +280,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							border-radius: 0px;
 
 							float: left;
+							
+							/* added by Mike, 20220830 */
+							margin: 0px;
+							
 						
 							/* note: negative VALUE for opposite side */
 							box-shadow:inset -2px 2px 0 0px black;														
@@ -295,6 +302,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						.Button-emptyStonePosCornerTopRight {
 							padding: 10px;
+
+							/*added by: Mike, 20220830 */
+							overflow: hidden;								
+							
 							background-color: #ff9300;
 							color: #222222;
 							font-size: 16px;
@@ -303,11 +314,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							border: 0px solid;		
 							border-radius: 0px;
 
-							float: left;
-/*
-							margin-top: 0px;
-							margin-left: 0px;
-*/							
+							/* removed by Mike, 20220830 */
+/*							float: left;
+*/
+							/* added by Mike, 20220830 */
 							margin: 0px;
 						}
 
@@ -326,6 +336,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 						.Button-emptyStonePosCornerBottomLeftPillar {
 							padding: 10px;
+							
+							/*added by: Mike, 20220830 */
+							overflow: hidden;							
+							
 							background-color: #ff9300;
 							color: #222222;
 							font-size: 16px;
@@ -334,7 +348,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							border: 0px solid;		
 							border-radius: 0px;
 
-							float: left;
+
+							/* removed by Mike, 20220830 */
+/*							float: left;
+*/
+							/* added by Mike, 20220830 */
+							margin: 0px;
+							
 
 							/* note: negative VALUE for opposite side */
 							box-shadow:inset 2px -2px 0 0px black;														
@@ -353,6 +373,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						.Button-emptyStonePosCornerBottomLeft {
 							padding: 10px;
+
+							/*added by: Mike, 20220830 */
+							overflow: hidden;								
+							
 							background-color: #ff9300;
 							color: #222222;
 							font-size: 16px;
@@ -361,11 +385,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							border: 0px solid;		
 							border-radius: 0px;
 
-							float: left;
-/*
-							margin-top: 0px;
-							margin-left: 0px;
-*/							
+							/* removed by Mike, 20220830 */
+/*							float: left;
+*/
+							/* added by Mike, 20220830 */
 							margin: 0px;
 						}
 
@@ -383,6 +406,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 						.Button-emptyStonePosCornerBottomRightPillar {
 							padding: 10px;
+
+							/*added by: Mike, 20220830 */
+							overflow: hidden;						
+							
 							background-color: #ff9300;
 							color: #222222;
 							font-size: 16px;
@@ -391,7 +418,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							border: 0px solid;		
 							border-radius: 0px;
 
-							float: left;
+							/* removed by Mike, 20220830 */
+/*							float: left;
+*/
+							/* added by Mike, 20220830 */
+							margin: 0px;
 						
 							/* note: negative VALUE for opposite side */
 							box-shadow:inset -2px -2px 0 0px black;														
@@ -410,6 +441,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						.Button-emptyStonePosCornerBottomRight {
 							padding: 10px;
+							
+							/*added by: Mike, 20220830 */
+							overflow: hidden;								
+							
 							background-color: #ff9300;
 							color: #222222;
 							font-size: 16px;
@@ -418,11 +453,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							border: 0px solid;		
 							border-radius: 0px;
 
-							float: left;
-/*
-							margin-top: 0px;
-							margin-left: 0px;
-*/							
+							/* removed by Mike, 20220830 */
+/*							float: left;
+*/
+							/* added by Mike, 20220830 */
 							margin: 0px;
 						}
 
@@ -435,13 +469,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							background-color: #b80000;
 						}
 						
-						
-						
-
-
 
 						.Button-emptyStonePosLeft {
 							padding: 10px;
+
+							/*added by: Mike, 20220830 */
+							overflow: hidden;							
+							
 							background-color: #ff9300;
 							color: #222222;
 							font-size: 16px;
@@ -450,14 +484,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							border: 0px solid;		
 							border-radius: 0px;
 
+
+							/* removed by Mike, 20220830 */
+/*
 							float: left;
 							margin-top: 0px;
 							margin-left: 0px;
 							margin-right: 1px;							
+*/
+
+							/* added by Mike, 20220830 */
+							margin: 0px;
+
 						}
 
 						.Button-emptyStonePosRight {
 							padding: 10px;
+
+							/*added by: Mike, 20220830 */
+							overflow: hidden								
+							
 							background-color: #ff9300;
 							color: #222222;
 							font-size: 16px;
@@ -465,315 +511,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							border: 0px solid;		
 							border-radius: 0px;
-
-							float: left;
-							margin-top: 0px;
-							margin-left: 1px;
-							margin-right: 0px;							
-						}
-
-
-
-						.Button-emptyStonePosTopPillarLeftSide {
-							padding: 9px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-top: 2px;
-							margin-right: 2px;
-						}
-
-						.Button-emptyStonePosTopPillarLeftSide:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosTopPillarLeftSide:focus {
-							background-color: #b80000;
-						}
-
-						/*
-						TO-DO: -reverify: this; size SQUARE, NOT as rest
-						*/
-						.Button-emptyStonePosTopPillarLeftSideImmediate {
-							padding: 8px;
-							padding-bottom: 10px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-top: 2px;
-							margin-right: 1px;
-							margin-left: 2px;
-							margin-bottom: 0px;
-						}
-
-						.Button-emptyStonePosTopPillarLeftSideImmediate:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosTopPillarLeftSideImmediate:focus {
-							background-color: #b80000;
-						}
-						
-						.Button-emptyStonePosTopPillarRightSide {
-							padding: 9px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-top: 2px;
-							margin-left: 0px;
-						}
-						
-						.Button-emptyStonePosTopPillarRightSide:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosTopPillarRightSide:focus {
-							background-color: #b80000;
-						}
-						
-						
-						.Button-emptyStonePosTop {
-							padding: 10px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-top: 0px;
-							margin-right: 0px;
-						}
-
-						.Button-emptyStonePosTop:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosTop:focus {
-							background-color: #b80000;
-						}
-						
-						
-
-						
-						
-						.Button-emptyStonePosTopPillarLeftSide:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosTopPillarLeftSide:focus {
-							background-color: #b80000;
-						}
-
-						/*
-						TO-DO: -reverify: this; size SQUARE, NOT as rest
-						*/
-						.Button-emptyStonePosTopPillarLeftSideImmediate {
-							padding: 8px;
-							padding-bottom: 10px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-top: 2px;
-							margin-right: 1px;
-							margin-left: 2px;
-							margin-bottom: 0px;
-						}
-
-						.Button-emptyStonePosTopPillarLeftSideImmediate:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosTopPillarLeftSideImmediate:focus {
-							background-color: #b80000;
-						}
-						
-						.Button-emptyStonePosTopPillarRightSide {
-							padding: 9px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-top: 2px;
-							margin-left: 0px;
-						}
-						
-						.Button-emptyStonePosTopPillarRightSide:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosTopPillarRightSide:focus {
-							background-color: #b80000;
-						}
-						
-						
-						.Button-emptyStonePosBottom {
-							padding: 10px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-top: 0px;
-							margin-right: 0px;
-						}
-
-						.Button-emptyStonePosBottom:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosBottom:focus {
-							background-color: #b80000;
-						}
-						
-						/*
-						TO-DO: -reverify: this; size SQUARE, NOT as rest
-						*/
-						.Button-emptyStonePosBottomPillarLeftSideImmediate {
-							padding: 8px;
-							padding-bottom: 10px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-top: 0px;
-							margin-right: 1px;
-							margin-left: 2px;
-							margin-bottom: 2px;
-						}
-
-						.Button-emptyStonePosBottomPillarLeftSideImmediate:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosBottomPillarLeftSideImmediate:focus {
-							background-color: #b80000;
-						}
-						
-						.Button-emptyStonePosBottomPillarLeftSide {
-							padding: 9px;
-							padding-bottom: 10px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-top: 0px;
-							margin-right: 0px;
-							margin-left: 0px;
-							margin-bottom: 2px;
-						}
-
-						.Button-emptyStonePosBottomPillarLeftSide:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosBottomPillarLeftSide:focus {
-							background-color: #b80000;
-						}
-						
-						
-						
-						.Button-emptyStonePosBottomPillarRightSide {
-							padding: 9px;
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-bottom: 2px;
-							margin-left: 0px;
-						}
-						
-						.Button-emptyStonePosBottomPillarRightSide:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosBottomPillarRightSide:focus {
-							background-color: #b80000;
-						}
-						
-						
-						.Button-stonePos {
-							padding: 9px;
-							background-color: #ff0000;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-							float: left;
-							margin-left: 0px;
-						}
-
-						.Button-stonePos:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-stonePos:focus {
-							background-color: #b80000;
+/*	//removed by Mike, 20220830 */
+/*							float: left;
+*/					
+							/* added by Mike, 20220830 */
+							margin: 0px;
 						}
 						
 						/* noted by Mike, 20220820
@@ -1426,7 +1168,12 @@ function onLoad() {
 	</tr>
 	</table>
 -->
+<!--	
+	//edited by Mike, 20220830
 	<table class="addPatientTable">
+-->
+	<br/>
+	<table>
 <?php 
 	$iRowCountMax=9;
 	$iColumnCountMax=9;
