@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220830; from 20220829
+' @date updated: 20220902; from 20220830
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -48,8 +48,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							font-size: 11pt;
 								
 							/* This makes the width of the output page that is displayed on a browser equal with that of the printed page. //670 */
+
+							/* https://stackoverflow.com/questions/23368473/safari-leaves-a-space-on-the-right-side-with-100-width-grid;
+							last accessed: 20220902;
+							TO-DO: -re-verify: answer by Miriam Suzanne, 20140430T0640
+							*/
 							
-							width: 640px;								
+							width: 640px; 
+							/* sub-pixel rounding error?
+							//639px; //640px;*/	
+							
 							/*height: 640px;*/ 
 							
 							/*	//note: rotation technique
@@ -154,8 +162,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							margin: 0;
 
 							/*added by: Mike, 20220830 */
-							overflow: hidden;								
-
+							overflow: hidden;
+							
+							/*added by: Mike, 20220902; 
+							  note: effect */							
+							/*border: 1px dotted #ab9c7d;	
+							
+							/*added by Mike, 20220902;
+							  still INCORRECT OUTPUT;
+							display: block;
+							max-width:640px;							
+							*/
 						}
 
 						td.column
@@ -175,15 +192,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							width: 50%;
 							display: inline-block;
 							text-align: right;
-						}
-						
-						.Button-emptyStonePosCenter:hover {
-							background-color: #b80000;
-							border-radius: 45px;
-						}
-
-						.Button-emptyStonePosCenter:focus {
-							background-color: #b80000;
 						}
 						
 						.Button-emptyStonePosCornerTopLeftPillar {
@@ -209,7 +217,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							/* note: negative VALUE for opposite side */
 
-							box-shadow:inset 2px 2px 0 0px black;														
+							box-shadow:inset 2px 2px 0 0px black;		
 						}
 
 						.Button-emptyStonePosCornerTopLeftPillar:hover {
@@ -249,7 +257,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /*	//removed by Mike, 20220830
 							float: left;
 */
-
 							margin: 0px;
 						}
 
@@ -467,55 +474,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						.Button-emptyStonePosCornerBottomRight:focus {
 							background-color: #b80000;
-						}
-						
-
-						.Button-emptyStonePosLeft {
-							padding: 10px;
-
-							/*added by: Mike, 20220830 */
-							overflow: hidden;							
-							
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-
-
-							/* removed by Mike, 20220830 */
-/*
-							float: left;
-							margin-top: 0px;
-							margin-left: 0px;
-							margin-right: 1px;							
-*/
-
-							/* added by Mike, 20220830 */
-							margin: 0px;
-
-						}
-
-						.Button-emptyStonePosRight {
-							padding: 10px;
-
-							/*added by: Mike, 20220830 */
-							overflow: hidden								
-							
-							background-color: #ff9300;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 0px;
-/*	//removed by Mike, 20220830 */
-/*							float: left;
-*/					
-							/* added by Mike, 20220830 */
-							margin: 0px;
 						}
 						
 						/* noted by Mike, 20220820
@@ -1183,33 +1141,11 @@ function onLoad() {
 		for ($iColumnCount=0; $iColumnCount<$iColumnCountMax; $iColumnCount++) {
 ?>			
 			<td>
-<!-- TO-DO: -update: this			
-				<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-stonePosition" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
--->
-
 <!-- TO-DO: -add: auto-identify position in BOARD;
 	example: corners, top, bottom, left, right sides, center
 -->			
 
 				<table>
-<!--
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCenter" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCenter" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCenter" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCenter" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-					</tr>
--->
 <?php 	
 				//TOP-LEFT CORNER
 				if (($iRowCount==0) and ($iColumnCount==0)) {
@@ -1234,26 +1170,6 @@ function onLoad() {
 				}
 				//added by Mike, 20220428
 				else if (($iRowCount<$iRowCountMax-1) and ($iColumnCount==0)) {
-?>
-<!--
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosLeft" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCenter" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosLeft" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCenter" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-					</tr>		
--->
-<?php 	
 				}
 				else if (($iRowCount==$iRowCountMax-1) and ($iColumnCount==0)) {
 ?>
@@ -1297,49 +1213,8 @@ function onLoad() {
 				}
 				//immediately to the right of TOP-LEFT Pillar
 				else if (($iRowCount==0) and ($iColumnCount==1) and ($iColumnCount<$iColumnCountMax-1)) {
-?>
-<!--
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTop" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTop" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTopPillarLeftSideImmediate" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTopPillarRightSide" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-					</tr>		
--->					
-<?php 						
-
 				}
 				else if (($iRowCount==0) and ($iColumnCount>1) and ($iColumnCount<$iColumnCountMax-1)) {
-?>
-<!--
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTop" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTop" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTopPillarLeftSide" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosTopPillarRightSide" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-					</tr>	
--->					
-<?php 						
 				}
 				else if (($iRowCount==0) and ($iColumnCount==$iColumnCountMax-1)) {
 ?>
@@ -1360,99 +1235,16 @@ function onLoad() {
 						</td>
 					</tr>							
 <?php 	
-
 				}
-
 				//added by Mike, 20220428
 				else if (($iRowCount<$iRowCountMax-1) and ($iColumnCount==$iColumnCountMax-1)) {
-?>
-<!--
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCenter" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCenter" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-					</tr>		
--->					
-<?php 	
 				}
 				//immediately to the right of BOTTOM-LEFT Pillar
 				else if (($iRowCount==$iRowCountMax-1) and ($iColumnCount==1) and ($iColumnCount<$iColumnCountMax-1)) {
-?>
-<!--
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottomPillarLeftSideImmediate" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottomPillarRightSide" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottom" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottom" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-					</tr>		
--->
-<?php 						
-
 				}
 				else if (($iRowCount==$iRowCountMax-1) and ($iColumnCount>1) and ($iColumnCount<$iColumnCountMax-1)) {
-?>
-<!--
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottomPillarLeftSide" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottomPillarRightSide" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>					
-					</tr>
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottom" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosBottom" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-					</tr>		
--->					
-<?php 						
 				}
 				else {
-?>				
-<!--
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCenter" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCenter" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCenter" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-						<td>
-							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCenter" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
-						</td>
-					</tr>
--->					
-<?php
 				}
 ?>
 				</table>
