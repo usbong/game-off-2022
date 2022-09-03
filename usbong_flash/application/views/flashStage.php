@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220902; from 20220830
+' @date updated: 20220904; from 20220902
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -51,10 +51,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							/* https://stackoverflow.com/questions/23368473/safari-leaves-a-space-on-the-right-side-with-100-width-grid;
 							last accessed: 20220902;
-							TO-DO: -re-verify: answer by Miriam Suzanne, 20140430T0640
+							reverified: answer by Miriam Suzanne, 20140430T0640
+
+							//answer by Mike, 20220904:
+							//delete excess tables, 
+							//set the correct max count of rows and columns
 							*/
 							
 							width: 640px; 
+														
 							/* sub-pixel rounding error?
 							//639px; //640px;*/	
 							
@@ -155,9 +160,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 -->
 						}						
 
-						table, tr, td 
+						table
 						{
 							border-collapse: collapse;
+							 
 							padding: 0;		
 							margin: 0;
 
@@ -166,7 +172,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							
 							/*added by: Mike, 20220902; 
 							  note: effect */							
-							/*border: 1px dotted #ab9c7d;	
+							/*border: 1px dotted #ab9c7d;*/							
 							
 							/*added by Mike, 20220902;
 							  still INCORRECT OUTPUT;
@@ -174,6 +180,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							max-width:640px;							
 							*/
 						}
+						
+
+						tr
+						{
+							padding: 0;		
+							margin: 0;
+						}						
+
+						td 
+						{
+							padding: 0;		
+							margin: 0;
+						}						
 
 						td.column
 						{
@@ -1092,49 +1111,12 @@ function onLoad() {
 		$defendReflectButtonId=5;
 	?>
 
-<!-- edited by Mike, 20220424	
-	<table class="addPatientTable">
-	<tr>
-		<td>
-			<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-attackPunch" id="iButtonId<?php echo $attackPunchButtonId;?>">[PUNCH]</button>			
-		</td>
-		<td>
-			<button onclick="myPopupFunction(<?php echo $attackThrowButtonId;?>)" class="Button-attackThrow" id="iButtonId<?php echo $attackThrowButtonId;?>">[THROW!]</button>			
-		</td>
-		<td>
-			<button onclick="myPopupFunction(<?php echo $attackSpecialButtonId;?>)" class="Button-attackSpecial" id="iButtonId<?php echo $attackSpecialButtonId;?>">[SPECIAL]</button>			
-		</td>
-	</tr>
-	<tr>
-		<td>
-		</td>
-		<td>
-			<button onclick="myPopupFunction(<?php echo $defendGuardButtonId;?>)" class="Button-defendGuard" id="iButtonId<?php echo $defendGuardButtonId;?>">[ GUARD ]</button>			
-		</td>
-		<td>
-			<button onclick="myPopupFunction(<?php echo $defendReflectButtonId;?>)" class="Button-defendReflect" id="iButtonId<?php echo $defendReflectButtonId;?>">[REFLECT]</button>			
-		</td>
-	</tr>
-	<tr>
-		<td>
-		</td>
-		<td>
-			<button onclick="myPopupFunction(<?php echo $chargeButtonId;?>)" class="Button-charge" id="iButtonId<?php echo $chargeButtonId;?>">[CHARGE]</button>			
-		</td>
-		<td>
-		</td>
-	</tr>
-	</table>
--->
-<!--	
-	//edited by Mike, 20220830
-	<table class="addPatientTable">
--->
 	<br/>
 	<table>
 <?php 
-	$iRowCountMax=9;
-	$iColumnCountMax=9;
+	//edited by Mike, 20220904
+	$iRowCountMax=2; //9
+	$iColumnCountMax=2; //9
 	
 	for ($iRowCount=0; $iRowCount<$iRowCountMax; $iRowCount++) {
 		echo "<tr>";
@@ -1144,12 +1126,14 @@ function onLoad() {
 <!-- TO-DO: -add: auto-identify position in BOARD;
 	example: corners, top, bottom, left, right sides, center
 -->			
-
+<!--	//removed by Mike, 20220904
 				<table>
+-->
 <?php 	
 				//TOP-LEFT CORNER
 				if (($iRowCount==0) and ($iColumnCount==0)) {
 ?>
+				<table>
 					<tr>
 						<td>
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerTopLeft" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
@@ -1166,13 +1150,13 @@ function onLoad() {
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerTopLeftPillar" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
 						</td>
 					</tr>					
+				</table>
 <?php 	
 				}
-				//added by Mike, 20220428
-				else if (($iRowCount<$iRowCountMax-1) and ($iColumnCount==0)) {
-				}
+				//BOTTOM-LEFT CORNER
 				else if (($iRowCount==$iRowCountMax-1) and ($iColumnCount==0)) {
 ?>
+				<table>
 					<tr>
 						<td>
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomLeft" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
@@ -1189,10 +1173,13 @@ function onLoad() {
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomLeft" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
 						</td>
 					</tr>		
+				</table>
 <?php 	
 				}
+				//BOTTOM-RIGHT CORNER
 				else if (($iRowCount==$iRowCountMax-1) and ($iColumnCount==$iColumnCountMax-1)) {
 ?>
+				<table>
 					<tr>
 						<td>
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomRightPillar" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
@@ -1209,15 +1196,13 @@ function onLoad() {
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
 						</td>
 					</tr>	
+				</table>					
 <?php 	
 				}
-				//immediately to the right of TOP-LEFT Pillar
-				else if (($iRowCount==0) and ($iColumnCount==1) and ($iColumnCount<$iColumnCountMax-1)) {
-				}
-				else if (($iRowCount==0) and ($iColumnCount>1) and ($iColumnCount<$iColumnCountMax-1)) {
-				}
+				//TOP-RIGHT CORNER
 				else if (($iRowCount==0) and ($iColumnCount==$iColumnCountMax-1)) {
 ?>
+				<table>
 					<tr>
 						<td>
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerTopRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
@@ -1234,20 +1219,13 @@ function onLoad() {
 							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerTopRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
 						</td>
 					</tr>							
+				</table>
 <?php 	
 				}
-				//added by Mike, 20220428
-				else if (($iRowCount<$iRowCountMax-1) and ($iColumnCount==$iColumnCountMax-1)) {
-				}
-				//immediately to the right of BOTTOM-LEFT Pillar
-				else if (($iRowCount==$iRowCountMax-1) and ($iColumnCount==1) and ($iColumnCount<$iColumnCountMax-1)) {
-				}
-				else if (($iRowCount==$iRowCountMax-1) and ($iColumnCount>1) and ($iColumnCount<$iColumnCountMax-1)) {
-				}
-				else {
-				}
 ?>
+<!-- removed by Mike, 20220904
 				</table>
+-->
 			</td>
 <?php			
 		}
