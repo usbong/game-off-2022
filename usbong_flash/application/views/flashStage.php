@@ -21,6 +21,8 @@
 //TO-DO: -delete: excess instructions
 //TO-DO: -use: image icons
 
+//TO-DO: -add: collision detection
+
 //added by Mike, 20220827
 //observed: css+HTML OUTPUT error in iPAD (Safari browser), but NOT in MacBookPro (Firefox browser; Safari browser error)
 //observed: no sound output from .m4a via Android Firefox
@@ -506,6 +508,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						.Image64x64TileFrame1 {
 							position: absolute;
   							clip: rect(0px,64px,64px,0px);
+
+							/* //added by Mike, 20220904; removed by Mike, 20220904
+								TO-DO: -verify: @set vertex, e.g. center */
+							/*
+								transform: rotate(-15deg);
+							*/
 						}
 
 						.Image64x64TileFrame2 {
@@ -633,6 +641,10 @@ function myUpdateFunction() {
 	//added by Mike, 20220820
 	var imgIpisTile = document.getElementById("ipisTileImageId");
 
+	//added by Mike, 20220904
+	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
+
+
 /* //removed by Mike, 20220827; output: still noticeable delay in animation of ipis
 	if(imgUsbongLogo.style.visibility === "visible"){
 	  imgUsbongLogo.style.visibility="hidden";
@@ -650,12 +662,18 @@ function myUpdateFunction() {
 	//last accessed: 20220820
 	
 	//added by Mike, 20220829
+	//TO-DO: -add: this in Ipis class(-ification) container, et cetera
 	if (iImgIpisTileAnimationCount==iImgIpisTileAnimationCountMax) {
 		if (imgIpisTile.className=='Image64x64TileFrame1') {
 		  imgIpisTile.className='Image64x64TileFrame2';
+		  
+		  //added by Mike, 20220904
+		  imgIpisTileNumber2.className='Image64x64TileFrame1';
 		}
 		else {
 		  imgIpisTile.className='Image64x64TileFrame1';
+
+		  imgIpisTileNumber2.className='Image64x64TileFrame2';
 		}
 		iImgIpisTileAnimationCount=0;
 	}
@@ -743,6 +761,15 @@ function onLoad() {
 //	document.documentElement.requestFullScreen();  
 //	document.documentElement.mozRequestFullScreen();  
 */		
+
+
+	//added by Mike, 20220904	
+	//TO-DO: -add: init; where: set initial positions, et cetera
+	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
+	imgIpisTileNumber2.style.left = "100px";
+	imgIpisTileNumber2.style.top = "100px";
+
+
 	//note: smaller screen width x height for game canvas;
 	//as with Legend of Zelda Game&Watch; landscape view
 	//IF identified to be mobile,
@@ -1240,13 +1267,12 @@ function onLoad() {
 		 //Image64x64Tile
 	-->
 	<img id="ipisTileImageId" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/ipis.png');?>">	
-	
-	
-<!-- removed by Mike, 20220424
-	<br />
-	<br />
-	<br />
--->
+		
+<!-- added by Mike, 20220904 -->
+
+	<img id="ipisTileImageIdNumber2" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/ipis.png');?>">	
+
+
 	<br />
 	<div class="copyright">
 		<span>© <b>www.usbong.ph</b> 2011~<?php echo date("Y");?>. All rights reserved.</span>
