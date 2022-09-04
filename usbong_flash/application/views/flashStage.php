@@ -653,6 +653,9 @@ function myUpdateFunction() {
 	  imgUsbongLogo.style.visibility="visible";
 	}	
 */
+
+	//added by Mike, 20220904
+	//ANIMATION UPDATE
 	 
 	//added by Mike, 20220820
 	//if class exists, remove; else, add the class;
@@ -681,6 +684,12 @@ function myUpdateFunction() {
 		iImgIpisTileAnimationCount++;
 	}
 	
+	//added by Mike, 20220904
+	//TO-DO: -add: smaller window inside browser window;
+	//where: scrolling tool OFF
+	iStageMaxWidth=300;//640;
+	iStageMaxHeight=300;//480;
+	
 	
 	//added by Mike, 20220821; OK
 	//note: myUpdateFunction() executes only 
@@ -696,13 +705,16 @@ function myUpdateFunction() {
 	//update logic; object positions
 	//var imgIpisTile = document.getElementById("ipisTileImageId");
 	
+	//added by Mike, 20220904
+	//KEY INPUT UPDATE	
+	
 	let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
 	let imgIpisTileY = imgIpisTile.getBoundingClientRect().y;			
 	
 	//edited by Mike, 20220823
 	let iStepX=10; //4;
 	let iStepY=10; //4;
-
+	
 	//note: simultaneous keypresses now OK ;
 	
 	//edited by Mike, 20220823
@@ -722,7 +734,144 @@ function myUpdateFunction() {
 		imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
 	}
 	
+	
+	//added by Mike, 20220904
+	//COLLISION DETECTION UPDATE
+	
+	mdo1=imgIpisTile;
+	mdo2=imgIpisTileNumber2;
+
+/*
+	//reference: https://github.com/usbong/usbongV2/blob/main/MyDynamicObject.cpp;
+	//last accessed: 20220904
+	bool MyDynamicObject::isIntersectingRect(MyDynamicObject* mdo1, MyDynamicObject* mdo2) {     
+		if (mdo2->getYPos()+mdo2->getHeight() < mdo1->getYPos() || //is the bottom of mdo2 above the top of mdo1?
+			mdo2->getYPos() > mdo1->getYPos()+mdo1->getHeight() || //is the top of mdo2 below bottom of mdo1?
+			mdo2->getXPos()+mdo2->getWidth() < mdo1->getXPos()  || //is the right of mdo2 to the left of mdo1?
+			mdo2->getXPos() > mdo1->getXPos()+mdo1->getWidth()) { //is the left of mdo2 to the right of mdo1?
+			return false;
+		}
+	
+		return true;
+	}
+*/
+
+	if (isIntersectingRect(mdo1, mdo2)) {
+		//alert("COLLISION!");
+		mdo2.style.visibility="hidden";
+	}
+	
+	//regenerate
+	if (mdo2.style.visibility=="hidden") {
+		
+		let mdo2XPos = mdo2.getBoundingClientRect().x;
+		let mdo2YPos = mdo2.getBoundingClientRect().y;	
+
+/*	
+		mdo2.style.left =  mdo2XPos+iStepX+"px";				
+		mdo2.style.left =  mdo2YPos-iStepX+"px";
+*/		
+		//remembers: BOSS Battle with PANIKI in ALAMAT ng AGIMAT (J2ME)
+		//reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random;
+		//last accessed: 20220904
+
+		let iMax = 4;		
+		iCorner = Math.floor(Math.random() * iMax); 
+		//clock-wise count, 
+		//where: 0 = TOP-LEFT, 1 = TOP-RIGHT, 2, = BOTTOM-RIGHT, 4 = BOTTOM-LEFT
+		
+		if (iCorner==0) {
+			mdo2.style.left = "0px";				
+			mdo2.style.top =  "0px";
+		}
+		else if (iCorner==1) {
+			mdo2.style.left = iStageMaxWidth+"px";				
+			mdo2.style.top =  "0px";
+		}
+		else if (iCorner==2) {
+			mdo2.style.left = iStageMaxWidth+"px";				
+			mdo2.style.top =  iStageMaxHeight+"px";
+		}
+		else if (iCorner==3) {
+			mdo2.style.left = "0px";				
+			mdo2.style.top =  iStageMaxHeight+"px";
+		}
+
+		mdo2.style.visibility="visible";	
+	}
 }
+
+/* //removed by Mike, 20220904
+//added by Mike, 20220904
+//version 1; no offset, et cetera yet
+//@return bool
+function isIntersectingRect(mdo1, mdo2) {
+	
+	let mdo1XPos = mdo1.getBoundingClientRect().x;
+	let mdo1YPos = mdo1.getBoundingClientRect().y;			
+	let mdo1Width = 64; //mdo1.getBoundingClientRect().width;
+	let mdo1Height = 64; //mdo1.getBoundingClientRect().height;			
+
+	let mdo2XPos = mdo2.getBoundingClientRect().x;
+	let mdo2YPos = mdo2.getBoundingClientRect().y;			
+	let mdo2Width = 64; //mdo2.getBoundingClientRect().width;
+	let mdo2Height = 64; //mdo2.getBoundingClientRect().height;			
+	
+//	alert("mdo1XPos: "+mdo1XPos+"; "+"mdo1Width: "+mdo1Width);	
+//	alert("mdo2XPos: "+mdo2XPos+"; "+"mdo2Width: "+mdo2Width);
+	
+	if ((mdo2YPos+mdo2Height < mdo1YPos) || //is the bottom of mdo2 above the top of mdo1?
+		(mdo2YPos > mdo1YPos+mdo1Height) || //is the top of mdo2 below the bottom of mdo1?
+		(mdo2XPos+mdo2Width < mdo1XPos) || //is the right of mdo2 to the left of mdo1?
+		(mdo2XPos > mdo1XPos+mdo1Width)) //is the left of mdo2 to the right of mdo1?
+	{		
+		//no collision
+		return false;
+	}
+	
+	return true;
+}
+*/
+
+//added by Mike, 20220904
+//version 2; with offset, et cetera
+//@return bool
+function isIntersectingRect(mdo1, mdo2) {
+	
+	let mdo1XPos = mdo1.getBoundingClientRect().x;
+	let mdo1YPos = mdo1.getBoundingClientRect().y;			
+	let mdo1Width = 64; //mdo1.getBoundingClientRect().width;
+	let mdo1Height = 64; //mdo1.getBoundingClientRect().height;			
+
+	let mdo2XPos = mdo2.getBoundingClientRect().x;
+	let mdo2YPos = mdo2.getBoundingClientRect().y;			
+	let mdo2Width = 64; //mdo2.getBoundingClientRect().width;
+	let mdo2Height = 64; //mdo2.getBoundingClientRect().height;		
+
+	let iOffsetXPosAsPixel=10;
+	let iOffsetYPosAsPixel=10;	
+	
+	let iStepX=10;
+	let iStepY=10;	
+
+/*	
+	alert("mdo1XPos: "+mdo1XPos+"; "+"mdo1Width: "+mdo1Width);	
+	alert("mdo2XPos: "+mdo2XPos+"; "+"mdo2Width: "+mdo2Width);
+*/
+	
+	if ((mdo2YPos+mdo2Height < mdo1YPos+iOffsetYPosAsPixel-iStepY) || //is the bottom of mdo2 above the top of mdo1?
+		(mdo2YPos > mdo1YPos+mdo1Height-iOffsetYPosAsPixel+iStepY) || //is the top of mdo2 below the bottom of mdo1?
+		(mdo2XPos+mdo2Width < mdo1XPos+iOffsetXPosAsPixel-iStepX) || //is the right of mdo2 to the left of mdo1?
+		(mdo2XPos > mdo1XPos+mdo1Width-iOffsetXPosAsPixel+iStepX)) //is the left of mdo2 to the right of mdo1?
+	{		
+		//no collision
+		return false;
+	}
+	
+	return true;
+}
+
+
 
 //every 5secs
 //setInterval(myUpdateFunction, 5000);
@@ -731,7 +880,13 @@ function myUpdateFunction() {
 //setInterval(myUpdateFunction, 100); //200); //1/5 of second
 
 //remembered: from https://www.youtube.com/watch?v=SxAFLXSeMjI; last accessed: 20220827; keyphrase: 桜井政博のゲーム作るには, フレームはコマ数
-setInterval(myUpdateFunction, 16.66); //1000/60=16.66; 60 frames per second
+
+//added by Mike, 20220904
+//notes: executes faster than onLoad() before init of positions, et cetera
+//removed by Mike, 20220904
+/*setInterval(myUpdateFunction, 16.66); //1000/60=16.66; 60 frames per second
+*/
+
 //setInterval(myUpdateFunction, 33.33); //1000/30=33.33; 30 frames per second
 //output: via Android Samsung Duos, noticeable delay in frame update
 
@@ -762,13 +917,11 @@ function onLoad() {
 //	document.documentElement.mozRequestFullScreen();  
 */		
 
-
 	//added by Mike, 20220904	
 	//TO-DO: -add: init; where: set initial positions, et cetera
 	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
 	imgIpisTileNumber2.style.left = "100px";
 	imgIpisTileNumber2.style.top = "100px";
-
 
 	//note: smaller screen width x height for game canvas;
 	//as with Legend of Zelda Game&Watch; landscape view
@@ -844,6 +997,11 @@ function onLoad() {
 		}
 
 	}	
+	
+	
+	//added by Mike, 20220904
+	setInterval(myUpdateFunction, 16.66); //1000/60=16.66; 60 frames per second
+	
 }		
 
 
