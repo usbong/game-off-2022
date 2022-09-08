@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220904; from 20220902
+' @date updated: 20220909; from 20220904
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -523,6 +523,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							object-position: -64px; /*TO-DO: -add: current position*/
 						}
 						
+						.Image64x64TileBackground {
+							position: absolute;
+  							clip: rect(0px,64px,64px,0px);
+
+							/* //added by Mike, 20220904; removed by Mike, 20220904
+								TO-DO: -verify: @set vertex, e.g. center */
+							/*
+								transform: rotate(-15deg);
+							*/
+						}
+
+						
 						/* added by Mike, 20220825 
 						reference: https://stackoverflow.com/questions/15533636/playing-sound-in-hidden-tag; last accessed: 20220825
 						//answer by: couzzi, 20130320T2013						
@@ -922,6 +934,24 @@ function onLoad() {
 	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
 	imgIpisTileNumber2.style.left = "100px";
 	imgIpisTileNumber2.style.top = "100px";
+	
+	
+	
+	//added by Mike, 20220909
+	//https://www.w3schools.com/js/js_arrays.asp; last accessed: 20220823
+	//https://www.w3schools.com/js/js_loop_for.asp; last accessed: 20220909
+	arrayTileBg = [];
+	for (let iTileBgCount=0; iTileBgCount<4; iTileBgCount++) {
+		//var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber"+iCount);
+		arrayTileBg[iTileBgCount] = document.getElementById("ipisTileImageIdBg"+iTileBgCount);
+		arrayTileBg[iTileBgCount].style.left = iTileBgCount*64+"px";				
+		//arrayTileBg[iTileBgCount].style.top =  iStageMaxHeight+"px";		
+	}
+
+/*	
+			mdo2.style.left = iStageMaxWidth+"px";				
+			mdo2.style.top =  iStageMaxHeight+"px";
+*/
 
 	//note: smaller screen width x height for game canvas;
 	//as with Legend of Zelda Game&Watch; landscape view
@@ -1252,8 +1282,11 @@ function onLoad() {
 		echo "PLAYER1 CHARGE COUNT: ".$iMyCurrentChargeCountP1."<br/>";
 		echo "PLAYER2 CHARGE COUNT: "."0"."<br/>"; //$myCurrentChargeCountP2
 */
+
+/* //removed by Mike, 20220909
 		echo "PLAYER1 CHARGE COUNT: <span id='spanMyCurrentChargeCountP1Id'>".$iMyCurrentChargeCountP1."</span><br/>";
 		echo "PLAYER2 CHARGE COUNT: <span id='spanMyCurrentChargeCountP2Id'>"."0"."</span><br/>"; //$myCurrentChargeCountP2
+*/
 		
 	//removed by Mike, 20220424	
 //		echo "<br/>";
@@ -1272,6 +1305,8 @@ function onLoad() {
 		
 		echo "<br/>";
 */		
+
+/* //removed by Mike, 20220909
 		switch($iHitPlayerId) {
 			case 1: //PLAYER1
 				echo "HITS PLAYER 1!";
@@ -1283,7 +1318,7 @@ function onLoad() {
 				echo "NO PLAYER HIT!";
 				break;
 		}
-				
+*/				
 	?>
 	<br/>
 
@@ -1297,6 +1332,11 @@ function onLoad() {
 	?>
 
 	<br/>
+
+<!-- TO-DO: -add: auto-identify position in BOARD;
+	example: corners, top, bottom, left, right sides, center
+-->			
+<!-- removed by Mike, 20220909; OUTPUT: OK
 	<table>
 <?php 
 	//edited by Mike, 20220904
@@ -1308,12 +1348,6 @@ function onLoad() {
 		for ($iColumnCount=0; $iColumnCount<$iColumnCountMax; $iColumnCount++) {
 ?>			
 			<td>
-<!-- TO-DO: -add: auto-identify position in BOARD;
-	example: corners, top, bottom, left, right sides, center
--->			
-<!--	//removed by Mike, 20220904
-				<table>
--->
 <?php 	
 				//TOP-LEFT CORNER
 				if (($iRowCount==0) and ($iColumnCount==0)) {
@@ -1408,9 +1442,6 @@ function onLoad() {
 <?php 	
 				}
 ?>
-<!-- removed by Mike, 20220904
-				</table>
--->
 			</td>
 <?php			
 		}
@@ -1418,8 +1449,52 @@ function onLoad() {
 	}
 ?>	
 	</table>
+//added by Mike, 20220909
+-->	
+
+<?php 
+//edited by Mike, 20220904
+$iRowCountMax=2; //9
+$iColumnCountMax=2; //9
+
+$iTileBgCount=0;
+
+echo "<table>";
+for ($iRowCount=0; $iRowCount<$iRowCountMax; $iRowCount++) {
+	
+	echo "<tr>";
+	for ($iColumnCount=0; $iColumnCount<$iColumnCountMax; $iColumnCount++) {
+		echo "<td>";
+?>		
+<!--	//removed by Mike, 20220909; reverifying error in absolute position with table
+			<img id="ipisTileImageIdBg<?php echo $iTileBgCount;?>" class="Image64x64TileBackground" src="<?php echo base_url('assets/images/ipis.png');?>">	
+-->			
+<?php			
+		echo "</td>";
+		
+		$iTileBgCount++;
+	}
+	echo "</tr>";
+}
+echo "</table>";
+?>
+
+<?php 
+
+//4=2*2
+$iTileBgCountMax=$iRowCountMax*$iColumnCountMax;
+
+for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
+?>	
+	<img id="ipisTileImageIdBg<?php echo $iCount;?>" class="Image64x64TileBackground" src="<?php echo base_url('assets/images/ipis.png');?>">
+
+<?php
+}
+?>
 <br/>
 <br/>			
+
+
 	<!-- added by Mike, 20220820; 
 		 reference: https://www.w3schools.com/cssref/pr_pos_clip.asp; last accessed: 20220820
 		 //Image64x64Tile
