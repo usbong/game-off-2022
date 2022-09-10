@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220909; from 20220904
+' @date updated: 20220910; from 20220909
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -19,9 +19,6 @@
 <?php
 
 //TO-DO: -delete: excess instructions
-//TO-DO: -use: image icons
-
-//TO-DO: -add: collision detection
 
 //added by Mike, 20220827
 //observed: css+HTML OUTPUT error in iPAD (Safari browser), but NOT in MacBookPro (Firefox browser; Safari browser error)
@@ -567,6 +564,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   </head>
 	  <script>
 	  
+//added by Mike, 20220910
+//notes:	  
+--> verifying: Gameboy Control Scheme as executed on Mobile, e.g. ANDROID
+--> "Keep the original GameBoy screen resolution of 160px x 144px."
+--> https://itch.io/jam/gbjam-9; last accessed: 20220909	  
+	  
+	  
 //added by Mike, 20220829
 const iImgIpisTileAnimationCountMax=6;
 iImgIpisTileAnimationCount=0;	  
@@ -928,6 +932,34 @@ function onLoad() {
 //	document.documentElement.requestFullScreen();  
 //	document.documentElement.mozRequestFullScreen();  
 */		
+
+	//added by Mike, 20220910
+	//reference: https://stackoverflow.com/questions/6666907/how-to-detect-a-mobile-device-with-javascript; last accessed: 20220910
+	//answer by: Baraa, 20141026T2059
+	if (/Mobile|Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+		alert("detected: Mobile Browser!");
+	}
+	
+	//added by Mike, 20220910
+	//reference: https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad; last accessed: 20220910
+	//answer by: crmpicco, 20130515T1414;
+	//edited by: posit labs, 20150929T1708
+	if (window.matchMedia("(orientation: portrait)").matches) {
+	   alert("detected: PORTRAIT mode");
+	}
+
+	if (window.matchMedia("(orientation: landscape)").matches) {
+	   alert("detected: LANDSCAPE mode");
+	}	
+
+	//reference: https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad; last accessed: 20220910
+	//answer by: Jatin, 20120731T0711;
+	//edited by Tisho, 20120731T0730
+	//add: listener to detect orientation change
+	window.addEventListener("orientationchange", function() {
+	  //orientation number (in degrees) : 90 and -90 for landscape; 0 for portrait
+	  alert(window.orientation);
+	}, false);
 
 	//added by Mike, 20220904	
 	//TO-DO: -add: init; where: set initial positions, et cetera
