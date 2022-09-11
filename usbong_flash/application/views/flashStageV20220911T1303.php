@@ -46,26 +46,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             font-family: Arial;
 							font-size: 11pt;
 								
+							/* This makes the width of the output page that is displayed on a browser equal with that of the printed page. //670 */
+
+							/* https://stackoverflow.com/questions/23368473/safari-leaves-a-space-on-the-right-side-with-100-width-grid;
+							last accessed: 20220902;
+							reverified: answer by Miriam Suzanne, 20140430T0640
+
+							//answer by Mike, 20220904:
+							//delete excess tables, 
+							//set the correct max count of rows and columns
+							*/
+
 							/* edited by Mike, 20220911
 							width: 640px; 
 							*/
-							width: 90%; /*100%;*/
+							width: 100%;
 						}
 						
 						canvas.myCanvas {
-							
-							/*width: 100%;*/ /*80%;*/ /*160px; */
-							/*height: 100%;*/ /*80%;*/ /*144px;*/ 
-							
-							/*reference: https://stackoverflow.com/questions/5127937/how-to-center-canvas-in-html5; last accessed: 20220911
-							answer by: Marco Luglio, 20111016T0357
-							*/
-							
-							padding: 0;
-							margin: auto;
-							display: block;
-							width: 320px; /*160px*2;*/	
-							height: 288px; /*144px*2;*/							
+							width: 320px; /*100%;*/ /*320px;*/ /*160px; */
+							height: 288px; /*100%;*/ /*288px;*/ /*144px;*/ 
+
+							position: absolute;
 						}
 
 						div.checkBox
@@ -711,20 +713,9 @@ function myUpdateFunction() {
 	iStageMaxWidth=300;//640;
 	iStageMaxHeight=300;//480;
 */
-	//notes: OUTPUT appears to be 160/320 = 1/2 of canvas width...
-/*
-	iStageMaxWidth=160; //160;
-	iStageMaxHeight=144; //144;
-*/	
-	//edited by Mike, 20220911
-	//note: landscape screen size in SUPER FANTASY ZONE, DEFENDER ARCADE
-	//keyphrase: FLYING, PlayStation Portable, Nintendo Switch Lite
-	//current: gameboy color screen ratio; 160x144, w x h
-	iStageMaxWidth=160*2; //160;
-	iStageMaxHeight=144*2; //144;
 
-	var iHorizontalOffset=0;
-	var iVerticalOffset=0;
+	iStageMaxWidth=160;
+	iStageMaxHeight=144;
 
 	//reference: https://www.w3schools.com/tags/canvas_fillrect.asp; 
 	//last accessed: 2020911
@@ -733,18 +724,8 @@ function myUpdateFunction() {
 	//TO-DO: -add: center align of bigger window 
 	myCanvasContext.fillRect(0, 0, iStageMaxWidth, iStageMaxHeight);	
 	
-	//identify offset due to smaller window centered @horizontal
-/*	
-	alert(screen.width);
-	alert(screen.height);
-*/
-	//use only 90% of screen width to eliminate horizontal scrolling in browser	
-	//verified: computation to be exact with 100%; 
-	//TO-DO: verfiy: with safari browser, et cetera;
-	//TO-DO: -add: grid tiles;
-	//iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
-	iHorizontalOffset=(screen.width*0.90)/2-iStageMaxWidth/2;
-		
+	
+	
 	//added by Mike, 20220821; OK
 	//note: myUpdateFunction() executes only 
 	//when Web Browser is set to be FOCUSED;
@@ -763,11 +744,7 @@ function myUpdateFunction() {
 	//KEY INPUT UPDATE	
 	
 	let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
-	let imgIpisTileY = imgIpisTile.getBoundingClientRect().y;	
-
-	//added by Mike, 20220911
-	let iImgIpisTileWidth = 64;
-	let iImgIpisTileHeight = 64;
+	let imgIpisTileY = imgIpisTile.getBoundingClientRect().y;			
 	
 	//edited by Mike, 20220823
 	let iStepX=10; //4;
@@ -838,31 +815,21 @@ function myUpdateFunction() {
 		//clock-wise count, 
 		//where: 0 = TOP-LEFT, 1 = TOP-RIGHT, 2, = BOTTOM-RIGHT, 4 = BOTTOM-LEFT
 		
-		if (iCorner==0) { //TOP-LEFT
-			//edited by Mike, 20220911
-			//mdo2.style.left = "0px";				
-			mdo2.style.left = (iHorizontalOffset+0)+"px";			
+		if (iCorner==0) {
+			mdo2.style.left = "0px";				
 			mdo2.style.top =  "0px";
 		}
-		else if (iCorner==1) { //TOP-RIGHT
-			//edited by Mike, 20220911
-			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgIpisTileWidth)+"px";			
+		else if (iCorner==1) {
+			mdo2.style.left = iStageMaxWidth+"px";				
 			mdo2.style.top =  "0px";
 		}
-		else if (iCorner==2)  { //BOTTOM-RIGHT
-			//edited by Mike, 20220911
-			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgIpisTileWidth)+"px";
-			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  (iStageMaxHeight-iImgIpisTileHeight)+"px";
+		else if (iCorner==2) {
+			mdo2.style.left = iStageMaxWidth+"px";				
+			mdo2.style.top =  iStageMaxHeight+"px";
 		}
-		else if (iCorner==3) { //BOTTOM-LEFT
-			//edited by Mike, 20220911
-			//mdo2.style.left = "0px";				
-			mdo2.style.left = (iHorizontalOffset+0)+"px";				
-			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  (iStageMaxHeight-iImgIpisTileHeight)+"px";
+		else if (iCorner==3) {
+			mdo2.style.left = "0px";				
+			mdo2.style.top =  iStageMaxHeight+"px";
 		}
 
 		mdo2.style.visibility="visible";	
@@ -1016,16 +983,11 @@ function onLoad() {
 	//added by Mike, 20220904	
 	//TO-DO: -add: init; where: set initial positions, et cetera
 	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
-	imgIpisTileNumber2.style.left = screen.width/2 +"px"; //"100px";
-	imgIpisTileNumber2.style.top = "0px"; //"100px";
+	imgIpisTileNumber2.style.left = "100px";
+	imgIpisTileNumber2.style.top = "100px";
 	
-	//added by Mike, 20220911
-	//TO-DO: -update: computer instructions to reuse containers, e.g. stage width
-	var imgIpisTile = document.getElementById("ipisTileImageId");
-	imgIpisTile.style.left = screen.width/2 +"px"; //"100px";
-	imgIpisTile.style.top = screen.height/2 +"px"; //"100px";
 	
-		
+	
 	//added by Mike, 20220909
 	//https://www.w3schools.com/js/js_arrays.asp; last accessed: 20220823
 	//https://www.w3schools.com/js/js_loop_for.asp; last accessed: 20220909
@@ -1035,8 +997,6 @@ function onLoad() {
 		arrayTileBg[iTileBgCount] = document.getElementById("ipisTileImageIdBg"+iTileBgCount);
 		arrayTileBg[iTileBgCount].style.left = iTileBgCount*64+"px";				
 		//arrayTileBg[iTileBgCount].style.top =  iStageMaxHeight+"px";		
-		arrayTileBg[iTileBgCount].style.top =  0+"px";		
-
 	}
 
 /*	
@@ -1311,9 +1271,7 @@ function onLoad() {
 		}			
 	  </script>
   <!-- edited by Mike, 20220822 -->
-
   <body onload="onLoad();">
-<!-- removed by Mike, 20220911 
     <table class="imageTable">
 	  <tr>
 		<td class="imageColumn">				
@@ -1326,7 +1284,9 @@ function onLoad() {
 		</td>
 	  </tr>
 	</table>
--->
+<!-- removed by Mike, 20220424
+	<br/>
+-->		
 
 <canvas id="myCanvasId" class="myCanvas">
 </canvas>
@@ -1343,6 +1303,8 @@ function onLoad() {
 <!-- href="/flashStage"; href="#"  -->
 <a onClick="toggleFullScreen()"><u>Full Screen Mode</u></a>
 
+<br/>
+<br/>
 
 	<input type="hidden" id="myCurrentChargeCountId" 
 		value="<?php //TO-DO: -update: this to have >= 2 Players
@@ -1364,6 +1326,9 @@ function onLoad() {
 		  <source src="assets/audio/Tinig 112.m4a" type="audio/x-m4a">
 		  Your browser does not support the audio tag.
 		</audio><br/>	
+
+<br/>
+<br/>
 		
 	<?php	
 		//added by Mike, 20220416
@@ -1413,6 +1378,7 @@ function onLoad() {
 		}
 */				
 	?>
+	<br/>
 
 	<?php	
 		$chargeButtonId=0;
@@ -1423,15 +1389,155 @@ function onLoad() {
 		$defendReflectButtonId=5;
 	?>
 
+	<br/>
 
 <!-- TO-DO: -add: auto-identify position in BOARD;
 	example: corners, top, bottom, left, right sides, center
 -->			
+<!-- removed by Mike, 20220909; OUTPUT: OK
+	<table>
+<?php 
+	//edited by Mike, 20220904
+	$iRowCountMax=2; //9
+	$iColumnCountMax=2; //9
+	
+	for ($iRowCount=0; $iRowCount<$iRowCountMax; $iRowCount++) {
+		echo "<tr>";
+		for ($iColumnCount=0; $iColumnCount<$iColumnCountMax; $iColumnCount++) {
+?>			
+			<td>
+<?php 	
+				//TOP-LEFT CORNER
+				if (($iRowCount==0) and ($iColumnCount==0)) {
+?>
+				<table>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerTopLeft" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerTopLeft" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerTopLeft" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerTopLeftPillar" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+					</tr>					
+				</table>
+<?php 	
+				}
+				//BOTTOM-LEFT CORNER
+				else if (($iRowCount==$iRowCountMax-1) and ($iColumnCount==0)) {
+?>
+				<table>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomLeft" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomLeftPillar" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomLeft" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomLeft" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+					</tr>		
+				</table>
+<?php 	
+				}
+				//BOTTOM-RIGHT CORNER
+				else if (($iRowCount==$iRowCountMax-1) and ($iColumnCount==$iColumnCountMax-1)) {
+?>
+				<table>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomRightPillar" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerBottomRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+					</tr>	
+				</table>					
+<?php 	
+				}
+				//TOP-RIGHT CORNER
+				else if (($iRowCount==0) and ($iColumnCount==$iColumnCountMax-1)) {
+?>
+				<table>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerTopRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerTopRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerTopRightPillar" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+						<td>
+							<button onclick="myPopupFunction(<?php echo $attackPunchButtonId;?>)" class="Button-emptyStonePosCornerTopRight" id="iButtonId<?php echo $attackPunchButtonId;?>"></button>			
+						</td>
+					</tr>							
+				</table>
+<?php 	
+				}
+?>
+			</td>
+<?php			
+		}
+		echo "</tr>";
+	}
+?>	
+	</table>
+//added by Mike, 20220909
+-->	
 
 <?php 
-	//edited by Mike, 20220904; edited again by Mike, 20220911
-	$iRowCountMax=2; //9
-	$iColumnCountMax=2; //9	
+//edited by Mike, 20220904
+$iRowCountMax=2; //9
+$iColumnCountMax=2; //9
+
+$iTileBgCount=0;
+
+echo "<table>";
+for ($iRowCount=0; $iRowCount<$iRowCountMax; $iRowCount++) {
+	
+	echo "<tr>";
+	for ($iColumnCount=0; $iColumnCount<$iColumnCountMax; $iColumnCount++) {
+		echo "<td>";
+?>		
+<!--	//removed by Mike, 20220909; reverifying error in absolute position with table
+			<img id="ipisTileImageIdBg<?php echo $iTileBgCount;?>" class="Image64x64TileBackground" src="<?php echo base_url('assets/images/ipis.png');?>">	
+-->			
+<?php			
+		echo "</td>";
+		
+		$iTileBgCount++;
+	}
+	echo "</tr>";
+}
+echo "</table>";
+?>
+
+<?php 
 
 //4=2*2
 $iTileBgCountMax=$iRowCountMax*$iColumnCountMax;
@@ -1443,6 +1549,9 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 <?php
 }
 ?>
+<br/>
+<br/>			
+
 
 	<!-- added by Mike, 20220820; 
 		 reference: https://www.w3schools.com/cssref/pr_pos_clip.asp; last accessed: 20220820
