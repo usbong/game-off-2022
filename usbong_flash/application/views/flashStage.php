@@ -49,8 +49,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							/* edited by Mike, 20220911
 							width: 640px; 
 							*/
-							width: 90%; /*100%;*/
+							width: 80%; /*90%; 100%;*/
+							padding: 0;
+							margin: 0;
 						}
+						
+						/* added by Mike, 20220911 */
+	                    body.bodyPortraitMode
+                        {
+                            font-family: Arial;
+							font-size: 11pt;
+							width: 80%;
+							height: 100%;
+							padding: 0;
+							margin: auto;
+						}						
+
+	                    body.bodyLandscapeMode
+                        {
+                            font-family: Arial;
+							font-size: 11pt;
+							width: 100%; /*80%;*/
+							height: 100%; /*80%;*/
+							padding: 0;
+							margin: auto;
+						}						
 						
 						canvas.myCanvas {
 							
@@ -970,6 +993,22 @@ function isIntersectingRect(mdo1, mdo2) {
 //where: OUTPUT via CONTROLS noticeably INCORRECT 
 //to cause multiple attempts to execute correct JUMP to platform;
 
+//reference: https://stackoverflow.com/questions/15466802/how-can-i-auto-hide-alert-box-after-it-showing-it; last accessed: 20220911
+//answer by: Travis J, 20130317T2213
+function tempAlert(msg,duration)
+{
+ var el = document.createElement("div");
+  
+  //edited by Mike, 20220911 //el.setAttribute("style","position:absolute;top:40%;left:20%;background-color:white;");
+
+	el.setAttribute("style","position:absolute;top:0%;left:0%;background-color:white;");
+
+ el.innerHTML = msg;
+ setTimeout(function(){
+  el.parentNode.removeChild(el);
+ },duration);
+ document.body.appendChild(el);
+}
 
 //added by Mike, 20220822
 function onLoad() {
@@ -992,17 +1031,23 @@ function onLoad() {
 		alert("detected: Mobile Browser!");
 	}
 	
-	//added by Mike, 20220910
+/* //removed by Mike, 20220911	
+	//added by Mike, 20220910; edited by Mike, 20220911	
+	var myBody = document.getElementById("myBodyId");
+
 	//reference: https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad; last accessed: 20220910
 	//answer by: crmpicco, 20130515T1414;
 	//edited by: posit labs, 20150929T1708
 	if (window.matchMedia("(orientation: portrait)").matches) {
 	   alert("detected: PORTRAIT mode");
+	   myBody.className='bodyPortraitMode';
 	}
 
 	if (window.matchMedia("(orientation: landscape)").matches) {
-	   alert("detected: LANDSCAPE mode");
+	   alert("detected: LANDSCAPE mode");	   	   
+	   myBody.className='bodyLandscapeMode';
 	}	
+*/	
 
 	//reference: https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad; last accessed: 20220910
 	//answer by: Jatin, 20120731T0711;
@@ -1010,7 +1055,33 @@ function onLoad() {
 	//add: listener to detect orientation change
 	window.addEventListener("orientationchange", function() {
 	  //orientation number (in degrees) : 90 and -90 for landscape; 0 for portrait
-	  alert(window.orientation);
+	  //edited by Mike, 20220911
+	  //alert(window.orientation);
+			
+		//added by Mike, 20220910; edited by Mike, 20220911	
+		var myBody = document.getElementById("myBodyId");
+
+		//reference: https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad; last accessed: 20220910
+		//answer by: crmpicco, 20130515T1414;
+		//edited by: posit labs, 20150929T1708
+		//if ((window.orientation==0) ||
+/*		
+		if ((screen.orientation==0) ||
+			(window.matchMedia("(orientation: portrait)").matches)) {
+*/				
+		if (screen.orientation==0) {
+		  //alert("detected: PORTRAIT mode");
+		   myBody.className='bodyPortraitMode';
+		}
+		else {//if (window.matchMedia("(orientation: landscape)").matches) {
+		   //alert("detected: LANDSCAPE mode");	   	   
+		   myBody.className='bodyLandscapeMode';
+		}			  
+		
+		//tempAlert("close",1000);　//1sec
+		tempAlert("",1000);　//1sec
+				
+		//TO-DO: -add: auto-update: object positions after CHANGE in orientation 
 	}, false);
 
 	//added by Mike, 20220904	
@@ -1023,17 +1094,23 @@ function onLoad() {
 	//TO-DO: -update: computer instructions to reuse containers, e.g. stage width
 	var imgIpisTile = document.getElementById("ipisTileImageId");
 	imgIpisTile.style.left = screen.width/2 +"px"; //"100px";
-	imgIpisTile.style.top = screen.height/2 +"px"; //"100px";
+	//edited by Mike, 20220911
+	imgIpisTile.style.top = screen.height/4 +"px"; //screen.height/2 +"px"; //"100px";
 	
 		
 	//added by Mike, 20220909
 	//https://www.w3schools.com/js/js_arrays.asp; last accessed: 20220823
-	//https://www.w3schools.com/js/js_loop_for.asp; last accessed: 20220909
+	//https://www.w3schools.com/js/js_loop_for.asp; last accessed: 20220909	
 	arrayTileBg = [];
 	for (let iTileBgCount=0; iTileBgCount<4; iTileBgCount++) {
 		//var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber"+iCount);
 		arrayTileBg[iTileBgCount] = document.getElementById("ipisTileImageIdBg"+iTileBgCount);
-		arrayTileBg[iTileBgCount].style.left = iTileBgCount*64+"px";				
+		//edited by Mike, 20220911
+		arrayTileBg[iTileBgCount].style.left = iTileBgCount*64+"px";						
+		//arrayTileBg[iTileBgCount].style.left = (screen.width/2-iTileBgCount*64*2)+iTileBgCount*64+"px";
+
+		arrayTileBg[iTileBgCount].style.left = screen.width/2+"px";
+		
 		//arrayTileBg[iTileBgCount].style.top =  iStageMaxHeight+"px";		
 		arrayTileBg[iTileBgCount].style.top =  0+"px";		
 
@@ -1312,7 +1389,7 @@ function onLoad() {
 	  </script>
   <!-- edited by Mike, 20220822 -->
 
-  <body onload="onLoad();">
+  <body id="myBodyId" onload="onLoad();">
 <!-- removed by Mike, 20220911 
     <table class="imageTable">
 	  <tr>
@@ -1331,8 +1408,10 @@ function onLoad() {
 <canvas id="myCanvasId" class="myCanvas">
 </canvas>
 
+<!-- removed by Mike, 20220911
 <br/>
 <br/>
+-->
 
 <!--
 //reference: https://stackoverflow.com/questions/9454125/javascript-request-fullscreen-is-unreliable;
@@ -1353,18 +1432,12 @@ function onLoad() {
 					echo 0;							
 				}?>" 
 	required>
-<br/>
-<!--
-		<audio width="416" height="312" controls>
-		  <source src="assets/audio/Tinig 112.m4a" type="audio/x-m4a">
-		  Your browser does not support the audio tag.
-		</audio><br/>	
--->
+<!--	//removed by Mike, 20220911
 		<audio id="myAudioId" width="416" height="312" controls loop>
 		  <source src="assets/audio/Tinig 112.m4a" type="audio/x-m4a">
 		  Your browser does not support the audio tag.
 		</audio><br/>	
-		
+-->		
 	<?php	
 		//added by Mike, 20220416
 		if (!isset($iMyCurrentChargeCountP1)) {
@@ -1454,10 +1527,15 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 
 	<img id="ipisTileImageIdNumber2" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/ipis.png');?>">	
 
-
+<!-- removed by Mike, 20220911
 	<br />
 	<div class="copyright">
 		<span>© <b>www.usbong.ph</b> 2011~<?php echo date("Y");?>. All rights reserved.</span>
 	</div>		 
+-->	
+	<audio id="myAudioId" width="416" height="312" controls loop>
+	  <source src="assets/audio/Tinig 112.m4a" type="audio/x-m4a">
+	  Your browser does not support the audio tag.
+	</audio><br/>	
   </body>
 </html>
