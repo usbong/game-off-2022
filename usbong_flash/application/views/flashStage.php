@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220911; from 20220910
+' @date updated: 20220912; from 20220911
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -89,6 +89,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							display: block;
 							width: 320px; /*160px*2;*/	
 							height: 288px; /*144px*2;*/							
+						}
+						
+						audio.myAudio
+						{
+							width: 416px;
+							height: 312px;
+						}
+						
+						a.executeLink
+						{
+							left: 0px;
+							top: 0px;
+							position: absolute;
+							
+							padding: 12px;
+							background-color: #ffe400;
+							color: #222222;
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 4px;							
 						}
 
 						div.checkBox
@@ -593,6 +615,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 --> https://itch.io/jam/gbjam-9; last accessed: 20220909	  
 	  
 	  
+//added by Mike, 20220912
+//note: landscape screen size in SUPER FANTASY ZONE, DEFENDER ARCADE
+//keyphrase: FLYING, PlayStation Portable, Nintendo Switch Lite
+//current: gameboy color screen ratio; 160x144, w x h
+const iStageMaxWidth=160*2; //160;
+const iStageMaxHeight=144*2; //144;
+
+var iHorizontalOffset=0;
+var iVerticalOffset=0;
+
+//added by Mike, 20220912
+//TO-DO: -add: this in INIT
+//use only 90% of screen width to eliminate horizontal scrolling in browser	
+//verified: computation to be exact with 100%; 
+//TO-DO: verfiy: with safari browser, et cetera;
+//TO-DO: -add: grid tiles;
+//iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
+iHorizontalOffset=(screen.width*0.90)/2-iStageMaxWidth/2;
+	  	  
 //added by Mike, 20220829
 const iImgIpisTileAnimationCountMax=6;
 iImgIpisTileAnimationCount=0;	  
@@ -739,6 +780,8 @@ function myUpdateFunction() {
 	iStageMaxWidth=160; //160;
 	iStageMaxHeight=144; //144;
 */	
+
+/* //removed by Mike, 20220912
 	//edited by Mike, 20220911
 	//note: landscape screen size in SUPER FANTASY ZONE, DEFENDER ARCADE
 	//keyphrase: FLYING, PlayStation Portable, Nintendo Switch Lite
@@ -748,25 +791,30 @@ function myUpdateFunction() {
 
 	var iHorizontalOffset=0;
 	var iVerticalOffset=0;
+*/
 
 	//reference: https://www.w3schools.com/tags/canvas_fillrect.asp; 
 	//last accessed: 2020911
 	var myCanvas = document.getElementById("myCanvasId");
 	var myCanvasContext = myCanvas.getContext("2d");
 	//TO-DO: -add: center align of bigger window 
+	//TO-DO: -reverify: this
 	myCanvasContext.fillRect(0, 0, iStageMaxWidth, iStageMaxHeight);	
-	
+		
 	//identify offset due to smaller window centered @horizontal
 /*	
 	alert(screen.width);
 	alert(screen.height);
 */
+
+/* //removed by Mike, 20220912
 	//use only 90% of screen width to eliminate horizontal scrolling in browser	
 	//verified: computation to be exact with 100%; 
 	//TO-DO: verfiy: with safari browser, et cetera;
 	//TO-DO: -add: grid tiles;
 	//iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
 	iHorizontalOffset=(screen.width*0.90)/2-iStageMaxWidth/2;
+*/
 		
 	//added by Mike, 20220821; OK
 	//note: myUpdateFunction() executes only 
@@ -1115,6 +1163,23 @@ function onLoad() {
 		arrayTileBg[iTileBgCount].style.top =  0+"px";		
 
 	}
+	
+	//added by Mike, 20220912	
+	var executeLink = document.getElementById("executeLinkId");
+
+	var iExecuteLinkHeight = (executeLink.clientHeight);//+1; + "px";
+	var iExecuteLinkWidth = (executeLink.clientWidth);//+1; + "px"
+
+//alert (iExecuteLinkWidth);
+
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +"px"; //iStageMaxWidth
+
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth/2)+"px"; //iStageMaxWidth
+
+	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth/2)+"px"; //iStageMaxWidth
+
+	executeLink.style.top = 0+iStageMaxHeight/2 +"px"; 
+	
 
 /*	
 			mdo2.style.left = iStageMaxWidth+"px";				
@@ -1419,8 +1484,8 @@ function onLoad() {
 //answer by: Sally Hammel, 20120409T1402
 //edited by: BenMorel, 20131209T1511
 -->
-<!-- href="/flashStage"; href="#"  -->
-<a onClick="toggleFullScreen()"><u>Full Screen Mode</u></a>
+<!-- href="/flashStage"; href="#" //Full Screen Mode -->
+<a id="executeLinkId" class="executeLink" onClick="toggleFullScreen()"><u>EXECUTE</u></a>
 
 
 	<input type="hidden" id="myCurrentChargeCountId" 
@@ -1533,7 +1598,7 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 		<span>© <b>www.usbong.ph</b> 2011~<?php echo date("Y");?>. All rights reserved.</span>
 	</div>		 
 -->	
-	<audio id="myAudioId" width="416" height="312" controls loop>
+	<audio id="myAudioId" class="myAudio" controls loop>
 	  <source src="assets/audio/Tinig 112.m4a" type="audio/x-m4a">
 	  Your browser does not support the audio tag.
 	</audio><br/>	
