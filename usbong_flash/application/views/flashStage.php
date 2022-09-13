@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220913; from 20220912
+' @date updated: 20220914; from 20220913
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -59,7 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         {
                             font-family: Arial;
 							font-size: 11pt;
-							width: 80%;
+							width: 100%; /*80%;*/
 							height: 100%;
 							padding: 0;
 							margin: auto;
@@ -632,7 +632,8 @@ var iVerticalOffset=0;
 //TO-DO: verfiy: with safari browser, et cetera;
 //TO-DO: -add: grid tiles;
 //iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
-iHorizontalOffset=(screen.width*0.90)/2-iStageMaxWidth/2;
+//iHorizontalOffset=(screen.width*0.90)/2-iStageMaxWidth/2;
+iHorizontalOffset=(screen.width*0.80)/2-iStageMaxWidth/2;
 	  	  
 //added by Mike, 20220829
 const iImgIpisTileAnimationCountMax=6;
@@ -1189,8 +1190,10 @@ function onLoad() {
 //	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth/2)+"px"; //iStageMaxWidth
 
 //	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +"px"; //iStageMaxWidth
-
-	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth)+"px"; //iStageMaxWidth
+	//edited by Mike, 20220914
+	//TO-DO: -update: position based on mobile (portrait or landscape) and non-mobile
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth)+"px"; //iStageMaxWidth
+	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +"px"; //iStageMaxWidth
 
 	executeLink.style.top = 0+iStageMaxHeight/2 +"px"; 
 	
