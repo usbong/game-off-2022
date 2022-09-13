@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220912; from 20220911
+' @date updated: 20220913; from 20220912
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							/* edited by Mike, 20220911
 							width: 640px; 
 							*/
-							width: 80%; /*90%; 100%;*/
+							width: 100%; /*90%; 80%;*/
 							padding: 0;
 							margin: 0;
 						}
@@ -800,6 +800,15 @@ function myUpdateFunction() {
 	//TO-DO: -add: center align of bigger window 
 	//TO-DO: -reverify: this
 	myCanvasContext.fillRect(0, 0, iStageMaxWidth, iStageMaxHeight);	
+
+//alert (iHorizontalOffset);
+
+myCanvas.style.left = (iHorizontalOffset+0)+"px";			
+
+//	iHorizontalOffset=(screen.width*0.90)/2-iStageMaxWidth/2;
+
+			//mdo2.style.left = (iHorizontalOffset+0)+"px";			
+
 		
 	//identify offset due to smaller window centered @horizontal
 /*	
@@ -1176,7 +1185,12 @@ function onLoad() {
 
 //	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth/2)+"px"; //iStageMaxWidth
 
-	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth/2)+"px"; //iStageMaxWidth
+	//edited by Mike, 20220913
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth/2)+"px"; //iStageMaxWidth
+
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +"px"; //iStageMaxWidth
+
+	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth)+"px"; //iStageMaxWidth
 
 	executeLink.style.top = 0+iStageMaxHeight/2 +"px"; 
 	
