@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220914; from 20220913
+' @date updated: 20220915; from 20220914
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -24,6 +24,9 @@
 //observed: css+HTML OUTPUT error in iPAD (Safari browser), but NOT in MacBookPro (Firefox browser; Safari browser error)
 //observed: no sound output from .m4a via Android Firefox
 //TO-DO: -update: sound file from .m4a to .mp3 via Musescore, et cetera
+
+//TO-DO: -add: auto-update positions after screen resize of computer browser
+//TO-DO: -fix: exit from full screen mode causes INCORRECT object position due to page scrolling
 
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -638,6 +641,9 @@ iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
 //added by Mike, 20220829
 const iImgIpisTileAnimationCountMax=6;
 iImgIpisTileAnimationCount=0;	  
+
+//added by Mike, 20220915
+iIpisNumber2StepY=10;
 	  
 //added by Mike, 20220822
 //OK; this technique solves noticeable delay when holding the key press;
@@ -948,6 +954,33 @@ myCanvas.style.left = (iHorizontalOffset+0)+"px";
 
 		mdo2.style.visibility="visible";	
 	}
+	
+	
+	//added by Mike, 20220915
+	//verified: object position movement in Android Samsung Duos
+	//to be NOT noticeably delayed for moving object count = 1
+
+	let imgIpisNumber2TileX = imgIpisTileNumber2.getBoundingClientRect().x;
+	let imgIpisNumber2TileY = imgIpisTileNumber2.getBoundingClientRect().y;	
+	
+	//imgIpisTileNumber2.style.left = screen.width/2 +"px"; //"100px";
+	//iIpisNumber2StepY=10;	
+	
+	//alert(iImgIpisTileHeight);
+	//alert(imgIpisNumber2TileY+iImgIpisTileHeight+iIpisNumber2StepY);
+	//alert(iVerticalOffset);
+	
+	if (imgIpisNumber2TileY+iIpisNumber2StepY<(iVerticalOffset+0)) {
+		iIpisNumber2StepY=10; //*=-1;
+	}
+	else if (imgIpisNumber2TileY+iImgIpisTileHeight+iIpisNumber2StepY>(iVerticalOffset+iStageMaxHeight)) {
+		iIpisNumber2StepY=-10;
+		
+		//alert (imgIpisTileNumber2.style.top);
+	}
+
+	imgIpisTileNumber2.style.top = 0+iVerticalOffset+imgIpisNumber2TileY+iIpisNumber2StepY +"px"; 
+	imgIpisTileNumber2.style.left = 0+iHorizontalOffset+"px"; 
 }
 
 /* //removed by Mike, 20220904
