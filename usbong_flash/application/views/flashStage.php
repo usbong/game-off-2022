@@ -631,9 +631,9 @@ var iVerticalOffset=0;
 //verified: computation to be exact with 100%; 
 //TO-DO: verfiy: with safari browser, et cetera;
 //TO-DO: -add: grid tiles;
-//iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
+iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
 //iHorizontalOffset=(screen.width*0.90)/2-iStageMaxWidth/2;
-iHorizontalOffset=(screen.width*0.80)/2-iStageMaxWidth/2;
+//iHorizontalOffset=(screen.width*0.80)/2-iStageMaxWidth/2;
 	  	  
 //added by Mike, 20220829
 const iImgIpisTileAnimationCountMax=6;
@@ -1059,13 +1059,33 @@ function tempAlert(msg,duration)
   
   //edited by Mike, 20220911 //el.setAttribute("style","position:absolute;top:40%;left:20%;background-color:white;");
 
-	el.setAttribute("style","position:absolute;top:0%;left:0%;background-color:white;");
+  el.setAttribute("style","position:absolute;top:0%;left:0%;background-color:white;");
+  el.innerHTML = msg;
+   
+  setTimeout(function(){
+    el.parentNode.removeChild(el);
+ 	  
+	//added by Mike, 20220914
+	//--------------------------------------------
+	iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
+	
+	//alert("screen.width: "+screen.width); //landscape:533; potrait: 320
+	//alert("iStageMaxWidth: "+iStageMaxWidth); //landscape:320; potrait: 320
 
- el.innerHTML = msg;
- setTimeout(function(){
-  el.parentNode.removeChild(el);
- },duration);
- document.body.appendChild(el);
+	var executeLink = document.getElementById("executeLinkId");
+	var iExecuteLinkHeight = (executeLink.clientHeight);//+1; + "px";
+	var iExecuteLinkWidth = (executeLink.clientWidth);//+1; + "px"
+
+	executeLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iExecuteLinkWidth/2 +"px";
+	executeLink.style.top = 0+iStageMaxHeight/2 +"px"; 
+	
+	//notes: noticeable delay in CHANGE in position via repaint setting, et cetera	
+	myUpdateFunction();
+	//--------------------------------------------
+	
+  },duration);
+  
+  document.body.appendChild(el);
 }
 
 //added by Mike, 20220822
@@ -1135,9 +1155,11 @@ function onLoad() {
 		   //alert("detected: LANDSCAPE mode");	   	   
 		   myBody.className='bodyLandscapeMode';
 		}			  
-		
+
 		//tempAlert("close",1000);　//1sec
-		tempAlert("",1000);　//1sec
+		//edited by Mike, 20220914
+		//tempAlert("",1000);　//1sec
+		tempAlert("",200);　//1/5sec		
 				
 		//TO-DO: -add: auto-update: object positions after CHANGE in orientation 
 	}, false);
@@ -1193,8 +1215,10 @@ function onLoad() {
 	//edited by Mike, 20220914
 	//TO-DO: -update: position based on mobile (portrait or landscape) and non-mobile
 //	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth)+"px"; //iStageMaxWidth
-	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +"px"; //iStageMaxWidth
+	//edited by Mike, 20220914
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +"px"; //iStageMaxWidth
 
+	executeLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iExecuteLinkWidth/2 +"px";
 	executeLink.style.top = 0+iStageMaxHeight/2 +"px"; 
 	
 
