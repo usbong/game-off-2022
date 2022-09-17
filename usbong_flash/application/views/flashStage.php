@@ -751,6 +751,11 @@ function myUpdateFunction() {
 
 	//added by Mike, 20220904
 	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
+	
+	//added by Mike, 20220917
+	var linkAsButtonLeftKey = document.getElementById("leftKeyId");
+
+
 
 
 /* //removed by Mike, 20220827; output: still noticeable delay in animation of ipis
@@ -1003,6 +1008,12 @@ myCanvas.style.left = (iHorizontalOffset+0)+"px";
 
 	imgIpisTileNumber2.style.top = 0+iVerticalOffset+imgIpisNumber2TileY+iIpisNumber2StepY +"px"; 
 	imgIpisTileNumber2.style.left = 0+iHorizontalOffset+"px"; 
+	
+	
+	//added by Mike, 20220917	
+	//TO-DO: -update: positions
+	linkAsButtonLeftKey.style.left = (iHorizontalOffset+0)+"px";				
+	linkAsButtonLeftKey.style.top =  iStageMaxHeight+"px";	
 }
 
 /* //removed by Mike, 20220904
@@ -1142,6 +1153,21 @@ function tempAlert(msg,duration)
   
   document.body.appendChild(el);
 }
+
+//added by Mike, 20220917
+function leftKeyPressDown() {
+	arrayKeyPressed[iKEY_A]=true;		
+	myUpdateFunction();
+	//arrayKeyPressed[iKEY_A]=false; //OK
+}
+
+//TO-DO: -reverify: this
+function leftKeyPressUp() {
+	//alert ("DITO"); //OK
+	arrayKeyPressed[iKEY_A]=false; //INCORRECT OUTPUT
+	//myUpdateFunction();
+}
+
 
 //added by Mike, 20220822
 function onLoad() {
@@ -1354,7 +1380,6 @@ function onLoad() {
 		else if (e.keyCode==83) { //key s			
 			arrayKeyPressed[iKEY_S]=false;			
 		}
-
 	}	
 	
 	
@@ -1695,7 +1720,7 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 	</div>		 
 -->	
 
-<a id="leftKeyId" class="controlKeyButtonAsLink" onClick="keyPressLeft()"><|</a>
+<a id="leftKeyId" class="controlKeyButtonAsLink" onClick="leftKeyPressDown()" onMouseUp="leftKeyPressUp()"><|</a>
 
 
 	<audio id="myAudioId" class="myAudio" controls loop>
