@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220915; from 20220914
+' @date updated: 20220917; from 20220915
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -114,6 +114,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							border: 0px solid;		
 							border-radius: 4px;							
+						}
+						
+						/* //added by Mike, 20220917
+						//reference: GAMEBOY COLOR;
+						//US PATENT NO.5.095.798
+						//to still exist?
+						//PHILIPPINE PATENT?
+						*/
+						a.controlKeyButtonAsLink
+						{
+							left: 0px;
+							top: 0px;
+							position: absolute;
+							
+							padding: 12px;
+							background-color: rgb(60,60,60);
+							color: rgb(30,30,30);
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 0px; /*4px*/							
 						}
 
 						div.checkBox
@@ -1672,6 +1694,10 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 		<span>© <b>www.usbong.ph</b> 2011~<?php echo date("Y");?>. All rights reserved.</span>
 	</div>		 
 -->	
+
+<a id="leftKeyId" class="controlKeyButtonAsLink" onClick="keyPressLeft()"><|</a>
+
+
 	<audio id="myAudioId" class="myAudio" controls loop>
 	  <source src="assets/audio/Tinig 112.m4a" type="audio/x-m4a">
 	  Your browser does not support the audio tag.
