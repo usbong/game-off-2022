@@ -122,7 +122,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						//to still exist?
 						//PHILIPPINE PATENT?
 						*/
-						a.controlKeyButtonAsLink
+						button.controlKeyButton
 						{
 							left: 0px;
 							top: 0px;
@@ -1723,8 +1723,11 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 
 <!-- edited by Mike, 20220918; 
 	replaced: onClick COMMAND, with onMouseDown to be onMouseUp-->
+<!--　//note: OUTPUT OK with computer browser with mouse
 <a id="leftKeyId" class="controlKeyButtonAsLink" onMouseDown="leftKeyPressDown()" onMouseUp="leftKeyPressUp()"><|</a>
-
+-->
+<!--　//note: OUTPUT OK with Android touchscreen -->
+<button id="leftKeyId" class="controlKeyButton" ontouchstart="leftKeyPressDown()" ontouchend="leftKeyPressUp()"><|</button>
 
 	<audio id="myAudioId" class="myAudio" controls loop>
 	  <source src="assets/audio/Tinig 112.m4a" type="audio/x-m4a">
