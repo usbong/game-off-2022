@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220917; from 20220915
+' @date updated: 20220918; from 20220917
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1157,14 +1157,15 @@ function tempAlert(msg,duration)
 //added by Mike, 20220917
 function leftKeyPressDown() {
 	arrayKeyPressed[iKEY_A]=true;		
-	myUpdateFunction();
+//	myUpdateFunction();
 	//arrayKeyPressed[iKEY_A]=false; //OK
 }
 
-//TO-DO: -reverify: this
+//edited by Mike, 20220918
+//reverified: to be OK, onMouseUp with onMouseDown
 function leftKeyPressUp() {
-	//alert ("DITO"); //OK
-	arrayKeyPressed[iKEY_A]=false; //INCORRECT OUTPUT
+//	alert ("DITO"); //OK
+	arrayKeyPressed[iKEY_A]=false;
 	//myUpdateFunction();
 }
 
@@ -1720,7 +1721,9 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 	</div>		 
 -->	
 
-<a id="leftKeyId" class="controlKeyButtonAsLink" onClick="leftKeyPressDown()" onMouseUp="leftKeyPressUp()"><|</a>
+<!-- edited by Mike, 20220918; 
+	replaced: onClick COMMAND, with onMouseDown to be onMouseUp-->
+<a id="leftKeyId" class="controlKeyButtonAsLink" onMouseDown="leftKeyPressDown()" onMouseUp="leftKeyPressUp()"><|</a>
 
 
 	<audio id="myAudioId" class="myAudio" controls loop>
