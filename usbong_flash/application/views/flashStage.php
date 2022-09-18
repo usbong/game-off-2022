@@ -121,8 +121,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						//US PATENT NO.5.095.798
 						//to still exist?
 						//PHILIPPINE PATENT?
+						//
+						//remembers: NOKIA mobile telephone (J2ME);
+						//where: ACTION button @CENTER of DIRECTIONAL KEY;
 						*/
-						button.controlKeyButton
+						button.controlKeyButtonLeft, .controlKeyButtonRight, .controlKeyButtonUp, .controlKeyButtonDown
 						{
 							left: 0px;
 							top: 0px;
@@ -130,7 +133,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							
 							padding: 12px;
 							background-color: rgb(60,60,60);
-							color: rgb(30,30,30);
+							color: rgb(60,60,60); /*rgb(30,30,30);*/
 							font-size: 16px;
 							font-weight: bold;
 
@@ -138,6 +141,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							border-radius: 0px; /*4px*/
 							
 							margin: 0px;
+							
+							visibility: hidden;
 						}
 
 						div.checkBox
@@ -754,8 +759,12 @@ function myUpdateFunction() {
 	//added by Mike, 20220904
 	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
 	
-	//added by Mike, 20220917
-	var linkAsButtonLeftKey = document.getElementById("leftKeyId");
+	//added by Mike, 20220917; edited by Mike, 20220918
+	//var linkAsButtonLeftKey = document.getElementById("leftKeyId");
+	var buttonLeftKey = document.getElementById("leftKeyId");
+	var buttonRightKey = document.getElementById("rightKeyId");
+	var buttonUpKey = document.getElementById("upKeyId");
+	var buttonDownKey = document.getElementById("downKeyId");
 
 
 
@@ -1014,8 +1023,32 @@ myCanvas.style.left = (iHorizontalOffset+0)+"px";
 	
 	//added by Mike, 20220917	
 	//TO-DO: -update: positions
+/* //edited by Mike, 20220918
 	linkAsButtonLeftKey.style.left = (iHorizontalOffset+0)+"px";				
 	linkAsButtonLeftKey.style.top =  iStageMaxHeight+"px";	
+*/
+
+	//alert (buttonLeftKey.getBoundingClientRect().width);	//Example Output: 47.28334045410156
+	var iButtonWidth = buttonUpKey.getBoundingClientRect().width;
+	var iButtonHeight = buttonUpKey.getBoundingClientRect().height;
+
+	buttonUpKey.style.left = (iHorizontalOffset+0)+iButtonWidth*1+"px";
+	buttonUpKey.style.top =  iStageMaxHeight+"px";
+	buttonUpKey.style.visibility = "visible";
+	
+	buttonLeftKey.style.left = (iHorizontalOffset+0)+"px";
+	buttonLeftKey.style.top =  iStageMaxHeight+iButtonHeight*1+"px";
+	buttonLeftKey.style.visibility = "visible";
+
+	buttonRightKey.style.left = (iHorizontalOffset+0)+iButtonWidth*2+"px";
+	buttonRightKey.style.top =  iStageMaxHeight+iButtonHeight*1+"px";
+	buttonRightKey.style.visibility = "visible";
+
+	buttonDownKey.style.left = (iHorizontalOffset+0)+iButtonWidth*1+"px";
+	buttonDownKey.style.top =  iStageMaxHeight+iButtonHeight*2+"px";
+	buttonDownKey.style.visibility = "visible";
+
+
 }
 
 /* //removed by Mike, 20220904
@@ -1156,6 +1189,7 @@ function tempAlert(msg,duration)
   document.body.appendChild(el);
 }
 
+/* //edited by Mike, 20220918
 //added by Mike, 20220917
 function leftKeyPressDown() {
 	arrayKeyPressed[iKEY_A]=true;		
@@ -1169,6 +1203,17 @@ function leftKeyPressUp() {
 //	alert ("DITO"); //OK
 	arrayKeyPressed[iKEY_A]=false;
 	//myUpdateFunction();
+}
+*/
+
+function keyPressDown(iKey) {
+	arrayKeyPressed[iKey]=true;		
+}
+
+//edited by Mike, 20220918
+//reverified: to be OK, onMouseUp with onMouseDown
+function keyPressUp(iKey) {
+	arrayKeyPressed[iKey]=false;
 }
 
 
@@ -1729,7 +1774,19 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 <a id="leftKeyId" class="controlKeyButtonAsLink" onMouseDown="leftKeyPressDown()" onMouseUp="leftKeyPressUp()"><|</a>
 -->
 <!--　//note: OUTPUT OK with Android touchscreen -->
+<?php
+	const iKEY_W = 0;
+	const iKEY_S = 1;
+	const iKEY_A = 2;
+	const iKEY_D = 3;
+?>
+<!-- //edited by Mike, 20220918
 <button id="leftKeyId" class="controlKeyButton" ontouchstart="leftKeyPressDown()" ontouchend="leftKeyPressUp()"><|</button>
+-->
+<button id="upKeyId" class="controlKeyButtonUp" ontouchstart="keyPressDown(<?php echo iKEY_W;?>)" ontouchend="keyPressUp(<?php echo iKEY_W;?>)">AAA</button>
+<button id="leftKeyId" class="controlKeyButtonLeft" ontouchstart="keyPressDown(<?php echo iKEY_A;?>)" ontouchend="keyPressUp(<?php echo iKEY_A;?>)">AAA</button>
+<button id="rightKeyId" class="controlKeyButtonRight" ontouchstart="keyPressDown(<?php echo iKEY_D;?>)" ontouchend="keyPressUp(<?php echo iKEY_D;?>)">AAA</button>
+<button id="downKeyId" class="controlKeyButtonDown" ontouchstart="keyPressDown(<?php echo iKEY_S;?>)" ontouchend="keyPressUp(<?php echo iKEY_S;?>)">AAA</button>
 
 	<audio id="myAudioId" class="myAudio" controls loop>
 	  <source src="assets/audio/Tinig 112.m4a" type="audio/x-m4a">
