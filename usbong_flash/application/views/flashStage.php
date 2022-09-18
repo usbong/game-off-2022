@@ -135,7 +135,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							font-weight: bold;
 
 							border: 0px solid;		
-							border-radius: 0px; /*4px*/							
+							border-radius: 0px; /*4px*/
+							
+							margin: 0px;
 						}
 
 						div.checkBox
