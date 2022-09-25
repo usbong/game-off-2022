@@ -667,12 +667,18 @@ var iVerticalOffset=0;
 //verified: computation to be exact with 100%; 
 //TO-DO: verfiy: with safari browser, et cetera;
 //TO-DO: -add: grid tiles;
+
+//TO-DO: -update: this
+
+//note: for INNER SCREEN
 iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
 //iHorizontalOffset=(screen.width*0.90)/2-iStageMaxWidth/2;
 //iHorizontalOffset=(screen.width*0.80)/2-iStageMaxWidth/2;
 
 //added by Mike, 20220925
+//note: for CONTROLLER BUTTONS
 iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
+
 	  	  
 //added by Mike, 20220925
 bIsMobile = false;	  
@@ -909,20 +915,24 @@ myCanvas.style.left = (iHorizontalOffset+0)+"px";
 	
 	//note: simultaneous keypresses now OK ;
 	
-	//edited by Mike, 20220823
+	//edited by Mike, 20220823; edited again by Mike, 20220925
 	//if (bKeyDownRight) { //key d
 	if (arrayKeyPressed[iKEY_D]) {
+		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX+iStepX+"px";				
 		imgIpisTile.style.left =  imgIpisTileX+iStepX+"px";				
 	}	
 	else if (arrayKeyPressed[iKEY_A]) {
+		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX-iStepX+"px";				
 		imgIpisTile.style.left =  imgIpisTileX-iStepX+"px";				
 	}
 	
 	//note: inverted Y-axis; where: @top of window is 0px
 	if (arrayKeyPressed[iKEY_W]) {
-		imgIpisTile.style.top =  imgIpisTileY-iStepY+"px";				
+//		imgIpisTile.style.top = iVerticalOffset+imgIpisTileY-iStepY+"px";				
+		imgIpisTile.style.top = imgIpisTileY-iStepY+"px";				
 	}	
 	else if (arrayKeyPressed[iKEY_S]) {
+//		imgIpisTile.style.top =  iVerticalOffset+imgIpisTileY+iStepY+"px";				
 		imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
 	}
 	
@@ -972,31 +982,33 @@ myCanvas.style.left = (iHorizontalOffset+0)+"px";
 		//clock-wise count, 
 		//where: 0 = TOP-LEFT, 1 = TOP-RIGHT, 2, = BOTTOM-RIGHT, 4 = BOTTOM-LEFT
 		
+		//edited by Mike, 20220925
+		
 		if (iCorner==0) { //TOP-LEFT
 			//edited by Mike, 20220911
 			//mdo2.style.left = "0px";				
 			mdo2.style.left = (iHorizontalOffset+0)+"px";			
-			mdo2.style.top =  "0px";
+			mdo2.style.top =  iVerticalOffset+"px";//"0px";
 		}
 		else if (iCorner==1) { //TOP-RIGHT
 			//edited by Mike, 20220911
 			//mdo2.style.left = iStageMaxWidth+"px";				
 			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgIpisTileWidth)+"px";			
-			mdo2.style.top =  "0px";
+			mdo2.style.top =  iVerticalOffset+ "px";//"0px";
 		}
 		else if (iCorner==2)  { //BOTTOM-RIGHT
 			//edited by Mike, 20220911
 			//mdo2.style.left = iStageMaxWidth+"px";				
 			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgIpisTileWidth)+"px";
 			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  (iStageMaxHeight-iImgIpisTileHeight)+"px";
+			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgIpisTileHeight)+"px";
 		}
 		else if (iCorner==3) { //BOTTOM-LEFT
 			//edited by Mike, 20220911
 			//mdo2.style.left = "0px";				
 			mdo2.style.left = (iHorizontalOffset+0)+"px";				
 			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  (iStageMaxHeight-iImgIpisTileHeight)+"px";
+			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgIpisTileHeight)+"px";
 		}
 
 		mdo2.style.visibility="visible";	
@@ -1028,8 +1040,28 @@ myCanvas.style.left = (iHorizontalOffset+0)+"px";
 
 	imgIpisTileNumber2.style.top = 0+iVerticalOffset+imgIpisNumber2TileY+iIpisNumber2StepY +"px"; 
 	imgIpisTileNumber2.style.left = 0+iHorizontalOffset+"px"; 
+		
+	//added by Mike, 20220925
+	arrayTileBg = [];
+	for (let iTileBgCount=0; iTileBgCount<4; iTileBgCount++) {
+		//var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber"+iCount);
+		arrayTileBg[iTileBgCount] = document.getElementById("ipisTileImageIdBg"+iTileBgCount);
+		//edited by Mike, 20220911; removed by Mike, 20220925
+		//arrayTileBg[iTileBgCount].style.left = iTileBgCount*64+"px";						
 	
-	
+		//arrayTileBg[iTileBgCount].style.left = (screen.width/2-iTileBgCount*64*2)+iTileBgCount*64+"px";
+		//edited by Mike, 20220925
+//		arrayTileBg[iTileBgCount].style.left = screen.width/2+"px";
+		arrayTileBg[iTileBgCount].style.left = iHorizontalOffset+"px";
+		
+		//arrayTileBg[iTileBgCount].style.top =  iStageMaxHeight+"px";		
+		//edited by Mike, 20220925
+		arrayTileBg[iTileBgCount].style.top =  0+"px";
+//		arrayTileBg[iTileBgCount].style.top =  iVerticalOffset+"px";		
+	}
+
+		
+		
 	//added by Mike, 20220917	
 	//TO-DO: -update: positions
 /* //edited by Mike, 20220918
@@ -1359,9 +1391,13 @@ function onLoad() {
 	//added by Mike, 20220911
 	//TO-DO: -update: computer instructions to reuse containers, e.g. stage width
 	var imgIpisTile = document.getElementById("ipisTileImageId");
+	//edited by Mike, 20220925
 	imgIpisTile.style.left = screen.width/2 +"px"; //"100px";
-	//edited by Mike, 20220911
+//	imgIpisTile.style.left = iHorizontalOffset +"px"; //"100px";
+
+	//edited by Mike, 20220911; edited again by Mike, 20220925
 	imgIpisTile.style.top = screen.height/4 +"px"; //screen.height/2 +"px"; //"100px";
+//	imgIpisTile.style.top = iVerticalOffset +"px"; //screen.height/2 +"px"; //"100px";
 	
 		
 	//added by Mike, 20220909
@@ -1371,14 +1407,18 @@ function onLoad() {
 	for (let iTileBgCount=0; iTileBgCount<4; iTileBgCount++) {
 		//var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber"+iCount);
 		arrayTileBg[iTileBgCount] = document.getElementById("ipisTileImageIdBg"+iTileBgCount);
-		//edited by Mike, 20220911
-		arrayTileBg[iTileBgCount].style.left = iTileBgCount*64+"px";						
+		//edited by Mike, 20220911; removed by Mike, 20220925
+		//arrayTileBg[iTileBgCount].style.left = iTileBgCount*64+"px";						
+	
 		//arrayTileBg[iTileBgCount].style.left = (screen.width/2-iTileBgCount*64*2)+iTileBgCount*64+"px";
-
-		arrayTileBg[iTileBgCount].style.left = screen.width/2+"px";
+		//edited by Mike, 20220925
+//		arrayTileBg[iTileBgCount].style.left = screen.width/2+"px";
+		arrayTileBg[iTileBgCount].style.left = iHorizontalOffset+"px";
 		
 		//arrayTileBg[iTileBgCount].style.top =  iStageMaxHeight+"px";		
-		arrayTileBg[iTileBgCount].style.top =  0+"px";		
+		//edited by Mike, 20220925
+		arrayTileBg[iTileBgCount].style.top =  0+"px";
+//		arrayTileBg[iTileBgCount].style.top =  iVerticalOffset+"px";		
 
 	}
 	
