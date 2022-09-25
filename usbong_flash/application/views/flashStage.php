@@ -674,6 +674,9 @@ iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
 //added by Mike, 20220925
 iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
 	  	  
+//added by Mike, 20220925
+bIsMobile = false;	  
+		  
 //added by Mike, 20220829
 const iImgIpisTileAnimationCountMax=6;
 iImgIpisTileAnimationCount=0;	  
@@ -1060,22 +1063,31 @@ myCanvas.style.left = (iHorizontalOffset+0)+"px";
 	alert("screen.height"+screen.height);
 	alert("iVerticalOffset"+iVerticalOffset);
 */
-	buttonUpKey.style.left = (0)+iButtonWidth*1+"px";
-	buttonUpKey.style.top =  iVerticalOffset+"px"; //iStageMaxHeight+"px";
-	buttonUpKey.style.visibility = "visible";
-	
-	buttonLeftKey.style.left = (0)+"px";
-	buttonLeftKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; //iStageMaxHeight+iButtonHeight*1+"px";
-	buttonLeftKey.style.visibility = "visible";
 
-	buttonRightKey.style.left = (0)+iButtonWidth*2+"px";
-	buttonRightKey.style.top =  iVerticalOffset+iButtonHeight*1+"px";//iStageMaxHeight+iButtonHeight*1+"px";
-	buttonRightKey.style.visibility = "visible";
+	//edited by Mike, 20220925
+	if (!bIsMobile) {
+		buttonUpKey.style.visibility = "hidden";		
+		buttonLeftKey.style.visibility = "hidden";
+		buttonRightKey.style.visibility = "hidden";
+		buttonDownKey.style.visibility = "hidden";
+	}
+	else {
+		buttonUpKey.style.left = (0)+iButtonWidth*1+"px";
+		buttonUpKey.style.top =  iVerticalOffset+"px"; //iStageMaxHeight+"px";
+		buttonUpKey.style.visibility = "visible";
+		
+		buttonLeftKey.style.left = (0)+"px";
+		buttonLeftKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; //iStageMaxHeight+iButtonHeight*1+"px";
+		buttonLeftKey.style.visibility = "visible";
 
-	buttonDownKey.style.left = (0)+iButtonWidth*1+"px";
-	buttonDownKey.style.top =  iVerticalOffset+iButtonHeight*2+"px"; //iStageMaxHeight+iButtonHeight*2+"px";
-	buttonDownKey.style.visibility = "visible";
+		buttonRightKey.style.left = (0)+iButtonWidth*2+"px";
+		buttonRightKey.style.top =  iVerticalOffset+iButtonHeight*1+"px";//iStageMaxHeight+iButtonHeight*1+"px";
+		buttonRightKey.style.visibility = "visible";
 
+		buttonDownKey.style.left = (0)+iButtonWidth*1+"px";
+		buttonDownKey.style.top =  iVerticalOffset+iButtonHeight*2+"px"; //iStageMaxHeight+iButtonHeight*2+"px";
+		buttonDownKey.style.visibility = "visible";
+	}
 }
 
 /* //removed by Mike, 20220904
@@ -1278,6 +1290,9 @@ function onLoad() {
 	//answer by: Baraa, 20141026T2059
 	if (/Mobile|Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
 		alert("detected: Mobile Browser!");
+		
+		//added by Mike, 20220925
+		bIsMobile=true;
 	}
 	
 /* //removed by Mike, 20220911	
