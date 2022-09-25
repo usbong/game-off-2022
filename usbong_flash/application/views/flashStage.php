@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220918; from 20220917
+' @date updated: 20220925; from 20220918
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -27,6 +27,8 @@
 
 //TO-DO: -add: auto-update positions after screen resize of computer browser
 //TO-DO: -fix: exit from full screen mode causes INCORRECT object position due to page scrolling
+
+//TO-DO: -fix: stepY downward excessively small to cause SLOW movement
 
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -53,6 +55,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							width: 640px; 
 							*/
 							width: 100%; /*90%; 80%;*/
+							height: 100%;
+
 							padding: 0;
 							margin: 0;
 						}
@@ -666,6 +670,9 @@ var iVerticalOffset=0;
 iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
 //iHorizontalOffset=(screen.width*0.90)/2-iStageMaxWidth/2;
 //iHorizontalOffset=(screen.width*0.80)/2-iStageMaxWidth/2;
+
+//added by Mike, 20220925
+iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
 	  	  
 //added by Mike, 20220829
 const iImgIpisTileAnimationCountMax=6;
@@ -765,7 +772,6 @@ function myUpdateFunction() {
 	var buttonRightKey = document.getElementById("rightKeyId");
 	var buttonUpKey = document.getElementById("upKeyId");
 	var buttonDownKey = document.getElementById("downKeyId");
-
 
 
 
@@ -1032,6 +1038,8 @@ myCanvas.style.left = (iHorizontalOffset+0)+"px";
 	var iButtonWidth = buttonUpKey.getBoundingClientRect().width;
 	var iButtonHeight = buttonUpKey.getBoundingClientRect().height;
 
+
+/* //edited by Mike, 20220925
 	buttonUpKey.style.left = (iHorizontalOffset+0)+iButtonWidth*1+"px";
 	buttonUpKey.style.top =  iStageMaxHeight+"px";
 	buttonUpKey.style.visibility = "visible";
@@ -1047,7 +1055,26 @@ myCanvas.style.left = (iHorizontalOffset+0)+"px";
 	buttonDownKey.style.left = (iHorizontalOffset+0)+iButtonWidth*1+"px";
 	buttonDownKey.style.top =  iStageMaxHeight+iButtonHeight*2+"px";
 	buttonDownKey.style.visibility = "visible";
+*/
+/*
+	alert("screen.height"+screen.height);
+	alert("iVerticalOffset"+iVerticalOffset);
+*/
+	buttonUpKey.style.left = (0)+iButtonWidth*1+"px";
+	buttonUpKey.style.top =  iVerticalOffset+"px"; //iStageMaxHeight+"px";
+	buttonUpKey.style.visibility = "visible";
+	
+	buttonLeftKey.style.left = (0)+"px";
+	buttonLeftKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; //iStageMaxHeight+iButtonHeight*1+"px";
+	buttonLeftKey.style.visibility = "visible";
 
+	buttonRightKey.style.left = (0)+iButtonWidth*2+"px";
+	buttonRightKey.style.top =  iVerticalOffset+iButtonHeight*1+"px";//iStageMaxHeight+iButtonHeight*1+"px";
+	buttonRightKey.style.visibility = "visible";
+
+	buttonDownKey.style.left = (0)+iButtonWidth*1+"px";
+	buttonDownKey.style.top =  iVerticalOffset+iButtonHeight*2+"px"; //iStageMaxHeight+iButtonHeight*2+"px";
+	buttonDownKey.style.visibility = "visible";
 
 }
 
@@ -1166,12 +1193,27 @@ function tempAlert(msg,duration)
   setTimeout(function(){
     el.parentNode.removeChild(el);
  	  
-	//added by Mike, 20220914
+	//added by Mike, 20220914; edited by Mike, 20220925
 	//--------------------------------------------
+/* //removed by Mike, 20220925
+	var myBody = document.getElementById("myBodyId");
+	if (myBody.className=='bodyLandscapeMode') {
+		iHorizontalOffset=0;
+	}
+	else {
+		iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
+	}
+*/
 	iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
+
+	//added by Mike, 20220925	
+	//iVerticalOffset=iStageMaxHeight+((screen.height-iStageMaxHeight)/2);
+	iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
 	
 	//alert("screen.width: "+screen.width); //landscape:533; potrait: 320
 	//alert("iStageMaxWidth: "+iStageMaxWidth); //landscape:320; potrait: 320
+
+	//alert("screen.height: "+screen.height); //landscape:533; potrait: 320
 
 	var executeLink = document.getElementById("executeLinkId");
 	var iExecuteLinkHeight = (executeLink.clientHeight);//+1; + "px";
