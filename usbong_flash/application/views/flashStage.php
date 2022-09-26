@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220925; from 20220918
+' @date updated: 20220926; from 20220925
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -28,7 +28,7 @@
 //TO-DO: -add: auto-update positions after screen resize of computer browser
 //TO-DO: -fix: exit from full screen mode causes INCORRECT object position due to page scrolling
 
-//TO-DO: -fix: stepY downward excessively small to cause SLOW movement
+//fixed: stepY downward excessively small to cause SLOW movement
 
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -1248,7 +1248,12 @@ function tempAlert(msg,duration)
 		iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
 	}
 */
+	//added by Mike, 20220926
+	//TO-DO: -update: to identify offset container for INNER SCREEN, CONTROLLER
+	var iHorizontalOffsetPrev = iHorizontalOffset;
 	iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
+
+	//alert(iHorizontalOffset); //landscape: 106.5; portrait: 0;
 
 	//added by Mike, 20220925	
 	//iVerticalOffset=iStageMaxHeight+((screen.height-iStageMaxHeight)/2);
@@ -1259,11 +1264,24 @@ function tempAlert(msg,duration)
 
 	//alert("screen.height: "+screen.height); //landscape:533; potrait: 320
 
+	//added by Mike, 20220926
+	//TO-DO: -add: auto-update for all moving objects, et cetera	
+	var imgIpisTile = document.getElementById("ipisTileImageId");
+
+	let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
+	
+	imgIpisTile.style.left =  iHorizontalOffset + (imgIpisTileX-iHorizontalOffsetPrev)+"px";
+	//imgIpisTile.style.left =  iHorizontalOffset + imgIpisTileX+"px";
+
+	//alert(imgIpisTile.style.left);
+
 	var executeLink = document.getElementById("executeLinkId");
 	var iExecuteLinkHeight = (executeLink.clientHeight);//+1; + "px";
 	var iExecuteLinkWidth = (executeLink.clientWidth);//+1; + "px"
 
+	//edited by Mike, 20220926
 	executeLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iExecuteLinkWidth/2 +"px";
+	//executeLink.style.left = 0+iHorizontalOffsetPrev+iStageMaxWidth/2 -iExecuteLinkWidth/2 +"px";
 	executeLink.style.top = 0+iStageMaxHeight/2 +"px"; 
 	
 	//notes: noticeable delay in CHANGE in position via repaint setting, et cetera	
