@@ -1116,6 +1116,16 @@ myCanvas.style.top = (0)+"px"; //iVerticalOffset+
 		buttonDownKey.style.visibility = "hidden";
 	}
 	else {
+		//added by Mike, 20221002
+		iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
+
+		//alert(screen.orientation); //OUTPUT: [object ScreenOrientation]
+
+		if (window.matchMedia("(orientation: landscape)").matches) {
+			//note: for CONTROLLER BUTTONS
+			iVerticalOffset=(screen.height-buttonUpKey.clientHeight*3); //set to 3 button height from the bottom
+		}		
+		
 		buttonUpKey.style.left = (0)+iButtonWidth*1+"px";
 		buttonUpKey.style.top =  iVerticalOffset+"px"; //iStageMaxHeight+"px";
 		buttonUpKey.style.visibility = "visible";
@@ -1269,25 +1279,8 @@ function tempAlert(msg,duration)
 
 	//added by Mike, 20220925	
 	//iVerticalOffset=iStageMaxHeight+((screen.height-iStageMaxHeight)/2);
-
-	//edited by Mike, 20221002
 	iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));	
 	
-/* //TO-DO: -reverify: this; error in OUTPUT	
-	//note: for CONTROLLER BUTTONS
-	if (screen.orientation!=0) {
-		  //alert("detected: LANDSCAPE mode");
-		var buttonUpKey = document.getElementById("upKeyId");
-		iVerticalOffset=(screen.height-buttonUpKey.clientHeight*3); //set to 3 button height from the bottom
-//		iVerticalOffset=(iStageMaxHeight+buttonUpKey.clientHeight*3); //set to 3 button height from the bottom
-	}
-	//does NOT enter this branch
-	else {
-		alert("dito");
-		iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
-	}
-	
-*/	
 	//alert("screen.width: "+screen.width); //landscape:533; potrait: 320
 	//alert("iStageMaxWidth: "+iStageMaxWidth); //landscape:320; potrait: 320
 
