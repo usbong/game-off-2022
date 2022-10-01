@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20220926; from 20220925
+' @date updated: 20221002; from 20220926
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -26,7 +26,9 @@
 //TO-DO: -update: sound file from .m4a to .mp3 via Musescore, et cetera
 
 //TO-DO: -add: auto-update positions after screen resize of computer browser
-//TO-DO: -fix: exit from full screen mode causes INCORRECT object position due to page scrolling
+//TO-DO: -re-verify: exit from full screen mode causes INCORRECT object position due to page scrolling
+
+//TO-DO: -remove: vertical scroll function
 
 //fixed: stepY downward excessively small to cause SLOW movement
 
@@ -743,6 +745,13 @@ function pauseAudio() {
 	  } else if (document.exitFullscreen) {
 		document.exitFullscreen();
 	  }
+	  
+	  //added by Mike, 20221001
+	  //update: positions; OUTPUT: error
+	  //tempAlert("",200);　//1/5sec
+	  //set: executeLink to hidden
+	  var executeLink = document.getElementById("executeLinkId");
+	  executeLink.style.visibility="hidden";	  
 	}
 
 	document.addEventListener("keydown", (e) => {
@@ -863,7 +872,10 @@ function myUpdateFunction() {
 
 //alert (iHorizontalOffset);
 
-myCanvas.style.left = (iHorizontalOffset+0)+"px";			
+myCanvas.style.left = (iHorizontalOffset+0)+"px";	
+
+//added by Mike, 20221002
+myCanvas.style.top = (0)+"px"; //iVerticalOffset+
 
 //	iHorizontalOffset=(screen.width*0.90)/2-iStageMaxWidth/2;
 
@@ -1257,8 +1269,25 @@ function tempAlert(msg,duration)
 
 	//added by Mike, 20220925	
 	//iVerticalOffset=iStageMaxHeight+((screen.height-iStageMaxHeight)/2);
-	iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
+
+	//edited by Mike, 20221002
+	iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));	
 	
+/* //TO-DO: -reverify: this; error in OUTPUT	
+	//note: for CONTROLLER BUTTONS
+	if (screen.orientation!=0) {
+		  //alert("detected: LANDSCAPE mode");
+		var buttonUpKey = document.getElementById("upKeyId");
+		iVerticalOffset=(screen.height-buttonUpKey.clientHeight*3); //set to 3 button height from the bottom
+//		iVerticalOffset=(iStageMaxHeight+buttonUpKey.clientHeight*3); //set to 3 button height from the bottom
+	}
+	//does NOT enter this branch
+	else {
+		alert("dito");
+		iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
+	}
+	
+*/	
 	//alert("screen.width: "+screen.width); //landscape:533; potrait: 320
 	//alert("iStageMaxWidth: "+iStageMaxWidth); //landscape:320; potrait: 320
 
