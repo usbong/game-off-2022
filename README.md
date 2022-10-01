@@ -1,4 +1,4 @@
-# Usbong FLASH
+# Usbong TIME
 set of reusable computer instructions that execute via the <b>Web Browser</b> 
 
 ## Current Version (PUBLIC)
@@ -8,8 +8,14 @@ http://store.usbong.ph/flashStage (work-in-progress)
 1) Javascript+ as ActionScript 2.0
 2) PHP + CodeIgniter (version 3)
 
-## Reference
+## References
 1) [USBONG 囲碁](https://github.com/usbong/IGO)
+
+2) BLUEBLADE Technologies: MAJIKA PICTURE SLIDING PUZZLE GAME (J2ME)<br/>
+--> notes: auto-generate PUZZLE from finished OUTPUT,<br/>
+--> to be certain that CORRECT sequence exists;<br/>
+--> learns: in FF1, TILE SLIDING PUZZLE GAME to also exist<br/>
+--> [Final Fantasy 1 (NES) - 05 - The Slide Puzzle Game](https://www.youtube.com/watch?v=LsBD4zQVSiI)
 
 ## Open Source Software License
 Copyright 2022 SYSON, MICHAEL B.
