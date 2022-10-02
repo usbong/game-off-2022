@@ -1034,6 +1034,11 @@ myCanvas.style.top = (0)+"px"; //iVerticalOffset+
 	let imgIpisNumber2TileX = imgIpisTileNumber2.getBoundingClientRect().x;
 	let imgIpisNumber2TileY = imgIpisTileNumber2.getBoundingClientRect().y;	
 	
+	//added by Mike, 20221002
+	//note: getBoundingClientRect().width includes all animation frame sequence
+//	let iImgIpisNumber2TileWidth = imgIpisTileNumber2.getBoundingClientRect().width;
+	let iImgIpisNumber2TileWidth = 64; 
+	
 	//imgIpisTileNumber2.style.left = screen.width/2 +"px"; //"100px";
 	//iIpisNumber2StepY=10;	
 	
@@ -1050,8 +1055,14 @@ myCanvas.style.top = (0)+"px"; //iVerticalOffset+
 		//alert (imgIpisTileNumber2.style.top);
 	}
 
-	imgIpisTileNumber2.style.top = 0+iVerticalOffset+imgIpisNumber2TileY+iIpisNumber2StepY +"px"; 
-	imgIpisTileNumber2.style.left = 0+iHorizontalOffset+"px"; 
+	//edited by Mike, 20221002
+	//imgIpisTileNumber2.style.top = 0+iVerticalOffset+imgIpisNumber2TileY+iIpisNumber2StepY +"px"; 
+	//imgIpisTileNumber2.style.left = 0+iHorizontalOffset+"px"; 
+	imgIpisTileNumber2.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
+	imgIpisTileNumber2.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgIpisNumber2TileWidth+"px"; 
+
+//imgIpisTileNumber2.style.visibility = "hidden";
+		
 		
 	//added by Mike, 20220925
 	arrayTileBg = [];
