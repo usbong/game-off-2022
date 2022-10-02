@@ -61,6 +61,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							padding: 0;
 							margin: 0;
+							
+							/* //added by Mike, 20221002
+							//reference: https://www.w3schools.com/howto/howto_css_disable_text_selection.asp;
+							//last accessed: 20221002
+							*/
+							
+						    -webkit-user-select: none; /* Safari */
+						    -ms-user-select: none; /* IE 10 and IE 11 */
+						    user-select: none; /* Standard syntax */  
 						}
 						
 						/* added by Mike, 20220911 */
@@ -204,6 +213,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							height: 100%;
 						}	
+									
+						img {
+							visibility: hidden;
+						}
 
 						img.Image-companyLogo {
 							max-width: 60%;
@@ -1438,6 +1451,9 @@ function onLoad() {
 	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
 	imgIpisTileNumber2.style.left = screen.width/2 +"px"; //"100px";
 	imgIpisTileNumber2.style.top = "0px"; //"100px";
+
+	//added by Mike, 20221002
+	imgIpisTileNumber2.style.visibility="visible";
 	
 	//added by Mike, 20220911
 	//TO-DO: -update: computer instructions to reuse containers, e.g. stage width
@@ -1449,8 +1465,11 @@ function onLoad() {
 	//edited by Mike, 20220911; edited again by Mike, 20220925
 	imgIpisTile.style.top = screen.height/4 +"px"; //screen.height/2 +"px"; //"100px";
 //	imgIpisTile.style.top = iVerticalOffset +"px"; //screen.height/2 +"px"; //"100px";
-	
-		
+
+	//added by Mike, 20221002
+	imgIpisTile.style.visibility="visible";
+
+				
 	//added by Mike, 20220909
 	//https://www.w3schools.com/js/js_arrays.asp; last accessed: 20220823
 	//https://www.w3schools.com/js/js_loop_for.asp; last accessed: 20220909	
@@ -1469,8 +1488,10 @@ function onLoad() {
 		//arrayTileBg[iTileBgCount].style.top =  iStageMaxHeight+"px";		
 		//edited by Mike, 20220925
 		arrayTileBg[iTileBgCount].style.top =  0+"px";
-//		arrayTileBg[iTileBgCount].style.top =  iVerticalOffset+"px";		
+//		arrayTileBg[iTileBgCount].style.top =  iVerticalOffset+"px";
 
+		//added by Mike, 20221002
+		arrayTileBg[iTileBgCount].style.visibility="visible";
 	}
 	
 	//added by Mike, 20220912	
