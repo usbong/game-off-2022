@@ -4,6 +4,17 @@ set of reusable computer instructions that execute via the <b>Web Browser</b>
 ## Current Version (PUBLIC)
 http://store.usbong.ph/flashStage (work-in-progress)
 
+### Screenshots
+
+1) Portrait Mode
+
+<img src="https://github.com/usbong/FLASH/blob/main/screenshots/usbongFlashAndroidMobileFirefoxPortraitV20221002T1200.png" width="25%">
+
+2) Landscape Mode
+
+<img src="https://github.com/usbong/FLASH/blob/main/screenshots/usbongFlashAndroidMobileFirefoxLandscapeV20221002T1200.png" width="40%">
+
+
 ## Additional Notes
 1) Javascript+ as ActionScript 2.0
 2) PHP + CodeIgniter (version 3)
