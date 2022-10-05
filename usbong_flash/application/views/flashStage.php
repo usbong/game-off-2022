@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221002; from 20220926
+' @date updated: 20221005; from 20221002
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -26,11 +26,10 @@
 //TO-DO: -update: sound file from .m4a to .mp3 via Musescore, et cetera
 
 //TO-DO: -add: auto-update positions after screen resize of computer browser
-//TO-DO: -re-verify: exit from full screen mode causes INCORRECT object position due to page scrolling
 
-//TO-DO: -remove: vertical scroll function
+//TO-DO: -re-verify: exit OUTPUT from full screen mode 
 
-//fixed: stepY downward excessively small to cause SLOW movement
+
 
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -690,6 +689,9 @@ iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
 //iHorizontalOffset=(screen.width*0.90)/2-iStageMaxWidth/2;
 //iHorizontalOffset=(screen.width*0.80)/2-iStageMaxWidth/2;
 
+//added by Mike, 20221005
+iVerticalOffsetInnerScreen=0;
+
 //added by Mike, 20220925
 //note: for CONTROLLER BUTTONS
 iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
@@ -805,7 +807,6 @@ function myUpdateFunction() {
 	var buttonDownKey = document.getElementById("downKeyId");
 
 
-
 /* //removed by Mike, 20220827; output: still noticeable delay in animation of ipis
 	if(imgUsbongLogo.style.visibility === "visible"){
 	  imgUsbongLogo.style.visibility="hidden";
@@ -814,6 +815,35 @@ function myUpdateFunction() {
 	  imgUsbongLogo.style.visibility="visible";
 	}	
 */
+
+	//added by Mike, 20221005
+/*	
+	if (window.matchMedia("(orientation: landscape)").matches) {			
+		if (!document.fullscreenElement) {
+			//document.documentElement.requestFullscreen();
+			alert("NOT IN FULL SCREEN MODE");
+			//alert("screen.height: "+screen.height); //320
+			alert("window.innerHeight: "+window.innerHeight); //230; OK!
+			
+//			iVerticalOffsetInnerScreen=screen.height-window.innerHeight;
+			
+		} 
+		else {
+			//alert("screen.height: "+screen.height); //320
+			alert("window.innerHeight: "+window.innerHeight); //320; OK!
+		}
+
+	}
+*/
+		if (!document.fullscreenElement) {
+//			alert("NOT IN FULL SCREEN MODE");
+			//alert("screen.height: "+screen.height); //320
+			//alert("window.innerHeight: "+window.innerHeight); //230; OK!
+			
+			iVerticalOffsetInnerScreen=screen.height-window.innerHeight;//320-230=90
+		} 
+
+	//		alert("screen.height: "+screen.height); //533
 
 	//added by Mike, 20220904
 	//ANIMATION UPDATE
@@ -887,39 +917,17 @@ function myUpdateFunction() {
 
 myCanvas.style.left = (iHorizontalOffset+0)+"px";	
 
-//added by Mike, 20221002
-myCanvas.style.top = (0)+"px"; //iVerticalOffset+
+//added by Mike, 20221002; edited by Mike, 20221005
+//myCanvas.style.top = (0)+"px"; //iVerticalOffset+
+myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
-//	iHorizontalOffset=(screen.width*0.90)/2-iStageMaxWidth/2;
 
-			//mdo2.style.left = (iHorizontalOffset+0)+"px";			
-
-		
 	//identify offset due to smaller window centered @horizontal
 /*	
 	alert(screen.width);
 	alert(screen.height);
 */
 
-/* //removed by Mike, 20220912
-	//use only 90% of screen width to eliminate horizontal scrolling in browser	
-	//verified: computation to be exact with 100%; 
-	//TO-DO: verfiy: with safari browser, et cetera;
-	//TO-DO: -add: grid tiles;
-	//iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
-	iHorizontalOffset=(screen.width*0.90)/2-iStageMaxWidth/2;
-*/
-		
-	//added by Mike, 20220821; OK
-	//note: myUpdateFunction() executes only 
-	//when Web Browser is set to be FOCUSED;
-/*	
-	let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
-*/	
-	//edited by Mike, 20220822; OK
-	//imgIpisTile.style.left =  imgIpisTileX+1+"px";	
-	
-	
 	//added by Mike, 20220822
 	//update logic; object positions
 	//var imgIpisTile = document.getElementById("ipisTileImageId");
@@ -927,8 +935,14 @@ myCanvas.style.top = (0)+"px"; //iVerticalOffset+
 	//added by Mike, 20220904
 	//KEY INPUT UPDATE	
 	
+	//edited by Mike, 20221005
+/*
 	let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
 	let imgIpisTileY = imgIpisTile.getBoundingClientRect().y;	
+*/
+	let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
+	let imgIpisTileY = imgIpisTile.getBoundingClientRect().y;	
+
 
 	//added by Mike, 20220911
 	let iImgIpisTileWidth = 64;
@@ -1366,6 +1380,11 @@ function keyPressUp(iKey) {
 	arrayKeyPressed[iKey]=false;
 }
 
+//added by Mike, 20221002
+function onBackKeyDown() {
+	alert("BACK BUTTON PRESSED");
+}
+
 
 //added by Mike, 20220822
 function onLoad() {
@@ -1408,6 +1427,18 @@ function onLoad() {
 	   myBody.className='bodyLandscapeMode';
 	}	
 */	
+
+
+	
+	
+//Deviceready function
+window.addEventListener('deviceready', function() {
+
+    window.addEventListener("backbutton", onBackKeyDown, false);
+
+}, false);
+
+
 
 	//reference: https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad; last accessed: 20220910
 	//answer by: Jatin, 20120731T0711;
