@@ -127,29 +127,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							font-weight: bold;
 
 							border: 0px solid;		
-							border-radius: 4px;		
-
-							visibility: visible;							
+							border-radius: 4px;							
 						}
-
-						a.pauseLink
-						{
-							left: 0px;
-							top: 0px;
-							position: absolute;
-							
-							padding: 12px;
-							background-color: #ffe400;
-							color: #222222;
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 4px;		
-
-							visibility: hidden;							
-						}
-
 						
 						/* //added by Mike, 20220917
 						//reference: GAMEBOY COLOR;
@@ -716,6 +695,7 @@ iVerticalOffsetInnerScreen=0;
 //added by Mike, 20220925
 //note: for CONTROLLER BUTTONS
 iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
+
 	  	  
 //added by Mike, 20220925
 bIsMobile = false;	  
@@ -787,10 +767,6 @@ function pauseAudio() {
 	  //set: executeLink to hidden
 	  var executeLink = document.getElementById("executeLinkId");
 	  executeLink.style.visibility="hidden";	  
-
-	  //added by Mike, 20221006
-	  var pauseLink = document.getElementById("pauseLinkId");
-	  pauseLink.style.visibility="hidden";	  
 	}
 
 	document.addEventListener("keydown", (e) => {
@@ -860,25 +836,22 @@ function myUpdateFunction() {
 	}
 */
 
-		//added by Mike, 20221006; edited by Mike, 20221006
-		var pauseLink = document.getElementById("pauseLinkId");
+		//added by Mike, 20221006
 		var executeLink = document.getElementById("executeLinkId");
 
-		if (bIsMobile) {			
-			if (!document.fullscreenElement) {
-	//			alert("NOT IN FULL SCREEN MODE");
-				//alert("screen.height: "+screen.height); //320
-				//alert("window.innerHeight: "+window.innerHeight); //230; OK!
+		if (!document.fullscreenElement) {
+//			alert("NOT IN FULL SCREEN MODE");
+			//alert("screen.height: "+screen.height); //320
+			//alert("window.innerHeight: "+window.innerHeight); //230; OK!
+			
+			iVerticalOffsetInnerScreen=screen.height-window.innerHeight;//320-230=90
 
-				if (executeLink.style.visibility=="hidden") {				
-					iVerticalOffsetInnerScreen=screen.height-window.innerHeight;//320-230=90
-					
-					pauseLink.style.visibility="visible";	//hidden
-				}
-			} 
-			else {
-				pauseLink.style.visibility="hidden";
-			}
+			executeLink.style.visibility="visible";	//hidden
+			//removed by Mike, 20221006
+//			executeLink.style.top = (iVerticalOffsetInnerScreen+0)+iStageMaxHeight/2 +"px";			
+		} 
+		else {
+			executeLink.style.visibility="hidden";
 		}
 
 	//		alert("screen.height: "+screen.height); //533
@@ -1382,14 +1355,6 @@ function tempAlert(msg,duration)
 	//executeLink.style.left = 0+iHorizontalOffsetPrev+iStageMaxWidth/2 -iExecuteLinkWidth/2 +"px";
 	executeLink.style.top = 0+iStageMaxHeight/2 +"px"; 
 	
-	//added by Mike, 20221006
-	var pauseLink = document.getElementById("pauseLinkId");
-	var iPauseLinkHeight = (pauseLink.clientHeight);//+1; + "px";
-	var iPauseLinkWidth = (pauseLink.clientWidth);//+1; + "px"
-
-	pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
-	pauseLink.style.top = 0+iStageMaxHeight/2 +"px"; 
-	
 	//notes: noticeable delay in CHANGE in position via repaint setting, et cetera	
 	myUpdateFunction();
 	//--------------------------------------------
@@ -1425,6 +1390,12 @@ function keyPressDown(iKey) {
 function keyPressUp(iKey) {
 	arrayKeyPressed[iKey]=false;
 }
+
+//added by Mike, 20221002
+function onBackKeyDown() {
+	alert("BACK BUTTON PRESSED");
+}
+
 
 //added by Mike, 20220822
 function onLoad() {
@@ -1468,10 +1439,18 @@ function onLoad() {
 	}	
 */	
 
-	//added by Mike, 20221006
-	var pauseLink = document.getElementById("pauseLinkId");
-	pauseLink.style.visibility="hidden";	  
+
 	
+	
+//Deviceready function
+window.addEventListener('deviceready', function() {
+
+    window.addEventListener("backbutton", onBackKeyDown, false);
+
+}, false);
+
+
+
 	//reference: https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad; last accessed: 20220910
 	//answer by: Jatin, 20120731T0711;
 	//edited by Tisho, 20120731T0730
@@ -1565,17 +1544,22 @@ function onLoad() {
 
 //alert (iExecuteLinkWidth);
 
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +"px"; //iStageMaxWidth
+
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth/2)+"px"; //iStageMaxWidth
+
+	//edited by Mike, 20220913
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth/2)+"px"; //iStageMaxWidth
+
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +"px"; //iStageMaxWidth
+	//edited by Mike, 20220914
+	//TO-DO: -update: position based on mobile (portrait or landscape) and non-mobile
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth)+"px"; //iStageMaxWidth
+	//edited by Mike, 20220914
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +"px"; //iStageMaxWidth
+
 	executeLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iExecuteLinkWidth/2 +"px";
 	executeLink.style.top = 0+iStageMaxHeight/2 +"px"; 
-
-	//added by Mike, 20220912	
-	var pauseLink = document.getElementById("pauseLinkId");
-
-	var iPauseLinkHeight = (pauseLink.clientHeight);//+1; + "px";
-	var iPauseLinkWidth = (pauseLink.clientWidth);//+1; + "px"
-
-	pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
-	pauseLink.style.top = 0+iStageMaxHeight/2 +"px"; 
 	
 
 /*	
@@ -1881,9 +1865,8 @@ function onLoad() {
 //edited by: BenMorel, 20131209T1511
 -->
 <!-- href="/flashStage"; href="#" //Full Screen Mode -->
-<a id="pauseLinkId" class="pauseLink" onClick="toggleFullScreen()"><u>PAUSE</u></a>
-<br/>
 <a id="executeLinkId" class="executeLink" onClick="toggleFullScreen()"><u>EXECUTE</u></a>
+
 
 	<input type="hidden" id="myCurrentChargeCountId" 
 		value="<?php //TO-DO: -update: this to have >= 2 Players
