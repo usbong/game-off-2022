@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221005; from 20221002
+' @date updated: 20221006; from 20221005
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -835,13 +835,24 @@ function myUpdateFunction() {
 
 	}
 */
+
+		//added by Mike, 20221006
+		var executeLink = document.getElementById("executeLinkId");
+
 		if (!document.fullscreenElement) {
 //			alert("NOT IN FULL SCREEN MODE");
 			//alert("screen.height: "+screen.height); //320
 			//alert("window.innerHeight: "+window.innerHeight); //230; OK!
 			
 			iVerticalOffsetInnerScreen=screen.height-window.innerHeight;//320-230=90
+
+			executeLink.style.visibility="visible";	//hidden
+			//removed by Mike, 20221006
+//			executeLink.style.top = (iVerticalOffsetInnerScreen+0)+iStageMaxHeight/2 +"px";			
 		} 
+		else {
+			executeLink.style.visibility="hidden";
+		}
 
 	//		alert("screen.height: "+screen.height); //533
 
