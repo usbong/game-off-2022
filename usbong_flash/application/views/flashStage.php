@@ -139,12 +139,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							position: absolute;
 							
 							padding: 2px;
+							margin: 2px;
 /*	//gold
 							background-color: #ffe400;
 							color: #222222;
 */
 							background-color: rgb(60,60,60);
-							color: #ffe400; /*rgb(30,30,30);*/
+							color: rgb(60,60,60);
 
 							font-size: 16px;
 							font-weight: bold;
@@ -152,7 +153,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							border: 0px solid;		
 							border-radius: 4px;		
 
-							visibility: visible; /*hidden;*/							
+							visibility: hidden; /*visible;*/							
 						}
 
 						
@@ -661,15 +662,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}
 						
 
-<!-- Reference: https://stackoverflow.com/questions/7291873/disable-color-change-of-anchor-tag-when-visited; 
+/*
+Reference: https://stackoverflow.com/questions/7291873/disable-color-change-of-anchor-tag-when-visited; 
 	last accessed: 20200321
 	answer by: Rich Bradshaw on 20110903T0759
 	edited by: Peter Mortensen on 20190511T2239
--->
-						a {color:#0011f1;}         /* Unvisited link  */
-						a:visited {color:#0011f1;} /* Visited link    */
-						a:hover {color:#0011f1;}   /* Mouse over link */
-						a:active {color:#593baa;}  /* Selected link */												
+*/
+						/*a {color:#0011f1;}*/         /* Unvisited link  */
+						/*a:visited {color:#0011f1;}*/ /* Visited link    */
+						/*a:hover {color:#0011f1;}*/   /* Mouse over link */
+						/*a:active {color:#593baa;}*/  /* Selected link */												
+*/
     /**/
     </style>
     <title>
@@ -785,13 +788,15 @@ function pauseAudio() {
 	  } else if (document.exitFullscreen) {
 		document.exitFullscreen();
 	  }
-	  
+
+/*	  //removed by Mike, 20221007
 	  //added by Mike, 20221001
 	  //update: positions; OUTPUT: error
 	  //tempAlert("",200);　//1/5sec
 	  //set: executeLink to hidden
 	  var executeLink = document.getElementById("executeLinkId");
 	  executeLink.style.visibility="hidden";	  
+*/
 
 	  //added by Mike, 20221006
 /*	//removed by Mike, 20221007
@@ -836,6 +841,8 @@ function myUpdateFunction() {
 	var buttonRightKey = document.getElementById("rightKeyId");
 	var buttonUpKey = document.getElementById("upKeyId");
 	var buttonDownKey = document.getElementById("downKeyId");
+
+
 
 
 /* //removed by Mike, 20220827; output: still noticeable delay in animation of ipis
@@ -1170,24 +1177,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	var iButtonWidth = buttonUpKey.getBoundingClientRect().width;
 	var iButtonHeight = buttonUpKey.getBoundingClientRect().height;
 
-
-/* //edited by Mike, 20220925
-	buttonUpKey.style.left = (iHorizontalOffset+0)+iButtonWidth*1+"px";
-	buttonUpKey.style.top =  iStageMaxHeight+"px";
-	buttonUpKey.style.visibility = "visible";
-	
-	buttonLeftKey.style.left = (iHorizontalOffset+0)+"px";
-	buttonLeftKey.style.top =  iStageMaxHeight+iButtonHeight*1+"px";
-	buttonLeftKey.style.visibility = "visible";
-
-	buttonRightKey.style.left = (iHorizontalOffset+0)+iButtonWidth*2+"px";
-	buttonRightKey.style.top =  iStageMaxHeight+iButtonHeight*1+"px";
-	buttonRightKey.style.visibility = "visible";
-
-	buttonDownKey.style.left = (iHorizontalOffset+0)+iButtonWidth*1+"px";
-	buttonDownKey.style.top =  iStageMaxHeight+iButtonHeight*2+"px";
-	buttonDownKey.style.visibility = "visible";
-*/
 /*
 	alert("screen.height"+screen.height);
 	alert("iVerticalOffset"+iVerticalOffset);
@@ -1227,6 +1216,22 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		buttonDownKey.style.top =  iVerticalOffset+iButtonHeight*2+"px"; //iStageMaxHeight+iButtonHeight*2+"px";
 		buttonDownKey.style.visibility = "visible";
 	}
+	
+	//added by Mike, 20221007
+	if (!document.fullscreenElement) {
+		buttonLeftKey.style.visibility="hidden";
+		buttonRightKey.style.visibility="hidden";
+		buttonUpKey.style.visibility="hidden";
+		buttonDownKey.style.visibility="hidden";
+	}
+/*	
+	else {
+		buttonLeftKey.style.visibility="visible";
+		buttonRightKey.style.visibility="visible";
+		buttonUpKey.style.visibility="visible";
+		buttonDownKey.style.visibility="visible";
+	}	
+*/	
 }
 
 /* //removed by Mike, 20220904
@@ -1382,6 +1387,7 @@ function tempAlert(msg,duration)
 
 	//alert(imgIpisTile.style.left);
 
+/* //removed by Mike, 20221007
 	var executeLink = document.getElementById("executeLinkId");
 	var iExecuteLinkHeight = (executeLink.clientHeight);//+1; + "px";
 	var iExecuteLinkWidth = (executeLink.clientWidth);//+1; + "px"
@@ -1390,6 +1396,7 @@ function tempAlert(msg,duration)
 	executeLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iExecuteLinkWidth/2 +"px";
 	//executeLink.style.left = 0+iHorizontalOffsetPrev+iStageMaxWidth/2 -iExecuteLinkWidth/2 +"px";
 	executeLink.style.top = 0+iStageMaxHeight/2 +"px"; 
+*/	
 	
 	//added by Mike, 20221006
 	var pauseLink = document.getElementById("pauseLinkId");
@@ -1569,7 +1576,8 @@ function onLoad() {
 		//added by Mike, 20221002
 		arrayTileBg[iTileBgCount].style.visibility="visible";
 	}
-	
+
+/* //removed by Mike, 20221007	
 	//added by Mike, 20220912	
 	var executeLink = document.getElementById("executeLinkId");
 
@@ -1580,6 +1588,7 @@ function onLoad() {
 
 	executeLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iExecuteLinkWidth/2 +"px";
 	executeLink.style.top = 0+iStageMaxHeight/2 +"px"; 
+*/
 
 	//added by Mike, 20220912	
 	var pauseLink = document.getElementById("pauseLinkId");
@@ -1591,6 +1600,9 @@ function onLoad() {
 	//edited by Mike, 20221007
 	//pauseLink.style.top = 0+iStageMaxHeight/2 +"px"; 
 	pauseLink.style.top = 0+iStageMaxHeight +"px"; 
+
+	//added by Mike, 20221007
+	pauseLink.style.visibility="visible";	  
 	
 
 /*	
@@ -1896,10 +1908,11 @@ function onLoad() {
 //edited by: BenMorel, 20131209T1511
 -->
 <!-- href="/flashStage"; href="#" //Full Screen Mode -->
-<a id="pauseLinkId" class="pauseLink" onClick="toggleFullScreen()"><u>PAUSE</u></a>
+<a id="pauseLinkId" class="pauseLink" onClick="toggleFullScreen()"><u>START</u></a>
+<!-- //removed by Mike, 20221007
 <br/>
 <a id="executeLinkId" class="executeLink" onClick="toggleFullScreen()"><u>EXECUTE</u></a>
-
+-->
 	<input type="hidden" id="myCurrentChargeCountId" 
 		value="<?php //TO-DO: -update: this to have >= 2 Players
 				if (isset($iMyCurrentChargeCountP1)) {		
