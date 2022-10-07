@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221006; from 20221005
+' @date updated: 20221007; from 20221006
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -138,16 +138,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							top: 0px;
 							position: absolute;
 							
-							padding: 12px;
+							padding: 2px;
+/*	//gold
 							background-color: #ffe400;
 							color: #222222;
+*/
+							background-color: rgb(60,60,60);
+							color: #ffe400; /*rgb(30,30,30);*/
+
 							font-size: 16px;
 							font-weight: bold;
 
 							border: 0px solid;		
 							border-radius: 4px;		
 
-							visibility: hidden;							
+							visibility: visible; /*hidden;*/							
 						}
 
 						
@@ -789,8 +794,10 @@ function pauseAudio() {
 	  executeLink.style.visibility="hidden";	  
 
 	  //added by Mike, 20221006
+/*	//removed by Mike, 20221007
 	  var pauseLink = document.getElementById("pauseLinkId");
 	  pauseLink.style.visibility="hidden";	  
+*/	  
 	}
 
 	document.addEventListener("keydown", (e) => {
@@ -860,6 +867,7 @@ function myUpdateFunction() {
 	}
 */
 
+/*	//removed by Mike, 20221007
 		//added by Mike, 20221006; edited by Mike, 20221006
 		var pauseLink = document.getElementById("pauseLinkId");
 		var executeLink = document.getElementById("executeLinkId");
@@ -880,6 +888,7 @@ function myUpdateFunction() {
 				pauseLink.style.visibility="hidden";
 			}
 		}
+*/
 
 	//		alert("screen.height: "+screen.height); //533
 
@@ -1388,7 +1397,9 @@ function tempAlert(msg,duration)
 	var iPauseLinkWidth = (pauseLink.clientWidth);//+1; + "px"
 
 	pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
-	pauseLink.style.top = 0+iStageMaxHeight/2 +"px"; 
+	//edited by Mike, 20221007
+	//pauseLink.style.top = 0+iStageMaxHeight/2 +"px"; 
+	pauseLink.style.top = 0+iStageMaxHeight +"px"; 
 	
 	//notes: noticeable delay in CHANGE in position via repaint setting, et cetera	
 	myUpdateFunction();
@@ -1468,9 +1479,11 @@ function onLoad() {
 	}	
 */	
 
+/* //removed by Mike, 20221007
 	//added by Mike, 20221006
 	var pauseLink = document.getElementById("pauseLinkId");
 	pauseLink.style.visibility="hidden";	  
+*/
 	
 	//reference: https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad; last accessed: 20220910
 	//answer by: Jatin, 20120731T0711;
@@ -1575,7 +1588,9 @@ function onLoad() {
 	var iPauseLinkWidth = (pauseLink.clientWidth);//+1; + "px"
 
 	pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
-	pauseLink.style.top = 0+iStageMaxHeight/2 +"px"; 
+	//edited by Mike, 20221007
+	//pauseLink.style.top = 0+iStageMaxHeight/2 +"px"; 
+	pauseLink.style.top = 0+iStageMaxHeight +"px"; 
 	
 
 /*	
