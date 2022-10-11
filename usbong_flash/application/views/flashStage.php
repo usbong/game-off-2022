@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221007; from 20221006
+' @date updated: 20221012; from 20221007
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1403,7 +1403,12 @@ function tempAlert(msg,duration)
 	var iPauseLinkHeight = (pauseLink.clientHeight);//+1; + "px";
 	var iPauseLinkWidth = (pauseLink.clientWidth);//+1; + "px"
 
+	//edited by Mike, 20221012
+	//note: screen set to custom-ZOOM causes INCORRECT POSITION OUTPUT
+	//TO-DO: -verify: auto-set ZOOM to be 100%
 	pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
+//	pauseLink.style.left = 0+screen.width/2-iPauseLinkWidth/2 +"px";
+
 	//edited by Mike, 20221007
 	//pauseLink.style.top = 0+iStageMaxHeight/2 +"px"; 
 	pauseLink.style.top = 0+iStageMaxHeight +"px"; 
