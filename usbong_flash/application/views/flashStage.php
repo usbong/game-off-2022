@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	
     <style type="text/css">
 	/**/
-	                    body
+	                    html, body
                         {
                             font-family: Arial;
 							font-size: 11pt;
@@ -68,7 +68,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							
 						    -webkit-user-select: none; /* Safari */
 						    -ms-user-select: none; /* IE 10 and IE 11 */
-						    user-select: none; /* Standard syntax */  
+						    user-select: none; /* Standard syntax */
+							
+							/* added by Mike, 20221012 */
+							transform: scale(1.0);
 						}
 						
 						/* added by Mike, 20220911 */
@@ -721,6 +724,11 @@ iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
 //added by Mike, 20221005
 iVerticalOffsetInnerScreen=0;
 
+//added by Mike, 20221012
+let imgIpisTileX = iStageMaxWidth/2;
+let imgIpisTileY = iStageMaxHeight/2;	
+
+
 //added by Mike, 20220925
 //note: for CONTROLLER BUTTONS
 iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
@@ -842,6 +850,10 @@ function myUpdateFunction() {
 	var buttonUpKey = document.getElementById("upKeyId");
 	var buttonDownKey = document.getElementById("downKeyId");
 
+	//added by Mike, 20220912	
+	var pauseLink = document.getElementById("pauseLinkId");
+	var iPauseLinkHeight = (pauseLink.clientHeight);//+1; + "px";
+	var iPauseLinkWidth = (pauseLink.clientWidth);//+1; + "px"
 
 
 
@@ -969,12 +981,22 @@ function myUpdateFunction() {
 
 //alert (iHorizontalOffset);
 
-myCanvas.style.left = (iHorizontalOffset+0)+"px";	
+//myCanvas.style.left = (iHorizontalOffset+0)+"px";	
 
 //added by Mike, 20221002; edited by Mike, 20221005
 //myCanvas.style.top = (0)+"px"; //iVerticalOffset+
 myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
+	//added by Mike, 20221012
+	iHorizontalOffset=myCanvas.getBoundingClientRect().x;
+
+
+	//edited by Mike, 20221012
+	pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
+	pauseLink.style.top = 0+iStageMaxHeight +"px"; 
+	pauseLink.style.visibility="visible";	  
+	
+	
 
 	//identify offset due to smaller window centered @horizontal
 /*	
@@ -989,14 +1011,15 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//added by Mike, 20220904
 	//KEY INPUT UPDATE	
 	
-	//edited by Mike, 20221005
+	//edited by Mike, 20221012; from 20221005
 /*
 	let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
 	let imgIpisTileY = imgIpisTile.getBoundingClientRect().y;	
 */
-	let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
-	let imgIpisTileY = imgIpisTile.getBoundingClientRect().y;	
-
+/*
+	let imgIpisTileX = iStageMaxWidth/2;
+	let imgIpisTileY = iStageMaxHeight/2;	
+*/
 
 	//added by Mike, 20220911
 	let iImgIpisTileWidth = 64;
@@ -1008,7 +1031,8 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	
 	//note: simultaneous keypresses now OK ;
 	
-	//edited by Mike, 20220823; edited again by Mike, 20220925
+	//edited by Mike, 20220823; edited again by Mike, 20221012; from 20220925
+/*
 	//if (bKeyDownRight) { //key d
 	if (arrayKeyPressed[iKEY_D]) {
 		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX+iStepX+"px";				
@@ -1028,6 +1052,51 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 //		imgIpisTile.style.top =  iVerticalOffset+imgIpisTileY+iStepY+"px";				
 		imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
 	}
+*/
+	
+	//added by Mike, 20221012
+	//notes: what is @100%, IF @start, @120% zoom scale?
+	//alert(window.innerWidth); //130%; 631px
+	//alert(window.innerWidth); //110%; 751px
+	//alert(window.innerWidth); //100%; 819px
+	
+	//removed by Mike, 20221012
+	//iHorizontalOffset=myCanvas.getBoundingClientRect().x;
+	//imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileY)+"px";	
+	//imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
+
+	//if (bKeyDownRight) { //key d
+	if (arrayKeyPressed[iKEY_D]) {
+		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX+iStepX+"px";
+		//imgIpisTile.style.left =  imgIpisTileX+iStepX+"px";
+
+		imgIpisTileX+=iStepX;
+		imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX +"px";
+	}	
+	else if (arrayKeyPressed[iKEY_A]) {
+		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX-iStepX+"px";				
+		//imgIpisTile.style.left =  imgIpisTileX-iStepX+"px";				
+		imgIpisTileX-=iStepX;
+		imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX +"px";
+	}
+	
+	//note: inverted Y-axis; where: @top of window is 0px
+	if (arrayKeyPressed[iKEY_W]) {
+//		imgIpisTile.style.top = iVerticalOffset+imgIpisTileY-iStepY+"px";				
+		//imgIpisTile.style.top = imgIpisTileY-iStepY+"px";	
+		imgIpisTileY-=iStepY;	
+		imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";	
+	}	
+	else if (arrayKeyPressed[iKEY_S]) {
+//		imgIpisTile.style.top =  iVerticalOffset+imgIpisTileY+iStepY+"px";				
+//		imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
+		imgIpisTileY+=iStepY;	
+		imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";		
+	}
+
+
+
+	imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
 	
 	
 	//added by Mike, 20220904
@@ -1473,6 +1542,19 @@ function onLoad() {
 		bIsMobile=true;
 	}
 	
+	//added by Mike, 20221012
+/*	//INCORRECT OUTPUT in FIREFOX WEB BROWSER
+	//var myBody = document.getElementById("myBodyId");	
+	//myBody.style.zoom=1.0;
+	document.body.style.zoom=1.0;
+	this.blur();						
+*/
+/*
+	let scaleAmount = 1 - 0.1;
+	document.body.style.transform = `scale(${scaleAmount})`;
+*/	
+	
+	
 /* //removed by Mike, 20220911	
 	//added by Mike, 20220910; edited by Mike, 20220911	
 	var myBody = document.getElementById("myBodyId");
@@ -1557,7 +1639,6 @@ function onLoad() {
 	//added by Mike, 20221002
 	imgIpisTile.style.visibility="visible";
 
-				
 	//added by Mike, 20220909
 	//https://www.w3schools.com/js/js_arrays.asp; last accessed: 20220823
 	//https://www.w3schools.com/js/js_loop_for.asp; last accessed: 20220909	
@@ -1595,19 +1676,28 @@ function onLoad() {
 	executeLink.style.top = 0+iStageMaxHeight/2 +"px"; 
 */
 
+/* //removed by Mike, 20221012
 	//added by Mike, 20220912	
 	var pauseLink = document.getElementById("pauseLinkId");
 
 	var iPauseLinkHeight = (pauseLink.clientHeight);//+1; + "px";
 	var iPauseLinkWidth = (pauseLink.clientWidth);//+1; + "px"
 
+	//edited by Mike, 20221012
+	//pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
+
+	//iHorizontalOffset=myCanvas.getBoundingClientRect().x;
+	//pauseLinkTileX=pauseLink.getBoundingClientRect().x;
+	//pauseLink.style.left = (iHorizontalOffset+pauseLinkTileX)+"px";	
 	pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
+
 	//edited by Mike, 20221007
 	//pauseLink.style.top = 0+iStageMaxHeight/2 +"px"; 
 	pauseLink.style.top = 0+iStageMaxHeight +"px"; 
 
 	//added by Mike, 20221007
 	pauseLink.style.visibility="visible";	  
+*/	
 	
 
 /*	
