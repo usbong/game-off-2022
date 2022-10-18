@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221012; from 20221007
+' @date updated: 20221019; from 20221012
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -29,8 +29,9 @@
 
 //TO-DO: -re-verify: exit OUTPUT from full screen mode 
 
-
-
+//TO-DO: re-verify: cause of directional button stuck to cause continuous movement
+//TO-DO: re-verify: use of lever center/neutral to assist in identifying directional movement,
+//--> e.g. above center/neutral; keyphrase: collision detection
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
@@ -159,6 +160,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							visibility: hidden; /*visible;*/							
 						}
 
+						a.pauseLink:active
+						{
+							background-color: rgb(20,20,20);
+							color: rgb(20,20,20);						
+						}
+
 						
 						/* //added by Mike, 20220917
 						//reference: GAMEBOY COLOR;
@@ -169,14 +176,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						//remembers: NOKIA mobile telephone (J2ME);
 						//where: ACTION button @CENTER of DIRECTIONAL KEY;
 						*/
-						button.controlKeyButtonLeft, .controlKeyButtonRight, .controlKeyButtonUp, .controlKeyButtonDown
+						button.controlKeyButtonLeft, .controlKeyButtonRight, .controlKeyButtonUp, .controlKeyButtonDown, .controlKeyButtonLeverCenterNeutral
 						{
 							left: 0px;
 							top: 0px;
 							position: absolute;
 							
 							padding: 12px;
-							background-color: rgb(60,60,60);
+							background-color: rgb(60,60,60);							
 							color: rgb(60,60,60); /*rgb(30,30,30);*/
 							font-size: 16px;
 							font-weight: bold;
@@ -187,6 +194,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							margin: 0px;
 							
 							visibility: hidden;
+						}
+
+						button:active { /* focus out after click */
+/*	//bright
+							background-color: rgb(120,120,120);
+							color: rgb(120,120,120); 
+*/
+							background-color: rgb(20,20,20);
+							color: rgb(20,20,20); 
 						}
 
 						div.checkBox
@@ -850,6 +866,9 @@ function myUpdateFunction() {
 	var buttonUpKey = document.getElementById("upKeyId");
 	var buttonDownKey = document.getElementById("downKeyId");
 
+	//added by Mike, 20221019
+	var buttonLeverCenterNeutralKey = document.getElementById("leverCenterNeutralKeyId");
+
 	//added by Mike, 20220912	
 	var pauseLink = document.getElementById("pauseLinkId");
 	var iPauseLinkHeight = (pauseLink.clientHeight);//+1; + "px";
@@ -1025,9 +1044,13 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	let iImgIpisTileWidth = 64;
 	let iImgIpisTileHeight = 64;
 	
-	//edited by Mike, 20220823
+	//edited by Mike, 20220823; edited again by Mike, 20221019
+/*
 	let iStepX=10; //4;
 	let iStepY=10; //4;
+*/
+	let iStepX=5; //4;
+	let iStepY=5; //4;
 	
 	//note: simultaneous keypresses now OK ;
 	
@@ -1257,6 +1280,9 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		buttonLeftKey.style.visibility = "hidden";
 		buttonRightKey.style.visibility = "hidden";
 		buttonDownKey.style.visibility = "hidden";
+		
+		//added by Mike, 20221019
+		buttonLeverCenterNeutralKey.style.visibility = "hidden";
 	}
 	else {
 		//added by Mike, 20221002
@@ -1277,6 +1303,11 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		buttonLeftKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; //iStageMaxHeight+iButtonHeight*1+"px";
 		buttonLeftKey.style.visibility = "visible";
 
+		//added by Mike, 20221019
+		buttonLeverCenterNeutralKey.style.left = (0)+iButtonWidth*1+"px";
+		buttonLeverCenterNeutralKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; 
+		buttonLeverCenterNeutralKey.style.visibility = "visible";
+
 		buttonRightKey.style.left = (0)+iButtonWidth*2+"px";
 		buttonRightKey.style.top =  iVerticalOffset+iButtonHeight*1+"px";//iStageMaxHeight+iButtonHeight*1+"px";
 		buttonRightKey.style.visibility = "visible";
@@ -1292,6 +1323,8 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		buttonRightKey.style.visibility="hidden";
 		buttonUpKey.style.visibility="hidden";
 		buttonDownKey.style.visibility="hidden";
+		
+		buttonLeverCenterNeutralKey.style.visibility="hidden";
 	}
 /*	
 	else {
@@ -2138,6 +2171,10 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 <button id="leftKeyId" class="controlKeyButtonLeft" ontouchstart="keyPressDown(<?php echo iKEY_A;?>)" ontouchend="keyPressUp(<?php echo iKEY_A;?>)">AAA</button>
 <button id="rightKeyId" class="controlKeyButtonRight" ontouchstart="keyPressDown(<?php echo iKEY_D;?>)" ontouchend="keyPressUp(<?php echo iKEY_D;?>)">AAA</button>
 <button id="downKeyId" class="controlKeyButtonDown" ontouchstart="keyPressDown(<?php echo iKEY_S;?>)" ontouchend="keyPressUp(<?php echo iKEY_S;?>)">AAA</button>
+
+<!-- //added by Mike, 20221019 -->
+<button id="leverCenterNeutralKeyId" class="controlKeyButtonLeverCenterNeutral">OOO</button>
+
 
 	<audio id="myAudioId" class="myAudio" controls loop>
 	  <source src="assets/audio/Tinig 112.m4a" type="audio/x-m4a">
