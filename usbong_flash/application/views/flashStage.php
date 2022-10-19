@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221019; from 20221012
+' @date updated: 20221020; from 20221019
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -810,6 +810,11 @@ function pauseAudio() {
 	  if (!document.fullscreenElement) {
 		document.documentElement.requestFullscreen();
 	  } else if (document.exitFullscreen) {
+
+		//added by Mike, 20221020
+		//pauseAudio();
+		document.getElementById("myAudioId").pause();
+		
 		document.exitFullscreen();
 	  }
 
