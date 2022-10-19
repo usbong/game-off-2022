@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221019; from 20221012
+' @date updated: 20221006; from 20221005
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -29,9 +29,8 @@
 
 //TO-DO: -re-verify: exit OUTPUT from full screen mode 
 
-//TO-DO: re-verify: cause of directional button stuck to cause continuous movement
-//TO-DO: re-verify: use of lever center/neutral to assist in identifying directional movement,
-//--> e.g. above center/neutral; keyphrase: collision detection
+
+
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
@@ -48,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	
     <style type="text/css">
 	/**/
-	                    html, body
+	                    body
                         {
                             font-family: Arial;
 							font-size: 11pt;
@@ -69,10 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							
 						    -webkit-user-select: none; /* Safari */
 						    -ms-user-select: none; /* IE 10 and IE 11 */
-						    user-select: none; /* Standard syntax */
-							
-							/* added by Mike, 20221012 */
-							transform: scale(1.0);
+						    user-select: none; /* Standard syntax */  
 						}
 						
 						/* added by Mike, 20220911 */
@@ -131,41 +127,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							font-weight: bold;
 
 							border: 0px solid;		
-							border-radius: 4px;		
-
-							visibility: visible;							
+							border-radius: 4px;							
 						}
-
-						a.pauseLink
-						{
-							left: 0px;
-							top: 0px;
-							position: absolute;
-							
-							padding: 2px;
-							margin: 2px;
-/*	//gold
-							background-color: #ffe400;
-							color: #222222;
-*/
-							background-color: rgb(60,60,60);
-							color: rgb(60,60,60);
-
-							font-size: 16px;
-							font-weight: bold;
-
-							border: 0px solid;		
-							border-radius: 4px;		
-
-							visibility: hidden; /*visible;*/							
-						}
-
-						a.pauseLink:active
-						{
-							background-color: rgb(20,20,20);
-							color: rgb(20,20,20);						
-						}
-
 						
 						/* //added by Mike, 20220917
 						//reference: GAMEBOY COLOR;
@@ -176,14 +139,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						//remembers: NOKIA mobile telephone (J2ME);
 						//where: ACTION button @CENTER of DIRECTIONAL KEY;
 						*/
-						button.controlKeyButtonLeft, .controlKeyButtonRight, .controlKeyButtonUp, .controlKeyButtonDown, .controlKeyButtonLeverCenterNeutral
+						button.controlKeyButtonLeft, .controlKeyButtonRight, .controlKeyButtonUp, .controlKeyButtonDown
 						{
 							left: 0px;
 							top: 0px;
 							position: absolute;
 							
 							padding: 12px;
-							background-color: rgb(60,60,60);							
+							background-color: rgb(60,60,60);
 							color: rgb(60,60,60); /*rgb(30,30,30);*/
 							font-size: 16px;
 							font-weight: bold;
@@ -194,15 +157,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							margin: 0px;
 							
 							visibility: hidden;
-						}
-
-						button:active { /* focus out after click */
-/*	//bright
-							background-color: rgb(120,120,120);
-							color: rgb(120,120,120); 
-*/
-							background-color: rgb(20,20,20);
-							color: rgb(20,20,20); 
 						}
 
 						div.checkBox
@@ -681,17 +635,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}
 						
 
-/*
-Reference: https://stackoverflow.com/questions/7291873/disable-color-change-of-anchor-tag-when-visited; 
+<!-- Reference: https://stackoverflow.com/questions/7291873/disable-color-change-of-anchor-tag-when-visited; 
 	last accessed: 20200321
 	answer by: Rich Bradshaw on 20110903T0759
 	edited by: Peter Mortensen on 20190511T2239
-*/
-						/*a {color:#0011f1;}*/         /* Unvisited link  */
-						/*a:visited {color:#0011f1;}*/ /* Visited link    */
-						/*a:hover {color:#0011f1;}*/   /* Mouse over link */
-						/*a:active {color:#593baa;}*/  /* Selected link */												
-*/
+-->
+						a {color:#0011f1;}         /* Unvisited link  */
+						a:visited {color:#0011f1;} /* Visited link    */
+						a:hover {color:#0011f1;}   /* Mouse over link */
+						a:active {color:#593baa;}  /* Selected link */												
     /**/
     </style>
     <title>
@@ -740,14 +692,10 @@ iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
 //added by Mike, 20221005
 iVerticalOffsetInnerScreen=0;
 
-//added by Mike, 20221012
-let imgIpisTileX = iStageMaxWidth/2;
-let imgIpisTileY = iStageMaxHeight/2;	
-
-
 //added by Mike, 20220925
 //note: for CONTROLLER BUTTONS
 iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
+
 	  	  
 //added by Mike, 20220925
 bIsMobile = false;	  
@@ -812,21 +760,13 @@ function pauseAudio() {
 	  } else if (document.exitFullscreen) {
 		document.exitFullscreen();
 	  }
-
-/*	  //removed by Mike, 20221007
+	  
 	  //added by Mike, 20221001
 	  //update: positions; OUTPUT: error
 	  //tempAlert("",200);　//1/5sec
 	  //set: executeLink to hidden
 	  var executeLink = document.getElementById("executeLinkId");
 	  executeLink.style.visibility="hidden";	  
-*/
-
-	  //added by Mike, 20221006
-/*	//removed by Mike, 20221007
-	  var pauseLink = document.getElementById("pauseLinkId");
-	  pauseLink.style.visibility="hidden";	  
-*/	  
 	}
 
 	document.addEventListener("keydown", (e) => {
@@ -866,15 +806,6 @@ function myUpdateFunction() {
 	var buttonUpKey = document.getElementById("upKeyId");
 	var buttonDownKey = document.getElementById("downKeyId");
 
-	//added by Mike, 20221019
-	var buttonLeverCenterNeutralKey = document.getElementById("leverCenterNeutralKeyId");
-
-	//added by Mike, 20220912	
-	var pauseLink = document.getElementById("pauseLinkId");
-	var iPauseLinkHeight = (pauseLink.clientHeight);//+1; + "px";
-	var iPauseLinkWidth = (pauseLink.clientWidth);//+1; + "px"
-
-
 
 /* //removed by Mike, 20220827; output: still noticeable delay in animation of ipis
 	if(imgUsbongLogo.style.visibility === "visible"){
@@ -905,28 +836,23 @@ function myUpdateFunction() {
 	}
 */
 
-/*	//removed by Mike, 20221007
-		//added by Mike, 20221006; edited by Mike, 20221006
-		var pauseLink = document.getElementById("pauseLinkId");
+		//added by Mike, 20221006
 		var executeLink = document.getElementById("executeLinkId");
 
-		if (bIsMobile) {			
-			if (!document.fullscreenElement) {
-	//			alert("NOT IN FULL SCREEN MODE");
-				//alert("screen.height: "+screen.height); //320
-				//alert("window.innerHeight: "+window.innerHeight); //230; OK!
+		if (!document.fullscreenElement) {
+//			alert("NOT IN FULL SCREEN MODE");
+			//alert("screen.height: "+screen.height); //320
+			//alert("window.innerHeight: "+window.innerHeight); //230; OK!
+			
+			iVerticalOffsetInnerScreen=screen.height-window.innerHeight;//320-230=90
 
-				if (executeLink.style.visibility=="hidden") {				
-					iVerticalOffsetInnerScreen=screen.height-window.innerHeight;//320-230=90
-					
-					pauseLink.style.visibility="visible";	//hidden
-				}
-			} 
-			else {
-				pauseLink.style.visibility="hidden";
-			}
+			executeLink.style.visibility="visible";	//hidden
+			//removed by Mike, 20221006
+//			executeLink.style.top = (iVerticalOffsetInnerScreen+0)+iStageMaxHeight/2 +"px";			
+		} 
+		else {
+			executeLink.style.visibility="hidden";
 		}
-*/
 
 	//		alert("screen.height: "+screen.height); //533
 
@@ -1000,22 +926,12 @@ function myUpdateFunction() {
 
 //alert (iHorizontalOffset);
 
-//myCanvas.style.left = (iHorizontalOffset+0)+"px";	
+myCanvas.style.left = (iHorizontalOffset+0)+"px";	
 
 //added by Mike, 20221002; edited by Mike, 20221005
 //myCanvas.style.top = (0)+"px"; //iVerticalOffset+
 myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
-	//added by Mike, 20221012
-	iHorizontalOffset=myCanvas.getBoundingClientRect().x;
-
-
-	//edited by Mike, 20221012
-	pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
-	pauseLink.style.top = 0+iStageMaxHeight +"px"; 
-	pauseLink.style.visibility="visible";	  
-	
-	
 
 	//identify offset due to smaller window centered @horizontal
 /*	
@@ -1030,32 +946,26 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//added by Mike, 20220904
 	//KEY INPUT UPDATE	
 	
-	//edited by Mike, 20221012; from 20221005
+	//edited by Mike, 20221005
 /*
 	let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
 	let imgIpisTileY = imgIpisTile.getBoundingClientRect().y;	
 */
-/*
-	let imgIpisTileX = iStageMaxWidth/2;
-	let imgIpisTileY = iStageMaxHeight/2;	
-*/
+	let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
+	let imgIpisTileY = imgIpisTile.getBoundingClientRect().y;	
+
 
 	//added by Mike, 20220911
 	let iImgIpisTileWidth = 64;
 	let iImgIpisTileHeight = 64;
 	
-	//edited by Mike, 20220823; edited again by Mike, 20221019
-/*
+	//edited by Mike, 20220823
 	let iStepX=10; //4;
 	let iStepY=10; //4;
-*/
-	let iStepX=5; //4;
-	let iStepY=5; //4;
 	
 	//note: simultaneous keypresses now OK ;
 	
-	//edited by Mike, 20220823; edited again by Mike, 20221012; from 20220925
-/*
+	//edited by Mike, 20220823; edited again by Mike, 20220925
 	//if (bKeyDownRight) { //key d
 	if (arrayKeyPressed[iKEY_D]) {
 		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX+iStepX+"px";				
@@ -1075,51 +985,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 //		imgIpisTile.style.top =  iVerticalOffset+imgIpisTileY+iStepY+"px";				
 		imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
 	}
-*/
-	
-	//added by Mike, 20221012
-	//notes: what is @100%, IF @start, @120% zoom scale?
-	//alert(window.innerWidth); //130%; 631px
-	//alert(window.innerWidth); //110%; 751px
-	//alert(window.innerWidth); //100%; 819px
-	
-	//removed by Mike, 20221012
-	//iHorizontalOffset=myCanvas.getBoundingClientRect().x;
-	//imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileY)+"px";	
-	//imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
-
-	//if (bKeyDownRight) { //key d
-	if (arrayKeyPressed[iKEY_D]) {
-		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX+iStepX+"px";
-		//imgIpisTile.style.left =  imgIpisTileX+iStepX+"px";
-
-		imgIpisTileX+=iStepX;
-		imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX +"px";
-	}	
-	else if (arrayKeyPressed[iKEY_A]) {
-		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX-iStepX+"px";				
-		//imgIpisTile.style.left =  imgIpisTileX-iStepX+"px";				
-		imgIpisTileX-=iStepX;
-		imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX +"px";
-	}
-	
-	//note: inverted Y-axis; where: @top of window is 0px
-	if (arrayKeyPressed[iKEY_W]) {
-//		imgIpisTile.style.top = iVerticalOffset+imgIpisTileY-iStepY+"px";				
-		//imgIpisTile.style.top = imgIpisTileY-iStepY+"px";	
-		imgIpisTileY-=iStepY;	
-		imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";	
-	}	
-	else if (arrayKeyPressed[iKEY_S]) {
-//		imgIpisTile.style.top =  iVerticalOffset+imgIpisTileY+iStepY+"px";				
-//		imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
-		imgIpisTileY+=iStepY;	
-		imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";		
-	}
-
-
-
-	imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
 	
 	
 	//added by Mike, 20220904
@@ -1269,6 +1134,24 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	var iButtonWidth = buttonUpKey.getBoundingClientRect().width;
 	var iButtonHeight = buttonUpKey.getBoundingClientRect().height;
 
+
+/* //edited by Mike, 20220925
+	buttonUpKey.style.left = (iHorizontalOffset+0)+iButtonWidth*1+"px";
+	buttonUpKey.style.top =  iStageMaxHeight+"px";
+	buttonUpKey.style.visibility = "visible";
+	
+	buttonLeftKey.style.left = (iHorizontalOffset+0)+"px";
+	buttonLeftKey.style.top =  iStageMaxHeight+iButtonHeight*1+"px";
+	buttonLeftKey.style.visibility = "visible";
+
+	buttonRightKey.style.left = (iHorizontalOffset+0)+iButtonWidth*2+"px";
+	buttonRightKey.style.top =  iStageMaxHeight+iButtonHeight*1+"px";
+	buttonRightKey.style.visibility = "visible";
+
+	buttonDownKey.style.left = (iHorizontalOffset+0)+iButtonWidth*1+"px";
+	buttonDownKey.style.top =  iStageMaxHeight+iButtonHeight*2+"px";
+	buttonDownKey.style.visibility = "visible";
+*/
 /*
 	alert("screen.height"+screen.height);
 	alert("iVerticalOffset"+iVerticalOffset);
@@ -1280,9 +1163,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		buttonLeftKey.style.visibility = "hidden";
 		buttonRightKey.style.visibility = "hidden";
 		buttonDownKey.style.visibility = "hidden";
-		
-		//added by Mike, 20221019
-		buttonLeverCenterNeutralKey.style.visibility = "hidden";
 	}
 	else {
 		//added by Mike, 20221002
@@ -1303,11 +1183,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		buttonLeftKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; //iStageMaxHeight+iButtonHeight*1+"px";
 		buttonLeftKey.style.visibility = "visible";
 
-		//added by Mike, 20221019
-		buttonLeverCenterNeutralKey.style.left = (0)+iButtonWidth*1+"px";
-		buttonLeverCenterNeutralKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; 
-		buttonLeverCenterNeutralKey.style.visibility = "visible";
-
 		buttonRightKey.style.left = (0)+iButtonWidth*2+"px";
 		buttonRightKey.style.top =  iVerticalOffset+iButtonHeight*1+"px";//iStageMaxHeight+iButtonHeight*1+"px";
 		buttonRightKey.style.visibility = "visible";
@@ -1316,24 +1191,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		buttonDownKey.style.top =  iVerticalOffset+iButtonHeight*2+"px"; //iStageMaxHeight+iButtonHeight*2+"px";
 		buttonDownKey.style.visibility = "visible";
 	}
-	
-	//added by Mike, 20221007
-	if (!document.fullscreenElement) {
-		buttonLeftKey.style.visibility="hidden";
-		buttonRightKey.style.visibility="hidden";
-		buttonUpKey.style.visibility="hidden";
-		buttonDownKey.style.visibility="hidden";
-		
-		buttonLeverCenterNeutralKey.style.visibility="hidden";
-	}
-/*	
-	else {
-		buttonLeftKey.style.visibility="visible";
-		buttonRightKey.style.visibility="visible";
-		buttonUpKey.style.visibility="visible";
-		buttonDownKey.style.visibility="visible";
-	}	
-*/	
 }
 
 /* //removed by Mike, 20220904
@@ -1489,7 +1346,6 @@ function tempAlert(msg,duration)
 
 	//alert(imgIpisTile.style.left);
 
-/* //removed by Mike, 20221007
 	var executeLink = document.getElementById("executeLinkId");
 	var iExecuteLinkHeight = (executeLink.clientHeight);//+1; + "px";
 	var iExecuteLinkWidth = (executeLink.clientWidth);//+1; + "px"
@@ -1498,22 +1354,6 @@ function tempAlert(msg,duration)
 	executeLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iExecuteLinkWidth/2 +"px";
 	//executeLink.style.left = 0+iHorizontalOffsetPrev+iStageMaxWidth/2 -iExecuteLinkWidth/2 +"px";
 	executeLink.style.top = 0+iStageMaxHeight/2 +"px"; 
-*/	
-	
-	//added by Mike, 20221006
-	var pauseLink = document.getElementById("pauseLinkId");
-	var iPauseLinkHeight = (pauseLink.clientHeight);//+1; + "px";
-	var iPauseLinkWidth = (pauseLink.clientWidth);//+1; + "px"
-
-	//edited by Mike, 20221012
-	//note: screen set to custom-ZOOM causes INCORRECT POSITION OUTPUT
-	//TO-DO: -verify: auto-set ZOOM to be 100%
-	pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
-//	pauseLink.style.left = 0+screen.width/2-iPauseLinkWidth/2 +"px";
-
-	//edited by Mike, 20221007
-	//pauseLink.style.top = 0+iStageMaxHeight/2 +"px"; 
-	pauseLink.style.top = 0+iStageMaxHeight +"px"; 
 	
 	//notes: noticeable delay in CHANGE in position via repaint setting, et cetera	
 	myUpdateFunction();
@@ -1551,6 +1391,12 @@ function keyPressUp(iKey) {
 	arrayKeyPressed[iKey]=false;
 }
 
+//added by Mike, 20221002
+function onBackKeyDown() {
+	alert("BACK BUTTON PRESSED");
+}
+
+
 //added by Mike, 20220822
 function onLoad() {
 	//added by Mike, 20220824	
@@ -1575,19 +1421,6 @@ function onLoad() {
 		bIsMobile=true;
 	}
 	
-	//added by Mike, 20221012
-/*	//INCORRECT OUTPUT in FIREFOX WEB BROWSER
-	//var myBody = document.getElementById("myBodyId");	
-	//myBody.style.zoom=1.0;
-	document.body.style.zoom=1.0;
-	this.blur();						
-*/
-/*
-	let scaleAmount = 1 - 0.1;
-	document.body.style.transform = `scale(${scaleAmount})`;
-*/	
-	
-	
 /* //removed by Mike, 20220911	
 	//added by Mike, 20220910; edited by Mike, 20220911	
 	var myBody = document.getElementById("myBodyId");
@@ -1606,12 +1439,18 @@ function onLoad() {
 	}	
 */	
 
-/* //removed by Mike, 20221007
-	//added by Mike, 20221006
-	var pauseLink = document.getElementById("pauseLinkId");
-	pauseLink.style.visibility="hidden";	  
-*/
+
 	
+	
+//Deviceready function
+window.addEventListener('deviceready', function() {
+
+    window.addEventListener("backbutton", onBackKeyDown, false);
+
+}, false);
+
+
+
 	//reference: https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad; last accessed: 20220910
 	//answer by: Jatin, 20120731T0711;
 	//edited by Tisho, 20120731T0730
@@ -1672,6 +1511,7 @@ function onLoad() {
 	//added by Mike, 20221002
 	imgIpisTile.style.visibility="visible";
 
+				
 	//added by Mike, 20220909
 	//https://www.w3schools.com/js/js_arrays.asp; last accessed: 20220823
 	//https://www.w3schools.com/js/js_loop_for.asp; last accessed: 20220909	
@@ -1695,8 +1535,7 @@ function onLoad() {
 		//added by Mike, 20221002
 		arrayTileBg[iTileBgCount].style.visibility="visible";
 	}
-
-/* //removed by Mike, 20221007	
+	
 	//added by Mike, 20220912	
 	var executeLink = document.getElementById("executeLinkId");
 
@@ -1705,32 +1544,22 @@ function onLoad() {
 
 //alert (iExecuteLinkWidth);
 
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +"px"; //iStageMaxWidth
+
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth/2)+"px"; //iStageMaxWidth
+
+	//edited by Mike, 20220913
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth/2)+"px"; //iStageMaxWidth
+
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +"px"; //iStageMaxWidth
+	//edited by Mike, 20220914
+	//TO-DO: -update: position based on mobile (portrait or landscape) and non-mobile
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +(iExecuteLinkWidth)+"px"; //iStageMaxWidth
+	//edited by Mike, 20220914
+//	executeLink.style.left = 0+iHorizontalOffset+(iStageMaxWidth-iHorizontalOffset)/2 +"px"; //iStageMaxWidth
+
 	executeLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iExecuteLinkWidth/2 +"px";
 	executeLink.style.top = 0+iStageMaxHeight/2 +"px"; 
-*/
-
-/* //removed by Mike, 20221012
-	//added by Mike, 20220912	
-	var pauseLink = document.getElementById("pauseLinkId");
-
-	var iPauseLinkHeight = (pauseLink.clientHeight);//+1; + "px";
-	var iPauseLinkWidth = (pauseLink.clientWidth);//+1; + "px"
-
-	//edited by Mike, 20221012
-	//pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
-
-	//iHorizontalOffset=myCanvas.getBoundingClientRect().x;
-	//pauseLinkTileX=pauseLink.getBoundingClientRect().x;
-	//pauseLink.style.left = (iHorizontalOffset+pauseLinkTileX)+"px";	
-	pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
-
-	//edited by Mike, 20221007
-	//pauseLink.style.top = 0+iStageMaxHeight/2 +"px"; 
-	pauseLink.style.top = 0+iStageMaxHeight +"px"; 
-
-	//added by Mike, 20221007
-	pauseLink.style.visibility="visible";	  
-*/	
 	
 
 /*	
@@ -2036,11 +1865,9 @@ function onLoad() {
 //edited by: BenMorel, 20131209T1511
 -->
 <!-- href="/flashStage"; href="#" //Full Screen Mode -->
-<a id="pauseLinkId" class="pauseLink" onClick="toggleFullScreen()"><u>START</u></a>
-<!-- //removed by Mike, 20221007
-<br/>
 <a id="executeLinkId" class="executeLink" onClick="toggleFullScreen()"><u>EXECUTE</u></a>
--->
+
+
 	<input type="hidden" id="myCurrentChargeCountId" 
 		value="<?php //TO-DO: -update: this to have >= 2 Players
 				if (isset($iMyCurrentChargeCountP1)) {		
@@ -2171,10 +1998,6 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 <button id="leftKeyId" class="controlKeyButtonLeft" ontouchstart="keyPressDown(<?php echo iKEY_A;?>)" ontouchend="keyPressUp(<?php echo iKEY_A;?>)">AAA</button>
 <button id="rightKeyId" class="controlKeyButtonRight" ontouchstart="keyPressDown(<?php echo iKEY_D;?>)" ontouchend="keyPressUp(<?php echo iKEY_D;?>)">AAA</button>
 <button id="downKeyId" class="controlKeyButtonDown" ontouchstart="keyPressDown(<?php echo iKEY_S;?>)" ontouchend="keyPressUp(<?php echo iKEY_S;?>)">AAA</button>
-
-<!-- //added by Mike, 20221019 -->
-<button id="leverCenterNeutralKeyId" class="controlKeyButtonLeverCenterNeutral">OOO</button>
-
 
 	<audio id="myAudioId" class="myAudio" controls loop>
 	  <source src="assets/audio/Tinig 112.m4a" type="audio/x-m4a">
