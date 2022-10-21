@@ -182,7 +182,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							top: 0px;
 							position: absolute;
 							
-							padding: 12px;
+							padding: 10px; /*12px;*/
 							background-color: rgb(60,60,60);							
 							color: rgb(60,60,60); /*rgb(30,30,30);*/
 
@@ -206,27 +206,145 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							color: rgb(20,20,20); 
 						}
 						
-						button.controlKeyButtonLetterJ, .controlKeyButtonLetterL, .controlKeyButtonLetterI, .controlKeyButtonLetterK, .controlKeyButtonRightLeverCenterNeutral
+						/*
+							TO-DO: -reverify: this;
+							//remembers: XBOX 360 controller;
+							//keyphrase: LED (Light Emitting Diode)
+						*/
+						
+						button.controlKeyButtonLetterJ
 						{
 							left: 0px;
 							top: 0px;
 							position: absolute;
 							
-							padding: 12px;
-							background-color: rgb(60,60,60);							
-							color: rgb(60,60,60); /*rgb(30,30,30);*/
-
+							padding: 10px;
+							/*
+							  background-color: rgb(123,196,45);							
+							  color: rgb(123,196,45);
+							*/
+							background-color: rgb(107,169,39);
+							color: rgb(107,169,39); 
+							
 							font-size: 16px;
 							font-weight: bold;
 
 							border: 0px solid;		
-							border-radius: 0px; /*4px*/
+							border-radius: 90px; /*4px*/
 							
 							margin: 0px;
 							
 							visibility: hidden;
 						}
+						
+						button.controlKeyButtonLetterJ:active { /* focus out after click */
+							background-color: rgb(75,119,28);
+							color: rgb(75,119,28); 
+						}						
+						
+						button.controlKeyButtonLetterL
+						{
+							left: 0px;
+							top: 0px;
+							position: absolute;
+							
+							padding: 10px;
+							background-color: rgb(183,0,0);							
+							color: rgb(183,0,0);
 
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 90px; /*4px*/
+							
+							margin: 0px;
+							
+							visibility: hidden;
+						}
+						
+						button.controlKeyButtonLetterL:active { 
+							background-color: rgb(132,0,0);
+							color: rgb(132,0,0); 
+						}	
+						
+						button.controlKeyButtonLetterI, .controlKeyButtonLetterK, .controlKeyButtonRightLeverCenterNeutral
+						{
+							left: 0px;
+							top: 0px;
+							position: absolute;
+							
+							padding: 10px;
+							background-color: rgb(237,203,10);							
+							color: rgb(237,203,10);
+
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 90px; /*4px*/
+							
+							margin: 0px;
+							
+							visibility: hidden;
+						}
+						
+						button.controlKeyButtonLetterI:active { 
+							background-color: rgb(204,174,9);
+							color: rgb(204,174,9); 
+						}	
+						
+						button.controlKeyButtonLetterK, .controlKeyButtonRightLeverCenterNeutral
+						{
+							left: 0px;
+							top: 0px;
+							position: absolute;
+							
+							padding: 10px;
+							background-color: rgb(9,46,145);							
+							color: rgb(9,46,145);
+
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 90px; /*4px*/
+							
+							margin: 0px;
+							
+							visibility: hidden;
+						}
+						
+						button.controlKeyButtonLetterK:active { 
+							background-color: rgb(7,38,118);
+							color: rgb(7,38,118); 
+						}	
+						
+						button.controlKeyButtonRightLeverCenterNeutral
+						{
+							left: 0px;
+							top: 0px;
+							position: absolute;
+							
+							padding: 10px;
+							background-color: rgb(12,139,79);							
+							color: rgb(12,139,79);
+
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 90px; /*4px*/
+							
+							margin: 0px;
+							
+							visibility: hidden;
+						}
+						
+						button.controlKeyButtonRightLeverCenterNeutral:active { 
+							background-color: rgb(9,100,56);
+							color: rgb(9,100,56); 
+						}	
 
 						div.checkBox
 						{
