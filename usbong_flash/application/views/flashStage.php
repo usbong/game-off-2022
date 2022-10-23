@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221020; from 20221019
+' @date updated: 20221023; from 20221021
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -32,6 +32,9 @@
 //TO-DO: re-verify: cause of directional button stuck to cause continuous movement
 //TO-DO: re-verify: use of lever center/neutral to assist in identifying directional movement,
 //--> e.g. above center/neutral; keyphrase: collision detection
+
+//TO-DO: -fix: quick button pressing ACTION in sequence, e.g. UP, RIGHT;
+//--> where: OUTPUT is still first button pressed, after already in second button press;
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
@@ -182,9 +185,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							top: 0px;
 							position: absolute;
 							
-							padding: 12px;
+							padding: 10px; /*12px;*/
 							background-color: rgb(60,60,60);							
 							color: rgb(60,60,60); /*rgb(30,30,30);*/
+
 							font-size: 16px;
 							font-weight: bold;
 
@@ -204,6 +208,147 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							background-color: rgb(20,20,20);
 							color: rgb(20,20,20); 
 						}
+						
+						/*
+							TO-DO: -reverify: this;
+							//remembers: XBOX 360 controller;
+							//keyphrase: LED (Light Emitting Diode)
+						*/
+						
+						button.controlKeyButtonLetterJ
+						{
+							left: 0px;
+							top: 0px;
+							position: absolute;
+							
+							padding: 8px;
+							/*
+							  background-color: rgb(123,196,45);							
+							  color: rgb(123,196,45);
+							*/
+							background-color: rgb(107,169,39);
+							color: rgb(107,169,39); 
+							
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 90px; /*4px*/
+							
+							margin: 0px;
+							
+							visibility: hidden;
+						}
+						
+						button.controlKeyButtonLetterJ:active { /* focus out after click */
+							background-color: rgb(75,119,28);
+							color: rgb(75,119,28); 
+						}						
+						
+						button.controlKeyButtonLetterL
+						{
+							left: 0px;
+							top: 0px;
+							position: absolute;
+							
+							padding: 8px;
+							background-color: rgb(183,0,0);							
+							color: rgb(183,0,0);
+
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 90px; /*4px*/
+							
+							margin: 0px;
+							
+							visibility: hidden;
+						}
+						
+						button.controlKeyButtonLetterL:active { 
+							background-color: rgb(132,0,0);
+							color: rgb(132,0,0); 
+						}	
+						
+						button.controlKeyButtonLetterI
+						{
+							left: 0px;
+							top: 0px;
+							position: absolute;
+							
+							padding: 8px;
+							background-color: rgb(237,203,10);							
+							color: rgb(237,203,10);
+
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 90px; /*4px*/
+							
+							margin: 0px;
+							
+							visibility: hidden;
+						}
+						
+						button.controlKeyButtonLetterI:active { 
+							background-color: rgb(204,174,9);
+							color: rgb(204,174,9); 
+						}	
+						
+						button.controlKeyButtonLetterK
+						{
+							left: 0px;
+							top: 0px;
+							position: absolute;
+							
+							padding: 8px;
+							background-color: rgb(9,46,145);							
+							color: rgb(9,46,145);
+
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 90px; /*4px*/
+							
+							margin: 0px;
+							
+							visibility: hidden;
+						}
+						
+						button.controlKeyButtonLetterK:active { 
+							background-color: rgb(7,38,118);
+							color: rgb(7,38,118); 
+						}	
+						
+						/* //keyphrase: KEYBOARD */
+						button.controlKeyButtonRightLeverCenterNeutral
+						{
+							left: 0px;
+							top: 0px;
+							position: absolute;
+							
+							padding: 8px;
+							background-color: rgb(255,255,255); /*rgb(60,60,60);*/ /*rgb(12,139,79);	*/						
+							color: rgb(255,255,255); /*rgb(60,60,60);*/ /*rgb(12,139,79);*/
+
+							font-size: 16px;
+							font-weight: bold;
+
+							border: 0px solid;		
+							border-radius: 90px; /*4px*/
+							
+							margin: 0px;
+							
+							visibility: hidden;
+						}
+						
+						button.controlKeyButtonRightLeverCenterNeutral:active { 
+							background-color: rgb(255,255,255); /*rgb(20,20,20);*/ /*rgb(9,100,56);*/
+							color: rgb(255,255,255); /*rgb(20,20,20);*/ /*rgb(9,100,56);*/ 
+						}	
 
 						div.checkBox
 						{
@@ -769,7 +914,13 @@ const iKEY_S = 1;
 const iKEY_A = 2;
 const iKEY_D = 3;
 
-const iTotalKeyCount = 4;
+const iKEY_I = 4;
+const iKEY_K = 5;
+const iKEY_J = 6;
+const iKEY_L = 7;
+
+
+const iTotalKeyCount = 8; //4;
 
 //https://www.w3schools.com/js/js_arrays.asp; last accessed: 20220823
 const arrayKeyPressed = [];
@@ -873,6 +1024,16 @@ function myUpdateFunction() {
 
 	//added by Mike, 20221019
 	var buttonLeverCenterNeutralKey = document.getElementById("leverCenterNeutralKeyId");
+
+	//added by Mike, 20221021
+	var buttonLetterJKey = document.getElementById("letterJKeyId");
+	var buttonLetterLKey = document.getElementById("letterLKeyId");
+	var buttonLetterIKey = document.getElementById("letterIKeyId");
+	var buttonLetterKKey = document.getElementById("letterKKeyId");
+
+	//added by Mike, 20221019
+	var buttonRightLeverCenterNeutralKey = document.getElementById("rightLeverCenterNeutralKeyId");
+	
 
 	//added by Mike, 20220912	
 	var pauseLink = document.getElementById("pauseLinkId");
@@ -1288,6 +1449,14 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		
 		//added by Mike, 20221019
 		buttonLeverCenterNeutralKey.style.visibility = "hidden";
+		
+		//added by Mike, 20221021
+		buttonLetterIKey.style.visibility = "hidden";		
+		buttonLetterJKey.style.visibility = "hidden";
+		buttonLetterLKey.style.visibility = "hidden";
+		buttonLetterKKey.style.visibility = "hidden";
+		
+		buttonRightLeverCenterNeutralKey.style.visibility = "hidden";
 	}
 	else {
 		//added by Mike, 20221002
@@ -1320,6 +1489,29 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		buttonDownKey.style.left = (0)+iButtonWidth*1+"px";
 		buttonDownKey.style.top =  iVerticalOffset+iButtonHeight*2+"px"; //iStageMaxHeight+iButtonHeight*2+"px";
 		buttonDownKey.style.visibility = "visible";
+
+
+		//added by Mike, 20221021
+		buttonLetterIKey.style.left = (screen.width)-iButtonWidth*2+"px";
+		buttonLetterIKey.style.top =  iVerticalOffset+"px"; //iStageMaxHeight+"px";
+		buttonLetterIKey.style.visibility = "visible";
+		
+		buttonLetterJKey.style.left = (screen.width)-iButtonWidth*3+"px";
+		buttonLetterJKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; //iStageMaxHeight+iButtonHeight*1+"px";
+		buttonLetterJKey.style.visibility = "visible";
+
+		//added by Mike, 20221019
+		buttonRightLeverCenterNeutralKey.style.left = (screen.width)-iButtonWidth*2+"px";
+		buttonRightLeverCenterNeutralKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; 
+		buttonRightLeverCenterNeutralKey.style.visibility = "visible";
+
+		buttonLetterLKey.style.left = (screen.width)-iButtonWidth+"px";
+		buttonLetterLKey.style.top =  iVerticalOffset+iButtonHeight*1+"px";//iStageMaxHeight+iButtonHeight*1+"px";
+		buttonLetterLKey.style.visibility = "visible";
+
+		buttonLetterKKey.style.left = (screen.width)-iButtonWidth*2+"px";
+		buttonLetterKKey.style.top =  iVerticalOffset+iButtonHeight*2+"px"; //iStageMaxHeight+iButtonHeight*2+"px";
+		buttonLetterKKey.style.visibility = "visible";
 	}
 	
 	//added by Mike, 20221007
@@ -1330,6 +1522,14 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		buttonDownKey.style.visibility="hidden";
 		
 		buttonLeverCenterNeutralKey.style.visibility="hidden";
+
+		//added by Mike, 20221021
+		buttonLetterJKey.style.visibility="hidden";
+		buttonLetterLKey.style.visibility="hidden";
+		buttonLetterIKey.style.visibility="hidden";
+		buttonLetterKKey.style.visibility="hidden";
+		
+		buttonRightLeverCenterNeutralKey.style.visibility="hidden";		
 	}
 /*	
 	else {
@@ -2168,6 +2368,13 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 	const iKEY_S = 1;
 	const iKEY_A = 2;
 	const iKEY_D = 3;
+
+	//added by Mike, 20221021
+	const iKEY_I = 4;
+	const iKEY_K = 5;
+	const iKEY_J = 6;
+	const iKEY_L = 7;
+
 ?>
 <!-- //edited by Mike, 20220918
 <button id="leftKeyId" class="controlKeyButton" ontouchstart="leftKeyPressDown()" ontouchend="leftKeyPressUp()"><|</button>
@@ -2179,6 +2386,17 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 
 <!-- //added by Mike, 20221019 -->
 <button id="leverCenterNeutralKeyId" class="controlKeyButtonLeverCenterNeutral">OOO</button>
+
+<!-- //added by Mike, 20221021 -->
+<button id="letterIKeyId" class="controlKeyButtonLetterI" ontouchstart="keyPressDown(<?php echo iKEY_I;?>)" ontouchend="keyPressUp(<?php echo iKEY_I;?>)">AAA</button>
+<button id="letterJKeyId" class="controlKeyButtonLetterJ" ontouchstart="keyPressDown(<?php echo iKEY_J;?>)" ontouchend="keyPressUp(<?php echo iKEY_J;?>)">AAA</button>
+<button id="letterLKeyId" class="controlKeyButtonLetterL" ontouchstart="keyPressDown(<?php echo iKEY_L;?>)" ontouchend="keyPressUp(<?php echo iKEY_L;?>)">AAA</button>
+<button id="letterKKeyId" class="controlKeyButtonLetterK" ontouchstart="keyPressDown(<?php echo iKEY_K;?>)" ontouchend="keyPressUp(<?php echo iKEY_K;?>)">AAA</button>
+
+<!-- //added by Mike, 20221019 -->
+<button id="rightLeverCenterNeutralKeyId" class="controlKeyButtonRightLeverCenterNeutral">OOO</button>
+
+
 
 
 	<audio id="myAudioId" class="myAudio" controls loop>

@@ -8,11 +8,11 @@ http://store.usbong.ph/flashStage (work-in-progress)
 
 1) Portrait Mode
 
-<img src="https://github.com/usbong/FLASH/blob/main/screenshots/usbongFlashAndroidMobileFirefoxPortraitV20221002T1200.png" width="25%">
+<img src="https://github.com/usbong/FLASH/blob/main/screenshots/usbongFlashAndroidMobileControllerPortraitNoteNoRightLeverMiddleButtonDueToKeyboard20221023T1100.png" width="25%">
 
 2) Landscape Mode
 
-<img src="https://github.com/usbong/FLASH/blob/main/screenshots/usbongFlashAndroidMobileFirefoxLandscapeV20221002T1200.png" width="40%">
+<img src="https://github.com/usbong/FLASH/blob/main/screenshots/usbongFlashAndroidMobileControllerLandscapeNoteNoRightLeverMiddleButtonDueToKeyboard20221023T1100.png" width="40%">
 
 
 ## Additional Notes
