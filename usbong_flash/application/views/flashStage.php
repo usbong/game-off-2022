@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221021; from 20221020
+' @date updated: 20221023; from 20221021
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -218,7 +218,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							top: 0px;
 							position: absolute;
 							
-							padding: 10px;
+							padding: 8px;
 							/*
 							  background-color: rgb(123,196,45);							
 							  color: rgb(123,196,45);
@@ -248,7 +248,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							top: 0px;
 							position: absolute;
 							
-							padding: 10px;
+							padding: 8px;
 							background-color: rgb(183,0,0);							
 							color: rgb(183,0,0);
 
@@ -268,13 +268,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							color: rgb(132,0,0); 
 						}	
 						
-						button.controlKeyButtonLetterI, .controlKeyButtonLetterK, .controlKeyButtonRightLeverCenterNeutral
+						button.controlKeyButtonLetterI
 						{
 							left: 0px;
 							top: 0px;
 							position: absolute;
 							
-							padding: 10px;
+							padding: 8px;
 							background-color: rgb(237,203,10);							
 							color: rgb(237,203,10);
 
@@ -294,13 +294,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							color: rgb(204,174,9); 
 						}	
 						
-						button.controlKeyButtonLetterK, .controlKeyButtonRightLeverCenterNeutral
+						button.controlKeyButtonLetterK
 						{
 							left: 0px;
 							top: 0px;
 							position: absolute;
 							
-							padding: 10px;
+							padding: 8px;
 							background-color: rgb(9,46,145);							
 							color: rgb(9,46,145);
 
@@ -326,9 +326,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							top: 0px;
 							position: absolute;
 							
-							padding: 10px;
-							background-color: rgb(12,139,79);							
-							color: rgb(12,139,79);
+							padding: 8px;
+							background-color: rgb(60,60,60); /*rgb(12,139,79);	*/						
+							color: rgb(60,60,60); /*rgb(12,139,79);*/
 
 							font-size: 16px;
 							font-weight: bold;
@@ -342,8 +342,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}
 						
 						button.controlKeyButtonRightLeverCenterNeutral:active { 
-							background-color: rgb(9,100,56);
-							color: rgb(9,100,56); 
+							background-color: rgb(20,20,20); /*rgb(9,100,56);*/
+							color: rgb(20,20,20); /*rgb(9,100,56);*/ 
 						}	
 
 						div.checkBox
