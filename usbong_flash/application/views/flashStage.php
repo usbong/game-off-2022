@@ -33,6 +33,9 @@
 //TO-DO: re-verify: use of lever center/neutral to assist in identifying directional movement,
 //--> e.g. above center/neutral; keyphrase: collision detection
 
+//TO-DO: -fix: quick button pressing ACTION in sequence, e.g. UP, RIGHT;
+//--> where: OUTPUT is still first button pressed, after already in second button press;
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -320,6 +323,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							color: rgb(7,38,118); 
 						}	
 						
+						/* //keyphrase: KEYBOARD */
 						button.controlKeyButtonRightLeverCenterNeutral
 						{
 							left: 0px;
@@ -327,8 +331,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							position: absolute;
 							
 							padding: 8px;
-							background-color: rgb(60,60,60); /*rgb(12,139,79);	*/						
-							color: rgb(60,60,60); /*rgb(12,139,79);*/
+							background-color: rgb(255,255,255); /*rgb(60,60,60);*/ /*rgb(12,139,79);	*/						
+							color: rgb(255,255,255); /*rgb(60,60,60);*/ /*rgb(12,139,79);*/
 
 							font-size: 16px;
 							font-weight: bold;
@@ -342,8 +346,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}
 						
 						button.controlKeyButtonRightLeverCenterNeutral:active { 
-							background-color: rgb(20,20,20); /*rgb(9,100,56);*/
-							color: rgb(20,20,20); /*rgb(9,100,56);*/ 
+							background-color: rgb(255,255,255); /*rgb(20,20,20);*/ /*rgb(9,100,56);*/
+							color: rgb(255,255,255); /*rgb(20,20,20);*/ /*rgb(9,100,56);*/ 
 						}	
 
 						div.checkBox
