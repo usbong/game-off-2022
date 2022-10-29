@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221023; from 20221021
+' @date updated: 20221029; from 20221023
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -903,6 +903,14 @@ iImgIpisTileAnimationCount=0;
 
 //added by Mike, 20220915
 iIpisNumber2StepY=10;
+
+//added by Mike, 20221029
+iTouchStartX=0;
+iTouchStartY=0;
+iTouchEndX=0;
+iTouchEndY=0;
+
+
 	  
 //added by Mike, 20220822
 //OK; this technique solves noticeable delay when holding the key press;
@@ -1260,32 +1268,38 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		//imgIpisTile.style.left =  imgIpisTileX+iStepX+"px";
 
 		imgIpisTileX+=iStepX;
-		imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX +"px";
+		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX +"px";
 	}	
 	else if (arrayKeyPressed[iKEY_A]) {
 		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX-iStepX+"px";				
 		//imgIpisTile.style.left =  imgIpisTileX-iStepX+"px";				
 		imgIpisTileX-=iStepX;
-		imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX +"px";
+		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX +"px";
 	}
+
 	
 	//note: inverted Y-axis; where: @top of window is 0px
 	if (arrayKeyPressed[iKEY_W]) {
 //		imgIpisTile.style.top = iVerticalOffset+imgIpisTileY-iStepY+"px";				
 		//imgIpisTile.style.top = imgIpisTileY-iStepY+"px";	
 		imgIpisTileY-=iStepY;	
-		imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";	
+		
+		//imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";	
 	}	
 	else if (arrayKeyPressed[iKEY_S]) {
 //		imgIpisTile.style.top =  iVerticalOffset+imgIpisTileY+iStepY+"px";				
 //		imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
 		imgIpisTileY+=iStepY;	
-		imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";		
+		
+		//imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";		
 	}
 
 
 
 	imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
+
+	//added by Mike, 20221029
+	imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
 	
 	
 	//added by Mike, 20220904
@@ -1746,14 +1760,58 @@ function leftKeyPressUp() {
 }
 */
 
+//TO-DO: -add: receive input on touch @button position;
+//--> due to: touch slide from key D (right) to key A (left),
+//--> does NOT cause key A button press; INCORRECT OUTPUT
+
 function keyPressDown(iKey) {
+/*
+if ((iKey==iKEY_A) && (arrayKeyPressed[iKey]==false)){
+	alert("DITO");
+}	
+*/
 	arrayKeyPressed[iKey]=true;		
 }
 
 //edited by Mike, 20220918
 //reverified: to be OK, onMouseUp with onMouseDown
 function keyPressUp(iKey) {
+/*	//removed by Mike, 20221029	
+if ((iKey==iKEY_W) && (arrayKeyPressed[iKey]==true)){
+	alert("DITO");
+}	
+*/	
 	arrayKeyPressed[iKey]=false;
+}
+
+//added by Mike, 20221029
+//reference: https://stackoverflow.com/questions/62823062/adding-a-simple-left-right-swipe-gesture/62825217#62825217;
+//answer by: smmehrab, 20200709T2330; edited 20200711T0355
+function handleGesture() {
+    if (iTouchEndX < iTouchStartX) {
+        //console.log('Swiped Left');
+		alert("Swiped Left");
+    }
+
+    if (iTouchEndX > iTouchStartX) {
+        //console.log('Swiped Right');
+		alert("Swiped Right");
+    }
+
+    if (iTouchEndY < iTouchStartY) {
+        //console.log('Swiped Up');
+		alert("Swiped Up");
+    }
+
+    if (iTouchEndY > iTouchStartY) {
+        //console.log('Swiped Down');
+		alert("Swiped Down");
+    }
+
+    if (iTouchEndY === iTouchStartY) {
+//        console.log('Tap');
+		alert("Tap");
+	}
 }
 
 //added by Mike, 20220822
@@ -1967,6 +2025,16 @@ function onLoad() {
 */
 		//note: simultaneous keypresses now OK;
 				
+				
+//added by Mike, 20221029; removed by Mike, 20221029;
+//still incorrect output; quick sequence from top to left button, output error
+/*
+			arrayKeyPressed[iKEY_D]=false;			
+			arrayKeyPressed[iKEY_A]=false;			
+			arrayKeyPressed[iKEY_W]=false;			
+			arrayKeyPressed[iKEY_S]=false;		
+*/			
+				
 		//OK; //note: unicode keycode, where: key d : 100?
 		//note: auto-accepts keyhold; however, with noticeable delay 
 		//solved: via bKeyDownRight = false; et cetera
@@ -1995,7 +2063,7 @@ function onLoad() {
 			arrayKeyPressed[iKEY_S]=true;			
 		}
 	}
-	
+
 	//added by Mike, 20220822
 	document.body.onkeyup = function(e){
 		//alert("KEYUP; e.keyCode: "+e.keyCode);
@@ -2017,6 +2085,26 @@ function onLoad() {
 		}
 	}	
 	
+	//added by Mike, 20221029
+	//reference: https://stackoverflow.com/questions/62823062/adding-a-simple-left-right-swipe-gesture/62825217#62825217;
+	//answer by: smmehrab, 20200709T2330; edited 20200711T0355
+	document.body.addEventListener('touchstart', function (event) {
+		iTouchStartX = event.changedTouches[0].screenX;
+		iTouchStartY = event.changedTouches[0].screenY;		
+
+		//alert("iTouchStartX: "+iTouchStartX);
+
+	}, false);
+
+	document.body.addEventListener('touchend', function (event) {
+		iTouchEndX = event.changedTouches[0].screenX;
+		iTouchEndY = event.changedTouches[0].screenY;
+
+		//alert("iTouchEndX: "+iTouchEndX);
+
+		handleGesture();
+	}, false);
+
 	
 	//added by Mike, 20220904
 	setInterval(myUpdateFunction, 16.66); //1000/60=16.66; 60 frames per second
