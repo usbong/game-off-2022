@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221030; from 20221029
+' @date updated: 20221029; from 20221023
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -33,20 +33,8 @@
 //TO-DO: re-verify: use of lever center/neutral to assist in identifying directional movement,
 //--> e.g. above center/neutral; keyphrase: collision detection
 
-//TO-DO: -fix: quick button pressing DIRECTION in sequence, e.g. UP, RIGHT;
+//TO-DO: -fix: quick button pressing ACTION in sequence, e.g. UP, RIGHT;
 //--> where: OUTPUT is still first button pressed, after already in second button press;
-//--> TO-DO: -verify: with SWIPE COMMAND
-//--> TO-DO: -verify: with ACTION buttons 
-
-//notes: Metal Walker (GBC);
-//keyphrase: Bulalakaw Wars, angle, trigonometry, 
-//adds: however, variation in DIRECTION and ACTION COMMANDS
-//remembers: Monster Strike, albeit ROBOTS, PARTS
-
-//notes: another OUTPUT
-//--> where: no swipe command, one button input only, no key hold
-//example: sliding puzzle game
-
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
@@ -915,15 +903,6 @@ iImgIpisTileAnimationCount=0;
 
 //added by Mike, 20220915
 iIpisNumber2StepY=10;
-
-//added by Mike, 20221029
-iTouchStartX=0;
-iTouchStartY=0;
-iTouchEndX=0;
-iTouchEndY=0;
-
-iTouchStartCount=0;
-iTouchEndCountMax=5;
 	  
 //added by Mike, 20220822
 //OK; this technique solves noticeable delay when holding the key press;
@@ -942,11 +921,6 @@ const iKEY_L = 7;
 
 
 const iTotalKeyCount = 8; //4;
-
-//added by Mike, 20221030
-const iDirectionTotalKeyCount = 4;
-//const iActionTotalKeyCount = 4;
-
 
 //https://www.w3schools.com/js/js_arrays.asp; last accessed: 20220823
 const arrayKeyPressed = [];
@@ -1268,22 +1242,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
 	}
 */
-
-	//added by Mike, 20221030
-	//TO-DO: -reverify: adding this in touchmove
-	if (iTouchStartCount<iTouchEndCountMax) {
-		
-		//alert("iTouchStartCount: "+iTouchStartCount);
-		
-		if (iTouchStartCount>=iTouchEndCountMax) {
-			iTouchEndX=iTouchStartX;
-			iTouchEndY=iTouchStartY;
-			handleGesture();
-		}
-
-		iTouchStartCount++;
-	}
-
 	
 	//added by Mike, 20221012
 	//notes: what is @100%, IF @start, @120% zoom scale?
@@ -1302,13 +1260,13 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		//imgIpisTile.style.left =  imgIpisTileX+iStepX+"px";
 
 		imgIpisTileX+=iStepX;
-		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX +"px";
+		imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX +"px";
 	}	
 	else if (arrayKeyPressed[iKEY_A]) {
 		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX-iStepX+"px";				
 		//imgIpisTile.style.left =  imgIpisTileX-iStepX+"px";				
 		imgIpisTileX-=iStepX;
-		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX +"px";
+		imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX +"px";
 	}
 
 	
@@ -1317,23 +1275,18 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 //		imgIpisTile.style.top = iVerticalOffset+imgIpisTileY-iStepY+"px";				
 		//imgIpisTile.style.top = imgIpisTileY-iStepY+"px";	
 		imgIpisTileY-=iStepY;	
-		
-		//imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";	
+		imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";	
 	}	
 	else if (arrayKeyPressed[iKEY_S]) {
 //		imgIpisTile.style.top =  iVerticalOffset+imgIpisTileY+iStepY+"px";				
 //		imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
 		imgIpisTileY+=iStepY;	
-		
-		//imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";		
+		imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";		
 	}
 
 
 
 	imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
-
-	//added by Mike, 20221029
-	imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
 	
 	
 	//added by Mike, 20220904
@@ -1794,124 +1747,19 @@ function leftKeyPressUp() {
 }
 */
 
-//TO-DO: -add: receive input on touch @button position;
-//--> due to: touch slide from key D (right) to key A (left),
-//--> does NOT cause key A button press; INCORRECT OUTPUT
-
-//edited by Mike, 20221030
-//function keyPressDown(iKey) {
-function keyPressDown(iKey, event) {
-
-/*
-if ((iKey==iKEY_A) && (arrayKeyPressed[iKey]==false)){
-	alert("DITO");
-}	
-*/
-	//edited by Mike, 20221030
-	//arrayKeyPressed[iKey]=true;		
-	
-	iEventChangedTouchCount = event.changedTouches.length;
-		
-	for (iCount=0; iCount<iEventChangedTouchCount; iCount++) {		
-		if (event.changedTouches[iCount].screenX<screen.width/2) {
-		}
-		else {
-			return;
-		}
-
-/* //edited by Mike, 20221030	
-		arrayKeyPressed[iKEY_D]=false;
-		arrayKeyPressed[iKEY_A]=false;
-*/
-
-		for (iCount=0; iCount<iDirectionTotalKeyCount; iCount++) {
-			arrayKeyPressed[iCount]=false;
-		}		
-	
-		arrayKeyPressed[iKey]=true;		
-/*		
-		if (iKey==iKEY_A) {
-			arrayKeyPressed[iKEY_D]=false;
-		}
-		else if (iKey==iKEY_D) {
-			arrayKeyPressed[iKEY_A]=false;
-		}
-*/		
-	}
+function keyPressDown(iKey) {
+	arrayKeyPressed[iKey]=true;		
 }
 
 //edited by Mike, 20220918
 //reverified: to be OK, onMouseUp with onMouseDown
-//edited by Mike, 20221030
-//function keyPressUp(iKey) {
-function keyPressUp(iKey, event) {
-/*	//removed by Mike, 20221029	
-if ((iKey==iKEY_W) && (arrayKeyPressed[iKey]==true)){
+function keyPressUp(iKey) {
+/*	
+if ((iKey=iKEY_S) && (arrayKeyPressed[iKey]=true)){
 	alert("DITO");
 }	
 */	
-	//edited by Mike, 20221030
 	arrayKeyPressed[iKey]=false;
-
-/*
-	iEventChangedTouchCount = event.changedTouches.length;
-		
-	for (iCount=0; iCount<iEventChangedTouchCount; iCount++) {		
-		if (event.changedTouches[iCount].screenX<screen.width/2) {
-		}
-		else {
-			return;
-		}
-		
-		arrayKeyPressed[iKey]=false;		
-	}
-*/
-}
-
-//added by Mike, 20221029
-//reference: https://stackoverflow.com/questions/62823062/adding-a-simple-left-right-swipe-gesture/62825217#62825217;
-//answer by: smmehrab, 20200709T2330; edited 20200711T0355
-function handleGesture() {
-	//added by Mike, 20221030
-	if (document.fullscreenElement) {
-		if (iTouchEndX < iTouchStartX) {
-			//console.log('Swiped Left');
-			//alert("Swiped Left");
-			arrayKeyPressed[iKEY_D]=false;		
-			arrayKeyPressed[iKEY_A]=true;		
-		}
-
-		if (iTouchEndX > iTouchStartX) {
-			//console.log('Swiped Right');
-			//alert("Swiped Right");
-			arrayKeyPressed[iKEY_D]=true;		
-			arrayKeyPressed[iKEY_A]=false;		
-		}
-
-		if (iTouchEndY < iTouchStartY) {
-			//console.log('Swiped Up');
-//			alert("Swiped Up");
-			arrayKeyPressed[iKEY_W]=true;		
-			arrayKeyPressed[iKEY_S]=false;		
-		}
-
-		if (iTouchEndY > iTouchStartY) {
-			//console.log('Swiped Down');
-//			alert("Swiped Down");
-			arrayKeyPressed[iKEY_W]=false;		
-			arrayKeyPressed[iKEY_S]=true;		
-		}
-
-		if (iTouchEndY === iTouchStartY) {
-	//        console.log('Tap');
-//			alert("Tap");
-			arrayKeyPressed[iKEY_D]=false;		
-			arrayKeyPressed[iKEY_A]=false;	
-
-			arrayKeyPressed[iKEY_W]=false;		
-			arrayKeyPressed[iKEY_S]=false;
-		}
-	}
 }
 
 //added by Mike, 20220822
@@ -2163,7 +2011,7 @@ function onLoad() {
 			arrayKeyPressed[iKEY_S]=true;			
 		}
 	}
-
+	
 	//added by Mike, 20220822
 	document.body.onkeyup = function(e){
 		//alert("KEYUP; e.keyCode: "+e.keyCode);
@@ -2184,190 +2032,6 @@ function onLoad() {
 			arrayKeyPressed[iKEY_S]=false;			
 		}
 	}	
-	
-	//added by Mike, 20221029
-	//reference: https://stackoverflow.com/questions/62823062/adding-a-simple-left-right-swipe-gesture/62825217#62825217;
-	//answer by: smmehrab, 20200709T2330; edited 20200711T0355
-	document.body.addEventListener('touchstart', function (event) {
-		iEventChangedTouchCount = event.changedTouches.length;
-		
-		for (iCount=0; iCount<iEventChangedTouchCount; iCount++) {		
-			if (event.changedTouches[iCount].screenX<screen.width/2) {
-			}
-			else {
-				return;
-			}
-		
-/*		
-			iTouchStartX = event.changedTouches[0].screenX;
-			iTouchStartY = event.changedTouches[0].screenY;		
-*/
-			iTouchStartX = event.changedTouches[iCount].screenX;
-			iTouchStartY = event.changedTouches[iCount].screenY;		
-
-			//alert("iTouchStartX: "+iTouchStartX);
-			
-			//added by Mike, 20221030
-			iTouchStartCount=0;
-		}
-
-	}, false);
-
-	document.body.addEventListener('touchend', function (event) {
-		iEventChangedTouchCount = event.changedTouches.length;
-		
-		for (iCount=0; iCount<iEventChangedTouchCount; iCount++) {		
-			if (event.changedTouches[iCount].screenX<screen.width/2) {
-			}
-			else {
-				return;
-			}
-/*
-			iTouchEndX = event.changedTouches[0].screenX;
-			iTouchEndY = event.changedTouches[0].screenY;
-*/
-			iTouchEndX = event.changedTouches[iCount].screenX;
-			iTouchEndY = event.changedTouches[iCount].screenY;
-
-			//alert("iTouchEndX: "+iTouchEndX);
-
-			handleGesture();
-		}
-	}, false);
-	
-	
-	
-	
-	//added by Mike, 20221030
-	//TO-DO: -reverify: this due to @select cases,
-	//incorrect OUTPUT, e.g. even with only using direction button
-	document.body.addEventListener('touchmove', function (event) {
-		//alert(event.changedTouches.length);
-		
-		iEventChangedTouchCount = event.changedTouches.length;
-		
-		for (iCount=0; iCount<iEventChangedTouchCount; iCount++) {		
-			if (event.changedTouches[iCount].screenX<screen.width/2) {
-			}
-			else {
-				return;
-			}
-		
-//			if (event.changedTouches[0]) {
-//			if (iCount==0) {
-			//if (true) {
-		
-			//added by Mike, 20221030
-			iPrevTouchStartX=iTouchStartX;
-			iPrevTouchStartY=iTouchStartY;
-
-/*
-			iTouchStartX = event.changedTouches[0].screenX;
-			iTouchStartY = event.changedTouches[0].screenY;		
-*/
-			iTouchStartX = event.changedTouches[iCount].screenX;
-			iTouchStartY = event.changedTouches[iCount].screenY;		
-
-			//alert("iTouchStartX: "+iTouchStartX);
-			
-			//added by Mike, 20221030; removed by Mike, 20221030
-			//iTouchStartCount=0;
-
-	/*
-			if ((iTouchStartX!=iPrevTouchStartX) ||
-				(iTouchStartY!=iPrevTouchStartY)) {
-	*/
-			//swiped left
-			if (iTouchStartX<iPrevTouchStartX) {				
-	//				alert("dito");
-	/*			//movement stopped
-				iTouchEndX=iTouchStartX;
-				iTouchEndY=iTouchStartY;
-	*/
-
-				//if initial movement to RIGHT
-				//and swiped to LEFT (opposite direction)
-				if (arrayKeyPressed[iKEY_D]) {
-					
-					iTouchEndX=iTouchStartX;
-//					iTouchEndY=iTouchStartY;
-
-					iTouchStartX=iPrevTouchStartX;
-//					iTouchStartY=iPrevTouchStartY;
-					
-					arrayKeyPressed[iKEY_D]=false;
-					arrayKeyPressed[iKEY_A]=true;
-
-					iTouchStartCount=0;			
-				}
-			}
-			//swiped right
-			else if (iTouchStartX>iPrevTouchStartX) {				
-				//if initial movement to LEFT
-				//and swiped to RIGHT (opposite direction)
-				if (arrayKeyPressed[iKEY_A]) {
-					iTouchEndX=iTouchStartX;
-//					iTouchEndY=iTouchStartY;
-
-					iTouchStartX=iPrevTouchStartX;
-//					iTouchStartY=iPrevTouchStartY;
-					
-					//handleGesture();
-
-					arrayKeyPressed[iKEY_A]=false;
-					arrayKeyPressed[iKEY_D]=true;
-
-					iTouchStartCount=0;			
-				}
-			}
-			
-			//added by Mike, 20221030
-			//swiped up
-			else if (iTouchStartY < iPrevTouchStartY) {
-								
-				//if initial movement to DOWN
-				//and swiped to UP (opposite direction)
-				if (arrayKeyPressed[iKEY_S]) {
-				
-//					alert("dito");
-
-				
-//					iTouchEndX=iTouchStartX;
-					iTouchEndY=iTouchStartY;
-
-//					iTouchStartX=iPrevTouchStartX;
-					iTouchStartY=iPrevTouchStartY;
-					
-					arrayKeyPressed[iKEY_W]=true;		
-					arrayKeyPressed[iKEY_S]=false;		
-
-					iTouchStartCount=0;			
-				}
-			}
-			//swiped down
-			else if (iTouchStartY > iPrevTouchStartY) {
-				//if initial movement to UP
-				//and swiped to DOWN (opposite direction)
-				if (arrayKeyPressed[iKEY_W]) {
-//					iTouchEndX=iTouchStartX;
-					iTouchEndY=iTouchStartY;
-
-//					iTouchStartX=iPrevTouchStartX;
-					iTouchStartY=iPrevTouchStartY;
-					
-					arrayKeyPressed[iKEY_W]=false;		
-					arrayKeyPressed[iKEY_S]=true;		
-
-					iTouchStartCount=0;			
-				}
-			}			
-			
-		}
-//		}
-
-	}, false);
-	
-
 	
 	
 	//added by Mike, 20220904
@@ -2731,19 +2395,19 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 <!-- //edited by Mike, 20220918
 <button id="leftKeyId" class="controlKeyButton" ontouchstart="leftKeyPressDown()" ontouchend="leftKeyPressUp()"><|</button>
 -->
-<button id="upKeyId" class="controlKeyButtonUp" ontouchstart="keyPressDown(<?php echo iKEY_W;?>, event)" ontouchend="keyPressUp(<?php echo iKEY_W;?>, event)">AAA</button>
-<button id="leftKeyId" class="controlKeyButtonLeft" ontouchstart="keyPressDown(<?php echo iKEY_A;?>, event)" ontouchend="keyPressUp(<?php echo iKEY_A;?>, event)">AAA</button>
-<button id="rightKeyId" class="controlKeyButtonRight" ontouchstart="keyPressDown(<?php echo iKEY_D;?>, event)" ontouchend="keyPressUp(<?php echo iKEY_D;?>, event)">AAA</button>
-<button id="downKeyId" class="controlKeyButtonDown" ontouchstart="keyPressDown(<?php echo iKEY_S;?>, event)" ontouchend="keyPressUp(<?php echo iKEY_S;?>, event)">AAA</button>
+<button id="upKeyId" class="controlKeyButtonUp" ontouchstart="keyPressDown(<?php echo iKEY_W;?>)" ontouchend="keyPressUp(<?php echo iKEY_W;?>)">AAA</button>
+<button id="leftKeyId" class="controlKeyButtonLeft" ontouchstart="keyPressDown(<?php echo iKEY_A;?>)" ontouchend="keyPressUp(<?php echo iKEY_A;?>)">AAA</button>
+<button id="rightKeyId" class="controlKeyButtonRight" ontouchstart="keyPressDown(<?php echo iKEY_D;?>)" ontouchend="keyPressUp(<?php echo iKEY_D;?>)">AAA</button>
+<button id="downKeyId" class="controlKeyButtonDown" ontouchstart="keyPressDown(<?php echo iKEY_S;?>)" ontouchend="keyPressUp(<?php echo iKEY_S;?>)">AAA</button>
 
 <!-- //added by Mike, 20221019 -->
 <button id="leverCenterNeutralKeyId" class="controlKeyButtonLeverCenterNeutral">OOO</button>
 
 <!-- //added by Mike, 20221021 -->
-<button id="letterIKeyId" class="controlKeyButtonLetterI" ontouchstart="keyPressDown(<?php echo iKEY_I;?>, event)" ontouchend="keyPressUp(<?php echo iKEY_I;?>, event)">AAA</button>
-<button id="letterJKeyId" class="controlKeyButtonLetterJ" ontouchstart="keyPressDown(<?php echo iKEY_J;?>, event)" ontouchend="keyPressUp(<?php echo iKEY_J;?>, event)">AAA</button>
-<button id="letterLKeyId" class="controlKeyButtonLetterL" ontouchstart="keyPressDown(<?php echo iKEY_L;?>, event)" ontouchend="keyPressUp(<?php echo iKEY_L;?>, event)">AAA</button>
-<button id="letterKKeyId" class="controlKeyButtonLetterK" ontouchstart="keyPressDown(<?php echo iKEY_K;?>, event)" ontouchend="keyPressUp(<?php echo iKEY_K;?>, event)">AAA</button>
+<button id="letterIKeyId" class="controlKeyButtonLetterI" ontouchstart="keyPressDown(<?php echo iKEY_I;?>)" ontouchend="keyPressUp(<?php echo iKEY_I;?>)">AAA</button>
+<button id="letterJKeyId" class="controlKeyButtonLetterJ" ontouchstart="keyPressDown(<?php echo iKEY_J;?>)" ontouchend="keyPressUp(<?php echo iKEY_J;?>)">AAA</button>
+<button id="letterLKeyId" class="controlKeyButtonLetterL" ontouchstart="keyPressDown(<?php echo iKEY_L;?>)" ontouchend="keyPressUp(<?php echo iKEY_L;?>)">AAA</button>
+<button id="letterKKeyId" class="controlKeyButtonLetterK" ontouchstart="keyPressDown(<?php echo iKEY_K;?>)" ontouchend="keyPressUp(<?php echo iKEY_K;?>)">AAA</button>
 
 <!-- //added by Mike, 20221019 -->
 <button id="rightLeverCenterNeutralKeyId" class="controlKeyButtonRightLeverCenterNeutral">OOO</button>
