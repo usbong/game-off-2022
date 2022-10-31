@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221030; from 20221029
+' @date updated: 20221031; from 20221030
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -33,9 +33,10 @@
 //TO-DO: re-verify: use of lever center/neutral to assist in identifying directional movement,
 //--> e.g. above center/neutral; keyphrase: collision detection
 
-//TO-DO: -fix: quick button pressing DIRECTION in sequence, e.g. UP, RIGHT;
-//--> where: OUTPUT is still first button pressed, after already in second button press;
-//--> TO-DO: -verify: with SWIPE COMMAND
+//fixed: quick button pressing DIRECTION in sequence, e.g. UP, RIGHT;
+//--> OUTPUT: movement STOPPED
+//--> adds: observed OUTPUT error to also occur in the following:
+//1) https://invertedhat.itch.io/postie; last accessed: 20221031; from 20221031
 //--> TO-DO: -verify: with ACTION buttons 
 
 //notes: Metal Walker (GBC);
@@ -974,7 +975,7 @@ function pauseAudio() {
 //--
 	//note: learned: to be doable via Android (Samsung Galaxy S Duos)
 	//after observing successful execution of the following:
-	//1) https://invertedhat.itch.io/postie; last accessed: 20220825
+	//1) https://invertedhat.itch.io/postie; last accessed: 20221031; from 20221031
 	//2) https://allalonegamez.itch.io/rewind-time; last accessed: 20220825
 	//
 	//reference: https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API;
@@ -2235,12 +2236,13 @@ function onLoad() {
 		}
 	}, false);
 	
-	
-	
-	
+			
 	//added by Mike, 20221030
-	//TO-DO: -reverify: this due to @select cases,
-	//incorrect OUTPUT, e.g. even with only using direction button
+	//note: keyPress, keyRelease
+	//adds: keyphrase: RELAX (with TOUCH inputs), 
+	//--> not excessively fast ACTION; 
+	//swide command received as input @most one (1) time only;
+	//afterwards, shall need keyReleased, i.e. keyUP;
 	document.body.addEventListener('touchmove', function (event) {
 		//alert(event.changedTouches.length);
 		
@@ -2269,6 +2271,9 @@ function onLoad() {
 			iTouchStartY = event.changedTouches[iCount].screenY;		
 
 			//alert("iTouchStartX: "+iTouchStartX);
+
+			//alert("iTouchStartY: "+iTouchStartY);
+
 			
 			//added by Mike, 20221030; removed by Mike, 20221030
 			//iTouchStartCount=0;
@@ -2277,6 +2282,15 @@ function onLoad() {
 			if ((iTouchStartX!=iPrevTouchStartX) ||
 				(iTouchStartY!=iPrevTouchStartY)) {
 	*/
+			
+			//added by Mike, 20221031
+			var buttonRightKey = document.getElementById("rightKeyId");
+			var buttonUpKey = document.getElementById("upKeyId");
+
+			var iButtonWidth = buttonRightKey.getBoundingClientRect().width;
+			var iButtonHeight = buttonUpKey.getBoundingClientRect().height;
+			
+	
 			//swiped left
 			if (iTouchStartX<iPrevTouchStartX) {				
 	//				alert("dito");
@@ -2295,10 +2309,40 @@ function onLoad() {
 					iTouchStartX=iPrevTouchStartX;
 //					iTouchStartY=iPrevTouchStartY;
 					
-					arrayKeyPressed[iKEY_D]=false;
+					//added by Mike, 20221031
+					//swiped to LEFT					
+					//distance get in x-axis
+					//alert(iTouchStartX-iTouchEndX);
+					
+					iDistanceXAxis=iTouchStartX-iTouchEndX;					
+//					iDistanceXAxis=iTouchEndX-iTouchStartX;					
+
+					//iButtonWidth = buttonUpKey.getBoundingClientRect().width;
+
+					//TO-DO: reverify: CAUSE iButtonWidth/5
+//					if (iDistanceXAxis<=iButtonWidth/5) {
+					if (iDistanceXAxis<=iButtonWidth/6) {
+						arrayKeyPressed[iKEY_A]=false;
+						arrayKeyPressed[iKEY_D]=false;	
+/*
+alert("iDistanceXAxis"+iDistanceXAxis);			
+alert("iButtonWidth"+iButtonWidth);			
+*/
+			
+					}
+					else {						
+						arrayKeyPressed[iKEY_A]=true;
+						arrayKeyPressed[iKEY_D]=false;
+
+						iTouchStartCount=0;			
+					}
+
+/* //removed by Mike, 20221031
 					arrayKeyPressed[iKEY_A]=true;
+					arrayKeyPressed[iKEY_D]=false;
 
 					iTouchStartCount=0;			
+*/
 				}
 			}
 			//swiped right
@@ -2314,16 +2358,31 @@ function onLoad() {
 					
 					//handleGesture();
 
-					arrayKeyPressed[iKEY_A]=false;
-					arrayKeyPressed[iKEY_D]=true;
+					//added by Mike, 20221031
+					//swiped to RIGHT
+					//distance get in x-axis
+					//alert(iTouchStartX-iTouchEndX);
+					
+					iDistanceXAxis=iTouchEndX-iTouchStartX;					
+					//iButtonWidth = buttonUpKey.getBoundingClientRect().width;
 
-					iTouchStartCount=0;			
+//					if (iDistanceXAxis<=iButtonWidth/5) {
+					if (iDistanceXAxis<=iButtonWidth/6) {
+						arrayKeyPressed[iKEY_A]=false;
+						arrayKeyPressed[iKEY_D]=false;
+					}
+					else {
+						arrayKeyPressed[iKEY_A]=false;
+						arrayKeyPressed[iKEY_D]=true;
+
+						iTouchStartCount=0;			
+					}
 				}
 			}
 			
 			//added by Mike, 20221030
 			//swiped up
-			else if (iTouchStartY < iPrevTouchStartY) {
+			/*else*/ if (iTouchStartY < iPrevTouchStartY) {
 								
 				//if initial movement to DOWN
 				//and swiped to UP (opposite direction)
@@ -2338,10 +2397,38 @@ function onLoad() {
 //					iTouchStartX=iPrevTouchStartX;
 					iTouchStartY=iPrevTouchStartY;
 					
+/* //edited by Mike, 20221031					
 					arrayKeyPressed[iKEY_W]=true;		
 					arrayKeyPressed[iKEY_S]=false;		
 
 					iTouchStartCount=0;			
+*/
+
+					//added by Mike, 20221031
+					//swiped to UP
+					//distance get in y-axis
+					//alert(iTouchStartY-iTouchEndY);					
+					iDistanceYAxis=iTouchStartY-iTouchEndY;					
+
+					//iButtonWidth = buttonUpKey.getBoundingClientRect().width;
+
+					//TO-DO: reverify: CAUSE iButtonHeight/5
+//					if (iDistanceYAxis<=iButtonHeight/5) {
+					if (iDistanceYAxis<=iButtonHeight/6) {
+						arrayKeyPressed[iKEY_W]=false;		
+						arrayKeyPressed[iKEY_S]=false;		
+/*
+alert("iDistanceYAxis"+iDistanceYAxis);			
+alert("iButtonHeight"+iButtonHeight);			
+*/
+			
+					}
+					else {						
+						arrayKeyPressed[iKEY_W]=true;		
+						arrayKeyPressed[iKEY_S]=false;		
+
+						iTouchStartCount=0;			
+					}
 				}
 			}
 			//swiped down
@@ -2354,11 +2441,35 @@ function onLoad() {
 
 //					iTouchStartX=iPrevTouchStartX;
 					iTouchStartY=iPrevTouchStartY;
-					
+
+/* //edited by Mike, 20221031					
 					arrayKeyPressed[iKEY_W]=false;		
 					arrayKeyPressed[iKEY_S]=true;		
 
 					iTouchStartCount=0;			
+*/
+
+
+					//added by Mike, 20221031
+					//swiped to DOWN
+					//distance get in y-axis
+					//alert(iTouchStartY-iTouchEndY);					
+					iDistanceYAxis=iTouchEndY-iTouchStartY;					
+
+//alert(iButtonHeight);
+
+					//TO-DO: reverify: CAUSE iButtonHeight/5
+//					if (iDistanceYAxis<=iButtonHeight/5) {
+					if (iDistanceYAxis<=iButtonHeight/6) {
+						arrayKeyPressed[iKEY_W]=false;		
+						arrayKeyPressed[iKEY_S]=false;		
+					}
+					else {						
+						arrayKeyPressed[iKEY_W]=false;		
+						arrayKeyPressed[iKEY_S]=true;		
+
+						iTouchStartCount=0;			
+					}
 				}
 			}			
 			
