@@ -2181,7 +2181,8 @@ function onLoad() {
 		}
 
 		//added by Mike, 20221101		
-		//TO-DO: -add: RIGHT-SIDE BUTTONS, capital/small letters
+		//notes: RIGHT-SIDE BUTTONS to already accept 
+		//both capital and small letters
 
 		//RIGHT-SIDE BUTTONS
 		if (e.keyCode==73) { //key i
