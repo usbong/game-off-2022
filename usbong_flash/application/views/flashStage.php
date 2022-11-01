@@ -10,11 +10,15 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221031; from 20221030
+' @date updated: 20221101; from 20221031
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
 '	2) Usbong Flash;
+'
+' Reference:
+' 1) http://gcctech.org/csc/javascript/javascript_keycodes.htm;
+' last accessed: 20221101
 -->
 <?php
 
@@ -1016,6 +1020,15 @@ function pauseAudio() {
 	  if (e.key === "Enter") {
 		toggleFullScreen();
 	  }
+	  
+	  //added by Mike, 20221101; removed by Mike, 20221101
+/*
+	  //note: shall need to override existing pre-written ACTIONS
+	  if (e.key === "Escape") {
+//		  alert("dito");
+		toggleFullScreen();
+	  }
+*/
 	}, false);
 //--
 
@@ -1335,6 +1348,25 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 	//added by Mike, 20221029
 	imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
+	
+	
+	//added by Mike, 20221101
+	if (arrayKeyPressed[iKEY_I]) {
+//		alert("iKEY_I");
+	}
+
+	if (arrayKeyPressed[iKEY_K]) {
+//		alert("iKEY_K");
+	}
+
+	if (arrayKeyPressed[iKEY_J]) {
+//		alert("iKEY_J");
+	}
+
+	if (arrayKeyPressed[iKEY_L]) {
+//		alert("iKEY_L");
+	}
+	
 	
 	
 	//added by Mike, 20220904
@@ -1802,12 +1834,12 @@ function leftKeyPressUp() {
 //edited by Mike, 20221030
 //function keyPressDown(iKey) {
 function keyPressDown(iKey, event) {
+	//added by Mike, 20221101
+	//note: verify before left-side buttons
+	for (iCount=iDirectionTotalKeyCount; iCount<iTotalKeyCount; iCount++) {
+		arrayKeyPressed[iKey]=true;		
+	}
 
-/*
-if ((iKey==iKEY_A) && (arrayKeyPressed[iKey]==false)){
-	alert("DITO");
-}	
-*/
 	//edited by Mike, 20221030
 	//arrayKeyPressed[iKey]=true;		
 	
@@ -1838,7 +1870,7 @@ if ((iKey==iKEY_A) && (arrayKeyPressed[iKey]==false)){
 			arrayKeyPressed[iKEY_A]=false;
 		}
 */		
-	}
+	}	
 }
 
 //edited by Mike, 20220918
@@ -1846,27 +1878,11 @@ if ((iKey==iKEY_A) && (arrayKeyPressed[iKey]==false)){
 //edited by Mike, 20221030
 //function keyPressUp(iKey) {
 function keyPressUp(iKey, event) {
-/*	//removed by Mike, 20221029	
-if ((iKey==iKEY_W) && (arrayKeyPressed[iKey]==true)){
-	alert("DITO");
-}	
-*/	
+
+alert("RELEASE");
+
 	//edited by Mike, 20221030
 	arrayKeyPressed[iKey]=false;
-
-/*
-	iEventChangedTouchCount = event.changedTouches.length;
-		
-	for (iCount=0; iCount<iEventChangedTouchCount; iCount++) {		
-		if (event.changedTouches[iCount].screenX<screen.width/2) {
-		}
-		else {
-			return;
-		}
-		
-		arrayKeyPressed[iKey]=false;		
-	}
-*/
 }
 
 //added by Mike, 20221029
@@ -2163,6 +2179,24 @@ function onLoad() {
 			//imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
 			arrayKeyPressed[iKEY_S]=true;			
 		}
+
+		//added by Mike, 20221101		
+		//TO-DO: -add: RIGHT-SIDE BUTTONS, capital/small letters
+
+		//RIGHT-SIDE BUTTONS
+		if (e.keyCode==73) { //key i
+			arrayKeyPressed[iKEY_I]=true;			
+		}
+		else if (e.keyCode==75) { //key k			
+			arrayKeyPressed[iKEY_K]=true;			
+		}
+		
+		if (e.keyCode==74) { //key j		
+			arrayKeyPressed[iKEY_J]=true;			
+		}
+		else if (e.keyCode==76) { //key l
+			arrayKeyPressed[iKEY_L]=true;			
+		}		
 	}
 
 	//added by Mike, 20220822
@@ -2184,7 +2218,30 @@ function onLoad() {
 		else if (e.keyCode==83) { //key s			
 			arrayKeyPressed[iKEY_S]=false;			
 		}
+		
+		//added by Mike, 20221101
+		//RIGHT-SIDE BUTTONS
+		if (e.keyCode==73) { //key i
+			arrayKeyPressed[iKEY_I]=false;		
+			
+			alert("HALLO");			
+		}
+		else if (e.keyCode==75) { //key k			
+			arrayKeyPressed[iKEY_K]=false;			
+		}
+		
+		if (e.keyCode==74) { //key j		
+			arrayKeyPressed[iKEY_J]=false;			
+		}
+		else if (e.keyCode==76) { //key l
+			arrayKeyPressed[iKEY_L]=false;			
+		}
+		
 	}	
+	
+	//added by Mike, 20221101
+	//TO-DO: -re-verify: using array container
+	//--> with iTouchStartX, iTouchEndX
 	
 	//added by Mike, 20221029
 	//reference: https://stackoverflow.com/questions/62823062/adding-a-simple-left-right-swipe-gesture/62825217#62825217;
@@ -2198,6 +2255,8 @@ function onLoad() {
 			else {
 				return;
 			}
+		
+		//alert("hallo");
 		
 /*		
 			iTouchStartX = event.changedTouches[0].screenX;
