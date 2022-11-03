@@ -1,4 +1,9 @@
-# Usbong TIME
+# Usbong's ENTRY to GAME OFF 2022
+
+GAME OFF 2022: https://itch.io/jam/game-off-2022
+
+## REMINDER
+
 set of reusable computer instructions that execute via the <b>Web Browser</b> 
 
 ## Current Version (PUBLIC)
@@ -13,7 +18,6 @@ http://store.usbong.ph/flashStage (work-in-progress)
 2) Landscape Mode
 
 <img src="https://github.com/usbong/FLASH/blob/main/screenshots/usbongFlashAndroidMobileControllerLandscapeNoteNoRightLeverMiddleButtonDueToKeyboard20221023T1100.png" width="40%">
-
 
 ## Additional Notes
 1) Javascript+ as ActionScript 2.0
