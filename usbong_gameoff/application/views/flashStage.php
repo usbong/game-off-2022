@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221104; from 20221101
+' @date updated: 20221105; from 20221104
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -807,15 +807,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							position: absolute;
 							
   							/*clip: rect(0px,64px,64px,0px);*/
-																							visibility: visible;
+																								visibility: hidden;
+							
 							/*
 							transform: scale(0.5);						*/	
 							transform: scale(0.5,0.8);	
 
 							/* //added by Mike, 20221104 */
-							z-index: 1.0;							
+							z-index: 0;							
 						}
-
 						
 						/* noted by Mike, 20220820
 						using: absolute positions; 
@@ -825,9 +825,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   							clip: rect(0px,64px,64px,0px);
 							
 							/* //added by Mike, 20221104 
-								//TO-DO: -reverify: this
+								reverified: this
 							*/
-							z-index: 2.0;								
+							z-index: 2;								
 						}
 						
 						.Image64x64TileFrame1 {
@@ -1083,7 +1083,9 @@ function myUpdateFunction() {
 	
 	//added by Mike, 20221104
 	var imgPuzzle = document.getElementById("puzzleImageId");
-		
+	//added by Mike, 20221105
+	imgPuzzle.style.visibility="visible";	
+	
 	
 	//added by Mike, 20220917; edited by Mike, 20220918
 	//var linkAsButtonLeftKey = document.getElementById("leftKeyId");
@@ -1918,7 +1920,7 @@ function keyPressDown(iKey, event) {
 //function keyPressUp(iKey) {
 function keyPressUp(iKey, event) {
 
-alert("RELEASE");
+//alert("RELEASE");
 
 	//edited by Mike, 20221030
 	arrayKeyPressed[iKey]=false;
@@ -2882,9 +2884,15 @@ alert("iButtonHeight"+iButtonHeight);
 	?>
 
 
+<!-- edited by Mike, 20221105; from 20221104  -->
+
+	<img id="puzzleImageId" class="ImageTile" src="<?php echo base_url('assets/images/mtPinatubo20150115T1415.jpg');?>">	
+
+
 <!-- TO-DO: -add: auto-identify position in BOARD;
 	example: corners, top, bottom, left, right sides, center
 -->			
+
 
 <?php 
 	//edited by Mike, 20220904; edited again by Mike, 20220911
@@ -2912,9 +2920,6 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 
 	<img id="ipisTileImageIdNumber2" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/ipis.png');?>">	
 
-<!-- added by Mike, 20221104 -->
-
-	<img id="puzzleImageId" class="ImageTile" src="<?php echo base_url('assets/images/mtPinatubo20150115T1415.jpg');?>">	
 
 
 <!-- removed by Mike, 20220911
