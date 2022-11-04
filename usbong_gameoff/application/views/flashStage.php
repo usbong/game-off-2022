@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221101; from 20221031
+' @date updated: 20221104; from 20221101
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -19,6 +19,9 @@
 ' Reference:
 ' 1) http://gcctech.org/csc/javascript/javascript_keycodes.htm;
 ' last accessed: 20221101
+'
+' 2) https://www.w3schools.com/css/css3_2dtransforms.asp;
+' last accessed: 20221104
 -->
 <?php
 
@@ -129,7 +132,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							margin: auto;
 							display: block;
 							width: 320px; /*160px*2;*/	
-							height: 288px; /*144px*2;*/							
+							height: 288px; /*144px*2;*/	
+							
+							/* //added by Mike, 20221104 */
+							z-index: -1;							
 						}
 						
 						audio.myAudio
@@ -795,6 +801,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						.Button-emptyStonePosCornerBottomRight:focus {
 							background-color: #b80000;
 						}
+
+						/* noted by Mike, 20221104 */
+						.ImageTile {
+							position: absolute;
+							
+  							/*clip: rect(0px,64px,64px,0px);*/
+																							visibility: visible;
+							/*
+							transform: scale(0.5);						*/	
+							transform: scale(0.5,0.8);	
+
+							/* //added by Mike, 20221104 */
+							z-index: 1.0;							
+						}
+
 						
 						/* noted by Mike, 20220820
 						using: absolute positions; 
@@ -802,6 +823,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						.Image64x64Tile {
 							position: absolute;
   							clip: rect(0px,64px,64px,0px);
+							
+							/* //added by Mike, 20221104 
+								//TO-DO: -reverify: this
+							*/
+							z-index: 2.0;								
 						}
 						
 						.Image64x64TileFrame1 {
@@ -812,7 +838,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								TO-DO: -verify: @set vertex, e.g. center */
 							/*
 								transform: rotate(-15deg);
-							*/
+							*/							
 						}
 
 						.Image64x64TileFrame2 {
@@ -830,7 +856,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								TO-DO: -verify: @set vertex, e.g. center */
 							/*
 								transform: rotate(-15deg);
-							*/
+							*/							
 						}
 
 						
@@ -1054,6 +1080,10 @@ function myUpdateFunction() {
 
 	//added by Mike, 20220904
 	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
+	
+	//added by Mike, 20221104
+	var imgPuzzle = document.getElementById("puzzleImageId");
+		
 	
 	//added by Mike, 20220917; edited by Mike, 20220918
 	//var linkAsButtonLeftKey = document.getElementById("leftKeyId");
@@ -1349,6 +1379,15 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//added by Mike, 20221029
 	imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
 	
+	
+	//added by Mike, 20221104	
+	
+	imgPuzzle.style.left = (iHorizontalOffset-iStageMaxWidth/2)+"px";	
+	imgPuzzle.style.top = (iVerticalOffsetInnerScreen-iStageMaxHeight/2)+"px";	
+/*
+	imgPuzzle.style.left = (0)+"px";	
+	imgPuzzle.style.top = (0)+"px";	
+*/	
 	
 	//added by Mike, 20221101
 	if (arrayKeyPressed[iKEY_I]) {
@@ -2872,6 +2911,11 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 <!-- added by Mike, 20220904 -->
 
 	<img id="ipisTileImageIdNumber2" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/ipis.png');?>">	
+
+<!-- added by Mike, 20221104 -->
+
+	<img id="puzzleImageId" class="ImageTile" src="<?php echo base_url('assets/images/mtPinatubo20150115T1415.jpg');?>">	
+
 
 <!-- removed by Mike, 20220911
 	<br />
