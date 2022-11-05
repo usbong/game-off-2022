@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221105; from 20221104
+' @date updated: 20221106; from 20221105
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1045,6 +1045,9 @@ bIsMobile = false;
 //added by Mike, 20221105
 bIsTargetAtSpace = true;
 		  
+iTargetAtSpaceBlinkAnimationCount=0;
+iTargetAtSpaceBlinkAnimationCountMax=6;
+		  
 //added by Mike, 20220829
 const iImgIpisTileAnimationCountMax=6;
 iImgIpisTileAnimationCount=0;	  
@@ -1730,33 +1733,115 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileTarget";
 			
-			if (bIsTargetAtSpace) {		arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
+			if (bIsTargetAtSpace) {
+				if (iTargetAtSpaceBlinkAnimationCount==iTargetAtSpaceBlinkAnimationCountMax) {
+					if (arrayPuzzleTileCountId[iTileBgCount].className=='Image32x32TileSpace') {
+					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
+					}
+					else {
+					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+					}
+					iTargetAtSpaceBlinkAnimationCount=0;
+				}
+				else {
+					iTargetAtSpaceBlinkAnimationCount++;
+				}				
+//alert(iTargetAtSpaceBlinkAnimationCount);				
 			}				
+			else {
+				
+				for (iCount=0; iCount<iTotalKeyCount; iCount++) {
+					//if a key has been pressed
+					if (arrayKeyPressed[iCount]==true) {
+						//set adjacent tiles to be not the TARGET as default 
+						if ((iRowCount-1)>=0) {
+							arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount-1][iColumnCount]].className="Image32x32Tile";
+						}	
+						if ((iRowCount+1)<iRowCountMax-1) {
+		arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount+1][iColumnCount]].className="Image32x32Tile";
+						}
+						if ((iColumnCount-1)>=0) {
+							arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount][iColumnCount-1]].className="Image32x32Tile";
+						}			
+						if ((iColumnCount+1)<iColumnCountMax-1) {
+							arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount][iColumnCount+1]].className="Image32x32Tile";					
+						}		
+					}
+				}
+			}
 
+			
+			//reminder: @last tile #16, space
 			//pressed up, tile above the space
 			if (arrayKeyPressed[iKEY_W]) {
 			//alert(iRowCount);
-			if (iRowCount>=0) {
+				if ((iRowCount-1)>=0) {
 					arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount-1][iColumnCount]].className="Image32x32TileTarget";
 				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 					
 					bIsTargetAtSpace=false;
 				}	
 			}
-/* //TO-DO: -update: this			
 			else if (arrayKeyPressed[iKEY_S]) {
-				if (iRowCount<iRowCountMax) {
+				if ((iRowCount+1)<iRowCountMax-1) {
 					arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount+1][iColumnCount]].className="Image32x32TileTarget";
 				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 				
 					bIsTargetAtSpace=false;
-
 				}	
-				}
-*/		
+			}
+			else if (arrayKeyPressed[iKEY_A]) {
+				if ((iColumnCount-1)>=0) {
+					arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount][iColumnCount-1]].className="Image32x32TileTarget";
+				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+				
+					bIsTargetAtSpace=false;
+				}	
+			}			
+			else if (arrayKeyPressed[iKEY_D]) {
+				if ((iColumnCount+1)<iColumnCountMax-1) {
+					arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount][iColumnCount+1]].className="Image32x32TileTarget";
+				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+								
+					bIsTargetAtSpace=false;
+				}	
+			}			
+			else {	//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";		
+				bIsTargetAtSpace=true;
+			}
 
+			if (bIsTargetAtSpace) {
+				if (iTargetAtSpaceBlinkAnimationCount==iTargetAtSpaceBlinkAnimationCountMax) {
+					if (arrayPuzzleTileCountId[iTileBgCount].className=='Image32x32TileSpace') {
+					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
+					}
+					else {
+					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+					}
+					iTargetAtSpaceBlinkAnimationCount=0;
+				}
+				else {
+					iTargetAtSpaceBlinkAnimationCount++;
+				}
+			}
 		}				
 				
+/* //note effect; 
+if (bIsTargetAtSpace) {
+					if (iTargetAtSpaceBlinkAnimationCount==iTargetAtSpaceBlinkAnimationCountMax) {
+						if (arrayPuzzleTileCountId[iTileBgCount].className=='Image32x32TileSpace') {
+						arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
+						}
+						else {
+						arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+						}
+						iTargetAtSpaceBlinkAnimationCount=0;
+					}
+					else {
+						iTargetAtSpaceBlinkAnimationCount++;
+					}
+				}	
+*/
 				
 		iTileBgCount++;
 		//alert("iTileBgCount: "+iTileBgCount);		
