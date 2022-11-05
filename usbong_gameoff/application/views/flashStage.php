@@ -845,6 +845,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							margin: 1px;	
 							z-index: 3;		
 						}
+
+						/* noted by Mike, 20221105 */						
+						.Image32x32TileTarget {
+							position: absolute;
+/*							
+  							clip: rect(0px,32px,32px,0px);
+*/	
+
+							width: 32px;
+							height: 32px;
+							background-color: #ffffff;
+							color: #222222;
+
+							font-weight: bold;
+							text-align: center;
+							/*
+								//centers text vertically
+								reference: https://www.w3schools.com/css/css_align.asp; last accessed: 20221105
+							*/
+							line-height: 32px;
+
+							/*padding-top: 0.1875%;*/ /*6px;*/
+							
+							border: 2px solid #ff0000; /*double;*/
+							border-radius: 3px;
+							margin: 1px;	
+							z-index: 4;		
+						}
+						
+						.Image32x32TileSpaceTarget {
+							position: absolute;
+/*							
+  							clip: rect(0px,32px,32px,0px);
+*/	
+
+							width: 32px;
+							height: 32px;
+							background-color: #222222;
+							color: #222222;
+
+							text-align: center;
+
+							/*padding-top: 0.1875%;*/ /*6px;*/
+							
+							border: 2px solid #ff0000; /*double;*/
+							border-radius: 3px;
+							margin: 1px;	
+							z-index: 5;		
+						}
 						
 						/* added by Mike, 20221105 */
 						.Image32x32TileSpace {
@@ -1599,12 +1648,20 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 */
 
 	//added by Mike, 20221105
-	arrayPuzzleTileBg = [];
+	arrayPuzzleTileCountId = []; 
+
 	//note: 4x4
 	let iRowCount=0;
 	const iRowCountMax=4;
 	let iColumnCount=0;
 	const iColumnCountMax=4;
+	
+	//reference: https://stackoverflow.com/questions/7545641/how-to-create-multidimensional-array;
+	//last accessed: 20221105
+	//answer by: Dan, 20150107T2231 
+	//edited by: Nadav, 20131113T1000
+	var arrayPuzzleTilePos = [ [],[],[],[] ]; 
+
 	let iTileBgCount=0;
 	let iPuzzleTileWidth=32;
 	let iPuzzleTileHeight=32;
@@ -1626,39 +1683,47 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {		
 		for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
 		
-		arrayPuzzleTileBg[iTileBgCount] = document.getElementById("puzzleTileImageIdBg"+iTileBgCount);
+		arrayPuzzleTileCountId[iTileBgCount] = document.getElementById("puzzleTileImageIdBg"+iTileBgCount);
+		
+		//alert(iTileBgCount);
+		arrayPuzzleTilePos[iRowCount][iColumnCount]=iTileBgCount;
 
 /*
-		arrayPuzzleTileBg[iTileBgCount].style.left = iHorizontalOffset+iPuzzleTileWidth*iColumnCount+"px";
+		arrayPuzzleTileCountId[iTileBgCount].style.left = iHorizontalOffset+iPuzzleTileWidth*iColumnCount+"px";
 		
-//		arrayPuzzleTileBg[iTileBgCount].style.top = iVerticalOffset+iPuzzleTileHeight*iColumnCount+"px";
-		arrayPuzzleTileBg[iTileBgCount].style.top = 0+iPuzzleTileHeight*iRowCount+"px";
+//		arrayPuzzleTileCountId[iTileBgCount].style.top = iVerticalOffset+iPuzzleTileHeight*iColumnCount+"px";
+		arrayPuzzleTileCountId[iTileBgCount].style.top = 0+iPuzzleTileHeight*iRowCount+"px";
 */
-		arrayPuzzleTileBg[iTileBgCount].style.left = iHorizontalOffset+iOffsetWidth+iPuzzleTileWidth*iColumnCount+iBorderOffset*iColumnCount+"px";
+		arrayPuzzleTileCountId[iTileBgCount].style.left = iHorizontalOffset+iOffsetWidth+iPuzzleTileWidth*iColumnCount+iBorderOffset*iColumnCount+"px";
 		
-//		arrayPuzzleTileBg[iTileBgCount].style.top = iVerticalOffset+iPuzzleTileHeight*iColumnCount+"px";
-		arrayPuzzleTileBg[iTileBgCount].style.top = 0+iOffsetHeight+iPuzzleTileHeight*iRowCount+iBorderOffset*iRowCount+"px";
+//		arrayPuzzleTileCountId[iTileBgCount].style.top = iVerticalOffset+iPuzzleTileHeight*iColumnCount+"px";
+		arrayPuzzleTileCountId[iTileBgCount].style.top = 0+iOffsetHeight+iPuzzleTileHeight*iRowCount+iBorderOffset*iRowCount+"px";
 
 //		alert (iPuzzleTileWidth*iRowCount);
 /*
-		arrayPuzzleTileBg[iTileBgCount].style.left = iHorizontalOffset+"px";
+		arrayPuzzleTileCountId[iTileBgCount].style.left = iHorizontalOffset+"px";
 		
-		arrayPuzzleTileBg[iTileBgCount].style.top = iVerticalOffset+"px";
+		arrayPuzzleTileCountId[iTileBgCount].style.top = iVerticalOffset+"px";
 */		
-		arrayPuzzleTileBg[iTileBgCount].style.visibility="visible";
+		arrayPuzzleTileCountId[iTileBgCount].style.visibility="visible";
 				
 		//added by Mike, 20221105
 		//reference: https://www.w3schools.com/tags/tag_img.asp;
 		//last accessed: 20221105
 		//count
-		arrayPuzzleTileBg[iTileBgCount].alt=(iTileBgCount+1)+"";
-		//alert(arrayPuzzleTileBg[iTileBgCount].style.verticalAlign); 
+		arrayPuzzleTileCountId[iTileBgCount].alt=(iTileBgCount+1)+"";
+		//alert(arrayPuzzleTileCountId[iTileBgCount].style.verticalAlign); 
 		
 		//edited by Mike, 20221105; note: last tile @#16, space
 		if (iTileBgCount==iTileBgCountMax-1) {
-			//break;
-		
-			arrayPuzzleTileBg[iTileBgCount].className="Image32x32TileSpace";
+			//TO-DO: -update: this
+			arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileTarget";
+			arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
+			
+			//pressed up, tile above the space
+			//arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount-1][iColumnCount]].className="Image32x32TileTarget";
+
 		}				
 				
 				
@@ -1666,6 +1731,8 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		//alert("iTileBgCount: "+iTileBgCount);		
 		}
 	}
+	
+	
 
 	
 
