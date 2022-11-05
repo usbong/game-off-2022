@@ -830,10 +830,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							background-color: #ffffff;
 							color: #222222;
 
+							font-weight: bold;
 							text-align: center;
+							/*
+								//centers text vertically
+								reference: https://www.w3schools.com/css/css_align.asp; last accessed: 20221105
+							*/
+							line-height: 32px;
+
 							/*padding-top: 0.1875%;*/ /*6px;*/
 							
-							border: 2px solid;
+							border: 2px solid; /*double;*/
 							border-radius: 3px;
 							margin: 1px;	
 							z-index: 3;		
@@ -857,6 +864,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							
 							border: 2px solid;
 							border-radius: 3px;
+
 							margin: 1px;	
 							z-index: 3;		
 						}
@@ -1601,6 +1609,16 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	let iPuzzleTileWidth=32;
 	let iPuzzleTileHeight=32;
 	
+	const iPuzzleTileTotalWidthMax=iPuzzleTileWidth*iColumnCountMax;
+	const iPuzzleTileTotalHeightMax=iPuzzleTileHeight*iRowCountMax;
+/*	
+	alert(iPuzzleTileWidth);
+	alert (iPuzzleTileTotalMaxWidth);
+*/	
+	const iBorderOffset=2;
+	const iOffsetWidth=iStageMaxWidth/2-iPuzzleTileTotalWidthMax/2;
+	const iOffsetHeight=iStageMaxHeight/2-iPuzzleTileTotalHeightMax/2;
+	
 	//16=4*4
 	const iTileBgCountMax=iRowCountMax*iColumnCountMax;	
 	
@@ -1610,11 +1628,16 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		
 		arrayPuzzleTileBg[iTileBgCount] = document.getElementById("puzzleTileImageIdBg"+iTileBgCount);
 
+/*
 		arrayPuzzleTileBg[iTileBgCount].style.left = iHorizontalOffset+iPuzzleTileWidth*iColumnCount+"px";
 		
 //		arrayPuzzleTileBg[iTileBgCount].style.top = iVerticalOffset+iPuzzleTileHeight*iColumnCount+"px";
 		arrayPuzzleTileBg[iTileBgCount].style.top = 0+iPuzzleTileHeight*iRowCount+"px";
-
+*/
+		arrayPuzzleTileBg[iTileBgCount].style.left = iHorizontalOffset+iOffsetWidth+iPuzzleTileWidth*iColumnCount+iBorderOffset*iColumnCount+"px";
+		
+//		arrayPuzzleTileBg[iTileBgCount].style.top = iVerticalOffset+iPuzzleTileHeight*iColumnCount+"px";
+		arrayPuzzleTileBg[iTileBgCount].style.top = 0+iOffsetHeight+iPuzzleTileHeight*iRowCount+iBorderOffset*iRowCount+"px";
 
 //		alert (iPuzzleTileWidth*iRowCount);
 /*
@@ -1627,8 +1650,10 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		//added by Mike, 20221105
 		//reference: https://www.w3schools.com/tags/tag_img.asp;
 		//last accessed: 20221105
+		//count
 		arrayPuzzleTileBg[iTileBgCount].alt=(iTileBgCount+1)+"";
-				
+		//alert(arrayPuzzleTileBg[iTileBgCount].style.verticalAlign); 
+		
 		//edited by Mike, 20221105; note: last tile @#16, space
 		if (iTileBgCount==iTileBgCountMax-1) {
 			//break;
