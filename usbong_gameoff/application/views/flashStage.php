@@ -816,6 +816,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							/* //added by Mike, 20221104 */
 							z-index: 0;							
 						}
+
+						/* noted by Mike, 20221105 */						
+						.Image32x32Tile {
+							position: absolute;
+/*							
+  							clip: rect(0px,32px,32px,0px);
+*/	
+
+							width: 32px;
+							height: 32px;
+							background-color: #ffffff;
+							color: #222222;
+							border: 2px solid;
+							border-radius: 3px;
+							margin: 1px;	
+							z-index: 3;		
+						}
 						
 						/* noted by Mike, 20220820
 						using: absolute positions; 
@@ -1177,7 +1194,7 @@ function myUpdateFunction() {
 
 	//reference: https://www.w3schools.com/jsref/prop_html_classname.asp;
 	//last accessed: 20220820
-	
+		
 	//added by Mike, 20220829
 	//TO-DO: -add: this in Ipis class(-ification) container, et cetera
 	if (iImgIpisTileAnimationCount==iImgIpisTileAnimationCountMax) {
@@ -1253,8 +1270,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	pauseLink.style.top = 0+iStageMaxHeight +"px"; 
 	pauseLink.style.visibility="visible";	  
 	
-	
-
 	//identify offset due to smaller window centered @horizontal
 /*	
 	alert(screen.width);
@@ -1487,7 +1502,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		mdo2.style.visibility="visible";	
 	}
 	
-	
 	//added by Mike, 20220915
 	//verified: object position movement in Android Samsung Duos
 	//to be NOT noticeably delayed for moving object count = 1
@@ -1524,7 +1538,7 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 //imgIpisTileNumber2.style.visibility = "hidden";
 		
-		
+/*	//removed by Mike, 20221105		
 	//added by Mike, 20220925
 	arrayTileBg = [];
 	for (let iTileBgCount=0; iTileBgCount<4; iTileBgCount++) {
@@ -1542,7 +1556,50 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		//edited by Mike, 20220925
 		arrayTileBg[iTileBgCount].style.top =  0+"px";
 //		arrayTileBg[iTileBgCount].style.top =  iVerticalOffset+"px";		
+
+		//added by Mike, 20221105
+		arrayTileBg[iTileBgCount].style.visibility="hidden";
 	}
+*/
+
+	//added by Mike, 20221105
+	arrayPuzzleTileBg = [];
+	//note: 4x4
+	let iRowCount=0;
+	const iRowCountMax=4;
+	let iColumnCount=0;
+	const iColumnCountMax=4;
+	let iTileBgCount=0;
+	let iPuzzleTileWidth=32;
+	let iPuzzleTileHeight=32;
+	
+//	for (let iTileBgCount=0; iTileBgCount<16; iTileBgCount++) {		
+	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {		
+		for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {	
+
+		arrayPuzzleTileBg[iTileBgCount] = document.getElementById("puzzleTileImageIdBg"+iTileBgCount);
+
+		arrayPuzzleTileBg[iTileBgCount].style.left = iHorizontalOffset+iPuzzleTileWidth*iColumnCount+"px";
+		
+//		arrayPuzzleTileBg[iTileBgCount].style.top = iVerticalOffset+iPuzzleTileHeight*iColumnCount+"px";
+		arrayPuzzleTileBg[iTileBgCount].style.top = 0+iPuzzleTileHeight*iRowCount+"px";
+
+
+//		alert (iPuzzleTileWidth*iRowCount);
+/*
+		arrayPuzzleTileBg[iTileBgCount].style.left = iHorizontalOffset+"px";
+		
+		arrayPuzzleTileBg[iTileBgCount].style.top = iVerticalOffset+"px";
+*/		
+		arrayPuzzleTileBg[iTileBgCount].style.visibility="visible";
+				
+		iTileBgCount++;
+		//alert("iTileBgCount: "+iTileBgCount);		
+		}
+	}
+
+	
+
 
 		
 		
@@ -2093,6 +2150,8 @@ function onLoad() {
 	//added by Mike, 20221002
 	imgIpisTile.style.visibility="visible";
 
+/*	//removed by Mike, 20221105		
+
 	//added by Mike, 20220909
 	//https://www.w3schools.com/js/js_arrays.asp; last accessed: 20220823
 	//https://www.w3schools.com/js/js_loop_for.asp; last accessed: 20220909	
@@ -2116,6 +2175,8 @@ function onLoad() {
 		//added by Mike, 20221002
 		arrayTileBg[iTileBgCount].style.visibility="visible";
 	}
+*/
+
 
 /* //removed by Mike, 20221007	
 	//added by Mike, 20220912	
@@ -2888,13 +2949,29 @@ alert("iButtonHeight"+iButtonHeight);
 
 	<img id="puzzleImageId" class="ImageTile" src="<?php echo base_url('assets/images/mtPinatubo20150115T1415.jpg');?>">	
 
+<?php 
+	$iRowCountMax=4; 
+	$iColumnCountMax=4; 	
+
+	//16=4*4
+	$iTileBgCountMax=$iRowCountMax*$iColumnCountMax;
+
+for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
+?>	
+	<img id="puzzleTileImageIdBg<?php echo $iCount;?>" class="Image32x32Tile" src="">
+
+<?php
+}
+?>
+
+
 
 <!-- TO-DO: -add: auto-identify position in BOARD;
 	example: corners, top, bottom, left, right sides, center
 -->			
 
-
 <?php 
+/*	//removed by Mike, 20221105
 	//edited by Mike, 20220904; edited again by Mike, 20220911
 	$iRowCountMax=2; //9
 	$iColumnCountMax=2; //9	
@@ -2903,11 +2980,15 @@ alert("iButtonHeight"+iButtonHeight);
 $iTileBgCountMax=$iRowCountMax*$iColumnCountMax;
 
 for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
+*/
 ?>	
+<!-- removed by Mike, 20221105
 	<img id="ipisTileImageIdBg<?php echo $iCount;?>" class="Image64x64TileBackground" src="<?php echo base_url('assets/images/ipis.png');?>">
-
+-->
 <?php
+/*	//removed by Mike, 20221105
 }
+*/
 ?>
 
 	<!-- added by Mike, 20220820; 
