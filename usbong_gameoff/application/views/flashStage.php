@@ -1041,6 +1041,9 @@ iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
 	  	  
 //added by Mike, 20220925
 bIsMobile = false;	  
+
+//added by Mike, 20221105
+bIsTargetAtSpace = true;
 		  
 //added by Mike, 20220829
 const iImgIpisTileAnimationCountMax=6;
@@ -1171,6 +1174,11 @@ function myUpdateFunction() {
 //	alert("count!");
 	//TO-DO: -add: update logic	
 	//--> TO-DO: -add: collision detection and output
+	
+	//added by Mike, 20221105
+	var arrayPuzzleTileCountId = []; 
+	var arrayPuzzleTilePos = [ [],[],[],[] ]; 
+	
 	
 	//TO-DO: -add: re-draw stage/canvas
 	
@@ -1648,7 +1656,8 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 */
 
 	//added by Mike, 20221105
-	arrayPuzzleTileCountId = []; 
+	//removed by Mike, 20221105
+	//arrayPuzzleTileCountId = []; 
 
 	//note: 4x4
 	let iRowCount=0;
@@ -1660,7 +1669,8 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//last accessed: 20221105
 	//answer by: Dan, 20150107T2231 
 	//edited by: Nadav, 20131113T1000
-	var arrayPuzzleTilePos = [ [],[],[],[] ]; 
+	//removed by Mike, 20221105
+	//var arrayPuzzleTilePos = [ [],[],[],[] ]; 
 
 	let iTileBgCount=0;
 	let iPuzzleTileWidth=32;
@@ -1717,12 +1727,33 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		//edited by Mike, 20221105; note: last tile @#16, space
 		if (iTileBgCount==iTileBgCountMax-1) {
 			//TO-DO: -update: this
-			arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileTarget";
-			arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
 			
+			if (bIsTargetAtSpace) {		arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
+			}				
+
 			//pressed up, tile above the space
-			//arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount-1][iColumnCount]].className="Image32x32TileTarget";
+			if (arrayKeyPressed[iKEY_W]) {
+			//alert(iRowCount);
+			if (iRowCount>=0) {
+					arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount-1][iColumnCount]].className="Image32x32TileTarget";
+				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+					
+					bIsTargetAtSpace=false;
+				}	
+			}
+/* //TO-DO: -update: this			
+			else if (arrayKeyPressed[iKEY_S]) {
+				if (iRowCount<iRowCountMax) {
+					arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount+1][iColumnCount]].className="Image32x32TileTarget";
+				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+				
+					bIsTargetAtSpace=false;
+
+				}	
+				}
+*/		
 
 		}				
 				
