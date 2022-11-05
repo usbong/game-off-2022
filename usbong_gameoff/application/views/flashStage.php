@@ -60,6 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8">
@@ -828,11 +829,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							height: 32px;
 							background-color: #ffffff;
 							color: #222222;
+
+							text-align: center;
+							/*padding-top: 0.1875%;*/ /*6px;*/
+							
 							border: 2px solid;
 							border-radius: 3px;
 							margin: 1px;	
 							z-index: 3;		
 						}
+						
+						/* added by Mike, 20221105 */
+						.Image32x32TileSpace {
+							position: absolute;
+/*							
+  							clip: rect(0px,32px,32px,0px);
+*/	
+
+							width: 32px;
+							height: 32px;
+							background-color: #222222;
+							color: #222222;
+
+							text-align: center;
+
+							/*padding-top: 0.1875%;*/ /*6px;*/
+							
+							border: 2px solid;
+							border-radius: 3px;
+							margin: 1px;	
+							z-index: 3;		
+						}
+												
 						
 						/* noted by Mike, 20220820
 						using: absolute positions; 
@@ -1573,10 +1601,13 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	let iPuzzleTileWidth=32;
 	let iPuzzleTileHeight=32;
 	
+	//16=4*4
+	const iTileBgCountMax=iRowCountMax*iColumnCountMax;	
+	
 //	for (let iTileBgCount=0; iTileBgCount<16; iTileBgCount++) {		
 	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {		
-		for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {	
-
+		for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
+		
 		arrayPuzzleTileBg[iTileBgCount] = document.getElementById("puzzleTileImageIdBg"+iTileBgCount);
 
 		arrayPuzzleTileBg[iTileBgCount].style.left = iHorizontalOffset+iPuzzleTileWidth*iColumnCount+"px";
@@ -1592,6 +1623,19 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		arrayPuzzleTileBg[iTileBgCount].style.top = iVerticalOffset+"px";
 */		
 		arrayPuzzleTileBg[iTileBgCount].style.visibility="visible";
+				
+		//added by Mike, 20221105
+		//reference: https://www.w3schools.com/tags/tag_img.asp;
+		//last accessed: 20221105
+		arrayPuzzleTileBg[iTileBgCount].alt=(iTileBgCount+1)+"";
+				
+		//edited by Mike, 20221105; note: last tile @#16, space
+		if (iTileBgCount==iTileBgCountMax-1) {
+			//break;
+		
+			arrayPuzzleTileBg[iTileBgCount].className="Image32x32TileSpace";
+		}				
+				
 				
 		iTileBgCount++;
 		//alert("iTileBgCount: "+iTileBgCount);		
