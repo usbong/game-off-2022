@@ -31,6 +31,9 @@
 //TO-DO: -delete: excess instructions
 
 //added by Mike, 20221106
+//TO-DO: -remove: keyhold in PUZZLE due to OUTPUT ERROR in SAFARI
+
+//added by Mike, 20221106
 //TO-DO: -add: auto-generate PUZZLE
 //reminder: FROM END to START
 
@@ -75,7 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Reference: Apache Friends Dashboard index.html -->
     <!-- "Always force latest IE rendering engine or request Chrome Frame" -->
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=yes" />
 	
     <style type="text/css">
 	/**/
@@ -842,7 +845,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							color: #222222;
 
 							font-weight: bold;
-							font-size: 20px;
+							font-size: 146%; /*20px;*/
 							
 							text-align: center;							
 							line-height: 32px;
@@ -868,7 +871,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							color: #222222;
 
 							font-weight: bold;
-							font-size: 18px;
+							font-size: 146%; /*18px;*/
 
 							text-align: center;							
 							line-height: 32px;
@@ -889,7 +892,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							width: 32px;
 							height: 32px;
-							background-color: #222222;
+							background-color: #222222; /*;#ffffff*/
 							color: #222222;
 
 							text-align: center;
@@ -912,7 +915,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							width: 32px;
 							height: 32px;
-							background-color: #222222;
+							background-color: #222222; /*;#ffffff*/
 							color: #222222;
 
 							text-align: center;
