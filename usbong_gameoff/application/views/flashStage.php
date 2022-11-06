@@ -854,7 +854,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							
 							border: 2px solid; /*double;*/
 							border-radius: 3px;
-							margin: 1px;	
+							margin: 0px; /*1px;*/	
+							padding: 0px;
 							z-index: 3;		
 						}
 
@@ -878,9 +879,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							/*padding-top: 0.1875%;*/ /*6px;*/
 							
-							border: 2px solid #ff0000; /*double;*/
+							border: 3px solid #ff0000; /*double;*/
 							border-radius: 3px;
-							margin: 1px;	
+							margin: 0px; /*1px;*/	
+							padding: 0px;
 							z-index: 4;		
 						}
 						
@@ -888,8 +890,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							position: absolute;
 /*							
   							clip: rect(0px,32px,32px,0px);
-*/	
-
+*/							
 							width: 32px;
 							height: 32px;
 							background-color: #222222; /*;#ffffff*/
@@ -900,9 +901,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							/*padding-top: 0.1875%;*/ /*6px;*/
 							
-							border: 2px solid #ff0000; /*double;*/
+							border: 2px solid #ffffff; /*#ff0000; double;*/
 							border-radius: 3px;
-							margin: 1px;	
+							margin: 0px; /*1px;*/	
+							padding: 0px;
 							z-index: 5;		
 						}
 						
@@ -910,9 +912,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						.Image32x32TileSpace {
 							position: absolute;
 /*							
-  							clip: rect(0px,32px,32px,0px);
-*/	
-
+  							clip: rect(0px,32px,32px,0px);	
+*/														
 							width: 32px;
 							height: 32px;
 							background-color: #222222; /*;#ffffff*/
@@ -926,7 +927,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							border: 2px solid;
 							border-radius: 3px;
 
-							margin: 1px;	
+							margin: 0px; /*1px;*/	
+							padding: 0px;	
+
 							z-index: 3;		
 						}
 												
@@ -2336,13 +2339,11 @@ function leftKeyPressUp() {
 //function keyPressDown(iKey) {
 function keyPressDown(iKey, event) {
 
-/* //removed by Mike, 20221106
-	//added by Mike, 20221101
+	//added again by Mike, 20221106; from 20221101
 	//note: verify before left-side buttons
 	for (iCount=iDirectionTotalKeyCount; iCount<iTotalKeyCount; iCount++) {
 		arrayKeyPressed[iKey]=true;		
 	}
-*/	
 
 	//edited by Mike, 20221030
 	//arrayKeyPressed[iKey]=true;		
