@@ -27,6 +27,10 @@
 
 //TO-DO: -delete: excess instructions
 
+//added by Mike, 20221106
+//TO-DO: -add: auto-generate PUZZLE
+//reminder: FROM END to START
+
 //added by Mike, 20220827
 //observed: css+HTML OUTPUT error in iPAD (Safari browser), but NOT in MacBookPro (Firefox browser; Safari browser error)
 //observed: no sound output from .m4a via Android Firefox
@@ -831,6 +835,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							color: #222222;
 
 							font-weight: bold;
+							font-size: 20px;
+							
 							text-align: center;
 							/*
 								//centers text vertically
@@ -859,6 +865,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							color: #222222;
 
 							font-weight: bold;
+							font-size: 18px;
+
 							text-align: center;
 							/*
 								//centers text vertically
@@ -1048,6 +1056,21 @@ bIsTargetAtSpace = true;
 iTargetAtSpaceBlinkAnimationCount=0;
 iTargetAtSpaceBlinkAnimationCountMax=6;
 		  
+//added by Mike, 20221106
+iTargetTileBgCount=-1;		  
+
+//added by Mike, 20221106
+//note: 4x4
+var iRowCount=0;
+const iRowCountMax=4;
+var iColumnCount=0;
+const iColumnCountMax=4;
+var arrayPuzzleTileCountId = []; 
+var arrayPuzzleTilePos = [ [],[],[],[] ]; 
+
+const iTileBgCountMax=iRowCountMax*iColumnCountMax;	
+
+		  
 //added by Mike, 20220829
 const iImgIpisTileAnimationCountMax=6;
 iImgIpisTileAnimationCount=0;	  
@@ -1177,11 +1200,12 @@ function myUpdateFunction() {
 //	alert("count!");
 	//TO-DO: -add: update logic	
 	//--> TO-DO: -add: collision detection and output
-	
+
+/* //removed by Mike, 20221106	
 	//added by Mike, 20221105
 	var arrayPuzzleTileCountId = []; 
 	var arrayPuzzleTilePos = [ [],[],[],[] ]; 
-	
+*/	
 	
 	//TO-DO: -add: re-draw stage/canvas
 	
@@ -1485,13 +1509,14 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		//imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";		
 	}
 
-
+/*	//removed by Mike, 20221106; 
+	//TO-DO: -add: as CASE @MINIGAME with IPIS
 
 	imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
 
 	//added by Mike, 20221029
 	imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
-	
+*/	
 	
 	//added by Mike, 20221104	
 	
@@ -1626,11 +1651,14 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		//alert (imgIpisTileNumber2.style.top);
 	}
 
+
 	//edited by Mike, 20221002
 	//imgIpisTileNumber2.style.top = 0+iVerticalOffset+imgIpisNumber2TileY+iIpisNumber2StepY +"px"; 
 	//imgIpisTileNumber2.style.left = 0+iHorizontalOffset+"px"; 
 	imgIpisTileNumber2.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
 	imgIpisTileNumber2.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgIpisNumber2TileWidth+"px"; 
+
+
 
 //imgIpisTileNumber2.style.visibility = "hidden";
 		
@@ -1661,12 +1689,13 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//added by Mike, 20221105
 	//removed by Mike, 20221105
 	//arrayPuzzleTileCountId = []; 
-
+/* //removed by Mike, 20221106
 	//note: 4x4
 	let iRowCount=0;
 	const iRowCountMax=4;
 	let iColumnCount=0;
 	const iColumnCountMax=4;
+*/
 	
 	//reference: https://stackoverflow.com/questions/7545641/how-to-create-multidimensional-array;
 	//last accessed: 20221105
@@ -1689,8 +1718,9 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	const iOffsetWidth=iStageMaxWidth/2-iPuzzleTileTotalWidthMax/2;
 	const iOffsetHeight=iStageMaxHeight/2-iPuzzleTileTotalHeightMax/2;
 	
+	//removed by Mike, 20221106
 	//16=4*4
-	const iTileBgCountMax=iRowCountMax*iColumnCountMax;	
+	//const iTileBgCountMax=iRowCountMax*iColumnCountMax;	
 	
 //	for (let iTileBgCount=0; iTileBgCount<16; iTileBgCount++) {		
 	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {		
@@ -1699,7 +1729,10 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		arrayPuzzleTileCountId[iTileBgCount] = document.getElementById("puzzleTileImageIdBg"+iTileBgCount);
 		
 		//alert(iTileBgCount);
+/* //removed by Mike, 20221106
 		arrayPuzzleTilePos[iRowCount][iColumnCount]=iTileBgCount;
+*/
+
 
 /*
 		arrayPuzzleTileCountId[iTileBgCount].style.left = iHorizontalOffset+iPuzzleTileWidth*iColumnCount+"px";
@@ -1718,17 +1751,25 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		
 		arrayPuzzleTileCountId[iTileBgCount].style.top = iVerticalOffset+"px";
 */		
+
 		arrayPuzzleTileCountId[iTileBgCount].style.visibility="visible";
-				
+
+
+/*	//removed by Mike, 20221106
+						
 		//added by Mike, 20221105
 		//reference: https://www.w3schools.com/tags/tag_img.asp;
 		//last accessed: 20221105
 		//count
 		arrayPuzzleTileCountId[iTileBgCount].alt=(iTileBgCount+1)+"";
+*/
 		//alert(arrayPuzzleTileCountId[iTileBgCount].style.verticalAlign); 
 		
 		//edited by Mike, 20221105; note: last tile @#16, space
-		if (iTileBgCount==iTileBgCountMax-1) {
+		//edited by Mike, 20221106
+//		if (iTileBgCount==iTileBgCountMax-1) {
+		if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
+
 			//TO-DO: -update: this
 			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileTarget";
@@ -1776,15 +1817,21 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 			if (arrayKeyPressed[iKEY_W]) {
 			//alert(iRowCount);
 				if ((iRowCount-1)>=0) {
-					arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount-1][iColumnCount]].className="Image32x32TileTarget";
+					iTargetTileBgCount=arrayPuzzleTilePos[iRowCount-1][iColumnCount];
+					
+					arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileTarget";
 				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 					
 					bIsTargetAtSpace=false;
 				}	
 			}
 			else if (arrayKeyPressed[iKEY_S]) {
-				if ((iRowCount+1)<iRowCountMax-1) {
-					arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount+1][iColumnCount]].className="Image32x32TileTarget";
+				if ((iRowCount+1)<=iRowCountMax-1) {
+					
+					iTargetTileBgCount=arrayPuzzleTilePos[iRowCount+1][iColumnCount];
+
+					arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileTarget";
+				
 				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 				
 					bIsTargetAtSpace=false;
@@ -1792,15 +1839,19 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 			}
 			else if (arrayKeyPressed[iKEY_A]) {
 				if ((iColumnCount-1)>=0) {
-					arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount][iColumnCount-1]].className="Image32x32TileTarget";
+					iTargetTileBgCount=arrayPuzzleTilePos[iRowCount][iColumnCount-1];
+
+					arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileTarget";
 				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 				
 					bIsTargetAtSpace=false;
 				}	
 			}			
 			else if (arrayKeyPressed[iKEY_D]) {
-				if ((iColumnCount+1)<iColumnCountMax-1) {
-					arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount][iColumnCount+1]].className="Image32x32TileTarget";
+				if ((iColumnCount+1)<=iColumnCountMax-1) {
+					iTargetTileBgCount=arrayPuzzleTilePos[iRowCount][iColumnCount+1];
+
+					arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileTarget";
 				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 								
 					bIsTargetAtSpace=false;
@@ -1810,6 +1861,34 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 				bIsTargetAtSpace=true;
 			}
 
+			//added by Mike, 20221106;
+			//edited by Mike, 20221106
+//			if (arrayKeyPressed[iKEY_J]) {
+			if ((arrayKeyPressed[iKEY_J]) ||
+				(arrayKeyPressed[iKEY_L]) ||
+				(arrayKeyPressed[iKEY_I]) ||
+				(arrayKeyPressed[iKEY_K])) {
+				//reminder: iTileBgCount = iTileBgCountMax-1
+				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32Tile";
+				
+				arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileSpace";
+
+				arrayPuzzleTileCountId[iTileBgCount].alt=arrayPuzzleTileCountId[iTargetTileBgCount].alt;
+
+				arrayPuzzleTileCountId[iTargetTileBgCount].alt="";
+								
+				//alert(iTileBgCountMax);				
+				//alert(arrayPuzzleTileCountId[iTileBgCount].alt);
+								
+				//arrayPuzzleTileCountId[iTargetTileBgCount].alt="";
+				
+				//arrayPuzzleTileCountId[iTargetTileBgCount].alt=iTileBgCountMax;
+
+
+				bIsTargetAtSpace=true;
+			}	
+
+/*	//removed by Mike, 20221106
 			if (bIsTargetAtSpace) {
 				if (iTargetAtSpaceBlinkAnimationCount==iTargetAtSpaceBlinkAnimationCountMax) {
 					if (arrayPuzzleTileCountId[iTileBgCount].className=='Image32x32TileSpace') {
@@ -1824,6 +1903,12 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 					iTargetAtSpaceBlinkAnimationCount++;
 				}
 			}
+*/			
+			
+			//added by Mike, 20221106
+			//arrayPuzzleTileCountId[iTileBgCount].alt=""; 
+//iTileBgCountMax
+		    //removed by Mike, 20221106	//arrayPuzzleTileCountId[iTileBgCountMax-1].alt=""; 
 		}				
 				
 /* //note effect; 
@@ -2305,6 +2390,37 @@ function onLoad() {
 		bIsMobile=true;
 	}
 	
+	//added by Mike, 20221106
+	iTileBgCount=0;
+
+	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {		
+		for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
+
+		//alert(iTileBgCount);
+			arrayPuzzleTilePos[iRowCount][iColumnCount]=iTileBgCount;
+
+			arrayPuzzleTileCountId[iTileBgCount] = document.getElementById("puzzleTileImageIdBg"+iTileBgCount);
+
+			arrayPuzzleTileCountId[iTileBgCount].style.visibility="hidden";
+						
+			//added by Mike, 20221105
+			//reference: https://www.w3schools.com/tags/tag_img.asp;
+			//last accessed: 20221105
+			//count			
+			arrayPuzzleTileCountId[iTileBgCount].alt=(iTileBgCount+1)+"";
+			
+			if ((iTileBgCount+1)==iTileBgCountMax) {
+				arrayPuzzleTileCountId[iTileBgCount].alt=""; //space
+			}
+			
+			iTileBgCount++;
+		}
+	}
+	
+
+
+	
+	
 	//added by Mike, 20221012
 /*	//INCORRECT OUTPUT in FIREFOX WEB BROWSER
 	//var myBody = document.getElementById("myBodyId");	
@@ -2579,7 +2695,7 @@ function onLoad() {
 		if (e.keyCode==73) { //key i
 			arrayKeyPressed[iKEY_I]=false;		
 			
-			alert("HALLO");			
+//			alert("HALLO");			
 		}
 		else if (e.keyCode==75) { //key k			
 			arrayKeyPressed[iKEY_K]=false;			
