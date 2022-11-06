@@ -1776,55 +1776,12 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 */
 		//alert(arrayPuzzleTileCountId[iTileBgCount].style.verticalAlign); 
 		
-		//edited by Mike, 20221105; note: last tile @#16, space
+		
+
+//edited by Mike, 20221105; note: last tile @#16, space
 		//edited by Mike, 20221106
 //		if (iTileBgCount==iTileBgCountMax-1) {
 		if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
-
-			//TO-DO: -update: this
-			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
-			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileTarget";
-			
-			if (bIsTargetAtSpace) {				
-				if (iTargetAtSpaceBlinkAnimationCount==iTargetAtSpaceBlinkAnimationCountMax) {
-					if (arrayPuzzleTileCountId[iTileBgCount].className=='Image32x32TileSpace') {
-					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
-					}
-					else {
-					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
-					}
-					iTargetAtSpaceBlinkAnimationCount=0;
-				}
-				else {
-					iTargetAtSpaceBlinkAnimationCount++;
-				}				
-//alert(iTargetAtSpaceBlinkAnimationCount);				
-			}				
-			else {
-				
-				for (iCount=0; iCount<iTotalKeyCount; iCount++) {
-					//if a key has been pressed
-					if (arrayKeyPressed[iCount]==true) {
-						//set adjacent tiles to be not the TARGET as default 
-						if ((iRowCount-1)>=0) {
-							arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount-1][iColumnCount]].className="Image32x32Tile";
-						}	
-						//edited by Mike, 20221106
-//						if ((iRowCount+1)<iRowCountMax-1) {
-						if ((iRowCount+1)<iRowCountMax) {
-		arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount+1][iColumnCount]].className="Image32x32Tile";
-						}
-						if ((iColumnCount-1)>=0) {
-							arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount][iColumnCount-1]].className="Image32x32Tile";
-						}		
-						//edited by Mike, 20221106
-						//if ((iColumnCount+1)<iColumnCountMax-1) {
-						if ((iColumnCount+1)<iColumnCountMax) {
-							arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount][iColumnCount+1]].className="Image32x32Tile";					
-						}		
-					}
-				}
-			}
 
 			
 			//reminder: @last tile #16, space
@@ -1883,6 +1840,85 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 			else {	//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";		
 				bIsTargetAtSpace=true;
 			}
+	
+/*	
+			//added by Mike, 20221106
+			for (iCount=0; iCount<iDirectionTotalKeyCount; iCount++) {
+				arrayKeyPressed[iCount]=false;	
+			}	
+*/			
+
+
+
+/*
+//edited by Mike, 20221105; note: last tile @#16, space
+		//edited by Mike, 20221106
+//		if (iTileBgCount==iTileBgCountMax-1) {
+		if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
+*/
+			//TO-DO: -update: this
+			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileTarget";
+			
+			if (bIsTargetAtSpace) {				
+				if (iTargetAtSpaceBlinkAnimationCount==iTargetAtSpaceBlinkAnimationCountMax) {
+					if (arrayPuzzleTileCountId[iTileBgCount].className=='Image32x32TileSpace') {
+					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
+					}
+					else {
+					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+					}
+					iTargetAtSpaceBlinkAnimationCount=0;
+				}
+				else {
+					iTargetAtSpaceBlinkAnimationCount++;
+				}				
+//alert(iTargetAtSpaceBlinkAnimationCount);				
+			}				
+			else {				
+				for (iCount=0; iCount<iTotalKeyCount; iCount++) {
+					
+					//if a key has been pressed
+					if (arrayKeyPressed[iCount]==true) {
+												//alert("dito");
+						//set adjacent tiles to be not the TARGET as default 
+						if (!arrayKeyPressed[iKEY_W]) {						
+							if ((iRowCount-1)>=0) {
+								arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount-1][iColumnCount]].className="Image32x32Tile";
+								
+							}	
+						}
+
+						if (!arrayKeyPressed[iKEY_S]) {
+							
+							//edited by Mike, 20221106
+	//						if ((iRowCount+1)<iRowCountMax-1) {
+							if ((iRowCount+1)<iRowCountMax) {
+			arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount+1][iColumnCount]].className="Image32x32Tile";
+							}
+						}
+						
+						if (!arrayKeyPressed[iKEY_A]) {
+							if ((iColumnCount-1)>=0) {
+								arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount][iColumnCount-1]].className="Image32x32Tile";
+							}		
+						}						
+						
+						if (!arrayKeyPressed[iKEY_D]) {						
+							//edited by Mike, 20221106
+							//if ((iColumnCount+1)<iColumnCountMax-1) {
+							if ((iColumnCount+1)<iColumnCountMax) {
+								arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount][iColumnCount+1]].className="Image32x32Tile";					
+							}	
+						}
+						
+						break;						
+					}
+				}
+			}
+			
+			
+			
 
 			//added by Mike, 20221106;
 			//edited by Mike, 20221106
@@ -1910,6 +1946,13 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 				bIsTargetAtSpace=true;
 			}	
+			
+			//added by Mike, 20221106
+			//iDirectionTotalKeyCount
+			for (iCount=0; iCount<iTotalKeyCount; iCount++) {
+				arrayKeyPressed[iCount]=false;	
+			}
+			
 
 /*	//removed by Mike, 20221106
 			if (bIsTargetAtSpace) {
@@ -2292,11 +2335,14 @@ function leftKeyPressUp() {
 //edited by Mike, 20221030
 //function keyPressDown(iKey) {
 function keyPressDown(iKey, event) {
+
+/* //removed by Mike, 20221106
 	//added by Mike, 20221101
 	//note: verify before left-side buttons
 	for (iCount=iDirectionTotalKeyCount; iCount<iTotalKeyCount; iCount++) {
 		arrayKeyPressed[iKey]=true;		
 	}
+*/	
 
 	//edited by Mike, 20221030
 	//arrayKeyPressed[iKey]=true;		
@@ -2314,8 +2360,10 @@ function keyPressDown(iKey, event) {
 		arrayKeyPressed[iKEY_D]=false;
 		arrayKeyPressed[iKEY_A]=false;
 */
-
-		for (iCount=0; iCount<iDirectionTotalKeyCount; iCount++) {
+		
+		//edited by Mike, 20221106
+		//for (iCount=0; iCount<iDirectionTotalKeyCount; iCount++) {
+		for (iCount=0; iCount<iTotalKeyCount; iCount++) {
 			arrayKeyPressed[iCount]=false;
 		}		
 	
