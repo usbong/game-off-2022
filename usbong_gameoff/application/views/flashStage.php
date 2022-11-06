@@ -22,7 +22,10 @@
 '
 ' 2) https://www.w3schools.com/css/css3_2dtransforms.asp;
 ' last accessed: 20221104
--->
+'
+' 3) https://www.w3schools.com/css/css_align.asp; 
+' last accessed: 20221105 
+'
 <?php
 
 //TO-DO: -delete: excess instructions
@@ -811,6 +814,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						.ImageTile {
 							position: absolute;
 							
+							text-align: center;
+							line-height: 32px;							
+
   							/*clip: rect(0px,64px,64px,0px);*/
 																								visibility: hidden;
 							
@@ -819,7 +825,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							transform: scale(0.5,0.8);	
 
 							/* //added by Mike, 20221104 */
-							z-index: 0;							
+							z-index: 0;		
+							
 						}
 
 						/* noted by Mike, 20221105 */						
@@ -837,11 +844,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							font-weight: bold;
 							font-size: 20px;
 							
-							text-align: center;
-							/*
-								//centers text vertically
-								reference: https://www.w3schools.com/css/css_align.asp; last accessed: 20221105
-							*/
+							text-align: center;							
 							line-height: 32px;
 
 							/*padding-top: 0.1875%;*/ /*6px;*/
@@ -867,11 +870,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							font-weight: bold;
 							font-size: 18px;
 
-							text-align: center;
-							/*
-								//centers text vertically
-								reference: https://www.w3schools.com/css/css_align.asp; last accessed: 20221105
-							*/
+							text-align: center;							
 							line-height: 32px;
 
 							/*padding-top: 0.1875%;*/ /*6px;*/
@@ -894,6 +893,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							color: #222222;
 
 							text-align: center;
+							line-height: 32px;
 
 							/*padding-top: 0.1875%;*/ /*6px;*/
 							
@@ -916,6 +916,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							color: #222222;
 
 							text-align: center;
+							line-height: 32px;							
 
 							/*padding-top: 0.1875%;*/ /*6px;*/
 							
@@ -1517,6 +1518,9 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//added by Mike, 20221029
 	imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
 */	
+	//added by Mike, 20221106
+	imgIpisTile.style.visibility="hidden";
+	
 	
 	//added by Mike, 20221104	
 	
@@ -1753,6 +1757,10 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 */		
 
 		arrayPuzzleTileCountId[iTileBgCount].style.visibility="visible";
+		
+		//added by Mike, 20221106; removed by Mike, 20221106
+		//note: effect
+		//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32Tile";
 
 
 /*	//removed by Mike, 20221106
@@ -1774,7 +1782,7 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileTarget";
 			
-			if (bIsTargetAtSpace) {
+			if (bIsTargetAtSpace) {				
 				if (iTargetAtSpaceBlinkAnimationCount==iTargetAtSpaceBlinkAnimationCountMax) {
 					if (arrayPuzzleTileCountId[iTileBgCount].className=='Image32x32TileSpace') {
 					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
@@ -1798,13 +1806,17 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 						if ((iRowCount-1)>=0) {
 							arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount-1][iColumnCount]].className="Image32x32Tile";
 						}	
-						if ((iRowCount+1)<iRowCountMax-1) {
+						//edited by Mike, 20221106
+//						if ((iRowCount+1)<iRowCountMax-1) {
+						if ((iRowCount+1)<iRowCountMax) {
 		arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount+1][iColumnCount]].className="Image32x32Tile";
 						}
 						if ((iColumnCount-1)>=0) {
 							arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount][iColumnCount-1]].className="Image32x32Tile";
-						}			
-						if ((iColumnCount+1)<iColumnCountMax-1) {
+						}		
+						//edited by Mike, 20221106
+						//if ((iColumnCount+1)<iColumnCountMax-1) {
+						if ((iColumnCount+1)<iColumnCountMax) {
 							arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount][iColumnCount+1]].className="Image32x32Tile";					
 						}		
 					}
@@ -1820,19 +1832,23 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 					iTargetTileBgCount=arrayPuzzleTilePos[iRowCount-1][iColumnCount];
 					
 					arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileTarget";
-				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+				
+				//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 					
 					bIsTargetAtSpace=false;
 				}	
 			}
 			else if (arrayKeyPressed[iKEY_S]) {
-				if ((iRowCount+1)<=iRowCountMax-1) {
-					
+				//edited by Mike, 20221106
+//				if ((iRowCount+1)<=iRowCountMax-1) {
+				if ((iRowCount+1)<iRowCountMax) {
 					iTargetTileBgCount=arrayPuzzleTilePos[iRowCount+1][iColumnCount];
+					
+					//alert(iTargetTileBgCount);
 
 					arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileTarget";
 				
-				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+				//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 				
 					bIsTargetAtSpace=false;
 				}	
@@ -1842,17 +1858,21 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 					iTargetTileBgCount=arrayPuzzleTilePos[iRowCount][iColumnCount-1];
 
 					arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileTarget";
-				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+				
+				//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 				
 					bIsTargetAtSpace=false;
 				}	
 			}			
 			else if (arrayKeyPressed[iKEY_D]) {
-				if ((iColumnCount+1)<=iColumnCountMax-1) {
+				//edited by Mike, 20221106				
+//				if ((iColumnCount+1)<=iColumnCountMax-1) {
+				if ((iColumnCount+1)<iColumnCountMax) {
 					iTargetTileBgCount=arrayPuzzleTilePos[iRowCount][iColumnCount+1];
 
 					arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileTarget";
-				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+				
+				//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 								
 					bIsTargetAtSpace=false;
 				}	
@@ -2402,15 +2422,46 @@ function onLoad() {
 			arrayPuzzleTileCountId[iTileBgCount] = document.getElementById("puzzleTileImageIdBg"+iTileBgCount);
 
 			arrayPuzzleTileCountId[iTileBgCount].style.visibility="hidden";
-						
+
+/* //removed by Mike, 20221106						
 			//added by Mike, 20221105
 			//reference: https://www.w3schools.com/tags/tag_img.asp;
 			//last accessed: 20221105
 			//count			
 			arrayPuzzleTileCountId[iTileBgCount].alt=(iTileBgCount+1)+"";
 			
-			if ((iTileBgCount+1)==iTileBgCountMax) {
+			//added by Mike, 20221106			arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+*/			
+
+			//edited by Mike, 20221106
+//			if ((iTileBgCount+1)==iTileBgCountMax) {
+			//starts @0
+			if (iTileBgCount==iTileBgCountMax-1) {
+//alert(iTileBgCount);
 				arrayPuzzleTileCountId[iTileBgCount].alt=""; //space
+				
+				//added by Mike, 20221106
+				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";		
+
+				bIsTargetAtSpace=true;
+			}
+			else {
+				//added by Mike, 20221106
+				//reference: https://www.w3schools.com/tags/tag_img.asp;
+				//last accessed: 20221105
+				//count			
+				//edited by Mike, 20221106				//arrayPuzzleTileCountId[iTileBgCount].alt=(iTileBgCount+1)+"";
+				//TO-DO: -reverify: this				
+				//note: center-align COMMAND via CSS has OUTPUT ERROR
+				var sOffsetPaddingBeforeText="";
+				if (iTileBgCount+1 < 10) {
+					sOffsetPaddingBeforeText=" ";
+				}
+
+				arrayPuzzleTileCountId[iTileBgCount].alt=sOffsetPaddingBeforeText+(iTileBgCount+1)+"";
+				
+				//added by Mike, 20221106
+				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32Tile";	
 			}
 			
 			iTileBgCount++;
