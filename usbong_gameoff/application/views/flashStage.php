@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221106; from 20221105
+' @date updated: 20221108; from 20221106
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -144,6 +144,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							display: block;
 							width: 320px; /*160px*2;*/	
 							height: 288px; /*144px*2;*/	
+							
 							
 							/* //added by Mike, 20221104 */
 							z-index: -1;							
@@ -1057,6 +1058,9 @@ iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
 //added by Mike, 20220925
 bIsMobile = false;	  
 
+//added by Mike, 20221108
+bIsUsingAppleWebKit=false;
+
 //added by Mike, 20221105
 bIsTargetAtSpace = true;
 		  
@@ -1152,9 +1156,15 @@ function pauseAudio() {
 	  //added by Mike, 20220825
 	  //playAudio();
 	  document.getElementById("myAudioId").play();
-
+	  
+	  //added by Mike, 20221108
+	  //note: fullscreenElement command 
+	  //does NOT execute on AppleWebKit, e.g. iPad 15
 	  if (!document.fullscreenElement) {
 		document.documentElement.requestFullscreen();
+		
+				//alert("hallo");
+
 	  } else if (document.exitFullscreen) {
 
 		//added by Mike, 20221020
@@ -1381,6 +1391,8 @@ function myUpdateFunction() {
 	myCanvasContext.fillRect(0, 0, iStageMaxWidth, iStageMaxHeight);	
 
 //alert (iHorizontalOffset);
+
+//TO-DO: -reverify: this with AppleWebKite
 
 //myCanvas.style.left = (iHorizontalOffset+0)+"px";	
 
@@ -2044,15 +2056,30 @@ if (bIsTargetAtSpace) {
 		buttonRightLeverCenterNeutralKey.style.visibility = "hidden";
 	}
 	else {
-		//added by Mike, 20221002
-		iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
+		//edited by Mike, 20221108
+		if (bIsUsingAppleWebKit) {
+			iVerticalOffset=(iStageMaxHeight+buttonUpKey.clientHeight*3);			
 
-		//alert(screen.orientation); //OUTPUT: [object ScreenOrientation]
+			//alert(screen.orientation); //OUTPUT: [object ScreenOrientation]
 
-		if (window.matchMedia("(orientation: landscape)").matches) {
-			//note: for CONTROLLER BUTTONS
-			iVerticalOffset=(screen.height-buttonUpKey.clientHeight*3); //set to 3 button height from the bottom
-		}		
+			if (window.matchMedia("(orientation: landscape)").matches) {
+				//note: for CONTROLLER BUTTONS
+				iVerticalOffset=(iStageMaxHeight+buttonUpKey.clientHeight*3); //set to 3 button height from the stage max height
+			}	
+		}
+		else {			
+			//added by Mike, 20221002
+			iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
+			
+			//alert(screen.orientation); //OUTPUT: [object ScreenOrientation]
+
+			if (window.matchMedia("(orientation: landscape)").matches) {
+				//note: for CONTROLLER BUTTONS
+				iVerticalOffset=(screen.height-buttonUpKey.clientHeight*3); //set to 3 button height from the bottom
+			}				
+		}
+
+	
 		
 		buttonUpKey.style.left = (0)+iButtonWidth*1+"px";
 		buttonUpKey.style.top =  iVerticalOffset+"px"; //iStageMaxHeight+"px";
@@ -2076,6 +2103,11 @@ if (bIsTargetAtSpace) {
 		buttonDownKey.style.visibility = "visible";
 
 
+		//edited by Mike, 20221108
+		if (bIsUsingAppleWebKit) {
+			//alert (screen.width);
+		}	
+		
 		//added by Mike, 20221021
 		buttonLetterIKey.style.left = (screen.width)-iButtonWidth*2+"px";
 		buttonLetterIKey.style.top =  iVerticalOffset+"px"; //iStageMaxHeight+"px";
@@ -2098,9 +2130,10 @@ if (bIsTargetAtSpace) {
 		buttonLetterKKey.style.top =  iVerticalOffset+iButtonHeight*2+"px"; //iStageMaxHeight+iButtonHeight*2+"px";
 		buttonLetterKKey.style.visibility = "visible";
 	}
-	
-	//added by Mike, 20221007
-	if (!document.fullscreenElement) {
+
+	//added by Mike, 20221007; edited by Mike, 20221108
+//	if (!document.fullscreenElement) {
+	if ((!document.fullscreenElement) && (!bIsUsingAppleWebKit)) {
 		buttonLeftKey.style.visibility="hidden";
 		buttonRightKey.style.visibility="hidden";
 		buttonUpKey.style.visibility="hidden";
@@ -2396,8 +2429,9 @@ function keyPressUp(iKey, event) {
 //reference: https://stackoverflow.com/questions/62823062/adding-a-simple-left-right-swipe-gesture/62825217#62825217;
 //answer by: smmehrab, 20200709T2330; edited 20200711T0355
 function handleGesture() {
-	//added by Mike, 20221030
-	if (document.fullscreenElement) {
+	//added by Mike, 20221030; edited by Mike, 20221108
+//	if (document.fullscreenElement) {
+	if ((document.fullscreenElement) || (bIsUsingAppleWebKit)){
 		if (iTouchEndX < iTouchStartX) {
 			//console.log('Swiped Left');
 			//alert("Swiped Left");
@@ -2452,14 +2486,25 @@ function onLoad() {
 //	document.documentElement.mozRequestFullScreen();  
 */		
 
+	//added by Mike, 20221108
+	//alert(navigator.userAgent);
+
 	//added by Mike, 20220910
 	//reference: https://stackoverflow.com/questions/6666907/how-to-detect-a-mobile-device-with-javascript; last accessed: 20220910
 	//answer by: Baraa, 20141026T2059
-	if (/Mobile|Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-		alert("detected: Mobile Browser!");
+	//edited by Mike, 20221108
+//	if (/Mobile|Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+	if (/Mobile|Android|webOS|iPhone|iPad|iPod|AppleWebKit|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+
+//		alert("detected: Mobile Browser!");
 		
 		//added by Mike, 20220925
 		bIsMobile=true;
+		
+		//added by Mike, 20221108
+		if (navigator.userAgent.includes("AppleWebKit")) {
+			bIsUsingAppleWebKit=true;
+		}
 	}
 	
 	//added by Mike, 20221106
