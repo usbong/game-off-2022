@@ -1046,6 +1046,9 @@ iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
 //added by Mike, 20221005
 iVerticalOffsetInnerScreen=0;
 
+//added by Mike, 20221108
+iCurrentAppleWebKitInnerWidth=0;
+
 //added by Mike, 20221012
 let imgIpisTileX = iStageMaxWidth/2;
 let imgIpisTileY = iStageMaxHeight/2;	
@@ -2062,10 +2065,41 @@ if (bIsTargetAtSpace) {
 
 			//alert(screen.orientation); //OUTPUT: [object ScreenOrientation]
 
+/*			
+			//added by Mike, 20221108
+			const is320dpiOrMore = (window.devicePixelRatio * 96) >= 320; 
+			
+			alert((window.devicePixelRatio * 96)); //192 on iPad
+			
+			alert(is320dpiOrMore);
+*/
+			//alert(window.innerWidth);
+
+/*	//edited by Mike, 20221108
 			if (window.matchMedia("(orientation: landscape)").matches) {
+				
+				alert("screen.width: "+screen.width);
+				
 				//note: for CONTROLLER BUTTONS
 				iVerticalOffset=(iStageMaxHeight+buttonUpKey.clientHeight*3); //set to 3 button height from the stage max height
 			}	
+*/			
+			//alert(window.innerWidth);
+			
+			//note: CHANGE in orientation
+			if (iCurrentAppleWebKitInnerWidth!=window.innerWidth) {
+				iCurrentAppleWebKitInnerWidth=window.innerWidth;
+/*				
+				screen.width=iCurrentAppleWebKitInnerWidth;
+				alert(screen.width);
+*/				
+				iAppleWebKitInnerWidthOffset=iCurrentAppleWebKitInnerWidth-screen.width;
+				
+				if (iAppleWebKitInnerWidthOffset<0) {
+					iAppleWebKitInnerWidthOffset*=(-1);
+				}
+			}
+			
 		}
 		else {			
 			//added by Mike, 20221002
@@ -2102,31 +2136,32 @@ if (bIsTargetAtSpace) {
 		buttonDownKey.style.top =  iVerticalOffset+iButtonHeight*2+"px"; //iStageMaxHeight+iButtonHeight*2+"px";
 		buttonDownKey.style.visibility = "visible";
 
-
+/*	//removed by Mike, 20221108
 		//edited by Mike, 20221108
 		if (bIsUsingAppleWebKit) {
 			//alert (screen.width);
 		}	
+*/
 		
 		//added by Mike, 20221021
-		buttonLetterIKey.style.left = (screen.width)-iButtonWidth*2+"px";
+		buttonLetterIKey.style.left = iAppleWebKitInnerWidthOffset+(screen.width)-iButtonWidth*2+"px";
 		buttonLetterIKey.style.top =  iVerticalOffset+"px"; //iStageMaxHeight+"px";
 		buttonLetterIKey.style.visibility = "visible";
 		
-		buttonLetterJKey.style.left = (screen.width)-iButtonWidth*3+"px";
+		buttonLetterJKey.style.left = iAppleWebKitInnerWidthOffset+(screen.width)-iButtonWidth*3+"px";
 		buttonLetterJKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; //iStageMaxHeight+iButtonHeight*1+"px";
 		buttonLetterJKey.style.visibility = "visible";
 
 		//added by Mike, 20221019
-		buttonRightLeverCenterNeutralKey.style.left = (screen.width)-iButtonWidth*2+"px";
+		buttonRightLeverCenterNeutralKey.style.left = iAppleWebKitInnerWidthOffset+(screen.width)-iButtonWidth*2+"px";
 		buttonRightLeverCenterNeutralKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; 
 		buttonRightLeverCenterNeutralKey.style.visibility = "visible";
 
-		buttonLetterLKey.style.left = (screen.width)-iButtonWidth+"px";
+		buttonLetterLKey.style.left = iAppleWebKitInnerWidthOffset+(screen.width)-iButtonWidth+"px";
 		buttonLetterLKey.style.top =  iVerticalOffset+iButtonHeight*1+"px";//iStageMaxHeight+iButtonHeight*1+"px";
 		buttonLetterLKey.style.visibility = "visible";
 
-		buttonLetterKKey.style.left = (screen.width)-iButtonWidth*2+"px";
+		buttonLetterKKey.style.left = iAppleWebKitInnerWidthOffset+(screen.width)-iButtonWidth*2+"px";
 		buttonLetterKKey.style.top =  iVerticalOffset+iButtonHeight*2+"px"; //iStageMaxHeight+iButtonHeight*2+"px";
 		buttonLetterKKey.style.visibility = "visible";
 	}
