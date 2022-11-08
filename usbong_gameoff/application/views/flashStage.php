@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221108; from 20221106
+' @date updated: 20221109; from 20221108
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1065,6 +1065,8 @@ bIsMobile = false;
 bIsUsingAppleWebKit=false;
 //added by Mike, 20221108
 iAppleWebKitInnerWidthOffset=0;
+//added by Mike, 20221109
+bIsUsingAppleMac=false;
 
 //added by Mike, 20221105
 bIsTargetAtSpace = true;
@@ -2252,7 +2254,9 @@ if (bIsTargetAtSpace) {
 
 	//added by Mike, 20221007; edited by Mike, 20221108
 //	if (!document.fullscreenElement) {
-	if ((!document.fullscreenElement) && (!bIsUsingAppleWebKit)) {
+	//edited by Mike, 20221109
+//	if ((!document.fullscreenElement) && (!bIsUsingAppleWebKit)) {
+	if ((!document.fullscreenElement) || (bIsUsingAppleMac)) {
 		buttonLeftKey.style.visibility="hidden";
 		buttonRightKey.style.visibility="hidden";
 		buttonUpKey.style.visibility="hidden";
@@ -2550,7 +2554,9 @@ function keyPressUp(iKey, event) {
 function handleGesture() {
 	//added by Mike, 20221030; edited by Mike, 20221108
 //	if (document.fullscreenElement) {
-	if ((document.fullscreenElement) || (bIsUsingAppleWebKit)){
+	//edited by Mike, 20221109
+//	if ((document.fullscreenElement) || (bIsUsingAppleWebKit)){
+	if ((document.fullscreenElement) && (!bIsUsingAppleMac)){
 		if (iTouchEndX < iTouchStartX) {
 			//console.log('Swiped Left');
 			//alert("Swiped Left");
@@ -2623,7 +2629,13 @@ function onLoad() {
 		//added by Mike, 20221108
 		if (navigator.userAgent.includes("AppleWebKit")) {
 			bIsUsingAppleWebKit=true;
+			//added by Mike, 20221109
+			bIsUsingAppleMac=false; //default
 		}
+		
+		if ((navigator.userAgent.includes("Macintosh")) || navigator.userAgent.includes("Mac")) {
+			bIsUsingAppleMac=true;
+		}		
 	}
 	
 	//added by Mike, 20221106
