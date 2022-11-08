@@ -1063,6 +1063,8 @@ bIsMobile = false;
 
 //added by Mike, 20221108
 bIsUsingAppleWebKit=false;
+//added by Mike, 20221108
+iAppleWebKitInnerWidthOffset=0;
 
 //added by Mike, 20221105
 bIsTargetAtSpace = true;
@@ -1090,6 +1092,13 @@ const iCountMovementStepMax=100;
 var bIsInitAutoGeneratePuzzleFromEnd=false;
 var iDelayAnimationCountMovementStep=0;
 const iDelayAnimationCountMovementStepMax=6;
+
+//added by Mike, 20221108
+var bIsToLeftCornerDone=false;
+var bIsToTopCornerDone=false;
+var bIsToRightCornerDone=false;
+var bIsToBottomCornerDone=false;
+
 		  
 //added by Mike, 20220829
 const iImgIpisTileAnimationCountMax=6;
@@ -1224,11 +1233,62 @@ function autoGeneratePuzzleFromEnd() {
 	arrayKeyPressed[iKEY_K]=true;
 */
 
+	//added by Mike, 20221108
+	//move all outer tiles
+	//to: left corner
+	if (!bIsToLeftCornerDone) {
+		if (iCountMovementStep<iColumnCountMax) {
+			arrayKeyPressed[iKEY_A]=true;	
+			arrayKeyPressed[iKEY_K]=true;
+			iCountMovementStep++;		
+
+			return;
+		}
+		iCountMovementStep=0;
+		bIsToLeftCornerDone=true;
+	}
+	
+	if (!bIsToTopCornerDone) {
+		//to: top corner	
+		if (iCountMovementStep<iRowCountMax) {
+			arrayKeyPressed[iKEY_W]=true;	
+			arrayKeyPressed[iKEY_K]=true;
+			iCountMovementStep++;
+			return;
+		}
+		iCountMovementStep=0;
+		bIsToTopCornerDone=true;
+	}
+
+	if (!bIsToRightCornerDone) {	
+		//to: right corner
+		if (iCountMovementStep<iColumnCountMax) {
+			arrayKeyPressed[iKEY_D]=true;	
+			arrayKeyPressed[iKEY_K]=true;
+			iCountMovementStep++;		
+			return;
+		}
+		iCountMovementStep=0;
+		bIsToRightCornerDone=true;
+	}
+
+	if (!bIsToBottomCornerDone) {	
+		//to: bottom corner -1	
+		if (iCountMovementStep<iRowCountMax-1) {
+			arrayKeyPressed[iKEY_S]=true;	
+			arrayKeyPressed[iKEY_K]=true;
+			iCountMovementStep++;
+			return;
+		}
+		iCountMovementStep=0;
+		bIsToBottomCornerDone=true;
+	}
+	
 	//reference: https://www.w3schools.com/jsref/jsref_random.asp;
 	//last accessed: 20221108
 	//number between 0 and 4; integer only	
 //	for (iCount=0; iCount<iCountMovementStepMax; iCount++) {
-
+	
 	if (iCountMovementStep<iCountMovementStepMax) {
 		let iDirection = window.parseInt(Math.random() * 4);	
 		switch (iDirection) {
