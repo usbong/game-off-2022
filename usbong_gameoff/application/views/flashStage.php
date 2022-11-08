@@ -1084,6 +1084,12 @@ var arrayPuzzleTilePos = [ [],[],[],[] ];
 
 const iTileBgCountMax=iRowCountMax*iColumnCountMax;	
 
+//added by Mike, 20221108
+var iCountMovementStep=0;
+const iCountMovementStepMax=100;
+var bIsInitAutoGeneratePuzzleFromEnd=false;
+var iDelayAnimationCountMovementStep=0;
+const iDelayAnimationCountMovementStepMax=6;
 		  
 //added by Mike, 20220829
 const iImgIpisTileAnimationCountMax=6;
@@ -1209,6 +1215,47 @@ function pauseAudio() {
 	}, false);
 //--
 
+
+//added by Mike, 20221108
+//note: Carnage Heart from Videogame Magazines, Artificial Intelligence 
+function autoGeneratePuzzleFromEnd() {
+/*
+	arrayKeyPressed[iKEY_A]=true;	
+	arrayKeyPressed[iKEY_K]=true;
+*/
+
+	//reference: https://www.w3schools.com/jsref/jsref_random.asp;
+	//last accessed: 20221108
+	//number between 0 and 4; integer only	
+//	for (iCount=0; iCount<iCountMovementStepMax; iCount++) {
+
+	if (iCountMovementStep<iCountMovementStepMax) {
+		let iDirection = window.parseInt(Math.random() * 4);	
+		switch (iDirection) {
+			case iKEY_W: //0
+				arrayKeyPressed[iKEY_W]=true;	
+				arrayKeyPressed[iKEY_K]=true;						
+				break;	
+			case iKEY_S: //1
+				arrayKeyPressed[iKEY_S]=true;	
+				arrayKeyPressed[iKEY_K]=true;
+				break;	
+			case iKEY_A: //2
+				arrayKeyPressed[iKEY_A]=true;	
+				arrayKeyPressed[iKEY_K]=true;
+				break;	
+			case iKEY_D: //3
+				arrayKeyPressed[iKEY_D]=true;	
+				arrayKeyPressed[iKEY_K]=true;			
+				break;	
+		}
+		iCountMovementStep++;
+	}	
+	else {
+		bIsInitAutoGeneratePuzzleFromEnd=false;
+	}
+}
+
 // NOTE:
 //reference: https://stackoverflow.com/questions/8663246/javascript-timer-loop;
 //last accessed: 20220424
@@ -1217,6 +1264,7 @@ function pauseAudio() {
 //edited by Mike, 20220820
 
 function myUpdateFunction() {
+
 //	alert("count!");
 	//TO-DO: -add: update logic	
 	//--> TO-DO: -add: collision detection and output
@@ -1268,7 +1316,6 @@ function myUpdateFunction() {
 	var pauseLink = document.getElementById("pauseLinkId");
 	var iPauseLinkHeight = (pauseLink.clientHeight);//+1; + "px";
 	var iPauseLinkWidth = (pauseLink.clientWidth);//+1; + "px"
-
 
 
 /* //removed by Mike, 20220827; output: still noticeable delay in animation of ipis
@@ -1569,8 +1616,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 //		alert("iKEY_L");
 	}
 	
-	
-	
 	//added by Mike, 20220904
 	//COLLISION DETECTION UPDATE
 	
@@ -1687,30 +1732,7 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 //imgIpisTileNumber2.style.visibility = "hidden";
 		
-/*	//removed by Mike, 20221105		
-	//added by Mike, 20220925
-	arrayTileBg = [];
-	for (let iTileBgCount=0; iTileBgCount<4; iTileBgCount++) {
-		//var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber"+iCount);
-		arrayTileBg[iTileBgCount] = document.getElementById("ipisTileImageIdBg"+iTileBgCount);
-		//edited by Mike, 20220911; removed by Mike, 20220925
-		//arrayTileBg[iTileBgCount].style.left = iTileBgCount*64+"px";						
-	
-		//arrayTileBg[iTileBgCount].style.left = (screen.width/2-iTileBgCount*64*2)+iTileBgCount*64+"px";
-		//edited by Mike, 20220925
-//		arrayTileBg[iTileBgCount].style.left = screen.width/2+"px";
-		arrayTileBg[iTileBgCount].style.left = iHorizontalOffset+"px";
 		
-		//arrayTileBg[iTileBgCount].style.top =  iStageMaxHeight+"px";		
-		//edited by Mike, 20220925
-		arrayTileBg[iTileBgCount].style.top =  0+"px";
-//		arrayTileBg[iTileBgCount].style.top =  iVerticalOffset+"px";		
-
-		//added by Mike, 20221105
-		arrayTileBg[iTileBgCount].style.visibility="hidden";
-	}
-*/
-
 	//added by Mike, 20221105
 	//removed by Mike, 20221105
 	//arrayPuzzleTileCountId = []; 
@@ -1794,13 +1816,13 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 */
 		//alert(arrayPuzzleTileCountId[iTileBgCount].style.verticalAlign); 
 		
+
 		
 
 //edited by Mike, 20221105; note: last tile @#16, space
 		//edited by Mike, 20221106
 //		if (iTileBgCount==iTileBgCountMax-1) {
 		if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
-
 			
 			//reminder: @last tile #16, space
 			//pressed up, tile above the space
@@ -1831,7 +1853,7 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 					bIsTargetAtSpace=false;
 				}	
 			}
-			else if (arrayKeyPressed[iKEY_A]) {
+			else if (arrayKeyPressed[iKEY_A]) {						
 				if ((iColumnCount-1)>=0) {
 					iTargetTileBgCount=arrayPuzzleTilePos[iRowCount][iColumnCount-1];
 
@@ -1855,13 +1877,15 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 					bIsTargetAtSpace=false;
 				}	
 			}			
-			else {	//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";		
+			else {	
+			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";		
 				bIsTargetAtSpace=true;
+				
 			}
 	
 /*	
 			//added by Mike, 20221106
-			for (iCount=0; iCount<iDirectionTotalKeyCount; iCount++) {
+			for (iCount=0; iCount<bIsInitAutoGeneratePuzzleFromEndiDirectionTotalKeyCount; iCount++) {
 				arrayKeyPressed[iCount]=false;	
 			}	
 */			
@@ -1878,7 +1902,8 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileTarget";
 			
-			if (bIsTargetAtSpace) {				
+			if (bIsTargetAtSpace) {	
+						
 				if (iTargetAtSpaceBlinkAnimationCount==iTargetAtSpaceBlinkAnimationCountMax) {
 					if (arrayPuzzleTileCountId[iTileBgCount].className=='Image32x32TileSpace') {
 					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
@@ -1891,7 +1916,10 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 				else {
 					iTargetAtSpaceBlinkAnimationCount++;
 				}				
-//alert(iTargetAtSpaceBlinkAnimationCount);				
+//alert(iTargetAtSpaceBlinkAnimationCount);	
+
+
+			
 			}				
 			else {				
 				for (iCount=0; iCount<iTotalKeyCount; iCount++) {
@@ -1946,6 +1974,17 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 				(arrayKeyPressed[iKEY_I]) ||
 				(arrayKeyPressed[iKEY_K])) {
 				//reminder: iTileBgCount = iTileBgCountMax-1
+			
+			
+			//added by Mike, 20221108
+/*			
+alert("iTileBgCount"+iTileBgCount);
+alert("iTargetTileBgCount"+iTargetTileBgCount);
+*/
+			//TO-DO: -reverify: to solve problem with accepting right side keys to cause CHANGE in tile space to be tile image without number			
+			if (iTargetTileBgCount==-1) {
+				break;
+			}
 				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32Tile";
 				
 				arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileSpace";
@@ -1961,6 +2000,7 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 				
 				//arrayPuzzleTileCountId[iTargetTileBgCount].alt=iTileBgCountMax;
 
+//alert("hallo");
 
 				bIsTargetAtSpace=true;
 			}	
@@ -1970,29 +2010,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 			for (iCount=0; iCount<iTotalKeyCount; iCount++) {
 				arrayKeyPressed[iCount]=false;	
 			}
-			
-
-/*	//removed by Mike, 20221106
-			if (bIsTargetAtSpace) {
-				if (iTargetAtSpaceBlinkAnimationCount==iTargetAtSpaceBlinkAnimationCountMax) {
-					if (arrayPuzzleTileCountId[iTileBgCount].className=='Image32x32TileSpace') {
-					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
-					}
-					else {
-					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
-					}
-					iTargetAtSpaceBlinkAnimationCount=0;
-				}
-				else {
-					iTargetAtSpaceBlinkAnimationCount++;
-				}
-			}
-*/			
-			
-			//added by Mike, 20221106
-			//arrayPuzzleTileCountId[iTileBgCount].alt=""; 
-//iTileBgCountMax
-		    //removed by Mike, 20221106	//arrayPuzzleTileCountId[iTileBgCountMax-1].alt=""; 
 		}				
 				
 /* //note effect; 
@@ -2016,12 +2033,19 @@ if (bIsTargetAtSpace) {
 		//alert("iTileBgCount: "+iTileBgCount);		
 		}
 	}
-	
-	
-
-	
 
 
+	//added by Mike, 20221108
+	if (bIsInitAutoGeneratePuzzleFromEnd) {
+		if (iDelayAnimationCountMovementStep==iDelayAnimationCountMovementStepMax) 	
+		{
+			autoGeneratePuzzleFromEnd();
+			iDelayAnimationCountMovementStep=0;
+		}
+		else {
+			iDelayAnimationCountMovementStep++;
+		}
+	}	
 		
 		
 	//added by Mike, 20220917	
@@ -2192,6 +2216,7 @@ if (bIsTargetAtSpace) {
 		buttonDownKey.style.visibility="visible";
 	}	
 */	
+
 }
 
 /* //removed by Mike, 20220904
@@ -2406,7 +2431,6 @@ function leftKeyPressUp() {
 //edited by Mike, 20221030
 //function keyPressDown(iKey) {
 function keyPressDown(iKey, event) {
-
 	//added again by Mike, 20221106; from 20221101
 	//note: verify before left-side buttons
 	for (iCount=iDirectionTotalKeyCount; iCount<iTotalKeyCount; iCount++) {
@@ -2779,6 +2803,12 @@ function onLoad() {
 
 	document.body.onkeydown = function(e){
 	//alert("e.keyCode: "+e.keyCode);
+		
+		//added by Mike, 20221108
+		if (bIsInitAutoGeneratePuzzleFromEnd) {
+			return;
+		}
+		
 		
 /* //removed by Mike, 20220823		
 		var imgIpisTile = document.getElementById("ipisTileImageId");
@@ -3191,198 +3221,16 @@ alert("iButtonHeight"+iButtonHeight);
 
 	}, false);
 	
-
-	
-	
+	//added by Mike, 20221108
+	bIsInitAutoGeneratePuzzleFromEnd=true;	
+	//autoGeneratePuzzleFromEnd();
+			
 	//added by Mike, 20220904
 	setInterval(myUpdateFunction, 16.66); //1000/60=16.66; 60 frames per second
 	
 }		
 
-
-		//SVGH
-		function copyText(iCount){
-//			alert("hello"+iCount);
-	 
-			//Reference: https://stackoverflow.com/questions/51625169/click-on-text-to-copy-a-link-to-the-clipboard;
-			//last accessed: 20200307
-			//answer by: colxi on 20180801; edited by: Lord Nazo on 20180801	 
-/*	 
-			var holdText = document.getElementById("patientNameId"+iCount).innerText;
-
-			const el = document.createElement('textarea');
-		    el.value = holdText;
-			document.body.appendChild(el);
-			el.select();
-			document.execCommand('copy');
-			document.body.removeChild(el);
-
-			//alert("text: "+holdText);
-*/
-			var sHoldTextPatientName = document.getElementById("patientNameId"+iCount).innerText;
-			var sHoldTextFee = document.getElementById("feeId"+iCount).innerText; //.innerText;
-
-//			alert("sHoldTextPatientName: "+sHoldTextPatientName);
-//			alert("sHoldTextFee: "+sHoldTextFee);
-
-			var sHoldTextTransactionTypeName = document.getElementById("transactionTypeNameId"+iCount).innerText;
-
-			var sTreatmentTypeName = document.getElementById("treatmentTypeNameId"+iCount).innerText;
-
-			var sDiscountAmount = "";
-			var sTotalAmount = "0";
-			
-			if (sHoldTextTransactionTypeName=="CASH") {
-				//alert("CASH!");
-				sTotalAmount = sHoldTextFee;
-			}
-			else if (sHoldTextTransactionTypeName=="SC/PWD") {
-				//note: solve the values of the other variables using one (1) known variable value
-				sTotalAmount = sHoldTextFee
-				sHoldTextFee = -sHoldTextFee/(0.20-1);
-				sDiscountAmount = "" + sHoldTextFee*0.20;
-			}
-			else if (sHoldTextTransactionTypeName=="NC") {
-				sHoldTextFee = "NC";				
-				sTotalAmount = "NC";				
-			}						
-			else { //hmo
-				sHoldTextFee = "HMO";				
-				sTotalAmount = sHoldTextTransactionTypeName.toLowerCase();				
-			}
-			
-			const el = document.createElement('textarea');
-/*		    
-			el.value = sHoldTextPatientName+ "\t" + sHoldTextFee + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + sDiscountAmount + "\t" + sTotalAmount;
-			document.body.appendChild(el);
-*/			
-
-			sTreatmentTypeName = sTreatmentTypeName.toUpperCase();
-			
-			if ((sTreatmentTypeName=="SWT") || (sTreatmentTypeName=="SHOCKWAVE")) {
-				el.value = sHoldTextPatientName + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" +sHoldTextFee + "\t" + "\t" + sDiscountAmount + "\t" + sTotalAmount;
-			}
-			else if (sTreatmentTypeName=="LASER") {
-				el.value = sHoldTextPatientName + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" +sHoldTextFee + "\t" + "\t" + sDiscountAmount + "\t" + "\t" + sTotalAmount;
-			}
-			else if (sTreatmentTypeName=="OT") {
-				el.value = sHoldTextPatientName + "\t" + "\t" + sHoldTextFee + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + sDiscountAmount + "\t" + sTotalAmount;
-			}
-			else if (sTreatmentTypeName=="IN-PT") {
-				el.value = sHoldTextPatientName + "\t" + "\t" + "\t" + "\t" + sHoldTextFee + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + sDiscountAmount + "\t" + sTotalAmount;
-			}
-			else {
-				el.value = sHoldTextPatientName+ "\t" + sHoldTextFee + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + sDiscountAmount + "\t" + sTotalAmount;
-			}
-			
-			document.body.appendChild(el);							
-			el.select();
-			document.execCommand('copy');
-			document.body.removeChild(el);
-
-//			alert("text: "+sHoldTextPatientName + sHoldTextFee);//el.value);
-
-		}
-/*	  
-		  defaultScrollWidth = 0;
-		  
-		  function auto_grow(element) {
-			element.style.height = "5px";
-			element.style.height = (element.scrollHeight*4)+"px";
-
-			if (defaultScrollWidth == 0) {
-				defaultScrollWidth = element.scrollWidth; //i.e. 42% of the width of the full width of the Browser Window
-				alert("defaultScrollWidth: "+defaultScrollWidth);
-			}
-			else if (element.scrollWidth < defaultScrollWidth){
-//				defaultScrollWidth = 100%;
-				defaultScrollWidth = element.scrollWidth;
-//				alert("defaultScrollWidth: "+defaultScrollWidth);
-
-			}
-				
-			element.style.width = defaultScrollWidth; //(element.scrollWidth+element.scrollWidth*0.42)+"px";			
-		  }
-*/
-
-		function copyTextMOSC(iCount){
-//			alert("hello"+iCount);
-	 
-			//Reference: https://stackoverflow.com/questions/51625169/click-on-text-to-copy-a-link-to-the-clipboard;
-			//last accessed: 20200307
-			//answer by: colxi on 20180801; edited by: Lord Nazo on 20180801	 
-
-			var sHoldTextPatientName = document.getElementById("patientNameId"+iCount).innerText;
-			
-			const el = document.createElement('textarea');
-
-			el.value = sHoldTextPatientName;
-			
-			document.body.appendChild(el);							
-			el.select();
-			document.execCommand('copy');
-			document.body.removeChild(el);
-
-//			alert("text: "+sHoldTextPatientName + sHoldTextFee);//el.value);
-
-		}
-
-
-		//added by Mike, 20220415				
-		function myPopupFunction(iButtonId) {			
-			//TO-DO: -update: this
-			//+iCount
-			var iMyCurrentChargeCount = document.getElementById("myCurrentChargeCountId").value; //innerText
-			
-			//do the following omyUpdateFunctionnly if value is a Number, i.e. not NaN
-			if (!isNaN(iMyCurrentChargeCount)) {		
-				//alert(iMyCurrentChargeCount);
-				
-				//auto-verify IF charge count sufficient to execute ACTION, e.g. PUNCH
-				//added by Mike, 20220416
-				//note: @present, max action COST = 1
-				
-				if ( (iButtonId!=0) && (iButtonId!=1)){ //CHARGE Button OR GUARD Button
-					if (iMyCurrentChargeCount<=0) {
-/* //edited by Mike, 20220417						
-						alert("INSUFFICIENT CHARGE!");
-
-//						document.getElementById("iButtonId2").focus=false; 				
-						
-						//reference:					
-						//https://stackoverflow.com/questions/15897434/javascript-refresh-parent-page-without-entirely-reloading
-						//answer by: decden, 20130419T0858
-						//edited by: CommunityBot, 20170523T1159
-						window.location = window.location;
-*/
-						//TO-DO: -add: IF player count >= 2
-						document.getElementById("spanMyCurrentChargeCountP1Id").style="color:red"; 	
-						
-						//TO-DO: -add: rest of button ID's
-						//edited by Mike, 20220417
-//						document.getElementById("iButtonId2").blur(); 				
-						//document.getElementById("iButtonId"+2).blur(); 	
-						document.getElementById("iButtonId"+iButtonId).blur(); 	
- 										
-						return;
-					}
-				}				
-			}
-		
-/* //removed by Mike, 20210902
-			//added by Mike, 20210424
-			//note: we add this command to prevent multiple button clicks
-			//received by computer server before identifying that a patient transaction
-			//already exists in Cart List from Database
-			document.getElementById("addButtonId").disabled = true;
-*/
-			window.location.href = "<?php echo site_url('canvas/confirm/"+iButtonId+"');?>";
 	
-			//added by Mike, 20210424
-			//note: no need to add this due to computer enables button after reloading page
-//			document.getElementById("addButtonId").disabled = false;
-//			setTimeout(setButton("addButtonId",false),300000);
-		}			
 	  </script>
   <!-- edited by Mike, 20220822 -->
 
