@@ -2996,10 +2996,27 @@ function onLoad() {
 		
 	}	
 	
+	//added by Mike, 20221110
+	//reference: https://stackoverflow.com/questions/70827887/detect-click-vs-touch-in-javascript;
+	//last accessed: 20221110
+	//answer by:  Jacob, 20220124T0110
+	document.body.addEventListener('pointerdown', (event) => {
+	  if (event.pointerType === "mouse") {
+		  alert("MOUSE");
+	  }
+	  if (event.pointerType === "touch") {
+		  alert("TOUCH");		  
+	  }
+	  if (event.pointerType === "pen") {
+		  
+	  }
+	});
+
+	
 	//added by Mike, 20221101
 	//TO-DO: -re-verify: using array container
 	//--> with iTouchStartX, iTouchEndX
-	
+		
 	//added by Mike, 20221029
 	//reference: https://stackoverflow.com/questions/62823062/adding-a-simple-left-right-swipe-gesture/62825217#62825217;
 	//answer by: smmehrab, 20200709T2330; edited 20200711T0355
