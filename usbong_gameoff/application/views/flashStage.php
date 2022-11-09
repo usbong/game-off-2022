@@ -2633,6 +2633,7 @@ function onLoad() {
 			bIsUsingAppleMac=false; //default
 		}
 		
+		//note: iPAD and MacBookPro OS : Mac OS X
 		if ((navigator.userAgent.includes("Macintosh")) || navigator.userAgent.includes("Mac")) {
 			bIsUsingAppleMac=true;
 		}		
