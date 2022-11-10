@@ -2126,8 +2126,11 @@ if (bIsTargetAtSpace) {
 	alert("iVerticalOffset"+iVerticalOffset);
 */
 
-	//edited by Mike, 20220925
-	if (!bIsMobile) {
+	//edited by Mike, 20221110; from 20220925	
+//	if (!bIsMobile) {		
+	//TO-DO: -reverify: this
+	//if (!document.fullscreenElement) {	
+	if ((!bIsMobile) || (bIsUsingAppleMac)) {
 		buttonUpKey.style.visibility = "hidden";		
 		buttonLeftKey.style.visibility = "hidden";
 		buttonRightKey.style.visibility = "hidden";
@@ -2256,22 +2259,26 @@ if (bIsTargetAtSpace) {
 //	if (!document.fullscreenElement) {
 	//edited by Mike, 20221109
 //	if ((!document.fullscreenElement) && (!bIsUsingAppleWebKit)) {
-	if ((!document.fullscreenElement) || (bIsUsingAppleMac)) {
-		buttonLeftKey.style.visibility="hidden";
-		buttonRightKey.style.visibility="hidden";
-		buttonUpKey.style.visibility="hidden";
-		buttonDownKey.style.visibility="hidden";
-		
-		buttonLeverCenterNeutralKey.style.visibility="hidden";
+	//edited by Mike, 20221110
+//	if ((!document.fullscreenElement) || (bIsUsingAppleMac)) {
+//	if ((!document.fullscreenElement) && (bIsUsingAppleMac)) {
+/* //removed by Mike, 20221110
+		if ((!document.fullscreenElement) || (bIsUsingAppleMac)) {
+			buttonLeftKey.style.visibility="hidden";
+			buttonRightKey.style.visibility="hidden";
+			buttonUpKey.style.visibility="hidden";
+			buttonDownKey.style.visibility="hidden";
+			
+			buttonLeverCenterNeutralKey.style.visibility="hidden";
 
-		//added by Mike, 20221021
-		buttonLetterJKey.style.visibility="hidden";
-		buttonLetterLKey.style.visibility="hidden";
-		buttonLetterIKey.style.visibility="hidden";
-		buttonLetterKKey.style.visibility="hidden";
-		
-		buttonRightLeverCenterNeutralKey.style.visibility="hidden";		
-	}
+			//added by Mike, 20221021
+			buttonLetterJKey.style.visibility="hidden";
+			buttonLetterLKey.style.visibility="hidden";
+			buttonLetterIKey.style.visibility="hidden";
+			buttonLetterKKey.style.visibility="hidden";			
+			buttonRightLeverCenterNeutralKey.style.visibility="hidden";		
+		}
+*/		
 /*	
 	else {
 		buttonLeftKey.style.visibility="visible";
@@ -2632,8 +2639,9 @@ function onLoad() {
 			//added by Mike, 20221109
 			bIsUsingAppleMac=false; //default
 		}
-		
+
 		//note: iPAD and MacBookPro OS : Mac OS X
+		//adds: to be re-classified as iPAD via TOUCH command
 		if ((navigator.userAgent.includes("Macintosh")) || navigator.userAgent.includes("Mac")) {
 			bIsUsingAppleMac=true;
 		}		
@@ -3002,14 +3010,22 @@ function onLoad() {
 	//answer by:  Jacob, 20220124T0110
 	document.body.addEventListener('pointerdown', (event) => {
 	  if (event.pointerType === "mouse") {
-		  alert("MOUSE");
+		  //alert("MOUSE");
+		  if (bIsUsingAppleWebKit) {
+			bIsUsingAppleMac=true;
+		  }
 	  }
 	  if (event.pointerType === "touch") {
-		  alert("TOUCH");		  
+		  //alert("TOUCH");		  
+		  if (bIsUsingAppleWebKit) {
+			bIsUsingAppleMac=false;
+			bIsMobile=true; //added by Mike, 20221110
+		  }
 	  }
-	  if (event.pointerType === "pen") {
-		  
+/*	//removed by Mike, 20221110	  
+	  if (event.pointerType === "pen") {		  
 	  }
+*/	  
 	});
 
 	
