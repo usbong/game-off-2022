@@ -1068,6 +1068,9 @@ iAppleWebKitInnerWidthOffset=0;
 //added by Mike, 20221109
 bIsUsingAppleMac=false;
 
+//added by Mike, 20221110
+bIsAudioPlaying=false;
+
 //added by Mike, 20221105
 bIsTargetAtSpace = true;
 		  
@@ -1173,25 +1176,42 @@ function pauseAudio() {
 	//reference: https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API;
 	//last accessed: 20220825
 	function toggleFullScreen() {
-	  //added by Mike, 20220825
-	  //playAudio();
-	  document.getElementById("myAudioId").play();
-	  
 	  //added by Mike, 20221108
 	  //note: fullscreenElement command 
 	  //does NOT execute on AppleWebKit, e.g. iPad 15
-	  if (!document.fullscreenElement) {
-		document.documentElement.requestFullscreen();
-		
-				//alert("hallo");
+	  //added by Mike, 20221110
+	  if (!bIsUsingAppleWebKit) {
+		  if (!document.fullscreenElement) {
+			document.documentElement.requestFullscreen();
+			
+			document.getElementById("myAudioId").play();
+			bIsAudioPlaying=true;
 
-	  } else if (document.exitFullscreen) {
+					//alert("hallo");
 
-		//added by Mike, 20221020
-		//pauseAudio();
-		document.getElementById("myAudioId").pause();
-		
-		document.exitFullscreen();
+		  } else if (document.exitFullscreen) {
+
+			//added by Mike, 20221020
+			//pauseAudio();
+			document.getElementById("myAudioId").pause();
+
+			//added by Mike, 20221110
+			bIsAudioPlaying=false;
+			
+			document.exitFullscreen();
+		  }
+	  }
+	  else {
+		  if (!bIsAudioPlaying) {		
+//			alert("play");
+		  	document.getElementById("myAudioId").play();		  
+			bIsAudioPlaying=true;
+		  }
+		  else {
+//			alert("pause");
+		    document.getElementById("myAudioId").pause();
+		    bIsAudioPlaying=false;
+		  }
 	  }
 
 /*	  //removed by Mike, 20221007
@@ -3554,15 +3574,20 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 <!-- //added by Mike, 20221019 -->
 <button id="rightLeverCenterNeutralKeyId" class="controlKeyButtonRightLeverCenterNeutral">OOO</button>
 
-
-
-
+<!-- //edited by Mike, 20221110
+	//reference: https://stackoverflow.com/questions/12804028/safari-with-audio-tag-not-working; 
+	//last accessed: 20221110
+	//answer by: George Dimitriadis, 20171016T1500
+	//edited by: 404 - Brain Not Found, 20221124T2110
+	
 	<audio id="myAudioId" class="myAudio" controls loop>
-<!-- //edited by Mike, 20221019
-	  <source src="assets/audio/Tinig 112.m4a" type="audio/x-m4a">
--->
 	  <source src="assets/audio/Tinig UsbongFlashReferenceDQ1GameboyColorLow64KBitsPerSec.mp3" type="audio/x-m4a">
 	  Your browser does not support the audio tag.
 	</audio><br/>	
+-->
+	<audio id="myAudioId" class="myAudio" src="assets/audio/Tinig UsbongFlashReferenceDQ1GameboyColorLow64KBitsPerSec.mp3" type="audio/x-m4a" controls loop>
+	  Your browser does not support the audio tag.
+	</audio><br/>	
+
   </body>
 </html>
