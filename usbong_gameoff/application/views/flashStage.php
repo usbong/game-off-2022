@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221109; from 20221108
+' @date updated: 20221111; from 20221110
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1246,6 +1246,25 @@ function pauseAudio() {
 	}, false);
 //--
 
+//added by Mike, 20221111
+function autoVerifyPuzzleIfAtEnd() {
+	if (!bIsInitAutoGeneratePuzzleFromEnd) {
+		iTileBgCount=0;
+
+		for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
+			for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
+				//alert(iTileBgCount);
+				arrayPuzzleTilePos[iRowCount][iColumnCount]=iTileBgCount;
+
+				if (arrayPuzzleTileCountId[iTileBgCount].alt!=(iTileBgCount+1)) {
+					return;
+				}			
+			}
+		}
+			
+		alert("DONE!");
+	}	
+}
 
 //added by Mike, 20221108
 //note: Carnage Heart from Videogame Magazines, Artificial Intelligence 
@@ -2307,7 +2326,11 @@ if (bIsTargetAtSpace) {
 		buttonDownKey.style.visibility="visible";
 	}	
 */	
-
+		
+		//added by Mike, 20221111
+		if (!bIsInitAutoGeneratePuzzleFromEnd) {	
+			autoVerifyPuzzleIfAtEnd();
+		}
 }
 
 /* //removed by Mike, 20220904
@@ -3040,6 +3063,9 @@ function onLoad() {
 		  if (bIsUsingAppleWebKit) {
 			bIsUsingAppleMac=false;
 			bIsMobile=true; //added by Mike, 20221110
+			
+			//added by Mike, 20221111
+			toggleFullScreen();
 		  }
 	  }
 /*	//removed by Mike, 20221110	  
@@ -3347,7 +3373,7 @@ alert("iButtonHeight"+iButtonHeight);
 
 	}, false);
 	
-	//added by Mike, 20221108
+	//added by Mike, 20221108; edited by Mike, 20221111
 	bIsInitAutoGeneratePuzzleFromEnd=true;	
 	//autoGeneratePuzzleFromEnd();
 			
