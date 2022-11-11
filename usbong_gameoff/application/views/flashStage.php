@@ -1256,9 +1256,17 @@ function autoVerifyPuzzleIfAtEnd() {
 				//alert(iTileBgCount);
 				arrayPuzzleTilePos[iRowCount][iColumnCount]=iTileBgCount;
 
-				if (arrayPuzzleTileCountId[iTileBgCount].alt!=(iTileBgCount+1)) {
+/*				//edited by Mike, 20221111
+				alert(arrayPuzzleTileCountId[iTileBgCount].alt);
+				alert((iTileBgCount+1));
+*/
+				if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
+				}				
+				else if (arrayPuzzleTileCountId[iTileBgCount].alt!=(iTileBgCount+1)) {
 					return;
 				}			
+				
+				iTileBgCount++;
 			}
 		}
 			
@@ -1287,6 +1295,11 @@ function autoGeneratePuzzleFromEnd() {
 		}
 		iCountMovementStep=0;
 		bIsToLeftCornerDone=true;
+		
+		//added by Mike, 20221111; removed by Mike, 20221111
+		//note: add to quickly verify end OUTPUT
+		//bIsInitAutoGeneratePuzzleFromEnd=false;
+		//return;
 	}
 	
 	if (!bIsToTopCornerDone) {
@@ -2240,7 +2253,6 @@ if (bIsTargetAtSpace) {
 				iVerticalOffset=(screen.height-buttonUpKey.clientHeight*3); //set to 3 button height from the bottom
 			}				
 		}
-
 	
 		
 		buttonUpKey.style.left = (0)+iButtonWidth*1+"px";
