@@ -845,6 +845,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							background-color: #ffffff;
 							color: #222222;
 
+							/* //removed by Mike, 20221111
+							opacity: 0.5;*/
+							
+
 							font-weight: bold;
 							font-size: 146%; /*20px;*/
 							
@@ -3520,8 +3524,10 @@ alert("iButtonHeight"+iButtonHeight);
 	$iTileBgCountMax=$iRowCountMax*$iColumnCountMax;
 
 for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
-?>	
-	<img id="puzzleTileImageIdBg<?php echo $iCount;?>" class="Image32x32Tile" src="">
+	//edited by Mike, 20221111
+
+?>		
+	<img id="puzzleTileImageIdBg<?php echo $iCount;?>" class="Image32x32Tile" onerror="" src="assets/images/blank.png" alt="" title="">
 
 <?php
 }
