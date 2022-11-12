@@ -848,7 +848,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /* //removed by Mike, 20221112
 							object-position: -32px -32px; 
 */
+
+/* //edited by Mike, 20221112 */
+/*
 							background-color: #ffffff;
+*/
+background-color: transparent;
+border: none;
+
 							color: #222222;
 
 							/* //removed by Mike, 20221111
@@ -882,7 +889,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							width: 32px;
 							height: 32px;
 */
+
+/* //edited by Mike, 20221112 */
+/*
 							background-color: #ffffff;
+*/
+background-color: transparent;
+border: none;
 							color: #222222;
 
 							/* //added by Mike, 20221111 
@@ -918,7 +931,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							width: 32px;
 							height: 32px;
 */
-							background-color: #222222; /*;#ffffff*/
+
+/* //edited by Mike, 20221112 */
+/*
+							background-color: #222222;
+*/
+background-color: transparent;
+border: none;
+
+
 							color: #222222;
 
 							/* //added by Mike, 20221111 
@@ -953,7 +974,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							height: 32px;
 */
 
-							background-color: #222222; /*;#ffffff*/
+/* //edited by Mike, 20221112 */
+/*
+							background-color: #222222;
+*/
+background-color: transparent;
+border: none;
 							color: #222222;
 
 							text-align: center;
