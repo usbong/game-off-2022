@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221112; from 20221111
+' @date updated: 20221113; from 20221112
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -203,7 +203,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							background-color: rgb(20,20,20);
 							color: rgb(20,20,20);						
 						}
-
+						/* //added by Mike, 20221113 */
+						button:focus
+						{
+							outline:0;
+						}
 						
 						/* //added by Mike, 20220917
 						//reference: GAMEBOY COLOR;
@@ -1653,7 +1657,7 @@ function myUpdateFunction() {
 
 //alert (iHorizontalOffset);
 
-//TO-DO: -reverify: this with AppleWebKite
+//TO-DO: -reverify: this with AppleWebKit
 
 //myCanvas.style.left = (iHorizontalOffset+0)+"px";	
 
@@ -2796,6 +2800,12 @@ function onLoad() {
 			//added by Mike, 20221109
 			bIsUsingAppleMac=false; //default
 		}
+		
+		//added by Mike, 20221113
+		//notes: "AppleWebKit" to exist even with "Android"
+		if (navigator.userAgent.includes("Android")) {
+			bIsUsingAppleWebKit=false;
+		}		
 
 		//note: iPAD and MacBookPro OS : Mac OS X
 		//adds: to be re-classified as iPAD via TOUCH command
