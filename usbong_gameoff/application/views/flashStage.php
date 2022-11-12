@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221111; from 20221110
+' @date updated: 20221112; from 20221111
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -836,19 +836,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						/* noted by Mike, 20221105 */						
 						.Image32x32Tile {
 							position: absolute;
-/*							
+							
+							/* //added by Mike, 20221112 */
   							clip: rect(0px,32px,32px,0px);
-*/	
-
+	
+/* //removed by Mike, 20221112
 							width: 32px;
 							height: 32px;
+*/
+
+/* //removed by Mike, 20221112
+							object-position: -32px -32px; 
+*/
 							background-color: #ffffff;
 							color: #222222;
 
 							/* //removed by Mike, 20221111
 							opacity: 0.5;*/
 							
-
 							font-weight: bold;
 							font-size: 146%; /*20px;*/
 							
@@ -856,9 +861,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							line-height: 32px;
 
 							/*padding-top: 0.1875%;*/ /*6px;*/
-							
+
+/* //removed by Mike, 20221112							
 							border: 2px solid; /*double;*/
 							border-radius: 3px;
+*/
 							margin: 0px; /*1px;*/	
 							padding: 0px;
 							z-index: 3;		
@@ -867,14 +874,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						/* noted by Mike, 20221105 */						
 						.Image32x32TileTarget {
 							position: absolute;
-/*							
-  							clip: rect(0px,32px,32px,0px);
-*/	
 
+							/* //added by Mike, 20221112 */
+  							clip: rect(0px,32px,32px,0px);
+	
+/* //removed by Mike, 20221112
 							width: 32px;
 							height: 32px;
+*/
 							background-color: #ffffff;
 							color: #222222;
+
+							/* //added by Mike, 20221111 
+							   //TO-DO: -update: this
+							*/
+							opacity: 0.5;
 
 							font-weight: bold;
 							font-size: 146%; /*18px;*/
@@ -883,9 +897,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							line-height: 32px;
 
 							/*padding-top: 0.1875%;*/ /*6px;*/
-							
-							border: 3px solid #ff0000; /*double;*/
+
+/* //note: with clip rect border is put on entire sprite image */
+/* //removed by Mike, 20221112
+							border: 3px solid #ff0000;
 							border-radius: 3px;
+*/
 							margin: 0px; /*1px;*/	
 							padding: 0px;
 							z-index: 4;		
@@ -893,21 +910,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 						.Image32x32TileSpaceTarget {
 							position: absolute;
-/*							
+
+							/* //added by Mike, 20221112 */
   							clip: rect(0px,32px,32px,0px);
-*/							
+	
+/* //removed by Mike, 20221112
 							width: 32px;
 							height: 32px;
+*/
 							background-color: #222222; /*;#ffffff*/
 							color: #222222;
 
+							/* //added by Mike, 20221111 
+							   //TO-DO: -update: this
+							*/
+							opacity: 0.5;
+							
 							text-align: center;
 							line-height: 32px;
 
 							/*padding-top: 0.1875%;*/ /*6px;*/
 							
-							border: 2px solid #ffffff; /*#ff0000; double;*/
+/* //note: with clip rect border is put on entire sprite image */
+/* //removed by Mike, 20221112
+							border: 3px solid #ff0000;
 							border-radius: 3px;
+*/
 							margin: 0px; /*1px;*/	
 							padding: 0px;
 							z-index: 5;		
@@ -916,11 +944,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						/* added by Mike, 20221105 */
 						.Image32x32TileSpace {
 							position: absolute;
-/*							
-  							clip: rect(0px,32px,32px,0px);	
-*/														
+							
+							/* //added by Mike, 20221112 */
+  							clip: rect(0px,32px,32px,0px);
+	
+/* //removed by Mike, 20221112
 							width: 32px;
 							height: 32px;
+*/
+
 							background-color: #222222; /*;#ffffff*/
 							color: #222222;
 
@@ -929,9 +961,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							/*padding-top: 0.1875%;*/ /*6px;*/
 							
-							border: 2px solid;
+/* //note: with clip rect border is put on entire sprite image */
+/* //removed by Mike, 20221112
+							border: 3px solid #ff0000;
 							border-radius: 3px;
-
+*/
 							margin: 0px; /*1px;*/	
 							padding: 0px;	
 
@@ -1249,6 +1283,47 @@ function pauseAudio() {
 */
 	}, false);
 //--
+
+//added by Mike, 20221112
+function autoUpdatePuzzleTileImage() {
+//	if (!bIsInitAutoGeneratePuzzleFromEnd) {
+		iTileBgCount=0;
+
+		for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
+			for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
+				//alert(iTileBgCount);
+				arrayPuzzleTilePos[iRowCount][iColumnCount]=iTileBgCount;
+
+/*				//edited by Mike, 20221111
+				alert(arrayPuzzleTileCountId[iTileBgCount].alt);
+				alert((iTileBgCount+1));
+*/
+				//COLUMN 3, ROW 3; start @0
+				if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
+					arrayPuzzleTileCountId[iTileBgCount].objectFit = 'none';
+					arrayPuzzleTileCountId[iTileBgCount].style.objectPosition = "-96px -96px";
+				}				
+				else if (arrayPuzzleTileCountId[iTileBgCount].alt!=(iTileBgCount+1)) {
+					//alert(iTileBgCount);
+					
+					iRowCount = (iTileBgCount)%4;
+					iColumnCount  = Math.floor((iTileBgCount)/4);
+/*										
+					alert("iRowCount: "+iRowCount);
+					alert("iColumnCount: "+iColumnCount);
+*/										
+					arrayPuzzleTileCountId[iTileBgCount].objectFit = 'none';
+					arrayPuzzleTileCountId[iTileBgCount].style.objectPosition = "-" + iRowCount*32 + "px -" + iColumnCount*32 + "px";
+
+					//return;
+				}			
+				
+				iTileBgCount++;
+			}
+//		}
+	}	
+}
+
 
 //added by Mike, 20221111
 function autoVerifyPuzzleIfAtEnd() {
@@ -2345,8 +2420,11 @@ if (bIsTargetAtSpace) {
 		
 		//added by Mike, 20221111
 		if (!bIsInitAutoGeneratePuzzleFromEnd) {	
-			autoVerifyPuzzleIfAtEnd();
+			autoVerifyPuzzleIfAtEnd();			
 		}
+
+		//added by Mike, 20221112
+		autoUpdatePuzzleTileImage();
 }
 
 /* //removed by Mike, 20220904
@@ -3527,11 +3605,12 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 	//edited by Mike, 20221111
 
 ?>		
-	<img id="puzzleTileImageIdBg<?php echo $iCount;?>" class="Image32x32Tile" onerror="" src="assets/images/blank.png" alt="" title="">
+	<img id="puzzleTileImageIdBg<?php echo $iCount;?>" class="Image32x32Tile" onerror="" src="<?php echo base_url('assets/images/count.png');?>" alt="" title="">
 
 <?php
 }
 ?>
+
 
 
 
