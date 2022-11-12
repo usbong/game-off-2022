@@ -1285,42 +1285,33 @@ function pauseAudio() {
 //--
 
 //added by Mike, 20221112
+//note: execute this due to broken image icon appears using Google Chrome
 function autoUpdatePuzzleTileImage() {
-//	if (!bIsInitAutoGeneratePuzzleFromEnd) {
-		iTileBgCount=0;
+	iTileBgCount=0;
 
-		for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
-			for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
-				//alert(iTileBgCount);
-				arrayPuzzleTilePos[iRowCount][iColumnCount]=iTileBgCount;
+	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
+		for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
 
-/*				//edited by Mike, 20221111
-				alert(arrayPuzzleTileCountId[iTileBgCount].alt);
-				alert((iTileBgCount+1));
-*/
-				//COLUMN 3, ROW 3; start @0
-				if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
-					arrayPuzzleTileCountId[iTileBgCount].objectFit = 'none';
-					arrayPuzzleTileCountId[iTileBgCount].style.objectPosition = "-96px -96px";
-				}				
-				else if (arrayPuzzleTileCountId[iTileBgCount].alt!=(iTileBgCount+1)) {
-					//alert(iTileBgCount);
-					
-					iRowCount = (iTileBgCount)%4;
-					iColumnCount  = Math.floor((iTileBgCount)/4);
-/*										
-					alert("iRowCount: "+iRowCount);
-					alert("iColumnCount: "+iColumnCount);
-*/										
-					arrayPuzzleTileCountId[iTileBgCount].objectFit = 'none';
-					arrayPuzzleTileCountId[iTileBgCount].style.objectPosition = "-" + iRowCount*32 + "px -" + iColumnCount*32 + "px";
+			iTileTextCount=parseInt(arrayPuzzleTileCountId[iTileBgCount].alt);
 
-					//return;
-				}			
-				
-				iTileBgCount++;
+			if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
+				//	alert(iTileTextCount);
+				arrayPuzzleTileCountId[iTileBgCount].style.objectPosition = "-96px -96px";
 			}
-//		}
+			else {
+//					alert(iTileTextCount);
+					
+				iColumnCount = (iTileTextCount-1)%4;
+				iRowCount = Math.floor((iTileTextCount-1)/4);
+
+				//x, y
+				arrayPuzzleTileCountId[iTileBgCount].style.objectPosition = "-" + iColumnCount*32 + "px -" + iRowCount*32 + "px";
+			
+			}
+	
+			
+			iTileBgCount++;
+		}
 	}	
 }
 
@@ -1374,11 +1365,12 @@ function autoGeneratePuzzleFromEnd() {
 		}
 		iCountMovementStep=0;
 		bIsToLeftCornerDone=true;
-		
+/*		
 		//added by Mike, 20221111; removed by Mike, 20221111
 		//note: add to quickly verify end OUTPUT
-		//bIsInitAutoGeneratePuzzleFromEnd=false;
-		//return;
+		bIsInitAutoGeneratePuzzleFromEnd=false;
+		return;
+*/		
 	}
 	
 	if (!bIsToTopCornerDone) {
@@ -2185,7 +2177,7 @@ alert("iTargetTileBgCount"+iTargetTileBgCount);
 				arrayPuzzleTileCountId[iTileBgCount].alt=arrayPuzzleTileCountId[iTargetTileBgCount].alt;
 
 				arrayPuzzleTileCountId[iTargetTileBgCount].alt="";
-								
+														
 				//alert(iTileBgCountMax);				
 				//alert(arrayPuzzleTileCountId[iTileBgCount].alt);
 								
@@ -2418,13 +2410,15 @@ if (bIsTargetAtSpace) {
 	}	
 */	
 		
+		
+		//added by Mike, 20221112
+		autoUpdatePuzzleTileImage();
+		
 		//added by Mike, 20221111
 		if (!bIsInitAutoGeneratePuzzleFromEnd) {	
 			autoVerifyPuzzleIfAtEnd();			
 		}
 
-		//added by Mike, 20221112
-		autoUpdatePuzzleTileImage();
 }
 
 /* //removed by Mike, 20220904
