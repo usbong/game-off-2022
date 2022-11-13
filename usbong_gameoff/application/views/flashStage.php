@@ -1340,36 +1340,51 @@ function pauseAudio() {
 //added by Mike, 20221112
 //note: execute this due to broken image icon appears using Google Chrome
 function autoUpdatePuzzleTileImage() {
-	iTileBgCount=0;
+	iTileBgCount=0; //0+1;//0;
 
+//removed by Mike, 20221113
+	//iCount=0;
+
+/* //edited by Mike, 2022113
 	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
 		for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
-
-			iTileTextCount=parseInt(arrayPuzzleTileCountId[iTileBgCount].alt);
-
+*/			
+	while (iTileBgCount<16) {
 			if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
-				//	alert(iTileTextCount);
-				arrayPuzzleTileCountId[iTileBgCount].style.objectPosition = "-96px -96px";				
+			//	alert(iTileTextCount);
+					
+			//notes: noticeable DELAY to fix OUTPUT error;
+			//where: IF SPACE tile (BLINKING) is immediately 
+			//to the left of tile with text "15", 
+			//the tiles that were exchanged
+			//to be located below or right of it
+			//are INCORRECTLY displayed as also the SPACE tile,
+			//albeit NOT BLINKING 
+			//elapsed time: 5hrs (approx);
+			//technique to solve: CLARIFY; verify significance
+			//example: VALUE : arrayPuzzleTileCountId, iTileBgCount;
+			//to get iRowCount and iColumnCount position
+			//--> example OUTPUT VALUE: "15"
+
+			//note: Tile Space; target number become its own	
+			//clip
+			arrayPuzzleTileCountId[iTileBgCount].style.objectPosition = "-96px -96px";
+			
+				
 			}
 			else {
-//					alert(iTileTextCount);
+			
+			//added by Mike, 20221113
+			iTileTextCount=parseInt(arrayPuzzleTileCountId[iTileBgCount].alt);
 					
 				iColumnCount = (iTileTextCount-1)%4;
 				iRowCount = Math.floor((iTileTextCount-1)/4);
 
 				//x, y
 				arrayPuzzleTileCountId[iTileBgCount].style.objectPosition = "-" + iColumnCount*32 + "px -" + iRowCount*32 + "px";
-
-/*
-				//added by Mike, 20221113; removed by Mike, 20221113
-				if (arrayPuzzleTileCountId[iTargetTileBgCount].className!="Image32x32TileTarget") {
-					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32Tile";
-				}
-*/				
 			}
 				
 			iTileBgCount++;
-		}
 	}	
 }
 
@@ -1382,7 +1397,9 @@ function autoVerifyPuzzleIfAtEnd() {
 		for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
 			for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
 				//alert(iTileBgCount);
-				arrayPuzzleTilePos[iRowCount][iColumnCount]=iTileBgCount;
+				//removed by Mike, 2022113
+//				arrayPuzzleTilePos[iRowCount][iColumnCount]=iTileBgCount;
+				
 
 /*				//edited by Mike, 20221111
 				alert(arrayPuzzleTileCountId[iTileBgCount].alt);
@@ -1494,7 +1511,7 @@ function autoGeneratePuzzleFromEnd() {
 		}
 		iCountMovementStep++;
 	}	
-	else {
+	else {		
 		bIsInitAutoGeneratePuzzleFromEnd=false;
 	}
 }
@@ -2013,6 +2030,10 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//16=4*4
 	//const iTileBgCountMax=iRowCountMax*iColumnCountMax;	
 	
+	//added by Mike, 20221113
+	var bHasExecutedTileExchange=false;
+
+	
 //	for (let iTileBgCount=0; iTileBgCount<16; iTileBgCount++) {		
 	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {		
 		for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
@@ -2066,8 +2087,22 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 //edited by Mike, 20221105; note: last tile @#16, space
 		//edited by Mike, 20221106
 //		if (iTileBgCount==iTileBgCountMax-1) {
+	
 		if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
-			
+
+/* //removed by Mike, 20221113
+		//added by Mike, 20221113
+		if (bHasExecutedTileExchange) {
+			iTileBgCount++;
+			//break;
+			bHasExecutedTileExchange=false;
+
+			arrayPuzzleTileCountId[iTileBgCount].className="Image32x32Tile";
+
+			continue;
+		}
+*/
+
 			//reminder: @last tile #16, space
 			//pressed up, tile above the space
 			if (arrayKeyPressed[iKEY_W]) {
@@ -2168,7 +2203,9 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 			
 			}				
 			else {				
+				//edited by Mike, 20221113
 				for (iCount=0; iCount<iTotalKeyCount; iCount++) {
+//				for (iCount=0; iCount<iDirectionTotalKeyCount; iCount++) {
 					
 					//if a key has been pressed
 					if (arrayKeyPressed[iCount]==true) {
@@ -2227,18 +2264,35 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 alert("iTileBgCount"+iTileBgCount);
 alert("iTargetTileBgCount"+iTargetTileBgCount);
 */
-			//TO-DO: -reverify: to solve problem with accepting right side keys to cause CHANGE in tile space to be tile image without number			
+			//TO-DO: -reverify: to solve problem with accepting right side keys to cause CHANGE in tile space to be tile image without number						
 			if (iTargetTileBgCount==-1) {
 				break;
 			}
+			
 				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32Tile";
 				
 				arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileSpace";
+				
+//added by Mike, 20221113
+//OK
+//alert(arrayPuzzleTileCountId[iTargetTileBgCount].alt);
 
 				arrayPuzzleTileCountId[iTileBgCount].alt=arrayPuzzleTileCountId[iTargetTileBgCount].alt;
 
+
+/*
+				if (arrayPuzzleTileCountId[iTileBgCount].alt!="15") {
+					arrayPuzzleTileCountId[iTileBgCount].alt="15";
+				}
+*/
+
 				arrayPuzzleTileCountId[iTargetTileBgCount].alt="";
-														
+
+//added by Mike, 20221113
+//OK
+//alert(arrayPuzzleTileCountId[iTileBgCount].alt);
+//alert(iTileBgCount);
+								
 				//alert(iTileBgCountMax);				
 				//alert(arrayPuzzleTileCountId[iTileBgCount].alt);
 								
@@ -2249,6 +2303,9 @@ alert("iTargetTileBgCount"+iTargetTileBgCount);
 //alert("hallo");
 
 				bIsTargetAtSpace=true;
+				
+				//added by Mike, 20221113
+				bHasExecutedTileExchange=true;
 			}	
 			
 			//added by Mike, 20221106
@@ -2292,7 +2349,7 @@ if (bIsTargetAtSpace) {
 			iDelayAnimationCountMovementStep++;
 		}
 	}	
-		
+			
 		
 	//added by Mike, 20220917	
 	//TO-DO: -update: positions
@@ -2478,8 +2535,6 @@ if (bIsTargetAtSpace) {
 
 		//edited by Mike, 20221113; 20221112
 		autoUpdatePuzzleTileImage();
-
-
 }
 
 /* //removed by Mike, 20220904
@@ -2803,7 +2858,21 @@ function initPuzzleTileTextValueContainer() {
 	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
 		for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
 			//alert(arrayPuzzleTileCountId[iTileBgCount].alt);
-//			arrayPuzzleTileCountId[iTileBgCount].alt=(iTileBgCount+1)+"";			
+//			arrayPuzzleTileCountId[iTileBgCount].alt=(iTileBgCount+1)+"";		
+
+			if (iTileBgCount==iTileBgCountMax-1) {
+//alert(iTileBgCount);
+				arrayPuzzleTileCountId[iTileBgCount].alt=""; //space
+				
+				//added by Mike, 20221106
+				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";		
+
+				bIsTargetAtSpace=true;
+			}
+			else {
+				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32Tile";
+			}
+			
 			iTileBgCount++;
 		}
 	}
@@ -2893,6 +2962,7 @@ function onLoad() {
 			//edited by Mike, 20221106
 //			if ((iTileBgCount+1)==iTileBgCountMax) {
 			//starts @0
+/*	//removed by Mike, 20221113
 			if (iTileBgCount==iTileBgCountMax-1) {
 //alert(iTileBgCount);
 				arrayPuzzleTileCountId[iTileBgCount].alt=""; //space
@@ -2903,12 +2973,14 @@ function onLoad() {
 				bIsTargetAtSpace=true;
 			}
 			else {
+*/				
 				//added by Mike, 20221106
 				//reference: https://www.w3schools.com/tags/tag_img.asp;
 				//last accessed: 20221105
 				//count			
 				//edited by Mike, 20221106				//arrayPuzzleTileCountId[iTileBgCount].alt=(iTileBgCount+1)+"";
 				//TO-DO: -reverify: this				
+/* //edited by Mike, 20221113
 				//note: center-align COMMAND via CSS has OUTPUT ERROR
 				var sOffsetPaddingBeforeText="";
 				if (iTileBgCount+1 < 10) {
@@ -2916,11 +2988,14 @@ function onLoad() {
 				}
 
 				arrayPuzzleTileCountId[iTileBgCount].alt=sOffsetPaddingBeforeText+(iTileBgCount+1)+"";
+*/
+				arrayPuzzleTileCountId[iTileBgCount].alt=(iTileBgCount+1)+"";
 				
 				//added by Mike, 20221106
 				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32Tile";	
+/*	//removed by Mike, 20221113
 			}
-			
+*/			
 			iTileBgCount++;
 		}
 	}
