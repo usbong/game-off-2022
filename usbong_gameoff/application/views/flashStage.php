@@ -1349,7 +1349,7 @@ function autoUpdatePuzzleTileImage() {
 
 			if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
 				//	alert(iTileTextCount);
-				arrayPuzzleTileCountId[iTileBgCount].style.objectPosition = "-96px -96px";
+				arrayPuzzleTileCountId[iTileBgCount].style.objectPosition = "-96px -96px";				
 			}
 			else {
 //					alert(iTileTextCount);
@@ -1359,10 +1359,15 @@ function autoUpdatePuzzleTileImage() {
 
 				//x, y
 				arrayPuzzleTileCountId[iTileBgCount].style.objectPosition = "-" + iColumnCount*32 + "px -" + iRowCount*32 + "px";
-			
+
+/*
+				//added by Mike, 20221113; removed by Mike, 20221113
+				if (arrayPuzzleTileCountId[iTargetTileBgCount].className!="Image32x32TileTarget") {
+					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32Tile";
+				}
+*/				
 			}
-	
-			
+				
 			iTileBgCount++;
 		}
 	}	
@@ -2142,7 +2147,9 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileTarget";
 			
 			if (bIsTargetAtSpace) {	
-						
+				//added by Mike, 20221113; removed by Mike, 20221113
+				//if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
+					
 				if (iTargetAtSpaceBlinkAnimationCount==iTargetAtSpaceBlinkAnimationCountMax) {
 					if (arrayPuzzleTileCountId[iTileBgCount].className=='Image32x32TileSpace') {
 					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
@@ -2463,15 +2470,15 @@ if (bIsTargetAtSpace) {
 		buttonDownKey.style.visibility="visible";
 	}	
 */	
-		
-		
-		//added by Mike, 20221112
-		autoUpdatePuzzleTileImage();
-		
+						
 		//added by Mike, 20221111
 		if (!bIsInitAutoGeneratePuzzleFromEnd) {	
 			autoVerifyPuzzleIfAtEnd();			
 		}
+
+		//edited by Mike, 20221113; 20221112
+		autoUpdatePuzzleTileImage();
+
 
 }
 
@@ -2785,6 +2792,19 @@ function handleGesture() {
 
 			arrayKeyPressed[iKEY_W]=false;		
 			arrayKeyPressed[iKEY_S]=false;
+		}
+	}
+}
+
+//added by Mike, 20221113
+function initPuzzleTileTextValueContainer() {
+	iTileBgCount=0;
+
+	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
+		for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
+			//alert(arrayPuzzleTileCountId[iTileBgCount].alt);
+//			arrayPuzzleTileCountId[iTileBgCount].alt=(iTileBgCount+1)+"";			
+			iTileBgCount++;
 		}
 	}
 }
@@ -3533,6 +3553,10 @@ alert("iButtonHeight"+iButtonHeight);
 	//added by Mike, 20221108; edited by Mike, 20221111
 	bIsInitAutoGeneratePuzzleFromEnd=true;	
 	//autoGeneratePuzzleFromEnd();
+
+	//added by Mike, 20221113
+	initPuzzleTileTextValueContainer();
+		
 			
 	//added by Mike, 20220904
 	setInterval(myUpdateFunction, 16.66); //1000/60=16.66; 60 frames per second
