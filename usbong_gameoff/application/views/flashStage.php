@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221101; from 20221031
+' @date updated: 20221113; from 20221112
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -19,10 +19,23 @@
 ' Reference:
 ' 1) http://gcctech.org/csc/javascript/javascript_keycodes.htm;
 ' last accessed: 20221101
--->
+'
+' 2) https://www.w3schools.com/css/css3_2dtransforms.asp;
+' last accessed: 20221104
+'
+' 3) https://www.w3schools.com/css/css_align.asp; 
+' last accessed: 20221105 
+'
 <?php
 
 //TO-DO: -delete: excess instructions
+
+//added by Mike, 20221106
+//TO-DO: -remove: keyhold in PUZZLE due to OUTPUT ERROR in SAFARI
+
+//added by Mike, 20221106
+//TO-DO: -add: auto-generate PUZZLE
+//reminder: FROM END to START
 
 //added by Mike, 20220827
 //observed: css+HTML OUTPUT error in iPAD (Safari browser), but NOT in MacBookPro (Firefox browser; Safari browser error)
@@ -57,6 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8">
@@ -64,7 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Reference: Apache Friends Dashboard index.html -->
     <!-- "Always force latest IE rendering engine or request Chrome Frame" -->
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=yes" />
 	
     <style type="text/css">
 	/**/
@@ -129,7 +143,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							margin: auto;
 							display: block;
 							width: 320px; /*160px*2;*/	
-							height: 288px; /*144px*2;*/							
+							height: 288px; /*144px*2;*/	
+							
+							
+							/* //added by Mike, 20221104 */
+							z-index: -1;							
 						}
 						
 						audio.myAudio
@@ -185,7 +203,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							background-color: rgb(20,20,20);
 							color: rgb(20,20,20);						
 						}
-
+						/* //added by Mike, 20221113 */
+						button:focus
+						{
+							outline:0;
+						}
 						
 						/* //added by Mike, 20220917
 						//reference: GAMEBOY COLOR;
@@ -795,6 +817,214 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						.Button-emptyStonePosCornerBottomRight:focus {
 							background-color: #b80000;
 						}
+
+						/* noted by Mike, 20221104 */
+						.ImageTile {
+							position: absolute;
+
+							text-align: center;
+							line-height: 32px;							
+
+  							/*clip: rect(0px,64px,64px,0px);*/
+																								visibility: hidden;
+							
+							/*
+							transform: scale(0.5);						*/	
+							transform: scale(0.5,0.8);	
+
+							/* //added by Mike, 20221104 */
+							z-index: 0;		
+							
+						}
+
+						/* noted by Mike, 20221105 */						
+						.Image32x32Tile {
+							position: absolute;
+	
+							/* //added by Mike, 20221113 */
+						    width: 128px;
+						    height: 128px;
+							object-fit: contain;
+	
+							/* //added by Mike, 20221112 */
+  							clip: rect(0px,32px,32px,0px);
+	
+/* //removed by Mike, 20221112
+							width: 32px;
+							height: 32px;
+*/
+
+/* //removed by Mike, 20221112
+							object-position: -32px -32px; 
+*/
+
+/* //edited by Mike, 20221112 */
+/*
+							background-color: #ffffff;
+*/
+background-color: transparent;
+border: none;
+
+							color: #222222;
+
+							/* //removed by Mike, 20221111
+							opacity: 0.5;*/
+							
+							font-weight: bold;
+							font-size: 146%; /*20px;*/
+							
+							text-align: center;							
+							line-height: 32px;
+
+							/*padding-top: 0.1875%;*/ /*6px;*/
+
+/* //removed by Mike, 20221112							
+							border: 2px solid; /*double;*/
+							border-radius: 3px;
+*/
+							margin: 0px; /*1px;*/	
+							padding: 0px;
+							z-index: 3;		
+						}
+
+						/* noted by Mike, 20221105 */						
+						.Image32x32TileTarget {
+							position: absolute;
+
+							/* //added by Mike, 20221113 */
+						    width: 128px;
+						    height: 128px;
+							object-fit: contain;
+
+
+							/* //added by Mike, 20221112 */
+  							clip: rect(0px,32px,32px,0px);
+	
+/* //removed by Mike, 20221112
+							width: 32px;
+							height: 32px;
+*/
+
+/* //edited by Mike, 20221112 */
+/*
+							background-color: #ffffff;
+*/
+background-color: transparent;
+border: none;
+							color: #222222;
+
+							/* //added by Mike, 20221111 
+							   //TO-DO: -update: this
+							*/
+							opacity: 0.5;
+
+							font-weight: bold;
+							font-size: 146%; /*18px;*/
+
+							text-align: center;							
+							line-height: 32px;
+
+							/*padding-top: 0.1875%;*/ /*6px;*/
+
+/* //note: with clip rect border is put on entire sprite image */
+/* //removed by Mike, 20221112
+							border: 3px solid #ff0000;
+							border-radius: 3px;
+*/
+							margin: 0px; /*1px;*/	
+							padding: 0px;
+							z-index: 4;		
+						}
+						
+						.Image32x32TileSpaceTarget {
+							position: absolute;
+
+							/* //added by Mike, 20221113 */
+						    width: 128px;
+						    height: 128px;
+							object-fit: contain;
+
+
+							/* //added by Mike, 20221112 */
+  							clip: rect(0px,32px,32px,0px);
+	
+/* //removed by Mike, 20221112
+							width: 32px;
+							height: 32px;
+*/
+
+/* //edited by Mike, 20221112 */
+/*
+							background-color: #222222;
+*/
+background-color: transparent;
+border: none;
+
+
+							color: #222222;
+
+							/* //added by Mike, 20221111 
+							   //TO-DO: -update: this
+							*/
+							opacity: 0.5;
+							
+							text-align: center;
+							line-height: 32px;
+
+							/*padding-top: 0.1875%;*/ /*6px;*/
+							
+/* //note: with clip rect border is put on entire sprite image */
+/* //removed by Mike, 20221112
+							border: 3px solid #ff0000;
+							border-radius: 3px;
+*/
+							margin: 0px; /*1px;*/	
+							padding: 0px;
+							z-index: 5;		
+						}
+						
+						/* added by Mike, 20221105 */
+						.Image32x32TileSpace {
+							position: absolute;
+							
+							/* //added by Mike, 20221113 */
+						    width: 128px;
+						    height: 128px;
+							object-fit: contain;
+							
+							
+							/* //added by Mike, 20221112 */
+  							clip: rect(0px,32px,32px,0px);
+	
+/* //removed by Mike, 20221112
+							width: 32px;
+							height: 32px;
+*/
+
+/* //edited by Mike, 20221112 */
+/*
+							background-color: #222222;
+*/
+background-color: transparent;
+border: none;
+							color: #222222;
+
+							text-align: center;
+							line-height: 32px;							
+
+							/*padding-top: 0.1875%;*/ /*6px;*/
+							
+/* //note: with clip rect border is put on entire sprite image */
+/* //removed by Mike, 20221112
+							border: 3px solid #ff0000;
+							border-radius: 3px;
+*/
+							margin: 0px; /*1px;*/	
+							padding: 0px;	
+
+							z-index: 3;		
+						}
+												
 						
 						/* noted by Mike, 20220820
 						using: absolute positions; 
@@ -802,6 +1032,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						.Image64x64Tile {
 							position: absolute;
   							clip: rect(0px,64px,64px,0px);
+							
+							/* //added by Mike, 20221104 
+								reverified: this
+							*/
+							z-index: 2;								
 						}
 						
 						.Image64x64TileFrame1 {
@@ -812,7 +1047,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								TO-DO: -verify: @set vertex, e.g. center */
 							/*
 								transform: rotate(-15deg);
-							*/
+							*/							
 						}
 
 						.Image64x64TileFrame2 {
@@ -830,7 +1065,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								TO-DO: -verify: @set vertex, e.g. center */
 							/*
 								transform: rotate(-15deg);
-							*/
+							*/							
 						}
 
 						
@@ -902,6 +1137,9 @@ iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
 //added by Mike, 20221005
 iVerticalOffsetInnerScreen=0;
 
+//added by Mike, 20221108
+iCurrentAppleWebKitInnerWidth=0;
+
 //added by Mike, 20221012
 let imgIpisTileX = iStageMaxWidth/2;
 let imgIpisTileY = iStageMaxHeight/2;	
@@ -913,6 +1151,50 @@ iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
 	  	  
 //added by Mike, 20220925
 bIsMobile = false;	  
+
+//added by Mike, 20221108
+bIsUsingAppleWebKit=false;
+//added by Mike, 20221108
+iAppleWebKitInnerWidthOffset=0;
+//added by Mike, 20221109
+bIsUsingAppleMac=false;
+
+//added by Mike, 20221110
+bIsAudioPlaying=false;
+
+//added by Mike, 20221105
+bIsTargetAtSpace = true;
+		  
+iTargetAtSpaceBlinkAnimationCount=0;
+iTargetAtSpaceBlinkAnimationCountMax=6;
+		  
+//added by Mike, 20221106
+iTargetTileBgCount=-1;		  
+
+//added by Mike, 20221106
+//note: 4x4
+var iRowCount=0;
+const iRowCountMax=4;
+var iColumnCount=0;
+const iColumnCountMax=4;
+var arrayPuzzleTileCountId = []; 
+var arrayPuzzleTilePos = [ [],[],[],[] ]; 
+
+const iTileBgCountMax=iRowCountMax*iColumnCountMax;	
+
+//added by Mike, 20221108
+var iCountMovementStep=0;
+const iCountMovementStepMax=100;
+var bIsInitAutoGeneratePuzzleFromEnd=false;
+var iDelayAnimationCountMovementStep=0;
+const iDelayAnimationCountMovementStepMax=6;
+
+//added by Mike, 20221108
+var bIsToLeftCornerDone=false;
+var bIsToTopCornerDone=false;
+var bIsToRightCornerDone=false;
+var bIsToBottomCornerDone=false;
+
 		  
 //added by Mike, 20220829
 const iImgIpisTileAnimationCountMax=6;
@@ -985,19 +1267,42 @@ function pauseAudio() {
 	//reference: https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API;
 	//last accessed: 20220825
 	function toggleFullScreen() {
-	  //added by Mike, 20220825
-	  //playAudio();
-	  document.getElementById("myAudioId").play();
+	  //added by Mike, 20221108
+	  //note: fullscreenElement command 
+	  //does NOT execute on AppleWebKit, e.g. iPad 15
+	  //added by Mike, 20221110
+	  if (!bIsUsingAppleWebKit) {
+		  if (!document.fullscreenElement) {
+			document.documentElement.requestFullscreen();
+			
+			document.getElementById("myAudioId").play();
+			bIsAudioPlaying=true;
 
-	  if (!document.fullscreenElement) {
-		document.documentElement.requestFullscreen();
-	  } else if (document.exitFullscreen) {
+					//alert("hallo");
 
-		//added by Mike, 20221020
-		//pauseAudio();
-		document.getElementById("myAudioId").pause();
-		
-		document.exitFullscreen();
+		  } else if (document.exitFullscreen) {
+
+			//added by Mike, 20221020
+			//pauseAudio();
+			document.getElementById("myAudioId").pause();
+
+			//added by Mike, 20221110
+			bIsAudioPlaying=false;
+			
+			document.exitFullscreen();
+		  }
+	  }
+	  else {
+		  if (!bIsAudioPlaying) {		
+//			alert("play");
+		  	document.getElementById("myAudioId").play();		  
+			bIsAudioPlaying=true;
+		  }
+		  else {
+//			alert("pause");
+		    document.getElementById("myAudioId").pause();
+		    bIsAudioPlaying=false;
+		  }
 	  }
 
 /*	  //removed by Mike, 20221007
@@ -1032,6 +1337,163 @@ function pauseAudio() {
 	}, false);
 //--
 
+//added by Mike, 20221112
+//note: execute this due to broken image icon appears using Google Chrome
+function autoUpdatePuzzleTileImage() {
+	iTileBgCount=0;
+
+	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
+		for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
+
+			iTileTextCount=parseInt(arrayPuzzleTileCountId[iTileBgCount].alt);
+
+			if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
+				//	alert(iTileTextCount);
+				arrayPuzzleTileCountId[iTileBgCount].style.objectPosition = "-96px -96px";
+			}
+			else {
+//					alert(iTileTextCount);
+					
+				iColumnCount = (iTileTextCount-1)%4;
+				iRowCount = Math.floor((iTileTextCount-1)/4);
+
+				//x, y
+				arrayPuzzleTileCountId[iTileBgCount].style.objectPosition = "-" + iColumnCount*32 + "px -" + iRowCount*32 + "px";
+			
+			}
+	
+			
+			iTileBgCount++;
+		}
+	}	
+}
+
+
+//added by Mike, 20221111
+function autoVerifyPuzzleIfAtEnd() {
+	if (!bIsInitAutoGeneratePuzzleFromEnd) {
+		iTileBgCount=0;
+
+		for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
+			for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
+				//alert(iTileBgCount);
+				arrayPuzzleTilePos[iRowCount][iColumnCount]=iTileBgCount;
+
+/*				//edited by Mike, 20221111
+				alert(arrayPuzzleTileCountId[iTileBgCount].alt);
+				alert((iTileBgCount+1));
+*/
+				if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
+				}				
+				else if (arrayPuzzleTileCountId[iTileBgCount].alt!=(iTileBgCount+1)) {
+					return;
+				}			
+				
+				iTileBgCount++;
+			}
+		}
+			
+		alert("DONE!");
+	}	
+}
+
+//added by Mike, 20221108
+//note: Carnage Heart from Videogame Magazines, Artificial Intelligence 
+function autoGeneratePuzzleFromEnd() {
+/*
+	arrayKeyPressed[iKEY_A]=true;	
+	arrayKeyPressed[iKEY_K]=true;
+*/
+
+	//added by Mike, 20221108
+	//move all outer tiles
+	//to: left corner
+	if (!bIsToLeftCornerDone) {
+		if (iCountMovementStep<iColumnCountMax) {
+			arrayKeyPressed[iKEY_A]=true;	
+			arrayKeyPressed[iKEY_K]=true;
+			iCountMovementStep++;		
+
+			return;
+		}
+		iCountMovementStep=0;
+		bIsToLeftCornerDone=true;
+/*		
+		//added by Mike, 20221111; removed by Mike, 20221111
+		//note: add to quickly verify end OUTPUT
+		bIsInitAutoGeneratePuzzleFromEnd=false;
+		return;
+*/		
+	}
+	
+	if (!bIsToTopCornerDone) {
+		//to: top corner	
+		if (iCountMovementStep<iRowCountMax) {
+			arrayKeyPressed[iKEY_W]=true;	
+			arrayKeyPressed[iKEY_K]=true;
+			iCountMovementStep++;
+			return;
+		}
+		iCountMovementStep=0;
+		bIsToTopCornerDone=true;
+	}
+
+	if (!bIsToRightCornerDone) {	
+		//to: right corner
+		if (iCountMovementStep<iColumnCountMax) {
+			arrayKeyPressed[iKEY_D]=true;	
+			arrayKeyPressed[iKEY_K]=true;
+			iCountMovementStep++;		
+			return;
+		}
+		iCountMovementStep=0;
+		bIsToRightCornerDone=true;
+	}
+
+	if (!bIsToBottomCornerDone) {	
+		//to: bottom corner -1	
+		if (iCountMovementStep<iRowCountMax-1) {
+			arrayKeyPressed[iKEY_S]=true;	
+			arrayKeyPressed[iKEY_K]=true;
+			iCountMovementStep++;
+			return;
+		}
+		iCountMovementStep=0;
+		bIsToBottomCornerDone=true;
+	}
+	
+	//reference: https://www.w3schools.com/jsref/jsref_random.asp;
+	//last accessed: 20221108
+	//number between 0 and 4; integer only	
+//	for (iCount=0; iCount<iCountMovementStepMax; iCount++) {
+	
+	if (iCountMovementStep<iCountMovementStepMax) {
+		let iDirection = window.parseInt(Math.random() * 4);	
+		switch (iDirection) {
+			case iKEY_W: //0
+				arrayKeyPressed[iKEY_W]=true;	
+				arrayKeyPressed[iKEY_K]=true;						
+				break;	
+			case iKEY_S: //1
+				arrayKeyPressed[iKEY_S]=true;	
+				arrayKeyPressed[iKEY_K]=true;
+				break;	
+			case iKEY_A: //2
+				arrayKeyPressed[iKEY_A]=true;	
+				arrayKeyPressed[iKEY_K]=true;
+				break;	
+			case iKEY_D: //3
+				arrayKeyPressed[iKEY_D]=true;	
+				arrayKeyPressed[iKEY_K]=true;			
+				break;	
+		}
+		iCountMovementStep++;
+	}	
+	else {
+		bIsInitAutoGeneratePuzzleFromEnd=false;
+	}
+}
+
 // NOTE:
 //reference: https://stackoverflow.com/questions/8663246/javascript-timer-loop;
 //last accessed: 20220424
@@ -1040,9 +1502,16 @@ function pauseAudio() {
 //edited by Mike, 20220820
 
 function myUpdateFunction() {
+
 //	alert("count!");
 	//TO-DO: -add: update logic	
 	//--> TO-DO: -add: collision detection and output
+
+/* //removed by Mike, 20221106	
+	//added by Mike, 20221105
+	var arrayPuzzleTileCountId = []; 
+	var arrayPuzzleTilePos = [ [],[],[],[] ]; 
+*/	
 	
 	//TO-DO: -add: re-draw stage/canvas
 	
@@ -1054,6 +1523,12 @@ function myUpdateFunction() {
 
 	//added by Mike, 20220904
 	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
+	
+	//added by Mike, 20221104
+	var imgPuzzle = document.getElementById("puzzleImageId");
+	//added by Mike, 20221105
+	imgPuzzle.style.visibility="visible";	
+	
 	
 	//added by Mike, 20220917; edited by Mike, 20220918
 	//var linkAsButtonLeftKey = document.getElementById("leftKeyId");
@@ -1079,7 +1554,6 @@ function myUpdateFunction() {
 	var pauseLink = document.getElementById("pauseLinkId");
 	var iPauseLinkHeight = (pauseLink.clientHeight);//+1; + "px";
 	var iPauseLinkWidth = (pauseLink.clientWidth);//+1; + "px"
-
 
 
 /* //removed by Mike, 20220827; output: still noticeable delay in animation of ipis
@@ -1145,7 +1619,7 @@ function myUpdateFunction() {
 
 	//reference: https://www.w3schools.com/jsref/prop_html_classname.asp;
 	//last accessed: 20220820
-	
+		
 	//added by Mike, 20220829
 	//TO-DO: -add: this in Ipis class(-ification) container, et cetera
 	if (iImgIpisTileAnimationCount==iImgIpisTileAnimationCountMax) {
@@ -1206,6 +1680,8 @@ function myUpdateFunction() {
 
 //alert (iHorizontalOffset);
 
+//TO-DO: -reverify: this with AppleWebKit
+
 //myCanvas.style.left = (iHorizontalOffset+0)+"px";	
 
 //added by Mike, 20221002; edited by Mike, 20221005
@@ -1221,8 +1697,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	pauseLink.style.top = 0+iStageMaxHeight +"px"; 
 	pauseLink.style.visibility="visible";	  
 	
-	
-
 	//identify offset due to smaller window centered @horizontal
 /*	
 	alert(screen.width);
@@ -1342,13 +1816,26 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		//imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";		
 	}
 
-
+/*	//removed by Mike, 20221106; 
+	//TO-DO: -add: as CASE @MINIGAME with IPIS
 
 	imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
 
 	//added by Mike, 20221029
 	imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
+*/	
+	//added by Mike, 20221106
+	imgIpisTile.style.visibility="hidden";
 	
+	
+	//added by Mike, 20221104	
+	
+	imgPuzzle.style.left = (iHorizontalOffset-iStageMaxWidth/2)+"px";	
+	imgPuzzle.style.top = (iVerticalOffsetInnerScreen-iStageMaxHeight/2)+"px";	
+/*
+	imgPuzzle.style.left = (0)+"px";	
+	imgPuzzle.style.top = (0)+"px";	
+*/	
 	
 	//added by Mike, 20221101
 	if (arrayKeyPressed[iKEY_I]) {
@@ -1366,8 +1853,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	if (arrayKeyPressed[iKEY_L]) {
 //		alert("iKEY_L");
 	}
-	
-	
 	
 	//added by Mike, 20220904
 	//COLLISION DETECTION UPDATE
@@ -1446,7 +1931,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		mdo2.style.visibility="visible";	
 	}
 	
-	
 	//added by Mike, 20220915
 	//verified: object position movement in Android Samsung Duos
 	//to be NOT noticeably delayed for moving object count = 1
@@ -1475,34 +1959,332 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		//alert (imgIpisTileNumber2.style.top);
 	}
 
+
 	//edited by Mike, 20221002
 	//imgIpisTileNumber2.style.top = 0+iVerticalOffset+imgIpisNumber2TileY+iIpisNumber2StepY +"px"; 
 	//imgIpisTileNumber2.style.left = 0+iHorizontalOffset+"px"; 
 	imgIpisTileNumber2.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
 	imgIpisTileNumber2.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgIpisNumber2TileWidth+"px"; 
 
+
+
 //imgIpisTileNumber2.style.visibility = "hidden";
 		
 		
-	//added by Mike, 20220925
-	arrayTileBg = [];
-	for (let iTileBgCount=0; iTileBgCount<4; iTileBgCount++) {
-		//var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber"+iCount);
-		arrayTileBg[iTileBgCount] = document.getElementById("ipisTileImageIdBg"+iTileBgCount);
-		//edited by Mike, 20220911; removed by Mike, 20220925
-		//arrayTileBg[iTileBgCount].style.left = iTileBgCount*64+"px";						
+	//added by Mike, 20221105
+	//removed by Mike, 20221105
+	//arrayPuzzleTileCountId = []; 
+/* //removed by Mike, 20221106
+	//note: 4x4
+	let iRowCount=0;
+	const iRowCountMax=4;
+	let iColumnCount=0;
+	const iColumnCountMax=4;
+*/
 	
-		//arrayTileBg[iTileBgCount].style.left = (screen.width/2-iTileBgCount*64*2)+iTileBgCount*64+"px";
-		//edited by Mike, 20220925
-//		arrayTileBg[iTileBgCount].style.left = screen.width/2+"px";
-		arrayTileBg[iTileBgCount].style.left = iHorizontalOffset+"px";
+	//reference: https://stackoverflow.com/questions/7545641/how-to-create-multidimensional-array;
+	//last accessed: 20221105
+	//answer by: Dan, 20150107T2231 
+	//edited by: Nadav, 20131113T1000
+	//removed by Mike, 20221105
+	//var arrayPuzzleTilePos = [ [],[],[],[] ]; 
+
+	let iTileBgCount=0;
+	let iPuzzleTileWidth=32;
+	let iPuzzleTileHeight=32;
+	
+	const iPuzzleTileTotalWidthMax=iPuzzleTileWidth*iColumnCountMax;
+	const iPuzzleTileTotalHeightMax=iPuzzleTileHeight*iRowCountMax;
+/*	
+	alert(iPuzzleTileWidth);
+	alert (iPuzzleTileTotalMaxWidth);
+*/	
+	//edited by Mike, 20221113
+	const iBorderOffset=0; //2;
+	const iOffsetWidth=iStageMaxWidth/2-iPuzzleTileTotalWidthMax/2;
+	const iOffsetHeight=iStageMaxHeight/2-iPuzzleTileTotalHeightMax/2;
+	
+	//removed by Mike, 20221106
+	//16=4*4
+	//const iTileBgCountMax=iRowCountMax*iColumnCountMax;	
+	
+//	for (let iTileBgCount=0; iTileBgCount<16; iTileBgCount++) {		
+	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {		
+		for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
 		
-		//arrayTileBg[iTileBgCount].style.top =  iStageMaxHeight+"px";		
-		//edited by Mike, 20220925
-		arrayTileBg[iTileBgCount].style.top =  0+"px";
-//		arrayTileBg[iTileBgCount].style.top =  iVerticalOffset+"px";		
+		arrayPuzzleTileCountId[iTileBgCount] = document.getElementById("puzzleTileImageIdBg"+iTileBgCount);
+		
+		//alert(iTileBgCount);
+/* //removed by Mike, 20221106
+		arrayPuzzleTilePos[iRowCount][iColumnCount]=iTileBgCount;
+*/
+
+
+/*
+		arrayPuzzleTileCountId[iTileBgCount].style.left = iHorizontalOffset+iPuzzleTileWidth*iColumnCount+"px";
+		
+//		arrayPuzzleTileCountId[iTileBgCount].style.top = iVerticalOffset+iPuzzleTileHeight*iColumnCount+"px";
+		arrayPuzzleTileCountId[iTileBgCount].style.top = 0+iPuzzleTileHeight*iRowCount+"px";
+*/
+		arrayPuzzleTileCountId[iTileBgCount].style.left = iHorizontalOffset+iOffsetWidth+iPuzzleTileWidth*iColumnCount+iBorderOffset*iColumnCount+"px";
+		
+//		arrayPuzzleTileCountId[iTileBgCount].style.top = iVerticalOffset+iPuzzleTileHeight*iColumnCount+"px";
+		arrayPuzzleTileCountId[iTileBgCount].style.top = 0+iOffsetHeight+iPuzzleTileHeight*iRowCount+iBorderOffset*iRowCount+"px";
+
+//		alert (iPuzzleTileWidth*iRowCount);
+/*
+		arrayPuzzleTileCountId[iTileBgCount].style.left = iHorizontalOffset+"px";
+		
+		arrayPuzzleTileCountId[iTileBgCount].style.top = iVerticalOffset+"px";
+*/		
+
+		arrayPuzzleTileCountId[iTileBgCount].style.visibility="visible";
+		
+		//added by Mike, 20221106; removed by Mike, 20221106
+		//note: effect
+		//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32Tile";
+
+
+/*	//removed by Mike, 20221106
+						
+		//added by Mike, 20221105
+		//reference: https://www.w3schools.com/tags/tag_img.asp;
+		//last accessed: 20221105
+		//count
+		arrayPuzzleTileCountId[iTileBgCount].alt=(iTileBgCount+1)+"";
+*/
+		//alert(arrayPuzzleTileCountId[iTileBgCount].style.verticalAlign); 
+		
+
+		
+
+//edited by Mike, 20221105; note: last tile @#16, space
+		//edited by Mike, 20221106
+//		if (iTileBgCount==iTileBgCountMax-1) {
+		if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
+			
+			//reminder: @last tile #16, space
+			//pressed up, tile above the space
+			if (arrayKeyPressed[iKEY_W]) {
+			//alert(iRowCount);
+				if ((iRowCount-1)>=0) {
+					iTargetTileBgCount=arrayPuzzleTilePos[iRowCount-1][iColumnCount];
+					
+					arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileTarget";
+				
+				//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+					
+					bIsTargetAtSpace=false;
+				}	
+			}
+			else if (arrayKeyPressed[iKEY_S]) {
+				//edited by Mike, 20221106
+//				if ((iRowCount+1)<=iRowCountMax-1) {
+				if ((iRowCount+1)<iRowCountMax) {
+					iTargetTileBgCount=arrayPuzzleTilePos[iRowCount+1][iColumnCount];
+					
+					//alert(iTargetTileBgCount);
+
+					arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileTarget";
+				
+				//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+				
+					bIsTargetAtSpace=false;
+				}	
+			}
+			else if (arrayKeyPressed[iKEY_A]) {						
+				if ((iColumnCount-1)>=0) {
+					iTargetTileBgCount=arrayPuzzleTilePos[iRowCount][iColumnCount-1];
+
+					arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileTarget";
+				
+				//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+				
+					bIsTargetAtSpace=false;
+				}	
+			}			
+			else if (arrayKeyPressed[iKEY_D]) {
+				//edited by Mike, 20221106				
+//				if ((iColumnCount+1)<=iColumnCountMax-1) {
+				if ((iColumnCount+1)<iColumnCountMax) {
+					iTargetTileBgCount=arrayPuzzleTilePos[iRowCount][iColumnCount+1];
+
+					arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileTarget";
+				
+				//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+								
+					bIsTargetAtSpace=false;
+				}	
+			}			
+			else {	
+			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";		
+				bIsTargetAtSpace=true;
+				
+			}
+	
+/*	
+			//added by Mike, 20221106
+			for (iCount=0; iCount<bIsInitAutoGeneratePuzzleFromEndiDirectionTotalKeyCount; iCount++) {
+				arrayKeyPressed[iCount]=false;	
+			}	
+*/			
+
+
+
+/*
+//edited by Mike, 20221105; note: last tile @#16, space
+		//edited by Mike, 20221106
+//		if (iTileBgCount==iTileBgCountMax-1) {
+		if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
+*/
+			//TO-DO: -update: this
+			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileTarget";
+			
+			if (bIsTargetAtSpace) {	
+						
+				if (iTargetAtSpaceBlinkAnimationCount==iTargetAtSpaceBlinkAnimationCountMax) {
+					if (arrayPuzzleTileCountId[iTileBgCount].className=='Image32x32TileSpace') {
+					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
+					}
+					else {
+					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+					}
+					iTargetAtSpaceBlinkAnimationCount=0;
+				}
+				else {
+					iTargetAtSpaceBlinkAnimationCount++;
+				}				
+//alert(iTargetAtSpaceBlinkAnimationCount);	
+
+
+			
+			}				
+			else {				
+				for (iCount=0; iCount<iTotalKeyCount; iCount++) {
+					
+					//if a key has been pressed
+					if (arrayKeyPressed[iCount]==true) {
+												//alert("dito");
+						//set adjacent tiles to be not the TARGET as default 
+						if (!arrayKeyPressed[iKEY_W]) {						
+							if ((iRowCount-1)>=0) {
+								arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount-1][iColumnCount]].className="Image32x32Tile";
+								
+							}	
+						}
+
+						if (!arrayKeyPressed[iKEY_S]) {
+							
+							//edited by Mike, 20221106
+	//						if ((iRowCount+1)<iRowCountMax-1) {
+							if ((iRowCount+1)<iRowCountMax) {
+			arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount+1][iColumnCount]].className="Image32x32Tile";
+							}
+						}
+						
+						if (!arrayKeyPressed[iKEY_A]) {
+							if ((iColumnCount-1)>=0) {
+								arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount][iColumnCount-1]].className="Image32x32Tile";
+							}		
+						}						
+						
+						if (!arrayKeyPressed[iKEY_D]) {						
+							//edited by Mike, 20221106
+							//if ((iColumnCount+1)<iColumnCountMax-1) {
+							if ((iColumnCount+1)<iColumnCountMax) {
+								arrayPuzzleTileCountId[arrayPuzzleTilePos[iRowCount][iColumnCount+1]].className="Image32x32Tile";					
+							}	
+						}
+						
+						break;						
+					}
+				}
+			}
+			
+			
+			
+
+			//added by Mike, 20221106;
+			//edited by Mike, 20221106
+//			if (arrayKeyPressed[iKEY_J]) {
+			if ((arrayKeyPressed[iKEY_J]) ||
+				(arrayKeyPressed[iKEY_L]) ||
+				(arrayKeyPressed[iKEY_I]) ||
+				(arrayKeyPressed[iKEY_K])) {
+				//reminder: iTileBgCount = iTileBgCountMax-1
+			
+			
+			//added by Mike, 20221108
+/*			
+alert("iTileBgCount"+iTileBgCount);
+alert("iTargetTileBgCount"+iTargetTileBgCount);
+*/
+			//TO-DO: -reverify: to solve problem with accepting right side keys to cause CHANGE in tile space to be tile image without number			
+			if (iTargetTileBgCount==-1) {
+				break;
+			}
+				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32Tile";
+				
+				arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileSpace";
+
+				arrayPuzzleTileCountId[iTileBgCount].alt=arrayPuzzleTileCountId[iTargetTileBgCount].alt;
+
+				arrayPuzzleTileCountId[iTargetTileBgCount].alt="";
+														
+				//alert(iTileBgCountMax);				
+				//alert(arrayPuzzleTileCountId[iTileBgCount].alt);
+								
+				//arrayPuzzleTileCountId[iTargetTileBgCount].alt="";
+				
+				//arrayPuzzleTileCountId[iTargetTileBgCount].alt=iTileBgCountMax;
+
+//alert("hallo");
+
+				bIsTargetAtSpace=true;
+			}	
+			
+			//added by Mike, 20221106
+			//iDirectionTotalKeyCount
+			for (iCount=0; iCount<iTotalKeyCount; iCount++) {
+				arrayKeyPressed[iCount]=false;	
+			}
+		}				
+				
+/* //note effect; 
+if (bIsTargetAtSpace) {
+					if (iTargetAtSpaceBlinkAnimationCount==iTargetAtSpaceBlinkAnimationCountMax) {
+						if (arrayPuzzleTileCountId[iTileBgCount].className=='Image32x32TileSpace') {
+						arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
+						}
+						else {
+						arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+						}
+						iTargetAtSpaceBlinkAnimationCount=0;
+					}
+					else {
+						iTargetAtSpaceBlinkAnimationCount++;
+					}
+				}	
+*/
+				
+		iTileBgCount++;
+		//alert("iTileBgCount: "+iTileBgCount);		
+		}
 	}
 
+
+	//added by Mike, 20221108
+	if (bIsInitAutoGeneratePuzzleFromEnd) {
+		if (iDelayAnimationCountMovementStep==iDelayAnimationCountMovementStepMax) 	
+		{
+			autoGeneratePuzzleFromEnd();
+			iDelayAnimationCountMovementStep=0;
+		}
+		else {
+			iDelayAnimationCountMovementStep++;
+		}
+	}	
 		
 		
 	//added by Mike, 20220917	
@@ -1521,8 +2303,11 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	alert("iVerticalOffset"+iVerticalOffset);
 */
 
-	//edited by Mike, 20220925
-	if (!bIsMobile) {
+	//edited by Mike, 20221110; from 20220925	
+//	if (!bIsMobile) {		
+	//TO-DO: -reverify: this
+	//if (!document.fullscreenElement) {	
+	if ((!bIsMobile) || (bIsUsingAppleMac)) {
 		buttonUpKey.style.visibility = "hidden";		
 		buttonLeftKey.style.visibility = "hidden";
 		buttonRightKey.style.visibility = "hidden";
@@ -1540,15 +2325,60 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		buttonRightLeverCenterNeutralKey.style.visibility = "hidden";
 	}
 	else {
-		//added by Mike, 20221002
-		iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
+		//edited by Mike, 20221108
+		if (bIsUsingAppleWebKit) {
+			iVerticalOffset=(iStageMaxHeight+buttonUpKey.clientHeight*3);			
 
-		//alert(screen.orientation); //OUTPUT: [object ScreenOrientation]
+			//alert(screen.orientation); //OUTPUT: [object ScreenOrientation]
 
-		if (window.matchMedia("(orientation: landscape)").matches) {
-			//note: for CONTROLLER BUTTONS
-			iVerticalOffset=(screen.height-buttonUpKey.clientHeight*3); //set to 3 button height from the bottom
-		}		
+/*			
+			//added by Mike, 20221108
+			const is320dpiOrMore = (window.devicePixelRatio * 96) >= 320; 
+			
+			alert((window.devicePixelRatio * 96)); //192 on iPad
+			
+			alert(is320dpiOrMore);
+*/
+			//alert(window.innerWidth);
+
+/*	//edited by Mike, 20221108
+			if (window.matchMedia("(orientation: landscape)").matches) {
+				
+				alert("screen.width: "+screen.width);
+				
+				//note: for CONTROLLER BUTTONS
+				iVerticalOffset=(iStageMaxHeight+buttonUpKey.clientHeight*3); //set to 3 button height from the stage max height
+			}	
+*/			
+			//alert(window.innerWidth);
+			
+			//note: CHANGE in orientation
+			if (iCurrentAppleWebKitInnerWidth!=window.innerWidth) {
+				iCurrentAppleWebKitInnerWidth=window.innerWidth;
+/*				
+				screen.width=iCurrentAppleWebKitInnerWidth;
+				alert(screen.width);
+*/				
+				iAppleWebKitInnerWidthOffset=iCurrentAppleWebKitInnerWidth-screen.width;
+				
+				if (iAppleWebKitInnerWidthOffset<0) {
+					iAppleWebKitInnerWidthOffset*=(-1);
+				}
+			}
+			
+		}
+		else {			
+			//added by Mike, 20221002
+			iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
+			
+			//alert(screen.orientation); //OUTPUT: [object ScreenOrientation]
+
+			if (window.matchMedia("(orientation: landscape)").matches) {
+				//note: for CONTROLLER BUTTONS
+				iVerticalOffset=(screen.height-buttonUpKey.clientHeight*3); //set to 3 button height from the bottom
+			}				
+		}
+	
 		
 		buttonUpKey.style.left = (0)+iButtonWidth*1+"px";
 		buttonUpKey.style.top =  iVerticalOffset+"px"; //iStageMaxHeight+"px";
@@ -1571,47 +2401,60 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		buttonDownKey.style.top =  iVerticalOffset+iButtonHeight*2+"px"; //iStageMaxHeight+iButtonHeight*2+"px";
 		buttonDownKey.style.visibility = "visible";
 
-
+/*	//removed by Mike, 20221108
+		//edited by Mike, 20221108
+		if (bIsUsingAppleWebKit) {
+			//alert (screen.width);
+		}	
+*/
+		
 		//added by Mike, 20221021
-		buttonLetterIKey.style.left = (screen.width)-iButtonWidth*2+"px";
+		buttonLetterIKey.style.left = iAppleWebKitInnerWidthOffset+(screen.width)-iButtonWidth*2+"px";
 		buttonLetterIKey.style.top =  iVerticalOffset+"px"; //iStageMaxHeight+"px";
 		buttonLetterIKey.style.visibility = "visible";
 		
-		buttonLetterJKey.style.left = (screen.width)-iButtonWidth*3+"px";
+		buttonLetterJKey.style.left = iAppleWebKitInnerWidthOffset+(screen.width)-iButtonWidth*3+"px";
 		buttonLetterJKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; //iStageMaxHeight+iButtonHeight*1+"px";
 		buttonLetterJKey.style.visibility = "visible";
 
 		//added by Mike, 20221019
-		buttonRightLeverCenterNeutralKey.style.left = (screen.width)-iButtonWidth*2+"px";
+		buttonRightLeverCenterNeutralKey.style.left = iAppleWebKitInnerWidthOffset+(screen.width)-iButtonWidth*2+"px";
 		buttonRightLeverCenterNeutralKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; 
 		buttonRightLeverCenterNeutralKey.style.visibility = "visible";
 
-		buttonLetterLKey.style.left = (screen.width)-iButtonWidth+"px";
+		buttonLetterLKey.style.left = iAppleWebKitInnerWidthOffset+(screen.width)-iButtonWidth+"px";
 		buttonLetterLKey.style.top =  iVerticalOffset+iButtonHeight*1+"px";//iStageMaxHeight+iButtonHeight*1+"px";
 		buttonLetterLKey.style.visibility = "visible";
 
-		buttonLetterKKey.style.left = (screen.width)-iButtonWidth*2+"px";
+		buttonLetterKKey.style.left = iAppleWebKitInnerWidthOffset+(screen.width)-iButtonWidth*2+"px";
 		buttonLetterKKey.style.top =  iVerticalOffset+iButtonHeight*2+"px"; //iStageMaxHeight+iButtonHeight*2+"px";
 		buttonLetterKKey.style.visibility = "visible";
 	}
-	
-	//added by Mike, 20221007
-	if (!document.fullscreenElement) {
-		buttonLeftKey.style.visibility="hidden";
-		buttonRightKey.style.visibility="hidden";
-		buttonUpKey.style.visibility="hidden";
-		buttonDownKey.style.visibility="hidden";
-		
-		buttonLeverCenterNeutralKey.style.visibility="hidden";
 
-		//added by Mike, 20221021
-		buttonLetterJKey.style.visibility="hidden";
-		buttonLetterLKey.style.visibility="hidden";
-		buttonLetterIKey.style.visibility="hidden";
-		buttonLetterKKey.style.visibility="hidden";
-		
-		buttonRightLeverCenterNeutralKey.style.visibility="hidden";		
-	}
+	//added by Mike, 20221007; edited by Mike, 20221108
+//	if (!document.fullscreenElement) {
+	//edited by Mike, 20221109
+//	if ((!document.fullscreenElement) && (!bIsUsingAppleWebKit)) {
+	//edited by Mike, 20221110
+//	if ((!document.fullscreenElement) || (bIsUsingAppleMac)) {
+//	if ((!document.fullscreenElement) && (bIsUsingAppleMac)) {
+/* //removed by Mike, 20221110
+		if ((!document.fullscreenElement) || (bIsUsingAppleMac)) {
+			buttonLeftKey.style.visibility="hidden";
+			buttonRightKey.style.visibility="hidden";
+			buttonUpKey.style.visibility="hidden";
+			buttonDownKey.style.visibility="hidden";
+			
+			buttonLeverCenterNeutralKey.style.visibility="hidden";
+
+			//added by Mike, 20221021
+			buttonLetterJKey.style.visibility="hidden";
+			buttonLetterLKey.style.visibility="hidden";
+			buttonLetterIKey.style.visibility="hidden";
+			buttonLetterKKey.style.visibility="hidden";			
+			buttonRightLeverCenterNeutralKey.style.visibility="hidden";		
+		}
+*/		
 /*	
 	else {
 		buttonLeftKey.style.visibility="visible";
@@ -1620,6 +2463,16 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		buttonDownKey.style.visibility="visible";
 	}	
 */	
+		
+		
+		//added by Mike, 20221112
+		autoUpdatePuzzleTileImage();
+		
+		//added by Mike, 20221111
+		if (!bIsInitAutoGeneratePuzzleFromEnd) {	
+			autoVerifyPuzzleIfAtEnd();			
+		}
+
 }
 
 /* //removed by Mike, 20220904
@@ -1834,7 +2687,7 @@ function leftKeyPressUp() {
 //edited by Mike, 20221030
 //function keyPressDown(iKey) {
 function keyPressDown(iKey, event) {
-	//added by Mike, 20221101
+	//added again by Mike, 20221106; from 20221101
 	//note: verify before left-side buttons
 	for (iCount=iDirectionTotalKeyCount; iCount<iTotalKeyCount; iCount++) {
 		arrayKeyPressed[iKey]=true;		
@@ -1856,8 +2709,10 @@ function keyPressDown(iKey, event) {
 		arrayKeyPressed[iKEY_D]=false;
 		arrayKeyPressed[iKEY_A]=false;
 */
-
-		for (iCount=0; iCount<iDirectionTotalKeyCount; iCount++) {
+		
+		//edited by Mike, 20221106
+		//for (iCount=0; iCount<iDirectionTotalKeyCount; iCount++) {
+		for (iCount=0; iCount<iTotalKeyCount; iCount++) {
 			arrayKeyPressed[iCount]=false;
 		}		
 	
@@ -1879,7 +2734,7 @@ function keyPressDown(iKey, event) {
 //function keyPressUp(iKey) {
 function keyPressUp(iKey, event) {
 
-alert("RELEASE");
+//alert("RELEASE");
 
 	//edited by Mike, 20221030
 	arrayKeyPressed[iKey]=false;
@@ -1889,8 +2744,11 @@ alert("RELEASE");
 //reference: https://stackoverflow.com/questions/62823062/adding-a-simple-left-right-swipe-gesture/62825217#62825217;
 //answer by: smmehrab, 20200709T2330; edited 20200711T0355
 function handleGesture() {
-	//added by Mike, 20221030
-	if (document.fullscreenElement) {
+	//added by Mike, 20221030; edited by Mike, 20221108
+//	if (document.fullscreenElement) {
+	//edited by Mike, 20221109
+//	if ((document.fullscreenElement) || (bIsUsingAppleWebKit)){
+	if ((document.fullscreenElement) && (!bIsUsingAppleMac)){
 		if (iTouchEndX < iTouchStartX) {
 			//console.log('Swiped Left');
 			//alert("Swiped Left");
@@ -1945,15 +2803,111 @@ function onLoad() {
 //	document.documentElement.mozRequestFullScreen();  
 */		
 
+	//added by Mike, 2022113
+	//keyphrase: identify machine and computer browser
+
+	//added by Mike, 20221108
+//	alert(navigator.userAgent);
+
 	//added by Mike, 20220910
 	//reference: https://stackoverflow.com/questions/6666907/how-to-detect-a-mobile-device-with-javascript; last accessed: 20220910
 	//answer by: Baraa, 20141026T2059
-	if (/Mobile|Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-		alert("detected: Mobile Browser!");
+	//edited by Mike, 20221108
+//	if (/Mobile|Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+	if (/Mobile|Android|webOS|iPhone|iPad|iPod|AppleWebKit|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+
+//		alert("detected: Mobile Browser!");
 		
 		//added by Mike, 20220925
 		bIsMobile=true;
+		
+		//added by Mike, 20221108
+		if (navigator.userAgent.includes("AppleWebKit")) {
+			bIsUsingAppleWebKit=true;
+			//added by Mike, 20221109
+			bIsUsingAppleMac=false; //default
+		}
+		
+		//added by Mike, 20221113
+		//notes: "AppleWebKit" to exist even with "Android"
+		if (navigator.userAgent.includes("Android")) {
+			bIsUsingAppleWebKit=false;
+		}		
+
+		//added by Mike, 20221113
+		//example: Linux x86_64 (desktop)
+		if (navigator.userAgent.includes("Linux x")) {		
+			bIsMobile=false;
+		}		
+
+		//note: iPAD and MacBookPro OS : Mac OS X
+		//adds: to be re-classified as iPAD via TOUCH command
+		if ((navigator.userAgent.includes("Macintosh")) || navigator.userAgent.includes("Mac")) {
+			bIsUsingAppleMac=true;
+		}		
 	}
+	
+	//added by Mike, 20221106
+	iTileBgCount=0;
+
+	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {		
+		for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
+
+		//alert(iTileBgCount);
+			arrayPuzzleTilePos[iRowCount][iColumnCount]=iTileBgCount;
+
+			arrayPuzzleTileCountId[iTileBgCount] = document.getElementById("puzzleTileImageIdBg"+iTileBgCount);
+
+			arrayPuzzleTileCountId[iTileBgCount].style.visibility="hidden";
+
+/* //removed by Mike, 20221106						
+			//added by Mike, 20221105
+			//reference: https://www.w3schools.com/tags/tag_img.asp;
+			//last accessed: 20221105
+			//count			
+			arrayPuzzleTileCountId[iTileBgCount].alt=(iTileBgCount+1)+"";
+			
+			//added by Mike, 20221106			arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+*/			
+
+			//edited by Mike, 20221106
+//			if ((iTileBgCount+1)==iTileBgCountMax) {
+			//starts @0
+			if (iTileBgCount==iTileBgCountMax-1) {
+//alert(iTileBgCount);
+				arrayPuzzleTileCountId[iTileBgCount].alt=""; //space
+				
+				//added by Mike, 20221106
+				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";		
+
+				bIsTargetAtSpace=true;
+			}
+			else {
+				//added by Mike, 20221106
+				//reference: https://www.w3schools.com/tags/tag_img.asp;
+				//last accessed: 20221105
+				//count			
+				//edited by Mike, 20221106				//arrayPuzzleTileCountId[iTileBgCount].alt=(iTileBgCount+1)+"";
+				//TO-DO: -reverify: this				
+				//note: center-align COMMAND via CSS has OUTPUT ERROR
+				var sOffsetPaddingBeforeText="";
+				if (iTileBgCount+1 < 10) {
+					sOffsetPaddingBeforeText=" ";
+				}
+
+				arrayPuzzleTileCountId[iTileBgCount].alt=sOffsetPaddingBeforeText+(iTileBgCount+1)+"";
+				
+				//added by Mike, 20221106
+				arrayPuzzleTileCountId[iTileBgCount].className="Image32x32Tile";	
+			}
+			
+			iTileBgCount++;
+		}
+	}
+	
+
+
+	
 	
 	//added by Mike, 20221012
 /*	//INCORRECT OUTPUT in FIREFOX WEB BROWSER
@@ -2052,6 +3006,8 @@ function onLoad() {
 	//added by Mike, 20221002
 	imgIpisTile.style.visibility="visible";
 
+/*	//removed by Mike, 20221105		
+
 	//added by Mike, 20220909
 	//https://www.w3schools.com/js/js_arrays.asp; last accessed: 20220823
 	//https://www.w3schools.com/js/js_loop_for.asp; last accessed: 20220909	
@@ -2075,6 +3031,8 @@ function onLoad() {
 		//added by Mike, 20221002
 		arrayTileBg[iTileBgCount].style.visibility="visible";
 	}
+*/
+
 
 /* //removed by Mike, 20221007	
 	//added by Mike, 20220912	
@@ -2126,6 +3084,12 @@ function onLoad() {
 
 	document.body.onkeydown = function(e){
 	//alert("e.keyCode: "+e.keyCode);
+		
+		//added by Mike, 20221108
+		if (bIsInitAutoGeneratePuzzleFromEnd) {
+			return;
+		}
+		
 		
 /* //removed by Mike, 20220823		
 		var imgIpisTile = document.getElementById("ipisTileImageId");
@@ -2225,7 +3189,7 @@ function onLoad() {
 		if (e.keyCode==73) { //key i
 			arrayKeyPressed[iKEY_I]=false;		
 			
-			alert("HALLO");			
+//			alert("HALLO");			
 		}
 		else if (e.keyCode==75) { //key k			
 			arrayKeyPressed[iKEY_K]=false;			
@@ -2240,10 +3204,38 @@ function onLoad() {
 		
 	}	
 	
+	//added by Mike, 20221110
+	//reference: https://stackoverflow.com/questions/70827887/detect-click-vs-touch-in-javascript;
+	//last accessed: 20221110
+	//answer by:  Jacob, 20220124T0110
+	document.body.addEventListener('pointerdown', (event) => {
+	  if (event.pointerType === "mouse") {
+		  //alert("MOUSE");
+		  if (bIsUsingAppleWebKit) {
+			bIsUsingAppleMac=true;
+		  }
+	  }
+	  if (event.pointerType === "touch") {
+		  //alert("TOUCH");		  
+		  if (bIsUsingAppleWebKit) {
+			bIsUsingAppleMac=false;
+			bIsMobile=true; //added by Mike, 20221110
+			
+			//added by Mike, 20221111
+			toggleFullScreen();
+		  }
+	  }
+/*	//removed by Mike, 20221110	  
+	  if (event.pointerType === "pen") {		  
+	  }
+*/	  
+	});
+
+	
 	//added by Mike, 20221101
 	//TO-DO: -re-verify: using array container
 	//--> with iTouchStartX, iTouchEndX
-	
+		
 	//added by Mike, 20221029
 	//reference: https://stackoverflow.com/questions/62823062/adding-a-simple-left-right-swipe-gesture/62825217#62825217;
 	//answer by: smmehrab, 20200709T2330; edited 20200711T0355
@@ -2538,198 +3530,16 @@ alert("iButtonHeight"+iButtonHeight);
 
 	}, false);
 	
-
-	
-	
+	//added by Mike, 20221108; edited by Mike, 20221111
+	bIsInitAutoGeneratePuzzleFromEnd=true;	
+	//autoGeneratePuzzleFromEnd();
+			
 	//added by Mike, 20220904
 	setInterval(myUpdateFunction, 16.66); //1000/60=16.66; 60 frames per second
 	
 }		
 
-
-		//SVGH
-		function copyText(iCount){
-//			alert("hello"+iCount);
-	 
-			//Reference: https://stackoverflow.com/questions/51625169/click-on-text-to-copy-a-link-to-the-clipboard;
-			//last accessed: 20200307
-			//answer by: colxi on 20180801; edited by: Lord Nazo on 20180801	 
-/*	 
-			var holdText = document.getElementById("patientNameId"+iCount).innerText;
-
-			const el = document.createElement('textarea');
-		    el.value = holdText;
-			document.body.appendChild(el);
-			el.select();
-			document.execCommand('copy');
-			document.body.removeChild(el);
-
-			//alert("text: "+holdText);
-*/
-			var sHoldTextPatientName = document.getElementById("patientNameId"+iCount).innerText;
-			var sHoldTextFee = document.getElementById("feeId"+iCount).innerText; //.innerText;
-
-//			alert("sHoldTextPatientName: "+sHoldTextPatientName);
-//			alert("sHoldTextFee: "+sHoldTextFee);
-
-			var sHoldTextTransactionTypeName = document.getElementById("transactionTypeNameId"+iCount).innerText;
-
-			var sTreatmentTypeName = document.getElementById("treatmentTypeNameId"+iCount).innerText;
-
-			var sDiscountAmount = "";
-			var sTotalAmount = "0";
-			
-			if (sHoldTextTransactionTypeName=="CASH") {
-				//alert("CASH!");
-				sTotalAmount = sHoldTextFee;
-			}
-			else if (sHoldTextTransactionTypeName=="SC/PWD") {
-				//note: solve the values of the other variables using one (1) known variable value
-				sTotalAmount = sHoldTextFee
-				sHoldTextFee = -sHoldTextFee/(0.20-1);
-				sDiscountAmount = "" + sHoldTextFee*0.20;
-			}
-			else if (sHoldTextTransactionTypeName=="NC") {
-				sHoldTextFee = "NC";				
-				sTotalAmount = "NC";				
-			}						
-			else { //hmo
-				sHoldTextFee = "HMO";				
-				sTotalAmount = sHoldTextTransactionTypeName.toLowerCase();				
-			}
-			
-			const el = document.createElement('textarea');
-/*		    
-			el.value = sHoldTextPatientName+ "\t" + sHoldTextFee + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + sDiscountAmount + "\t" + sTotalAmount;
-			document.body.appendChild(el);
-*/			
-
-			sTreatmentTypeName = sTreatmentTypeName.toUpperCase();
-			
-			if ((sTreatmentTypeName=="SWT") || (sTreatmentTypeName=="SHOCKWAVE")) {
-				el.value = sHoldTextPatientName + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" +sHoldTextFee + "\t" + "\t" + sDiscountAmount + "\t" + sTotalAmount;
-			}
-			else if (sTreatmentTypeName=="LASER") {
-				el.value = sHoldTextPatientName + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" +sHoldTextFee + "\t" + "\t" + sDiscountAmount + "\t" + "\t" + sTotalAmount;
-			}
-			else if (sTreatmentTypeName=="OT") {
-				el.value = sHoldTextPatientName + "\t" + "\t" + sHoldTextFee + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + sDiscountAmount + "\t" + sTotalAmount;
-			}
-			else if (sTreatmentTypeName=="IN-PT") {
-				el.value = sHoldTextPatientName + "\t" + "\t" + "\t" + "\t" + sHoldTextFee + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + sDiscountAmount + "\t" + sTotalAmount;
-			}
-			else {
-				el.value = sHoldTextPatientName+ "\t" + sHoldTextFee + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + sDiscountAmount + "\t" + sTotalAmount;
-			}
-			
-			document.body.appendChild(el);							
-			el.select();
-			document.execCommand('copy');
-			document.body.removeChild(el);
-
-//			alert("text: "+sHoldTextPatientName + sHoldTextFee);//el.value);
-
-		}
-/*	  
-		  defaultScrollWidth = 0;
-		  
-		  function auto_grow(element) {
-			element.style.height = "5px";
-			element.style.height = (element.scrollHeight*4)+"px";
-
-			if (defaultScrollWidth == 0) {
-				defaultScrollWidth = element.scrollWidth; //i.e. 42% of the width of the full width of the Browser Window
-				alert("defaultScrollWidth: "+defaultScrollWidth);
-			}
-			else if (element.scrollWidth < defaultScrollWidth){
-//				defaultScrollWidth = 100%;
-				defaultScrollWidth = element.scrollWidth;
-//				alert("defaultScrollWidth: "+defaultScrollWidth);
-
-			}
-				
-			element.style.width = defaultScrollWidth; //(element.scrollWidth+element.scrollWidth*0.42)+"px";			
-		  }
-*/
-
-		function copyTextMOSC(iCount){
-//			alert("hello"+iCount);
-	 
-			//Reference: https://stackoverflow.com/questions/51625169/click-on-text-to-copy-a-link-to-the-clipboard;
-			//last accessed: 20200307
-			//answer by: colxi on 20180801; edited by: Lord Nazo on 20180801	 
-
-			var sHoldTextPatientName = document.getElementById("patientNameId"+iCount).innerText;
-			
-			const el = document.createElement('textarea');
-
-			el.value = sHoldTextPatientName;
-			
-			document.body.appendChild(el);							
-			el.select();
-			document.execCommand('copy');
-			document.body.removeChild(el);
-
-//			alert("text: "+sHoldTextPatientName + sHoldTextFee);//el.value);
-
-		}
-
-
-		//added by Mike, 20220415				
-		function myPopupFunction(iButtonId) {			
-			//TO-DO: -update: this
-			//+iCount
-			var iMyCurrentChargeCount = document.getElementById("myCurrentChargeCountId").value; //innerText
-			
-			//do the following omyUpdateFunctionnly if value is a Number, i.e. not NaN
-			if (!isNaN(iMyCurrentChargeCount)) {		
-				//alert(iMyCurrentChargeCount);
-				
-				//auto-verify IF charge count sufficient to execute ACTION, e.g. PUNCH
-				//added by Mike, 20220416
-				//note: @present, max action COST = 1
-				
-				if ( (iButtonId!=0) && (iButtonId!=1)){ //CHARGE Button OR GUARD Button
-					if (iMyCurrentChargeCount<=0) {
-/* //edited by Mike, 20220417						
-						alert("INSUFFICIENT CHARGE!");
-
-//						document.getElementById("iButtonId2").focus=false; 				
-						
-						//reference:					
-						//https://stackoverflow.com/questions/15897434/javascript-refresh-parent-page-without-entirely-reloading
-						//answer by: decden, 20130419T0858
-						//edited by: CommunityBot, 20170523T1159
-						window.location = window.location;
-*/
-						//TO-DO: -add: IF player count >= 2
-						document.getElementById("spanMyCurrentChargeCountP1Id").style="color:red"; 	
-						
-						//TO-DO: -add: rest of button ID's
-						//edited by Mike, 20220417
-//						document.getElementById("iButtonId2").blur(); 				
-						//document.getElementById("iButtonId"+2).blur(); 	
-						document.getElementById("iButtonId"+iButtonId).blur(); 	
- 										
-						return;
-					}
-				}				
-			}
-		
-/* //removed by Mike, 20210902
-			//added by Mike, 20210424
-			//note: we add this command to prevent multiple button clicks
-			//received by computer server before identifying that a patient transaction
-			//already exists in Cart List from Database
-			document.getElementById("addButtonId").disabled = true;
-*/
-			window.location.href = "<?php echo site_url('canvas/confirm/"+iButtonId+"');?>";
 	
-			//added by Mike, 20210424
-			//note: no need to add this due to computer enables button after reloading page
-//			document.getElementById("addButtonId").disabled = false;
-//			setTimeout(setButton("addButtonId",false),300000);
-		}			
 	  </script>
   <!-- edited by Mike, 20220822 -->
 
@@ -2843,11 +3653,38 @@ alert("iButtonHeight"+iButtonHeight);
 	?>
 
 
+<!-- edited by Mike, 20221105; from 20221104  -->
+
+	<img id="puzzleImageId" class="ImageTile" src="<?php echo base_url('assets/images/mtPinatubo20150115T1415.jpg');?>">	
+
+<?php 
+	$iRowCountMax=4; 
+	$iColumnCountMax=4; 	
+
+	//16=4*4
+	$iTileBgCountMax=$iRowCountMax*$iColumnCountMax;
+
+for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
+	//edited by Mike, 20221113; from 20221111
+	//count.png
+	//cambodia128x128-20141225T0958.jpg
+	//cambodia512x512-20141225T0958.jpg
+?>		
+	<img id="puzzleTileImageIdBg<?php echo $iCount;?>" class="Image32x32Tile" onerror="" src="<?php echo base_url('assets/images/count1024x1024.png');?>" alt="" title="">
+
+<?php
+}
+?>
+
+
+
+
 <!-- TO-DO: -add: auto-identify position in BOARD;
 	example: corners, top, bottom, left, right sides, center
 -->			
 
 <?php 
+/*	//removed by Mike, 20221105
 	//edited by Mike, 20220904; edited again by Mike, 20220911
 	$iRowCountMax=2; //9
 	$iColumnCountMax=2; //9	
@@ -2856,11 +3693,15 @@ alert("iButtonHeight"+iButtonHeight);
 $iTileBgCountMax=$iRowCountMax*$iColumnCountMax;
 
 for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
+*/
 ?>	
+<!-- removed by Mike, 20221105
 	<img id="ipisTileImageIdBg<?php echo $iCount;?>" class="Image64x64TileBackground" src="<?php echo base_url('assets/images/ipis.png');?>">
-
+-->
 <?php
+/*	//removed by Mike, 20221105
 }
+*/
 ?>
 
 	<!-- added by Mike, 20220820; 
@@ -2872,6 +3713,8 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 <!-- added by Mike, 20220904 -->
 
 	<img id="ipisTileImageIdNumber2" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/ipis.png');?>">	
+
+
 
 <!-- removed by Mike, 20220911
 	<br />
@@ -2919,15 +3762,20 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 <!-- //added by Mike, 20221019 -->
 <button id="rightLeverCenterNeutralKeyId" class="controlKeyButtonRightLeverCenterNeutral">OOO</button>
 
-
-
-
+<!-- //edited by Mike, 20221110
+	//reference: https://stackoverflow.com/questions/12804028/safari-with-audio-tag-not-working; 
+	//last accessed: 20221110
+	//answer by: George Dimitriadis, 20171016T1500
+	//edited by: 404 - Brain Not Found, 20221124T2110
+	
 	<audio id="myAudioId" class="myAudio" controls loop>
-<!-- //edited by Mike, 20221019
-	  <source src="assets/audio/Tinig 112.m4a" type="audio/x-m4a">
--->
 	  <source src="assets/audio/Tinig UsbongFlashReferenceDQ1GameboyColorLow64KBitsPerSec.mp3" type="audio/x-m4a">
 	  Your browser does not support the audio tag.
 	</audio><br/>	
+-->
+	<audio id="myAudioId" class="myAudio" src="assets/audio/Tinig UsbongFlashReferenceDQ1GameboyColorLow64KBitsPerSec.mp3" type="audio/x-m4a" controls loop>
+	  Your browser does not support the audio tag.
+	</audio><br/>	
+
   </body>
 </html>
