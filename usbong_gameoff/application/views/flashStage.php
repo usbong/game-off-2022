@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221113; from 20221112
+' @date updated: 20221114; from 20221113
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -879,7 +879,7 @@ border: none;
 							/*padding-top: 0.1875%;*/ /*6px;*/
 
 /* //removed by Mike, 20221112							
-							border: 2px solid; /*double;*/
+							border: 2px solid; 
 							border-radius: 3px;
 */
 							margin: 0px; /*1px;*/	
@@ -1195,6 +1195,8 @@ var bIsToTopCornerDone=false;
 var bIsToRightCornerDone=false;
 var bIsToBottomCornerDone=false;
 
+//added by Mike, 20221114
+var bHasPressedStart=false;
 		  
 //added by Mike, 20220829
 const iImgIpisTileAnimationCountMax=6;
@@ -1266,7 +1268,10 @@ function pauseAudio() {
 	//
 	//reference: https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API;
 	//last accessed: 20220825
-	function toggleFullScreen() {
+	function toggleFullScreen() {		
+	  //added by Mike, 20221114	
+	  bHasPressedStart=true;
+		
 	  //added by Mike, 20221108
 	  //note: fullscreenElement command 
 	  //does NOT execute on AppleWebKit, e.g. iPad 15
@@ -2338,18 +2343,19 @@ if (bIsTargetAtSpace) {
 	}
 
 
-	//added by Mike, 20221108
-	if (bIsInitAutoGeneratePuzzleFromEnd) {
-		if (iDelayAnimationCountMovementStep==iDelayAnimationCountMovementStepMax) 	
-		{
-			autoGeneratePuzzleFromEnd();
-			iDelayAnimationCountMovementStep=0;
-		}
-		else {
-			iDelayAnimationCountMovementStep++;
-		}
-	}	
-			
+	//added by Mike, 20221108; edited by Mike, 20221114
+	if (bHasPressedStart) {
+		if (bIsInitAutoGeneratePuzzleFromEnd) {
+			if (iDelayAnimationCountMovementStep==iDelayAnimationCountMovementStepMax) 	
+			{
+				autoGeneratePuzzleFromEnd();
+				iDelayAnimationCountMovementStep=0;
+			}
+			else {
+				iDelayAnimationCountMovementStep++;
+			}
+		}	
+	}
 		
 	//added by Mike, 20220917	
 	//TO-DO: -update: positions
@@ -3768,8 +3774,10 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 	//count.png
 	//cambodia128x128-20141225T0958.jpg
 	//cambodia512x512-20141225T0958.jpg
+	//cambodia1024x1024-20141225T0958.jpg
+	//count1024x1024.png
 ?>		
-	<img id="puzzleTileImageIdBg<?php echo $iCount;?>" class="Image32x32Tile" onerror="" src="<?php echo base_url('assets/images/count1024x1024.png');?>" alt="" title="">
+	<img id="puzzleTileImageIdBg<?php echo $iCount;?>" class="Image32x32Tile" onerror="" src="<?php echo base_url('assets/images/cambodia1024x1024-20141225T0958.jpg');?>" alt="" title="">
 
 <?php
 }
