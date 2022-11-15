@@ -1657,7 +1657,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		
 		//alert("hallo");	
 	}
-
 	
 	//note: inverted Y-axis; where: @top of window is 0px
 	if (arrayKeyPressed[iKEY_W]) {
@@ -1674,6 +1673,34 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		
 //		alert("dito");
 	}
+	
+	//added by Mike, 20221115
+	//world stage max movement
+/*	
+alert("imgIpisTile.style.left: "+imgIpisTile.style.left);
+alert("iHorizontalOffset: "+iHorizontalOffset);
+*/
+	
+	if (iHorizontalOffset+imgIpisTileX < iHorizontalOffset+0) {
+		imgIpisTile.style.left = (iHorizontalOffset)+"px";
+		imgIpisTileX=0;
+	}
+	else if (iHorizontalOffset+imgIpisTileX+iImgIpisTileWidth>iHorizontalOffset+0+iStageMaxWidth) {
+		imgIpisTile.style.left = (iHorizontalOffset+iStageMaxWidth-iImgIpisTileWidth)+"px";
+		imgIpisTileX=iStageMaxWidth-iImgIpisTileWidth;
+	}
+	
+	//iVerticalOffset
+	if (imgIpisTileY < 0) {
+		imgIpisTile.style.top = (0)+"px";
+		imgIpisTileY=0;
+	}
+	else if (imgIpisTileY+iImgIpisTileHeight>0+iStageMaxHeight) {
+		imgIpisTile.style.top = (iStageMaxHeight-iImgIpisTileHeight)+"px";
+		imgIpisTileY=iStageMaxHeight-iImgIpisTileHeight;
+	}
+	
+		
 
 	//TO-DO: -add: as CASE @MINIGAME with IPIS
 /*
