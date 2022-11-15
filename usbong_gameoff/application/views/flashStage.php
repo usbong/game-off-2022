@@ -1106,9 +1106,18 @@ iVerticalOffsetInnerScreen=0;
 //added by Mike, 20221108
 iCurrentAppleWebKitInnerWidth=0;
 
-//added by Mike, 20221012
+//added by Mike, 20221115
+var iCurrentMiniGame=0;
+const MINI_GAME_PUZZLE=0;
+const MINI_GAME_ACTION=1;
+
+//added by Mike, 20221012; edited by Mike, 2022115
+/*
 let imgIpisTileX = iStageMaxWidth/2;
 let imgIpisTileY = iStageMaxHeight/2;	
+*/
+let imgIpisTileX = 0;
+let imgIpisTileY = 0;	
 
 
 //added by Mike, 20220925
@@ -1154,6 +1163,10 @@ const iCountMovementStepMax=100;
 var bIsInitAutoGeneratePuzzleFromEnd=false;
 var iDelayAnimationCountMovementStep=0;
 const iDelayAnimationCountMovementStepMax=6;
+
+//added by Mike, 20221115
+var bIsInitMiniGameAction=true;
+
 
 //added by Mike, 20221108
 var bIsToLeftCornerDone=false;
@@ -1471,8 +1484,473 @@ function autoGeneratePuzzleFromEnd() {
 //answer by: keyboardP, 20111229T0158
 //edited by: Ken Browning, 20111229T0200
 //edited by Mike, 20220820
-
 function myUpdateFunction() {
+
+	iCurrentMiniGame=MINI_GAME_ACTION;
+
+	//added by Mike, 20221115
+    switch(iCurrentMiniGame) {
+    	case MINI_GAME_PUZZLE:
+			miniGamePuzzleUpdate();
+    	break;
+
+    	case MINI_GAME_ACTION:
+			miniGameActionUpdate();
+    	break;
+    }
+}
+
+function miniGameActionUpdate() {
+	var imgUsbongLogo = document.getElementById("usbongLogoId");
+	//imgUsbongLogo.style.visibility="hidden";
+	
+	//added by Mike, 20220820
+	var imgIpisTile = document.getElementById("ipisTileImageId");
+
+	//added by Mike, 20220904
+	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
+	
+	//added by Mike, 20220917; edited by Mike, 20220918
+	//var linkAsButtonLeftKey = document.getElementById("leftKeyId");
+	var buttonLeftKey = document.getElementById("leftKeyId");
+	var buttonRightKey = document.getElementById("rightKeyId");
+	var buttonUpKey = document.getElementById("upKeyId");
+	var buttonDownKey = document.getElementById("downKeyId");
+
+	//added by Mike, 20221019
+	var buttonLeverCenterNeutralKey = document.getElementById("leverCenterNeutralKeyId");
+
+	//added by Mike, 20221021
+	var buttonLetterJKey = document.getElementById("letterJKeyId");
+	var buttonLetterLKey = document.getElementById("letterLKeyId");
+	var buttonLetterIKey = document.getElementById("letterIKeyId");
+	var buttonLetterKKey = document.getElementById("letterKKeyId");
+
+	//added by Mike, 20221019
+	var buttonRightLeverCenterNeutralKey = document.getElementById("rightLeverCenterNeutralKeyId");
+	
+
+	//added by Mike, 20220912	
+	var pauseLink = document.getElementById("pauseLinkId");
+	var iPauseLinkHeight = (pauseLink.clientHeight);//+1; + "px";
+	var iPauseLinkWidth = (pauseLink.clientWidth);//+1; + "px"
+
+	//		alert("screen.height: "+screen.height); //533
+
+	//added by Mike, 20220904
+	//ANIMATION UPDATE
+	 
+	//added by Mike, 20220820
+	//if class exists, remove; else, add the class;
+	//imgIpisTile.classList.toggle('Image64x64TileFrame2');	 
+
+	//reference: https://www.w3schools.com/jsref/prop_html_classname.asp;
+	//last accessed: 20220820
+		
+	//added by Mike, 20220829
+	//TO-DO: -add: this in Ipis class(-ification) container, et cetera
+	if (iImgIpisTileAnimationCount==iImgIpisTileAnimationCountMax) {
+		if (imgIpisTile.className=='Image64x64TileFrame1') {
+		  imgIpisTile.className='Image64x64TileFrame2';
+		  
+		  //added by Mike, 20220904
+		  imgIpisTileNumber2.className='Image64x64TileFrame1';
+		}
+		else {
+		  imgIpisTile.className='Image64x64TileFrame1';
+
+		  imgIpisTileNumber2.className='Image64x64TileFrame2';
+		}
+		iImgIpisTileAnimationCount=0;
+	}
+	else {
+		iImgIpisTileAnimationCount++;
+	}
+
+	//reference: https://www.w3schools.com/tags/canvas_fillrect.asp; 
+	//last accessed: 2020911
+	var myCanvas = document.getElementById("myCanvasId");
+	var myCanvasContext = myCanvas.getContext("2d");
+	//TO-DO: -add: center align of bigger window 
+	//TO-DO: -reverify: this
+	myCanvasContext.fillRect(0, 0, iStageMaxWidth, iStageMaxHeight);	
+
+//alert (iHorizontalOffset);
+
+//added by Mike, 20221002; edited by Mike, 20221005
+//myCanvas.style.top = (0)+"px"; //iVerticalOffset+
+myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
+
+	//added by Mike, 20221012
+	iHorizontalOffset=myCanvas.getBoundingClientRect().x;
+
+
+	//edited by Mike, 20221012
+	pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
+	pauseLink.style.top = 0+iStageMaxHeight +"px"; 
+	pauseLink.style.visibility="visible";	  
+	
+	//identify offset due to smaller window centered @horizontal
+/*	
+	alert(screen.width);
+	alert(screen.height);
+*/
+
+
+	//added by Mike, 20220911
+	let iImgIpisTileWidth = 64;
+	let iImgIpisTileHeight = 64;
+	
+	//edited by Mike, 20220823; edited again by Mike, 20221019
+/*
+	let iStepX=10; //4;
+	let iStepY=10; //4;
+*/
+	let iStepX=5; //4;
+	let iStepY=5; //4;
+	
+
+
+	//added by Mike, 20221030
+	//TO-DO: -reverify: adding this in touchmove
+	if (iTouchStartCount<iTouchEndCountMax) {
+		
+		//alert("iTouchStartCount: "+iTouchStartCount);
+		
+		if (iTouchStartCount>=iTouchEndCountMax) {
+			iTouchEndX=iTouchStartX;
+			iTouchEndY=iTouchStartY;
+			handleGesture();
+		}
+
+		iTouchStartCount++;
+	}
+
+	if (bIsInitMiniGameAction) {
+/*	
+		imgIpisTile.style.left = (iHorizontalOffset+iStageMaxWidth/2-iImgIpisTileWidth/2)+"px";	
+		imgIpisTile.style.top = (iVerticalOffsetInnerScreen+iStageMaxHeight/2-iImgIpisTileHeight/2)+"px";	
+*/		
+		imgIpisTileX = iStageMaxWidth/2-iImgIpisTileWidth/2;
+		imgIpisTileY = iStageMaxHeight/2-iImgIpisTileHeight/2;	
+
+		imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
+		imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
+		
+		bIsInitMiniGameAction=false;
+	}
+
+
+	//if (bKeyDownRight) { //key d
+	if (arrayKeyPressed[iKEY_D]) {
+		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX+iStepX+"px";
+		//imgIpisTile.style.left =  imgIpisTileX+iStepX+"px";
+
+		imgIpisTileX+=iStepX;
+		imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
+	}	
+	else if (arrayKeyPressed[iKEY_A]) {
+		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX-iStepX+"px";				
+		//imgIpisTile.style.left =  imgIpisTileX-iStepX+"px";				
+		imgIpisTileX-=iStepX;
+		imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";
+		
+		//alert("hallo");	
+	}
+
+	
+	//note: inverted Y-axis; where: @top of window is 0px
+	if (arrayKeyPressed[iKEY_W]) {
+//		imgIpisTile.style.top = iVerticalOffset+imgIpisTileY-iStepY+"px";				
+		//imgIpisTile.style.top = imgIpisTileY-iStepY+"px";	
+		imgIpisTileY-=iStepY;	
+		imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
+	}	
+	else if (arrayKeyPressed[iKEY_S]) {
+//		imgIpisTile.style.top =  iVerticalOffset+imgIpisTileY+iStepY+"px";				
+//		imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
+		imgIpisTileY+=iStepY;	
+		imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
+		
+//		alert("dito");
+	}
+
+	//TO-DO: -add: as CASE @MINIGAME with IPIS
+/*
+	//added again by Mike, 20221115
+	//iTotalKeyCount
+	for (iCount=0; iCount<iDirectionTotalKeyCount; iCount++) {
+		if (arrayKeyPressed[iKey]) {
+		}		
+	}
+
+	imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
+	imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
+*/
+
+/*
+	for (iCount=0; iCount<iDirectionTotalKeyCount; iCount++) {
+		if (arrayKeyPressed[iCount]) {
+			alert(iCount);
+		}		
+	}
+*/
+
+	//added by Mike, 20221115; from 20221106
+//	imgIpisTile.style.visibility="hidden";
+	imgIpisTile.style.visibility="visible";	
+	
+	//added by Mike, 20221104	
+/*	
+	imgPuzzle.style.left = (iHorizontalOffset-iStageMaxWidth/2)+"px";	
+	imgPuzzle.style.top = (iVerticalOffsetInnerScreen-iStageMaxHeight/2)+"px";	
+*/
+
+	//added by Mike, 20221101
+	if (arrayKeyPressed[iKEY_I]) {
+//		alert("iKEY_I");
+	}
+
+	if (arrayKeyPressed[iKEY_K]) {
+//		alert("iKEY_K");
+	}
+
+	if (arrayKeyPressed[iKEY_J]) {
+//		alert("iKEY_J");
+	}
+
+	if (arrayKeyPressed[iKEY_L]) {
+//		alert("iKEY_L");
+	}
+	
+	//added by Mike, 20220904
+	//COLLISION DETECTION UPDATE
+	
+	mdo1=imgIpisTile;
+	mdo2=imgIpisTileNumber2;
+
+	if (isIntersectingRect(mdo1, mdo2)) {
+		//alert("COLLISION!");
+		mdo2.style.visibility="hidden";
+	}
+	
+	//regenerate
+	if (mdo2.style.visibility=="hidden") {
+		
+		let mdo2XPos = mdo2.getBoundingClientRect().x;
+		let mdo2YPos = mdo2.getBoundingClientRect().y;	
+
+/*	
+		mdo2.style.left =  mdo2XPos+iStepX+"px";				
+		mdo2.style.left =  mdo2YPos-iStepX+"px";
+*/		
+		//remembers: BOSS Battle with PANIKI in ALAMAT ng AGIMAT (J2ME)
+		//reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random;
+		//last accessed: 20220904
+
+		let iMax = 4;		
+		iCorner = Math.floor(Math.random() * iMax); 
+		//clock-wise count, 
+		//where: 0 = TOP-LEFT, 1 = TOP-RIGHT, 2, = BOTTOM-RIGHT, 4 = BOTTOM-LEFT
+		
+		//edited by Mike, 20220925
+		
+		if (iCorner==0) { //TOP-LEFT
+			//edited by Mike, 20220911
+			//mdo2.style.left = "0px";				
+			mdo2.style.left = (iHorizontalOffset+0)+"px";			
+			mdo2.style.top =  iVerticalOffset+"px";//"0px";
+		}
+		else if (iCorner==1) { //TOP-RIGHT
+			//edited by Mike, 20220911
+			//mdo2.style.left = iStageMaxWidth+"px";				
+			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgIpisTileWidth)+"px";			
+			mdo2.style.top =  iVerticalOffset+ "px";//"0px";
+		}
+		else if (iCorner==2)  { //BOTTOM-RIGHT
+			//edited by Mike, 20220911
+			//mdo2.style.left = iStageMaxWidth+"px";				
+			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgIpisTileWidth)+"px";
+			//mdo2.style.top = iStageMaxHeight+"px";
+			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgIpisTileHeight)+"px";
+		}
+		else if (iCorner==3) { //BOTTOM-LEFT
+			//edited by Mike, 20220911
+			//mdo2.style.left = "0px";				
+			mdo2.style.left = (iHorizontalOffset+0)+"px";				
+			//mdo2.style.top = iStageMaxHeight+"px";
+			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgIpisTileHeight)+"px";
+		}
+
+		mdo2.style.visibility="visible";	
+	}
+	
+	//added by Mike, 20220915
+	//verified: object position movement in Android Samsung Duos
+	//to be NOT noticeably delayed for moving object count = 1
+
+	let imgIpisNumber2TileX = imgIpisTileNumber2.getBoundingClientRect().x;
+	let imgIpisNumber2TileY = imgIpisTileNumber2.getBoundingClientRect().y;	
+	
+	//added by Mike, 20221002
+	//note: getBoundingClientRect().width includes all animation frame sequence
+//	let iImgIpisNumber2TileWidth = imgIpisTileNumber2.getBoundingClientRect().width;
+	let iImgIpisNumber2TileWidth = 64; 
+	
+
+	
+	if (imgIpisNumber2TileY+iIpisNumber2StepY<(iVerticalOffset+0)) {
+		iIpisNumber2StepY=10; //*=-1;
+	}
+	else if (imgIpisNumber2TileY+iImgIpisTileHeight+iIpisNumber2StepY>(iVerticalOffset+iStageMaxHeight)) {
+		iIpisNumber2StepY=-10;
+		
+		//alert (imgIpisTileNumber2.style.top);
+	}
+
+
+	//edited by Mike, 20221002
+	//imgIpisTileNumber2.style.top = 0+iVerticalOffset+imgIpisNumber2TileY+iIpisNumber2StepY +"px"; 
+	//imgIpisTileNumber2.style.left = 0+iHorizontalOffset+"px"; 
+	
+	imgIpisTileNumber2.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
+	imgIpisTileNumber2.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgIpisNumber2TileWidth+"px"; 
+
+
+	
+			
+
+	//added by Mike, 20221108; edited by Mike, 20221114
+	if (bHasPressedStart) {
+/* //removed by Mike, 20221115	
+		if (bIsInitAutoGeneratePuzzleFromEnd) {
+			if (iDelayAnimationCountMovementStep==iDelayAnimationCountMovementStepMax) 	
+			{
+				autoGeneratePuzzleFromEnd();
+				iDelayAnimationCountMovementStep=0;
+			}
+			else {
+				iDelayAnimationCountMovementStep++;
+			}
+		}	
+*/		
+	}
+		
+	//added by Mike, 20220917	
+
+
+	//alert (buttonLeftKey.getBoundingClientRect().width);	//Example Output: 47.28334045410156
+	var iButtonWidth = buttonUpKey.getBoundingClientRect().width;
+	var iButtonHeight = buttonUpKey.getBoundingClientRect().height;
+
+
+
+	//if (!document.fullscreenElement) {	
+	if ((!bIsMobile) || (bIsUsingAppleMac)) {
+		buttonUpKey.style.visibility = "hidden";		
+		buttonLeftKey.style.visibility = "hidden";
+		buttonRightKey.style.visibility = "hidden";
+		buttonDownKey.style.visibility = "hidden";
+		
+		//added by Mike, 20221019
+		buttonLeverCenterNeutralKey.style.visibility = "hidden";
+		
+		//added by Mike, 20221021
+		buttonLetterIKey.style.visibility = "hidden";		
+		buttonLetterJKey.style.visibility = "hidden";
+		buttonLetterLKey.style.visibility = "hidden";
+		buttonLetterKKey.style.visibility = "hidden";
+		
+		buttonRightLeverCenterNeutralKey.style.visibility = "hidden";
+	}
+	else {
+		//edited by Mike, 20221108
+		if (bIsUsingAppleWebKit) {
+			iVerticalOffset=(iStageMaxHeight+buttonUpKey.clientHeight*3);			
+
+			//alert(screen.orientation); //OUTPUT: [object ScreenOrientation]
+
+	
+			//alert(window.innerWidth);
+			
+			//note: CHANGE in orientation
+			if (iCurrentAppleWebKitInnerWidth!=window.innerWidth) {
+				iCurrentAppleWebKitInnerWidth=window.innerWidth;
+/*				
+				screen.width=iCurrentAppleWebKitInnerWidth;
+				alert(screen.width);
+*/				
+				iAppleWebKitInnerWidthOffset=iCurrentAppleWebKitInnerWidth-screen.width;
+				
+				if (iAppleWebKitInnerWidthOffset<0) {
+					iAppleWebKitInnerWidthOffset*=(-1);
+				}
+			}
+			
+		}
+		else {			
+			//added by Mike, 20221002
+			iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));
+			
+			//alert(screen.orientation); //OUTPUT: [object ScreenOrientation]
+
+			if (window.matchMedia("(orientation: landscape)").matches) {
+				//note: for CONTROLLER BUTTONS
+				iVerticalOffset=(screen.height-buttonUpKey.clientHeight*3); //set to 3 button height from the bottom
+			}				
+		}
+	
+		
+		buttonUpKey.style.left = (0)+iButtonWidth*1+"px";
+		buttonUpKey.style.top =  iVerticalOffset+"px"; //iStageMaxHeight+"px";
+		buttonUpKey.style.visibility = "visible";
+		
+		buttonLeftKey.style.left = (0)+"px";
+		buttonLeftKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; //iStageMaxHeight+iButtonHeight*1+"px";
+		buttonLeftKey.style.visibility = "visible";
+
+		//added by Mike, 20221019
+		buttonLeverCenterNeutralKey.style.left = (0)+iButtonWidth*1+"px";
+		buttonLeverCenterNeutralKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; 
+		buttonLeverCenterNeutralKey.style.visibility = "visible";
+
+		buttonRightKey.style.left = (0)+iButtonWidth*2+"px";
+		buttonRightKey.style.top =  iVerticalOffset+iButtonHeight*1+"px";//iStageMaxHeight+iButtonHeight*1+"px";
+		buttonRightKey.style.visibility = "visible";
+
+		buttonDownKey.style.left = (0)+iButtonWidth*1+"px";
+		buttonDownKey.style.top =  iVerticalOffset+iButtonHeight*2+"px"; //iStageMaxHeight+iButtonHeight*2+"px";
+		buttonDownKey.style.visibility = "visible";
+
+		
+		//added by Mike, 20221021
+		buttonLetterIKey.style.left = iAppleWebKitInnerWidthOffset+(screen.width)-iButtonWidth*2+"px";
+		buttonLetterIKey.style.top =  iVerticalOffset+"px"; //iStageMaxHeight+"px";
+		buttonLetterIKey.style.visibility = "visible";
+		
+		buttonLetterJKey.style.left = iAppleWebKitInnerWidthOffset+(screen.width)-iButtonWidth*3+"px";
+		buttonLetterJKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; //iStageMaxHeight+iButtonHeight*1+"px";
+		buttonLetterJKey.style.visibility = "visible";
+
+		//added by Mike, 20221019
+		buttonRightLeverCenterNeutralKey.style.left = iAppleWebKitInnerWidthOffset+(screen.width)-iButtonWidth*2+"px";
+		buttonRightLeverCenterNeutralKey.style.top =  iVerticalOffset+iButtonHeight*1+"px"; 
+		buttonRightLeverCenterNeutralKey.style.visibility = "visible";
+
+		buttonLetterLKey.style.left = iAppleWebKitInnerWidthOffset+(screen.width)-iButtonWidth+"px";
+		buttonLetterLKey.style.top =  iVerticalOffset+iButtonHeight*1+"px";//iStageMaxHeight+iButtonHeight*1+"px";
+		buttonLetterLKey.style.visibility = "visible";
+
+		buttonLetterKKey.style.left = iAppleWebKitInnerWidthOffset+(screen.width)-iButtonWidth*2+"px";
+		buttonLetterKKey.style.top =  iVerticalOffset+iButtonHeight*2+"px"; //iStageMaxHeight+iButtonHeight*2+"px";
+		buttonLetterKKey.style.visibility = "visible";
+	}
+
+					
+}
+
+
+function miniGamePuzzleUpdate() {
 	var imgUsbongLogo = document.getElementById("usbongLogoId");
 	//imgUsbongLogo.style.visibility="hidden";
 	
@@ -2559,9 +3037,15 @@ function onLoad() {
 	document.body.onkeydown = function(e){
 	//alert("e.keyCode: "+e.keyCode);
 		
-		//added by Mike, 20221108
-		if (bIsInitAutoGeneratePuzzleFromEnd) {
-			return;
+		//added by Mike, 20221108; edited by Mike, 20221115
+		switch (iCurrentMiniGame) {
+			case MINI_GAME_PUZZLE:
+				if (bIsInitAutoGeneratePuzzleFromEnd) {
+					return;
+				}		
+				break;
+			case MINI_GAME_ACTION:
+				break;						
 		}
 		
 		
@@ -3119,9 +3603,11 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 	const iKEY_L = 7;
 
 ?>
+
 <!-- //edited by Mike, 20220918
 <button id="leftKeyId" class="controlKeyButton" ontouchstart="leftKeyPressDown()" ontouchend="leftKeyPressUp()"><|</button>
 -->
+
 <button id="upKeyId" class="controlKeyButtonUp" ontouchstart="keyPressDown(<?php echo iKEY_W;?>, event)" ontouchend="keyPressUp(<?php echo iKEY_W;?>, event)">AAA</button>
 <button id="leftKeyId" class="controlKeyButtonLeft" ontouchstart="keyPressDown(<?php echo iKEY_A;?>, event)" ontouchend="keyPressUp(<?php echo iKEY_A;?>, event)">AAA</button>
 <button id="rightKeyId" class="controlKeyButtonRight" ontouchstart="keyPressDown(<?php echo iKEY_D;?>, event)" ontouchend="keyPressUp(<?php echo iKEY_D;?>, event)">AAA</button>
