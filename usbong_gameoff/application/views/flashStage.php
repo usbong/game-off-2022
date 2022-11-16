@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221115; from 20221114
+' @date updated: 20221116; from 20221115
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1052,7 +1052,9 @@ border: none;
 							position: absolute;
   							/*clip: rect(0px,128px,64px,64px);*/
   							clip: rect(0px,32px,32px,0px);
-							object-position: -32px; /*TO-DO: -add: current position*/
+/* //removed by Mike, 20221116							
+							object-position: -32px;
+*/							
 						}						
 
 						
@@ -1178,7 +1180,7 @@ var bIsToBottomCornerDone=false;
 var bHasPressedStart=false;
 		  
 //added by Mike, 20220829
-const iImgIpisTileAnimationCountMax=6;
+const iImgIpisTileAnimationCountMax=20; //6;
 iImgIpisTileAnimationCount=0;	  
 
 //added by Mike, 20220915
@@ -1192,6 +1194,17 @@ iTouchEndY=0;
 
 iTouchStartCount=0;
 iTouchEndCountMax=5;
+
+//added by Mike, 20221115
+var iFacingDirection=0;
+
+const iFACING_DOWN=0;
+const iFACING_UP=1;
+const iFACING_LEFT=2;
+const iFACING_RIGHT=3;
+
+var bIsWalkingAction=false;
+
 	  
 //added by Mike, 20220822
 //OK; this technique solves noticeable delay when holding the key press;
@@ -1547,24 +1560,68 @@ function miniGameActionUpdate() {
 	//reference: https://www.w3schools.com/jsref/prop_html_classname.asp;
 	//last accessed: 20220820
 		
-	//added by Mike, 20220829
+	//added by Mike, 20220829; edited by Mike, 20221116
 	//TO-DO: -add: this in Ipis class(-ification) container, et cetera
-	if (iImgIpisTileAnimationCount==iImgIpisTileAnimationCountMax) {
-		if (imgIpisTile.className=='Image64x64TileFrame1') {
-		  imgIpisTile.className='Image64x64TileFrame2';
+	//edited by Mike, 20221116
+//	if (iImgIpisTileAnimationCount==iImgIpisTileAnimationCountMax) {
+	if (iImgIpisTileAnimationCount<iImgIpisTileAnimationCountMax/2) {
+
+/* //edited by Mike, 2022116		
+		if (imgIpisTile.className=='Image32x32TileFrame1') {
+		  imgIpisTile.className='Image32x32TileFrame2';
 		  
 		  //added by Mike, 20220904
 		  imgIpisTileNumber2.className='Image64x64TileFrame1';
 		}
 		else {
-		  imgIpisTile.className='Image64x64TileFrame1';
+		  imgIpisTile.className='Image32x32TileFrame1';
 
 		  imgIpisTileNumber2.className='Image64x64TileFrame2';
 		}
-		iImgIpisTileAnimationCount=0;
-	}
-	else {
+*/		
+
+		imgIpisTileNumber2.className='Image64x64TileFrame1';
+
+
+		if (iFacingDirection==iFACING_DOWN) {
+			imgIpisTile.style.objectPosition="0px 0px";
+		}
+		else if (iFacingDirection==iFACING_RIGHT) {
+			imgIpisTile.style.objectPosition="-64px 0px";
+		}
+		else if (iFacingDirection==iFACING_LEFT) {
+			imgIpisTile.style.objectPosition="-128px 0px";
+		}	
+		else if (iFacingDirection==iFACING_UP) {
+			imgIpisTile.style.objectPosition="-192px 0px";
+		}				
+		
 		iImgIpisTileAnimationCount++;
+}
+	else {
+
+		imgIpisTileNumber2.className='Image64x64TileFrame2';	
+	
+		if (iFacingDirection==iFACING_DOWN) {
+			imgIpisTile.style.objectPosition="-32px 0px";
+		}
+		else if (iFacingDirection==iFACING_RIGHT) {
+			imgIpisTile.style.objectPosition="-96px 0px";
+		}
+		else if (iFacingDirection==iFACING_LEFT) {
+			imgIpisTile.style.objectPosition="-160px 0px";
+		}
+		else if (iFacingDirection==iFACING_UP) {
+			imgIpisTile.style.objectPosition="-224px 0px";
+		}		
+		//iImgIpisTileAnimationCount++;
+
+		if (iImgIpisTileAnimationCount==iImgIpisTileAnimationCountMax) {
+			iImgIpisTileAnimationCount=0;
+		}
+		else {
+			iImgIpisTileAnimationCount++;
+		}
 	}
 
 	//reference: https://www.w3schools.com/tags/canvas_fillrect.asp; 
@@ -1648,6 +1705,10 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 		imgIpisTileX+=iStepX;
 		imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
+		
+		//added by Mike, 20221116		
+		iFacingDirection=iFACING_RIGHT;
+		bIsWalkingAction=true;
 	}	
 	else if (arrayKeyPressed[iKEY_A]) {
 		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX-iStepX+"px";				
@@ -1655,6 +1716,22 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		imgIpisTileX-=iStepX;
 		imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";
 		
+		//added by Mike, 20221116
+		//imgIpisTile.src="<?php echo base_url('assets/images/tao.png');?>";
+
+		//added by Mike, 20221116		
+		iFacingDirection=iFACING_LEFT;
+		bIsWalkingAction=true;
+		
+
+/* //edited by Mike, 20221116	
+		if (iImgIpisTileAnimationCount==0) {
+			imgIpisTile.style.objectPosition="-64px 0";
+		}
+		else {
+			imgIpisTile.style.objectPosition="-64px -64px";
+		}
+*/		
 		//alert("hallo");	
 	}
 	
@@ -1664,12 +1741,20 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		//imgIpisTile.style.top = imgIpisTileY-iStepY+"px";	
 		imgIpisTileY-=iStepY;	
 		imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
+		
+		//added by Mike, 20221116		
+		iFacingDirection=iFACING_UP;
+		bIsWalkingAction=true;
 	}	
 	else if (arrayKeyPressed[iKEY_S]) {
 //		imgIpisTile.style.top =  iVerticalOffset+imgIpisTileY+iStepY+"px";				
 //		imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
 		imgIpisTileY+=iStepY;	
 		imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
+		
+		//added by Mike, 20221116		
+		iFacingDirection=iFACING_DOWN;
+		bIsWalkingAction=true;
 		
 //		alert("dito");
 	}
@@ -3571,32 +3656,15 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 	example: corners, top, bottom, left, right sides, center
 -->			
 
-<?php 
-/*	//removed by Mike, 20221105
-	//edited by Mike, 20220904; edited again by Mike, 20220911
-	$iRowCountMax=2; //9
-	$iColumnCountMax=2; //9	
-
-//4=2*2
-$iTileBgCountMax=$iRowCountMax*$iColumnCountMax;
-
-for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
-*/
-?>	
-<!-- removed by Mike, 20221105
-	<img id="ipisTileImageIdBg<?php echo $iCount;?>" class="Image64x64TileBackground" src="<?php echo base_url('assets/images/ipis.png');?>">
--->
-<?php
-/*	//removed by Mike, 20221105
-}
-*/
-?>
-
 	<!-- added by Mike, 20220820; 
 		 reference: https://www.w3schools.com/cssref/pr_pos_clip.asp; last accessed: 20220820
 		 //Image64x64Tile
-	-->
+		 
 	<img id="ipisTileImageId" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/ipis.png');?>">	
+
+	-->
+	
+	<img id="ipisTileImageId" class="Image32x32TileFrame1" src="<?php echo base_url('assets/images/tao.png');?>">	
 		
 <!-- added by Mike, 20220904 -->
 
