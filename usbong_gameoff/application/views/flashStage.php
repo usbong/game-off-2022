@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221116; from 20221115
+' @date updated: 20221117; from 20221116
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1584,16 +1584,39 @@ function miniGameActionUpdate() {
 
 
 		if (iFacingDirection==iFACING_DOWN) {
-			imgIpisTile.style.objectPosition="0px 0px";
+			//edited by Mike, 20221117
+			//imgIpisTile.style.objectPosition="0px 0px";
+			
+			if (bIsWalkingAction) {
+				imgIpisTile.style.objectPosition="-32px 0px";
+			}
+			else {
+				imgIpisTile.style.objectPosition="0px 0px";
+			}
 		}
 		else if (iFacingDirection==iFACING_RIGHT) {
-			imgIpisTile.style.objectPosition="-64px 0px";
+			if (bIsWalkingAction) {
+				imgIpisTile.style.objectPosition="-64px -32px";
+			}
+			else {			
+				imgIpisTile.style.objectPosition="-64px 0px";
+			}
 		}
 		else if (iFacingDirection==iFACING_LEFT) {
-			imgIpisTile.style.objectPosition="-128px 0px";
+			if (bIsWalkingAction) {
+				imgIpisTile.style.objectPosition="-128px -32px";
+			}
+			else {
+				imgIpisTile.style.objectPosition="-128px 0px";
+			}
 		}	
 		else if (iFacingDirection==iFACING_UP) {
-			imgIpisTile.style.objectPosition="-192px 0px";
+			if (bIsWalkingAction) {
+				imgIpisTile.style.objectPosition="-32px -32px";
+			}
+			else {
+				imgIpisTile.style.objectPosition="-192px 0px";
+			}
 		}				
 		
 		iImgIpisTileAnimationCount++;
@@ -1603,16 +1626,36 @@ function miniGameActionUpdate() {
 		imgIpisTileNumber2.className='Image64x64TileFrame2';	
 	
 		if (iFacingDirection==iFACING_DOWN) {
-			imgIpisTile.style.objectPosition="-32px 0px";
+			if (bIsWalkingAction) {
+				imgIpisTile.style.objectPosition="0px -64px";
+			}
+			else {			
+				imgIpisTile.style.objectPosition="-32px 0px";
+			}
 		}
 		else if (iFacingDirection==iFACING_RIGHT) {
-			imgIpisTile.style.objectPosition="-96px 0px";
+			if (bIsWalkingAction) {
+				imgIpisTile.style.objectPosition="-64px -64px";
+			}
+			else {			
+				imgIpisTile.style.objectPosition="-96px 0px";
+			}
 		}
 		else if (iFacingDirection==iFACING_LEFT) {
-			imgIpisTile.style.objectPosition="-160px 0px";
+			if (bIsWalkingAction) {
+				imgIpisTile.style.objectPosition="-128px -64px";
+			}
+			else {			
+				imgIpisTile.style.objectPosition="-160px 0px";
+			}
 		}
 		else if (iFacingDirection==iFACING_UP) {
-			imgIpisTile.style.objectPosition="-224px 0px";
+			if (bIsWalkingAction) {
+				imgIpisTile.style.objectPosition="-32px -64px";
+			}
+			else {			
+				imgIpisTile.style.objectPosition="-224px 0px";
+			}
 		}		
 		//iImgIpisTileAnimationCount++;
 
@@ -1654,9 +1697,14 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 */
 
 
-	//added by Mike, 20220911
-	let iImgIpisTileWidth = 64;
-	let iImgIpisTileHeight = 64;
+	//added by Mike, 20220911; edited by Mike, 2022117
+/*
+	let iImgIpisTileWidth = 32; //64;
+	let iImgIpisTileHeight = 32; //64;
+*/
+	let iImgHumanTileWidth = 32; //64;
+	let iImgHumanTileHeight = 32; //64;
+
 	
 	//edited by Mike, 20220823; edited again by Mike, 20221019
 /*
@@ -1688,8 +1736,8 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		imgIpisTile.style.left = (iHorizontalOffset+iStageMaxWidth/2-iImgIpisTileWidth/2)+"px";	
 		imgIpisTile.style.top = (iVerticalOffsetInnerScreen+iStageMaxHeight/2-iImgIpisTileHeight/2)+"px";	
 */		
-		imgIpisTileX = iStageMaxWidth/2-iImgIpisTileWidth/2;
-		imgIpisTileY = iStageMaxHeight/2-iImgIpisTileHeight/2;	
+		imgIpisTileX = iStageMaxWidth/2-iImgHumanTileWidth/2;
+		imgIpisTileY = iStageMaxHeight/2-iImgHumanTileHeight/2;	
 
 		imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
 		imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
@@ -1697,6 +1745,18 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		bIsInitMiniGameAction=false;
 	}
 
+	//added by Mike, 20221117
+	var sNewTileLeft = (iHorizontalOffset+imgIpisTileX)+"px";
+	var sNewTileTop = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";		
+	
+	if (imgIpisTile.style.left!=sNewTileLeft) {
+		imgIpisTile.style.left=sNewTileLeft;
+	}
+
+	if (imgIpisTile.style.top!=sNewTileTop) {
+		imgIpisTile.style.top=sNewTileTop;
+	}
+	
 
 	//if (bKeyDownRight) { //key d
 	if (arrayKeyPressed[iKEY_D]) {
@@ -1735,8 +1795,10 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		//alert("hallo");	
 	}
 	
+	//edited by Mike, 2022117
 	//note: inverted Y-axis; where: @top of window is 0px
-	if (arrayKeyPressed[iKEY_W]) {
+	//if (arrayKeyPressed[iKEY_W]) {
+	else if (arrayKeyPressed[iKEY_W]) {
 //		imgIpisTile.style.top = iVerticalOffset+imgIpisTileY-iStepY+"px";				
 		//imgIpisTile.style.top = imgIpisTileY-iStepY+"px";	
 		imgIpisTileY-=iStepY;	
@@ -1758,6 +1820,10 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		
 //		alert("dito");
 	}
+	//added by Mike, 2022117
+	else {
+		bIsWalkingAction=false;
+	}
 	
 	//added by Mike, 20221115
 	//world stage max movement
@@ -1765,7 +1831,8 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 alert("imgIpisTile.style.left: "+imgIpisTile.style.left);
 alert("iHorizontalOffset: "+iHorizontalOffset);
 */
-	
+	//edited by Mike, 20221117
+/*	
 	if (iHorizontalOffset+imgIpisTileX < iHorizontalOffset+0) {
 		imgIpisTile.style.left = (iHorizontalOffset)+"px";
 		imgIpisTileX=0;
@@ -1783,6 +1850,25 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 	else if (imgIpisTileY+iImgIpisTileHeight>0+iStageMaxHeight) {
 		imgIpisTile.style.top = (iStageMaxHeight-iImgIpisTileHeight)+"px";
 		imgIpisTileY=iStageMaxHeight-iImgIpisTileHeight;
+	}
+*/
+	if (iHorizontalOffset+imgIpisTileX < iHorizontalOffset+0) {
+		imgIpisTile.style.left = (iHorizontalOffset)+"px";
+		imgIpisTileX=0;
+	}
+	else if (iHorizontalOffset+imgIpisTileX+iImgHumanTileWidth>iHorizontalOffset+0+iStageMaxWidth) {
+		imgIpisTile.style.left = (iHorizontalOffset+iStageMaxWidth-iImgHumanTileWidth)+"px";
+		imgIpisTileX=iStageMaxWidth-iImgHumanTileWidth;
+	}
+	
+	//iVerticalOffset
+	if (imgIpisTileY < 0) {
+		imgIpisTile.style.top = (0)+"px";
+		imgIpisTileY=0;
+	}
+	else if (imgIpisTileY+iImgHumanTileHeight>0+iStageMaxHeight) {
+		imgIpisTile.style.top = (iStageMaxHeight-iImgHumanTileHeight)+"px";
+		imgIpisTileY=iStageMaxHeight-iImgHumanTileHeight;
 	}
 	
 		
@@ -1876,22 +1962,22 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 		else if (iCorner==1) { //TOP-RIGHT
 			//edited by Mike, 20220911
 			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgIpisTileWidth)+"px";			
+			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgHumanTileWidth)+"px";			
 			mdo2.style.top =  iVerticalOffset+ "px";//"0px";
 		}
 		else if (iCorner==2)  { //BOTTOM-RIGHT
 			//edited by Mike, 20220911
 			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgIpisTileWidth)+"px";
+			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgHumanTileWidth)+"px";
 			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgIpisTileHeight)+"px";
+			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgHumanTileHeight)+"px";
 		}
 		else if (iCorner==3) { //BOTTOM-LEFT
 			//edited by Mike, 20220911
 			//mdo2.style.left = "0px";				
 			mdo2.style.left = (iHorizontalOffset+0)+"px";				
 			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgIpisTileHeight)+"px";
+			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgHumanTileHeight)+"px";
 		}
 
 		mdo2.style.visibility="visible";	
@@ -1909,7 +1995,6 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 //	let iImgIpisNumber2TileWidth = imgIpisTileNumber2.getBoundingClientRect().width;
 	let iImgIpisNumber2TileWidth = 64; 
 	
-
 	
 	if (imgIpisNumber2TileY+iIpisNumber2StepY<(iVerticalOffset+0)) {
 		iIpisNumber2StepY=10; //*=-1;
@@ -2925,6 +3010,9 @@ function keyPressUp(iKey, event) {
 
 	//edited by Mike, 20221030
 	arrayKeyPressed[iKey]=false;
+	
+	//added by Mike, 20221117
+	bIsWalkingAction=false;
 }
 
 //added by Mike, 20221029
@@ -3664,7 +3752,7 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 
 	-->
 	
-	<img id="ipisTileImageId" class="Image32x32TileFrame1" src="<?php echo base_url('assets/images/tao.png');?>">	
+	<img id="ipisTileImageId" class="Image32x32TileFrame1" src="<?php echo base_url('assets/images/human.png');?>">	
 		
 <!-- added by Mike, 20220904 -->
 
