@@ -1706,14 +1706,12 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	let iImgHumanTileHeight = 32; //64;
 
 	
-	//edited by Mike, 20220823; edited again by Mike, 20221019
-/*
-	let iStepX=10; //4;
-	let iStepY=10; //4;
-*/
+/* //edited by Mike, 20221117
 	let iStepX=5; //4;
 	let iStepY=5; //4;
-	
+*/	
+	let iStepX=2; //5;
+	let iStepY=2; //5;
 
 
 	//added by Mike, 20221030
