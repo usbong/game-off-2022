@@ -1581,6 +1581,7 @@ function miniGameActionUpdate() {
 */		
 
 		imgIpisTileNumber2.className='Image64x64TileFrame1';
+		imgIpisTileNumber2.style.objectPosition="0px 0px";
 
 
 		if (iFacingDirection==iFACING_DOWN) {
@@ -1624,6 +1625,7 @@ function miniGameActionUpdate() {
 	else {
 
 		imgIpisTileNumber2.className='Image64x64TileFrame2';	
+		imgIpisTileNumber2.style.objectPosition="-64px 0px";
 	
 		if (iFacingDirection==iFACING_DOWN) {
 			if (bIsWalkingAction) {
@@ -1671,8 +1673,7 @@ function miniGameActionUpdate() {
 	//last accessed: 2020911
 	var myCanvas = document.getElementById("myCanvasId");
 	var myCanvasContext = myCanvas.getContext("2d");
-	//TO-DO: -add: center align of bigger window 
-	//TO-DO: -reverify: this
+	myCanvasContext.fillStyle = "rgb(128,89,27)"; //"#604122"; //"blue";
 	myCanvasContext.fillRect(0, 0, iStageMaxWidth, iStageMaxHeight);	
 
 //alert (iHorizontalOffset);
@@ -1949,6 +1950,11 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 		//clock-wise count, 
 		//where: 0 = TOP-LEFT, 1 = TOP-RIGHT, 2, = BOTTOM-RIGHT, 4 = BOTTOM-LEFT
 		
+		//added by Mike, 20221117
+		iVerticalOffset=0;
+		iImgBugTileWidth=64; //32;
+		iImgBugTileHeight=64; //32;
+		
 		//edited by Mike, 20220925
 		
 		if (iCorner==0) { //TOP-LEFT
@@ -1960,22 +1966,22 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 		else if (iCorner==1) { //TOP-RIGHT
 			//edited by Mike, 20220911
 			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgHumanTileWidth)+"px";			
+			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgBugTileWidth)+"px";			
 			mdo2.style.top =  iVerticalOffset+ "px";//"0px";
 		}
 		else if (iCorner==2)  { //BOTTOM-RIGHT
 			//edited by Mike, 20220911
 			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgHumanTileWidth)+"px";
+			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgBugTileWidth)+"px";
 			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgHumanTileHeight)+"px";
+			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgBugTileHeight)+"px";
 		}
 		else if (iCorner==3) { //BOTTOM-LEFT
 			//edited by Mike, 20220911
 			//mdo2.style.left = "0px";				
 			mdo2.style.left = (iHorizontalOffset+0)+"px";				
 			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgHumanTileHeight)+"px";
+			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgBugTileHeight)+"px";
 		}
 
 		mdo2.style.visibility="visible";	
@@ -3752,7 +3758,7 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 	
 	<img id="ipisTileImageId" class="Image32x32TileFrame1" src="<?php echo base_url('assets/images/human.png');?>">	
 		
-<!-- added by Mike, 20220904 -->
+<!-- added by Mike, 20221117; from 20220904; Image32x32TileFrame1 -->
 
 	<img id="ipisTileImageIdNumber2" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/ipis.png');?>">	
 
