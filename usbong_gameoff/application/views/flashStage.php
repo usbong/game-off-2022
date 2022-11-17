@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221117; from 20221116
+' @date updated: 20221118; from 20221117
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1589,7 +1589,7 @@ function miniGameActionUpdate() {
 			//imgIpisTile.style.objectPosition="0px 0px";
 			
 			if (bIsWalkingAction) {
-				imgIpisTile.style.objectPosition="-32px 0px";
+				imgIpisTile.style.objectPosition="0px -32px";
 			}
 			else {
 				imgIpisTile.style.objectPosition="0px 0px";
@@ -1673,7 +1673,7 @@ function miniGameActionUpdate() {
 	//last accessed: 2020911
 	var myCanvas = document.getElementById("myCanvasId");
 	var myCanvasContext = myCanvas.getContext("2d");
-	myCanvasContext.fillStyle = "rgb(128,89,27)"; //"#604122"; //"blue";
+	myCanvasContext.fillStyle = "#ababab"; //"rgb(128,89,27)"; //"#604122"; //"blue";
 	myCanvasContext.fillRect(0, 0, iStageMaxWidth, iStageMaxHeight);	
 
 //alert (iHorizontalOffset);
@@ -3380,11 +3380,14 @@ function onLoad() {
 	  if (event.pointerType === "touch") {
 		  //alert("TOUCH");		  
 		  if (bIsUsingAppleWebKit) {
+			//added by Mike, 20221111; removed by Mike, 20221118
+			//note: NOT yet set
+			if (bIsUsingAppleMac) {
+				toggleFullScreen();
+			}
+
 			bIsUsingAppleMac=false;
-			bIsMobile=true; //added by Mike, 20221110
-			
-			//added by Mike, 20221111
-			toggleFullScreen();
+			bIsMobile=true; //added by Mike, 20221110			
 		  }
 	  }
 /*	//removed by Mike, 20221110	  
