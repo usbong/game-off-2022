@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221118; from 20221117
+' @date updated: 20221119; from 20221118
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -885,9 +885,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							border: 2px solid; 
 							border-radius: 3px;
 */
+
+							visibility: hidden;
+
 							margin: 0px; /*1px;*/	
 							padding: 0px;
 							z-index: 3;		
+							
 						}
 
 						/* noted by Mike, 20221105 */						
@@ -1567,7 +1571,6 @@ function miniGameActionUpdate() {
 	imgPuzzle.setAttribute("src", getBaseURL()+"assets/images/bgImageCave.png");
 	imgPuzzle.setAttribute("class", "ImageBackgroundOfAction");
 	imgPuzzle.style.visibility="visible";		
-
 	
 /*	
 	//note: directional and action movements executable without yet ENTER
@@ -1731,7 +1734,9 @@ function miniGameActionUpdate() {
 	//last accessed: 2020911
 	var myCanvas = document.getElementById("myCanvasId");
 	var myCanvasContext = myCanvas.getContext("2d");
-	myCanvasContext.fillStyle = "#ababab"; //"rgb(128,89,27)"; //"#604122"; //"blue";
+	//edited by Mike, 20221119
+	myCanvasContext.fillStyle = "#000000"; //black; //"#ababab"; //"rgb(128,89,27)"; //"#604122"; //"blue";
+
 	myCanvasContext.fillRect(0, 0, iStageMaxWidth, iStageMaxHeight);	
 
 //alert (iHorizontalOffset);
@@ -2220,6 +2225,7 @@ function miniGamePuzzleUpdate() {
 	//added by Mike, 20221118
 	imgIpisTileNumber2.style.visibility="visible";	
 	
+		
 	//added by Mike, 20221104; edited by Mike, 20221118
 //	var imgPuzzle;
 	if (document.getElementById("puzzleImageId")==null) {
@@ -2238,7 +2244,7 @@ function miniGamePuzzleUpdate() {
 	//added by Mike, 20221105
 	imgPuzzle.style.visibility="visible";	
 	imgPuzzle.style.zIndex=0; //added by Mike, 20221118
-	
+		
 	//added by Mike, 20220917; edited by Mike, 20220918
 	//var linkAsButtonLeftKey = document.getElementById("leftKeyId");
 	var buttonLeftKey = document.getElementById("leftKeyId");
@@ -3808,8 +3814,8 @@ alert("iButtonHeight"+iButtonHeight);
 <!-- href="/flashStage"; href="#" //Full Screen Mode -->
 <a id="pauseLinkId" class="pauseLink" onClick="toggleFullScreen()"><u>START</u></a>
 
-<!-- edited by Mike, 20221105; from 20221104  -->
-	<img id="puzzleImageId" class="ImageBackgroundOfPuzzle" src="<?php echo base_url('assets/images/mtPinatubo20150115T1415.jpg');?>">	
+<!-- edited by Mike, 20221119; from 20221105; mtPinatubo20150115T1415.jpg -->
+	<img id="puzzleImageId" class="ImageBackgroundOfPuzzle" src="<?php echo base_url('assets/images/blank.png');?>">	
 
 <?php 
 	$iRowCountMax=4; 
@@ -3826,7 +3832,7 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 	//cambodia1024x1024-20141225T0958.jpg
 	//count1024x1024.png
 ?>		
-	<img id="puzzleTileImageIdBg<?php echo $iCount;?>" class="Image32x32Tile" onerror="" src="<?php echo base_url('assets/images/cambodia1024x1024-20141225T0958.jpg');?>" alt="" title="">
+	<img id="puzzleTileImageIdBg<?php echo $iCount;?>" class="Image32x32Tile" onerror="" src="<?php echo base_url('assets/images/count.png');?>" alt="" title="">
 
 <?php
 }
