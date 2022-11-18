@@ -218,6 +218,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							margin: 0px;
 							
 							visibility: hidden;
+							
+							z-index: 99;
 						}
 
 						button:active { /* focus out after click */
@@ -258,6 +260,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							margin: 0px;
 							
 							visibility: hidden;
+							
+							z-index: 99;							
 						}
 						
 						button.controlKeyButtonLetterJ:active { /* focus out after click */
@@ -284,6 +288,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							margin: 0px;
 							
 							visibility: hidden;
+							
+							z-index: 99;							
 						}
 						
 						button.controlKeyButtonLetterL:active { 
@@ -310,6 +316,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							margin: 0px;
 							
 							visibility: hidden;
+
+							z-index: 99;							
 						}
 						
 						button.controlKeyButtonLetterI:active { 
@@ -336,6 +344,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							margin: 0px;
 							
 							visibility: hidden;
+							
+							z-index: 99;							
 						}
 						
 						button.controlKeyButtonLetterK:active { 
@@ -363,6 +373,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							margin: 0px;
 							
 							visibility: hidden;
+							
+							z-index: 99;							
 						}
 						
 						button.controlKeyButtonRightLeverCenterNeutral:active { 
@@ -1187,7 +1199,7 @@ var bIsToBottomCornerDone=false;
 var bHasPressedStart=false;
 		  
 //added by Mike, 20220829
-const iImgIpisTileAnimationCountMax=20; //6;
+const iImgIpisTileAnimationCountMax=12;//20; //6;
 iImgIpisTileAnimationCount=0;	  
 
 //added by Mike, 20220915
@@ -1539,10 +1551,12 @@ function miniGameActionUpdate() {
 		
 		imgPuzzle.parentNode.removeChild(imgPuzzle);
 	}
-	//note: directional and action movements executable without yet ENTER
-	miniGamePuzzleUpdate();
 	
+	
+	//note: directional and action movements executable without yet ENTER
+	miniGamePuzzleUpdate();	
 	return;
+
 	
 	//added by Mike, 20220820
 	var imgIpisTile = document.getElementById("ipisTileImageId");
@@ -2197,8 +2211,8 @@ function miniGamePuzzleUpdate() {
 		//alert("dito");
 		//reference: https://www.w3schools.com/jsref/met_node_removechild.asp;
 		//last accessed: 2022118
-		const x = document.adoptNode(imgPuzzle);
-		document.body.appendChild(x);		
+		const imgPuzzleChild = document.adoptNode(imgPuzzle);
+		document.body.appendChild(imgPuzzleChild);		
 	}
 /*	
 	else {
@@ -2209,6 +2223,7 @@ function miniGamePuzzleUpdate() {
 
 	//added by Mike, 20221105
 	imgPuzzle.style.visibility="visible";	
+	imgPuzzle.style.zIndex=0; //added by Mike, 20221118
 	
 	//added by Mike, 20220917; edited by Mike, 20220918
 	//var linkAsButtonLeftKey = document.getElementById("leftKeyId");
