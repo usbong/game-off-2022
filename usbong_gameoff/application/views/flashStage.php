@@ -1108,10 +1108,17 @@ iVerticalOffsetInnerScreen=0;
 //added by Mike, 20221108
 iCurrentAppleWebKitInnerWidth=0;
 
+//added by Mike, 20221118
+var sBaseURL = '<?php echo base_url();?>';
+
 //added by Mike, 20221115
 var iCurrentMiniGame=0;
 const MINI_GAME_PUZZLE=0;
 const MINI_GAME_ACTION=1;
+
+//added by Mike, 20221118
+var imgPuzzle;
+
 
 //added by Mike, 20221012; edited by Mike, 2022115
 /*
@@ -1235,6 +1242,13 @@ for (iCount=0; iCount<iTotalKeyCount; iCount++) {
 	arrayKeyPressed[iCount]=false;
 }
 
+//added by Mike, 20221118
+//reference: https://stackoverflow.com/questions/21246818/how-to-get-the-base-url-in-javascript;
+//last accessed: 20221118
+//answer by: Muhammad Raheel, 20140121T0707
+function getBaseURL(){
+    return sBaseURL;
+}
 
 /*
 //added by Mike, 20220825
@@ -1516,6 +1530,19 @@ function myUpdateFunction() {
 function miniGameActionUpdate() {
 	var imgUsbongLogo = document.getElementById("usbongLogoId");
 	//imgUsbongLogo.style.visibility="hidden";
+	
+	//added by Mike, 20221118
+	imgPuzzle = document.getElementById("puzzleImageId");
+	if (imgPuzzle!=null) {		
+		//imgPuzzle.style.visibility="hidden";		
+		//imgPuzzle.remove();		
+		
+		imgPuzzle.parentNode.removeChild(imgPuzzle);
+	}
+	//note: directional and action movements executable without yet ENTER
+	miniGamePuzzleUpdate();
+	
+	return;
 	
 	//added by Mike, 20220820
 	var imgIpisTile = document.getElementById("ipisTileImageId");
@@ -2160,12 +2187,28 @@ function miniGamePuzzleUpdate() {
 
 	//added by Mike, 20220904
 	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
+
+	//added by Mike, 20221118
+	imgIpisTileNumber2.style.visibility="visible";	
 	
-	//added by Mike, 20221104
-	var imgPuzzle = document.getElementById("puzzleImageId");
+	//added by Mike, 20221104; edited by Mike, 20221118
+//	var imgPuzzle;
+	if (document.getElementById("puzzleImageId")==null) {
+		//alert("dito");
+		//reference: https://www.w3schools.com/jsref/met_node_removechild.asp;
+		//last accessed: 2022118
+		const x = document.adoptNode(imgPuzzle);
+		document.body.appendChild(x);		
+	}
+/*	
+	else {
+		imgPuzzle = document.getElementById("puzzleImageId");
+	}
+*/
+	imgPuzzle = document.getElementById("puzzleImageId");
+
 	//added by Mike, 20221105
 	imgPuzzle.style.visibility="visible";	
-	
 	
 	//added by Mike, 20220917; edited by Mike, 20220918
 	//var linkAsButtonLeftKey = document.getElementById("leftKeyId");
@@ -2253,7 +2296,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	alert(screen.height);
 */
 
-
 	//added by Mike, 20220911
 	let iImgIpisTileWidth = 64;
 	let iImgIpisTileHeight = 64;
@@ -2338,9 +2380,9 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	imgIpisTile.style.visibility="hidden";
 //	imgIpisTile.style.visibility="visible";	
 	
-	//added by Mike, 20221104	
-	
+	//added by Mike, 20221104		
 	imgPuzzle.style.left = (iHorizontalOffset-iStageMaxWidth/2)+"px";	
+
 	imgPuzzle.style.top = (iVerticalOffsetInnerScreen-iStageMaxHeight/2)+"px";	
 /*
 	imgPuzzle.style.left = (0)+"px";	
@@ -2493,8 +2535,17 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {		
 		for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
 		
+		//edited by Mike, 20221118
+		//arrayPuzzleTileCountId[iTileBgCount] = document.getElementById("puzzleTileImageIdBg"+iTileBgCount);
+	
 		arrayPuzzleTileCountId[iTileBgCount] = document.getElementById("puzzleTileImageIdBg"+iTileBgCount);
-		
+	
+		//added by Mike, 20221118
+		//reference: https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_img_create;
+		//last accessed: 20221118	
+		arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/count1024x1024.png");
+
+	
 		//alert(iTileBgCount);
 
 		arrayPuzzleTileCountId[iTileBgCount].style.left = iHorizontalOffset+iOffsetWidth+iPuzzleTileWidth*iColumnCount+iBorderOffset*iColumnCount+"px";
@@ -3207,14 +3258,18 @@ function onLoad() {
 		//TO-DO: -add: auto-update: object positions after CHANGE in orientation 
 	}, false);
 
+	//added by Mike, 20221118
+	imgPuzzle = document.getElementById("puzzleImageId");
+
+
 	//added by Mike, 20220904	
 	//TO-DO: -add: init; where: set initial positions, et cetera
 	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
 	imgIpisTileNumber2.style.left = screen.width/2 +"px"; //"100px";
 	imgIpisTileNumber2.style.top = "0px"; //"100px";
 
-	//added by Mike, 20221002
-	imgIpisTileNumber2.style.visibility="visible";
+	//added by Mike, 20221002; edited by Mike, 20221118
+	imgIpisTileNumber2.style.visibility="hidden"; //visible
 	
 /* //removed by Mike, 20221115	
 	//added by Mike, 20220911
@@ -3745,20 +3800,6 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 ?>
 
 
-
-
-<!-- TO-DO: -add: auto-identify position in BOARD;
-	example: corners, top, bottom, left, right sides, center
--->			
-
-	<!-- added by Mike, 20220820; 
-		 reference: https://www.w3schools.com/cssref/pr_pos_clip.asp; last accessed: 20220820
-		 //Image64x64Tile
-		 
-	<img id="ipisTileImageId" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/ipis.png');?>">	
-
-	-->
-	
 	<img id="ipisTileImageId" class="Image32x32TileFrame1" src="<?php echo base_url('assets/images/human.png');?>">	
 		
 <!-- added by Mike, 20221117; from 20220904; Image32x32TileFrame1 -->
