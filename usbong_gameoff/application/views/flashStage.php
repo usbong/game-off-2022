@@ -812,7 +812,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}
 
 						/* noted by Mike, 20221104 */
-						.ImageTile {
+						.ImageBackgroundOfPuzzle {
 							position: absolute;
 
 							text-align: center;
@@ -830,6 +830,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							
 						}
 
+						.ImageBackgroundOfAction {
+							position: absolute;
+
+							text-align: center;
+							line-height: 32px;							
+																								visibility: hidden;
+							
+							/*transform: scale(0.5,0.8);	
+							*/
+														
+							padding: 0;
+							margin: auto;
+							display: block;							
+														
+							width: 320px;
+							height: 288px;
+
+							/* //added by Mike, 20221104 */
+							z-index: 0;		
+							
+						}
+
+
 						/* noted by Mike, 20221105 */						
 						.Image32x32Tile {
 							position: absolute;
@@ -842,21 +865,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							/* //added by Mike, 20221112 */
   							clip: rect(0px,32px,32px,0px);
 	
-/* //removed by Mike, 20221112
-							width: 32px;
-							height: 32px;
-*/
-
-/* //removed by Mike, 20221112
-							object-position: -32px -32px; 
-*/
-
-/* //edited by Mike, 20221112 */
-/*
-							background-color: #ffffff;
-*/
-background-color: transparent;
-border: none;
+							background-color: transparent;
+							border: none;
 
 							color: #222222;
 
@@ -1545,12 +1555,19 @@ function miniGameActionUpdate() {
 	
 	//added by Mike, 20221118
 	imgPuzzle = document.getElementById("puzzleImageId");
+/*
 	if (imgPuzzle!=null) {		
 		//imgPuzzle.style.visibility="hidden";		
 		//imgPuzzle.remove();		
 		
 		imgPuzzle.parentNode.removeChild(imgPuzzle);
 	}
+*/	
+	//added by Mike, 2022118
+	imgPuzzle.setAttribute("src", getBaseURL()+"assets/images/bgImageCave.png");
+	imgPuzzle.setAttribute("class", "ImageBackgroundOfAction");
+	imgPuzzle.style.visibility="visible";		
+
 	
 /*	
 	//note: directional and action movements executable without yet ENTER
@@ -1726,6 +1743,11 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//added by Mike, 20221012
 	iHorizontalOffset=myCanvas.getBoundingClientRect().x;
 
+	//added by Mike, 20221118
+	imgPuzzle.style.top = (iVerticalOffsetInnerScreen+0)+"px";
+	imgPuzzle.style.left = (iHorizontalOffset+0)+"px";
+
+
 
 	//edited by Mike, 20221012
 	pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
@@ -1885,10 +1907,18 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 	}
 	
 	//iVerticalOffset
+ //edited by Mike, 20221118	
 	if (imgIpisTileY-iStepY < 0+iWallHeight) {
 		imgIpisTile.style.top = (0+iWallHeight)+"px";
 		imgIpisTileY=0+iWallHeight;
 	}
+
+/*
+	if (imgIpisTileY-iStepY < 0) { //+iWallHeight) {
+		imgIpisTile.style.top = (0)+"px";
+		imgIpisTileY=0;
+	}
+*/	
 	else if (imgIpisTileY+iImgHumanTileHeight+iStepY>0+iStageMaxHeight-iWallHeight) {
 		imgIpisTile.style.top = (iStageMaxHeight-iImgHumanTileHeight-iWallHeight)+"px";
 		imgIpisTileY=iStageMaxHeight-iImgHumanTileHeight-iWallHeight;
@@ -2201,6 +2231,9 @@ function miniGamePuzzleUpdate() {
 	}
 
 	imgPuzzle = document.getElementById("puzzleImageId");
+	//added by Mike, 2022118
+	imgPuzzle.setAttribute("src", getBaseURL()+"assets/images/mtPinatubo20150115T1415.jpg");
+	imgPuzzle.setAttribute("class", "ImageBackgroundOfPuzzle");
 
 	//added by Mike, 20221105
 	imgPuzzle.style.visibility="visible";	
@@ -2279,6 +2312,10 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 	//added by Mike, 20221012
 	iHorizontalOffset=myCanvas.getBoundingClientRect().x;
+
+	//added by Mike, 20221118
+	imgPuzzle.style.top = (iVerticalOffsetInnerScreen+0)+"px";
+	imgPuzzle.style.left = (iHorizontalOffset+0)+"px";
 
 
 	//edited by Mike, 20221012
@@ -3772,7 +3809,7 @@ alert("iButtonHeight"+iButtonHeight);
 <a id="pauseLinkId" class="pauseLink" onClick="toggleFullScreen()"><u>START</u></a>
 
 <!-- edited by Mike, 20221105; from 20221104  -->
-	<img id="puzzleImageId" class="ImageTile" src="<?php echo base_url('assets/images/mtPinatubo20150115T1415.jpg');?>">	
+	<img id="puzzleImageId" class="ImageBackgroundOfPuzzle" src="<?php echo base_url('assets/images/mtPinatubo20150115T1415.jpg');?>">	
 
 <?php 
 	$iRowCountMax=4; 
