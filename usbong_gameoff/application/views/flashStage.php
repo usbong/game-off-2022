@@ -1871,44 +1871,27 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 alert("imgIpisTile.style.left: "+imgIpisTile.style.left);
 alert("iHorizontalOffset: "+iHorizontalOffset);
 */
-	//edited by Mike, 20221117
-/*	
-	if (iHorizontalOffset+imgIpisTileX < iHorizontalOffset+0) {
-		imgIpisTile.style.left = (iHorizontalOffset)+"px";
-		imgIpisTileX=0;
+	//edited by Mike, 20221118; from 20221117
+	const iWallWidth=iImgHumanTileWidth;
+	const iWallHeight=iImgHumanTileHeight;
+	
+	if (iHorizontalOffset+imgIpisTileX-iStepX < iHorizontalOffset+0+iWallWidth) {
+		imgIpisTile.style.left = (iHorizontalOffset)+iWallWidth+"px";
+		imgIpisTileX=0+iWallWidth;
 	}
-	else if (iHorizontalOffset+imgIpisTileX+iImgIpisTileWidth>iHorizontalOffset+0+iStageMaxWidth) {
-		imgIpisTile.style.left = (iHorizontalOffset+iStageMaxWidth-iImgIpisTileWidth)+"px";
-		imgIpisTileX=iStageMaxWidth-iImgIpisTileWidth;
+	else if (iHorizontalOffset+imgIpisTileX+iImgHumanTileWidth+iStepX>iHorizontalOffset+0+iStageMaxWidth-iWallWidth) {
+		imgIpisTile.style.left = (iHorizontalOffset+iStageMaxWidth-iImgHumanTileWidth-iWallWidth)+"px";
+		imgIpisTileX=iStageMaxWidth-iImgHumanTileWidth-iWallWidth;
 	}
 	
 	//iVerticalOffset
-	if (imgIpisTileY < 0) {
-		imgIpisTile.style.top = (0)+"px";
-		imgIpisTileY=0;
+	if (imgIpisTileY-iStepY < 0+iWallHeight) {
+		imgIpisTile.style.top = (0+iWallHeight)+"px";
+		imgIpisTileY=0+iWallHeight;
 	}
-	else if (imgIpisTileY+iImgIpisTileHeight>0+iStageMaxHeight) {
-		imgIpisTile.style.top = (iStageMaxHeight-iImgIpisTileHeight)+"px";
-		imgIpisTileY=iStageMaxHeight-iImgIpisTileHeight;
-	}
-*/
-	if (iHorizontalOffset+imgIpisTileX < iHorizontalOffset+0) {
-		imgIpisTile.style.left = (iHorizontalOffset)+"px";
-		imgIpisTileX=0;
-	}
-	else if (iHorizontalOffset+imgIpisTileX+iImgHumanTileWidth>iHorizontalOffset+0+iStageMaxWidth) {
-		imgIpisTile.style.left = (iHorizontalOffset+iStageMaxWidth-iImgHumanTileWidth)+"px";
-		imgIpisTileX=iStageMaxWidth-iImgHumanTileWidth;
-	}
-	
-	//iVerticalOffset
-	if (imgIpisTileY < 0) {
-		imgIpisTile.style.top = (0)+"px";
-		imgIpisTileY=0;
-	}
-	else if (imgIpisTileY+iImgHumanTileHeight>0+iStageMaxHeight) {
-		imgIpisTile.style.top = (iStageMaxHeight-iImgHumanTileHeight)+"px";
-		imgIpisTileY=iStageMaxHeight-iImgHumanTileHeight;
+	else if (imgIpisTileY+iImgHumanTileHeight+iStepY>0+iStageMaxHeight-iWallHeight) {
+		imgIpisTile.style.top = (iStageMaxHeight-iImgHumanTileHeight-iWallHeight)+"px";
+		imgIpisTileY=iStageMaxHeight-iImgHumanTileHeight-iWallHeight;
 	}
 	
 		
