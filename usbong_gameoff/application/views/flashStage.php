@@ -1552,12 +1552,12 @@ function miniGameActionUpdate() {
 		imgPuzzle.parentNode.removeChild(imgPuzzle);
 	}
 	
-	
+/*	
 	//note: directional and action movements executable without yet ENTER
 	miniGamePuzzleUpdate();	
 	return;
+*/
 
-	
 	//added by Mike, 20220820
 	var imgIpisTile = document.getElementById("ipisTileImageId");
 
@@ -1583,13 +1583,13 @@ function miniGameActionUpdate() {
 	//added by Mike, 20221019
 	var buttonRightLeverCenterNeutralKey = document.getElementById("rightLeverCenterNeutralKeyId");
 	
-
 	//added by Mike, 20220912	
 	var pauseLink = document.getElementById("pauseLinkId");
 	var iPauseLinkHeight = (pauseLink.clientHeight);//+1; + "px";
 	var iPauseLinkWidth = (pauseLink.clientWidth);//+1; + "px"
 
 	//		alert("screen.height: "+screen.height); //533
+
 
 	//added by Mike, 20220904
 	//ANIMATION UPDATE
@@ -1738,7 +1738,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	alert(screen.height);
 */
 
-
 	//added by Mike, 20220911; edited by Mike, 2022117
 /*
 	let iImgIpisTileWidth = 32; //64;
@@ -1784,6 +1783,7 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		
 		bIsInitMiniGameAction=false;
 	}
+	
 
 	//added by Mike, 20221117
 	var sNewTileLeft = (iHorizontalOffset+imgIpisTileX)+"px";
@@ -1797,7 +1797,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		imgIpisTile.style.top=sNewTileTop;
 	}
 	
-
 	//if (bKeyDownRight) { //key d
 	if (arrayKeyPressed[iKEY_D]) {
 		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX+iStepX+"px";
@@ -1864,6 +1863,7 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	else {
 		bIsWalkingAction=false;
 	}
+		
 	
 	//added by Mike, 20221115
 	//world stage max movement
@@ -1937,6 +1937,7 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 	//added by Mike, 20221115; from 20221106
 //	imgIpisTile.style.visibility="hidden";
 	imgIpisTile.style.visibility="visible";	
+	
 	
 	//added by Mike, 20221104	
 /*	
@@ -2028,6 +2029,7 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 		mdo2.style.visibility="visible";	
 	}
 	
+	
 	//added by Mike, 20220915
 	//verified: object position movement in Android Samsung Duos
 	//to be NOT noticeably delayed for moving object count = 1
@@ -2040,7 +2042,8 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 //	let iImgIpisNumber2TileWidth = imgIpisTileNumber2.getBoundingClientRect().width;
 	let iImgIpisNumber2TileWidth = 64; 
 	
-	
+
+/* //removed by Mike, 20221118	
 	if (imgIpisNumber2TileY+iIpisNumber2StepY<(iVerticalOffset+0)) {
 		iIpisNumber2StepY=10; //*=-1;
 	}
@@ -2049,7 +2052,7 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 		
 		//alert (imgIpisTileNumber2.style.top);
 	}
-
+*/
 
 	//edited by Mike, 20221002
 	//imgIpisTileNumber2.style.top = 0+iVerticalOffset+imgIpisNumber2TileY+iIpisNumber2StepY +"px"; 
@@ -2086,9 +2089,8 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 	var iButtonHeight = buttonUpKey.getBoundingClientRect().height;
 
 
-
 	//if (!document.fullscreenElement) {	
-	if ((!bIsMobile) || (bIsUsingAppleMac)) {
+	if ((!bIsMobile) || (bIsUsingAppleMac)) {				
 		buttonUpKey.style.visibility = "hidden";		
 		buttonLeftKey.style.visibility = "hidden";
 		buttonRightKey.style.visibility = "hidden";
@@ -2106,6 +2108,7 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 		buttonRightLeverCenterNeutralKey.style.visibility = "hidden";
 	}
 	else {
+				
 		//edited by Mike, 20221108
 		if (bIsUsingAppleWebKit) {
 			iVerticalOffset=(iStageMaxHeight+buttonUpKey.clientHeight*3);			
@@ -2141,8 +2144,7 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 				iVerticalOffset=(screen.height-buttonUpKey.clientHeight*3); //set to 3 button height from the bottom
 			}				
 		}
-	
-		
+			
 		buttonUpKey.style.left = (0)+iButtonWidth*1+"px";
 		buttonUpKey.style.top =  iVerticalOffset+"px"; //iStageMaxHeight+"px";
 		buttonUpKey.style.visibility = "visible";
@@ -2214,11 +2216,7 @@ function miniGamePuzzleUpdate() {
 		const imgPuzzleChild = document.adoptNode(imgPuzzle);
 		document.body.appendChild(imgPuzzleChild);		
 	}
-/*	
-	else {
-		imgPuzzle = document.getElementById("puzzleImageId");
-	}
-*/
+
 	imgPuzzle = document.getElementById("puzzleImageId");
 
 	//added by Mike, 20221105
