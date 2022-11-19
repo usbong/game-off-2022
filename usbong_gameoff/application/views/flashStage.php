@@ -73,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							*/
 							width: 100%; /*90%; 80%;*/
 							height: 100%;
-
+														
 							padding: 0;
 							margin: 0;
 							
@@ -121,11 +121,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							*/
 							
 							padding: 0;
-							margin: auto;
+							margin: auto;							
 							display: block;
-							width: 320px; /*160px*2;*/	
-							height: 288px; /*144px*2;*/	
 							
+							width: 320px;
+							height: 288px;	
+
+/*
+							transform: scale(1.0,0.9);	
+*/							
 							
 							/* //added by Mike, 20221104 */
 							z-index: -1;							
@@ -1798,7 +1802,7 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 	//added by Mike, 20221118
 	imgPuzzle.style.top = (iVerticalOffsetInnerScreen+0)+"px";
-	imgPuzzle.style.left = (iHorizontalOffset+0)+"px";
+//	imgPuzzle.style.left = (iHorizontalOffset+0)+"px";
 
 
 
@@ -3104,9 +3108,10 @@ function tempAlert(msg,duration)
 	//added by Mike, 20220926
 	//TO-DO: -update: to identify offset container for INNER SCREEN, CONTROLLER
 	var iHorizontalOffsetPrev = iHorizontalOffset;
+	
+	//TO-DO: -reverify: this; added by Mike, 20221119
 	iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
 
-	//alert(iHorizontalOffset); //landscape: 106.5; portrait: 0;
 
 	//added by Mike, 20220925	
 	//iVerticalOffset=iStageMaxHeight+((screen.height-iStageMaxHeight)/2);
@@ -3999,8 +4004,15 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 	  <source src="assets/audio/Tinig UsbongFlashReferenceDQ1GameboyColorLow64KBitsPerSec.mp3" type="audio/x-m4a">
 	  Your browser does not support the audio tag.
 	</audio><br/>	
+	
+	//edited by Mike, 20221119
+	//Tinig UsbongFlashReferenceDQ1GameboyColorLow64KBitsPerSec.mp3
+	//UsbongGameOff2022Action20221119T1213.mp3
+	//audio/x-m4a
+	
+	//note: put audio file in SERVER on CLOUD
 -->
-	<audio id="myAudioId" class="myAudio" src="assets/audio/Tinig UsbongFlashReferenceDQ1GameboyColorLow64KBitsPerSec.mp3" type="audio/x-m4a" controls loop>
+	<audio id="myAudioId" class="myAudio" src="assets/audio/UsbongGameOff2022Action20221119T1213.mp3" type="audio/x-m4a" controls loop>
 	  Your browser does not support the audio tag.
 	</audio><br/>	
 
