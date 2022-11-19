@@ -943,7 +943,33 @@ border: none;
 							z-index: 4;		
 						}
 						
-						.Image32x32TileSpaceTarget {
+						.Image32x32TileTargetBorder {
+							position: absolute;
+
+							width: 27px;
+							height: 27px;
+
+							background-color: transparent;
+							color: #222222;
+
+							font-weight: bold;
+							font-size: 146%; /*18px;*/
+
+							text-align: center;							
+							line-height: 32px;
+
+							border: 3px solid #ff0000;
+							border-radius: 3px;
+
+							visibility: hidden;
+
+							margin: 0px;
+							padding: 0px;
+							z-index: 4;		
+						}
+						
+						
+						.Image32x32TileSpaceTargetPrev {
 							position: absolute;
 
 							/* //added by Mike, 20221113 */
@@ -989,6 +1015,26 @@ border: none;
 							padding: 0px;
 							z-index: 5;		
 						}
+						
+						.Image32x32TileSpaceTarget {
+							position: absolute;
+
+							width: 27px;
+							height: 27px;
+
+							background-color: #000000; /*#ffffff;*/
+							color: #222222;
+
+							text-align: center;
+							line-height: 32px;
+						
+							border: 3px solid #ffffff; /*#ff0000;*/
+							border-radius: 3px;
+
+							margin: 0px;
+							padding: 0px;
+							z-index: 5;		
+						}						
 						
 						/* added by Mike, 20221105 */
 						.Image32x32TileSpace {
@@ -1124,12 +1170,14 @@ const iStageMaxHeight=144*2; //144;
 var iHorizontalOffset=0;
 var iVerticalOffset=0;
 
-
 //note: for INNER SCREEN
 iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
 
 //added by Mike, 20221005
 iVerticalOffsetInnerScreen=0;
+
+//added by Mike, 20221119
+var iHorizontalOffsetOfTargetBorder=0;
 
 //added by Mike, 20221108
 iCurrentAppleWebKitInnerWidth=0;
@@ -1539,7 +1587,7 @@ function autoGeneratePuzzleFromEnd() {
 //edited by Mike, 20220820
 function myUpdateFunction() {
 
-	iCurrentMiniGame=MINI_GAME_ACTION;
+	//iCurrentMiniGame=MINI_GAME_ACTION;
 
 	//added by Mike, 20221115
     switch(iCurrentMiniGame) {
@@ -2569,6 +2617,9 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//added by Mike, 20221113
 	var bHasExecutedTileExchange=false;
 
+	//added by Mike, 2022119
+	var puzzleTileImageTargetBorder = document.getElementById("divPuzzleTileImageTargetBorderId");
+	
 	
 //	for (let iTileBgCount=0; iTileBgCount<16; iTileBgCount++) {		
 	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {		
@@ -2603,9 +2654,7 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 		//alert(arrayPuzzleTileCountId[iTileBgCount].style.verticalAlign); 
 		
-
-		
-
+	
 //edited by Mike, 20221105; note: last tile @#16, space
 		//edited by Mike, 20221106
 //		if (iTileBgCount==iTileBgCountMax-1) {
@@ -2619,7 +2668,16 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 					iTargetTileBgCount=arrayPuzzleTilePos[iRowCount-1][iColumnCount];
 					
 					arrayPuzzleTileCountId[iTargetTileBgCount].className="Image32x32TileTarget";
-				
+					
+
+					//added by Mike, 20221119
+					puzzleTileImageTargetBorder.style.left = iHorizontalOffset+iOffsetWidth+iPuzzleTileWidth*iColumnCount+"px";
+					
+					puzzleTileImageTargetBorder.style.top = 0+iOffsetHeight+iPuzzleTileHeight*(iRowCount-1)+"px";
+					
+					puzzleTileImageTargetBorder.style.visibility = "visible";
+
+					iHorizontalOffsetOfTargetBorder	= iHorizontalOffset;
 				//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 					
 					bIsTargetAtSpace=false;
@@ -2637,6 +2695,17 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 				
 				//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 				
+				
+					//added by Mike, 20221119
+					puzzleTileImageTargetBorder.style.left = iHorizontalOffset+iOffsetWidth+iPuzzleTileWidth*iColumnCount+"px";
+					//puzzleTileImageTargetBorder.style.left = iOffsetWidth+iPuzzleTileWidth*iColumnCount+"px";
+					
+					puzzleTileImageTargetBorder.style.top = 0+iOffsetHeight+iPuzzleTileHeight*(iRowCount+1)+"px";
+					
+					puzzleTileImageTargetBorder.style.visibility = "visible";
+				
+					iHorizontalOffsetOfTargetBorder	= iHorizontalOffset;
+				
 					bIsTargetAtSpace=false;
 				}	
 			}
@@ -2648,6 +2717,17 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 				
 				//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 				
+					//added by Mike, 20221119
+					puzzleTileImageTargetBorder.style.left = iHorizontalOffset+iOffsetWidth+iPuzzleTileWidth*(iColumnCount-1)+"px";
+
+					//puzzleTileImageTargetBorder.style.left = iOffsetWidth+iPuzzleTileWidth*(iColumnCount-1)+"px";
+					
+					puzzleTileImageTargetBorder.style.top = 0+iOffsetHeight+iPuzzleTileHeight*(iRowCount)+"px";
+					
+					puzzleTileImageTargetBorder.style.visibility = "visible";
+
+					iHorizontalOffsetOfTargetBorder	= iHorizontalOffset;
+								
 					bIsTargetAtSpace=false;
 				}	
 			}			
@@ -2661,19 +2741,32 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 				
 				//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 								
+					//added by Mike, 20221119
+					puzzleTileImageTargetBorder.style.left = iHorizontalOffset+iOffsetWidth+iPuzzleTileWidth*(iColumnCount+1)+"px";
+					
+					puzzleTileImageTargetBorder.style.top = 0+iOffsetHeight+iPuzzleTileHeight*(iRowCount)+"px";
+					
+					puzzleTileImageTargetBorder.style.visibility = "visible";
+								
+					iHorizontalOffsetOfTargetBorder	= iHorizontalOffset;
+								
 					bIsTargetAtSpace=false;
 				}	
 			}			
 			else {	
-			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";		
-				bIsTargetAtSpace=true;
-				
+				//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";		
+				bIsTargetAtSpace=true;				
 			}
 	
+	
+			//added by Mike, 20221119			
+			if (iHorizontalOffsetOfTargetBorder	!= iHorizontalOffset) {
+			
+				puzzleTileImageTargetBorder.style.left = (puzzleTileImageTargetBorder.style.left.replace("px","")-iHorizontalOffsetOfTargetBorder+iHorizontalOffset)+"px";			
+				
+				iHorizontalOffsetOfTargetBorder=iHorizontalOffset;
+			}
 
-			//TO-DO: -update: this
-			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
-			//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileTarget";
 			
 			if (bIsTargetAtSpace) {	
 				//added by Mike, 20221113; removed by Mike, 20221113
@@ -3837,7 +3930,8 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 <?php
 }
 ?>
-
+	<!-- added by Mike, 20221119 -->
+	<div id="divPuzzleTileImageTargetBorderId" class="Image32x32TileTargetBorder"></div>
 
 	<img id="ipisTileImageId" class="Image32x32TileFrame1" src="<?php echo base_url('assets/images/human.png');?>">	
 		
