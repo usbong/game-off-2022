@@ -88,6 +88,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							
 							/* added by Mike, 20221012 */
 							transform: scale(1.0);
+							
+							/* added by Mike, 20221119 */							
+							touch-action: none;
 						}
 						
 						/* added by Mike, 20220911 */
@@ -3111,6 +3114,15 @@ function tempAlert(msg,duration)
 	
 	//TO-DO: -reverify: this; added by Mike, 20221119
 	iHorizontalOffset=(screen.width)/2-iStageMaxWidth/2;
+
+	//added by Mike, 20221119
+	//error caused by pinch zoom via SAFARI on iPAD
+	//added: in CSS's html and body, touch-action: none;
+	if (bIsUsingAppleWebKit) {
+		if (screen.width!=screen.innerWidth) {
+			iHorizontalOffset=(screen.innerWidth)/2-iStageMaxWidth/2;
+		}		
+	}
 
 
 	//added by Mike, 20220925	
