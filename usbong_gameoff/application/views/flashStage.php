@@ -1594,7 +1594,7 @@ function autoGeneratePuzzleFromEnd() {
 //edited by Mike, 20220820
 function myUpdateFunction() {
 
-	//iCurrentMiniGame=MINI_GAME_ACTION;
+	iCurrentMiniGame=MINI_GAME_ACTION;
 
 	//added by Mike, 20221115
     switch(iCurrentMiniGame) {
@@ -1637,7 +1637,7 @@ function miniGameActionUpdate() {
 	var humanTile = document.getElementById("humanTileImageId");
 
 	//added by Mike, 20220904
-	var monsterTileNumber2 = document.getElementById("humanTileImageIdNumber2");
+	var monsterTileNumber2 = document.getElementById("monsterTileImageIdNumber2");
 	
 	//added by Mike, 20220917; edited by Mike, 20220918
 	//var linkAsButtonLeftKey = document.getElementById("leftKeyId");
@@ -2274,7 +2274,7 @@ function miniGamePuzzleUpdate() {
 	var humanTile = document.getElementById("humanTileImageId");
 
 	//added by Mike, 20220904
-	var monsterTileNumber2 = document.getElementById("humanTileImageIdNumber2");
+	var monsterTileNumber2 = document.getElementById("monsterTileImageIdNumber2");
 
 	//added by Mike, 20221118
 	monsterTileNumber2.style.visibility="visible";	
@@ -3431,7 +3431,7 @@ function onLoad() {
 
 	//added by Mike, 20220904	
 	//TO-DO: -add: init; where: set initial positions, et cetera
-	var monsterTileNumber2 = document.getElementById("humanTileImageIdNumber2");
+	var monsterTileNumber2 = document.getElementById("monsterTileImageIdNumber2");
 	monsterTileNumber2.style.left = screen.width/2 +"px"; //"100px";
 	monsterTileNumber2.style.top = "0px"; //"100px";
 
@@ -3972,7 +3972,7 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 		
 <!-- added by Mike, 20221117; from 20220904; Image32x32TileFrame1 -->
 
-	<img id="humanTileImageIdNumber2" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/ipis.png');?>">	
+	<img id="monsterTileImageIdNumber2" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/monster.png');?>">	
 
 
 
