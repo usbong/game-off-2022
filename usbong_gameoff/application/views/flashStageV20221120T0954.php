@@ -1203,11 +1203,11 @@ var imgPuzzle;
 
 //added by Mike, 20221012; edited by Mike, 2022115
 /*
-let humanTileX = iStageMaxWidth/2;
-let humanTileY = iStageMaxHeight/2;	
+let imgIpisTileX = iStageMaxWidth/2;
+let imgIpisTileY = iStageMaxHeight/2;	
 */
-let humanTileX = 0;
-let humanTileY = 0;	
+let imgIpisTileX = 0;
+let imgIpisTileY = 0;	
 
 
 //added by Mike, 20220925
@@ -1268,8 +1268,8 @@ var bIsToBottomCornerDone=false;
 var bHasPressedStart=false;
 		  
 //added by Mike, 20220829
-const ihumanTileAnimationCountMax=6; //12;//20; //6;
-ihumanTileAnimationCount=0;	  
+const iImgIpisTileAnimationCountMax=6; //12;//20; //6;
+iImgIpisTileAnimationCount=0;	  
 
 //added by Mike, 20220915
 iIpisNumber2StepY=10;
@@ -1594,7 +1594,7 @@ function autoGeneratePuzzleFromEnd() {
 //edited by Mike, 20220820
 function myUpdateFunction() {
 
-	//iCurrentMiniGame=MINI_GAME_ACTION;
+	iCurrentMiniGame=MINI_GAME_ACTION;
 
 	//added by Mike, 20221115
     switch(iCurrentMiniGame) {
@@ -1634,10 +1634,10 @@ function miniGameActionUpdate() {
 */
 
 	//added by Mike, 20220820
-	var humanTile = document.getElementById("humanTileImageId");
+	var imgIpisTile = document.getElementById("ipisTileImageId");
 
 	//added by Mike, 20220904
-	var monsterTileNumber2 = document.getElementById("humanTileImageIdNumber2");
+	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
 	
 	//added by Mike, 20220917; edited by Mike, 20220918
 	//var linkAsButtonLeftKey = document.getElementById("leftKeyId");
@@ -1671,7 +1671,7 @@ function miniGameActionUpdate() {
 	 
 	//added by Mike, 20220820
 	//if class exists, remove; else, add the class;
-	//humanTile.classList.toggle('Image64x64TileFrame2');	 
+	//imgIpisTile.classList.toggle('Image64x64TileFrame2');	 
 
 	//reference: https://www.w3schools.com/jsref/prop_html_classname.asp;
 	//last accessed: 20220820
@@ -1679,109 +1679,109 @@ function miniGameActionUpdate() {
 	//added by Mike, 20220829; edited by Mike, 20221116
 	//TO-DO: -add: this in Ipis class(-ification) container, et cetera
 	//edited by Mike, 20221116
-//	if (ihumanTileAnimationCount==ihumanTileAnimationCountMax) {
-	if (ihumanTileAnimationCount<ihumanTileAnimationCountMax/2) {
+//	if (iImgIpisTileAnimationCount==iImgIpisTileAnimationCountMax) {
+	if (iImgIpisTileAnimationCount<iImgIpisTileAnimationCountMax/2) {
 
 /* //edited by Mike, 2022116		
-		if (humanTile.className=='Image32x32TileFrame1') {
-		  humanTile.className='Image32x32TileFrame2';
+		if (imgIpisTile.className=='Image32x32TileFrame1') {
+		  imgIpisTile.className='Image32x32TileFrame2';
 		  
 		  //added by Mike, 20220904
-		  monsterTileNumber2.className='Image64x64TileFrame1';
+		  imgIpisTileNumber2.className='Image64x64TileFrame1';
 		}
 		else {
-		  humanTile.className='Image32x32TileFrame1';
+		  imgIpisTile.className='Image32x32TileFrame1';
 
-		  monsterTileNumber2.className='Image64x64TileFrame2';
+		  imgIpisTileNumber2.className='Image64x64TileFrame2';
 		}
 */		
 
-		monsterTileNumber2.className='Image64x64TileFrame1';
-		monsterTileNumber2.style.objectPosition="0px 0px";
+		imgIpisTileNumber2.className='Image64x64TileFrame1';
+		imgIpisTileNumber2.style.objectPosition="0px 0px";
 
 
 		if (iFacingDirection==iFACING_DOWN) {
 			//edited by Mike, 20221117
-			//humanTile.style.objectPosition="0px 0px";
+			//imgIpisTile.style.objectPosition="0px 0px";
 			
 			if (bIsWalkingAction) {
-				humanTile.style.objectPosition="0px -32px";
+				imgIpisTile.style.objectPosition="0px -32px";
 			}
 			else {
-				humanTile.style.objectPosition="0px 0px";
+				imgIpisTile.style.objectPosition="0px 0px";
 			}
 		}
 		else if (iFacingDirection==iFACING_RIGHT) {
 			if (bIsWalkingAction) {
-				humanTile.style.objectPosition="-64px -32px";
+				imgIpisTile.style.objectPosition="-64px -32px";
 			}
 			else {			
-				humanTile.style.objectPosition="-64px 0px";
+				imgIpisTile.style.objectPosition="-64px 0px";
 			}
 		}
 		else if (iFacingDirection==iFACING_LEFT) {
 			if (bIsWalkingAction) {
-				humanTile.style.objectPosition="-128px -32px";
+				imgIpisTile.style.objectPosition="-128px -32px";
 			}
 			else {
-				humanTile.style.objectPosition="-128px 0px";
+				imgIpisTile.style.objectPosition="-128px 0px";
 			}
 		}	
 		else if (iFacingDirection==iFACING_UP) {
 			if (bIsWalkingAction) {
-				humanTile.style.objectPosition="-32px -32px";
+				imgIpisTile.style.objectPosition="-32px -32px";
 			}
 			else {
-				humanTile.style.objectPosition="-192px 0px";
+				imgIpisTile.style.objectPosition="-192px 0px";
 			}
 		}				
 		
-		ihumanTileAnimationCount++;
+		iImgIpisTileAnimationCount++;
 }
 	else {
 
-		monsterTileNumber2.className='Image64x64TileFrame2';	
-		monsterTileNumber2.style.objectPosition="-64px 0px";
+		imgIpisTileNumber2.className='Image64x64TileFrame2';	
+		imgIpisTileNumber2.style.objectPosition="-64px 0px";
 	
 		if (iFacingDirection==iFACING_DOWN) {
 			if (bIsWalkingAction) {
-				humanTile.style.objectPosition="0px -64px";
+				imgIpisTile.style.objectPosition="0px -64px";
 			}
 			else {			
-				humanTile.style.objectPosition="-32px 0px";
+				imgIpisTile.style.objectPosition="-32px 0px";
 			}
 		}
 		else if (iFacingDirection==iFACING_RIGHT) {
 			if (bIsWalkingAction) {
-				humanTile.style.objectPosition="-64px -64px";
+				imgIpisTile.style.objectPosition="-64px -64px";
 			}
 			else {			
-				humanTile.style.objectPosition="-96px 0px";
+				imgIpisTile.style.objectPosition="-96px 0px";
 			}
 		}
 		else if (iFacingDirection==iFACING_LEFT) {
 			if (bIsWalkingAction) {
-				humanTile.style.objectPosition="-128px -64px";
+				imgIpisTile.style.objectPosition="-128px -64px";
 			}
 			else {			
-				humanTile.style.objectPosition="-160px 0px";
+				imgIpisTile.style.objectPosition="-160px 0px";
 			}
 		}
 		else if (iFacingDirection==iFACING_UP) {
 			if (bIsWalkingAction) {
-				humanTile.style.objectPosition="-32px -64px";
+				imgIpisTile.style.objectPosition="-32px -64px";
 			}
 			else {			
-				humanTile.style.objectPosition="-224px 0px";
+				imgIpisTile.style.objectPosition="-224px 0px";
 			}
 		}		
-		//ihumanTileAnimationCount++;
+		//iImgIpisTileAnimationCount++;
 
-		if (ihumanTileAnimationCount==ihumanTileAnimationCountMax) {
-			ihumanTileAnimationCount=0;
+		if (iImgIpisTileAnimationCount==iImgIpisTileAnimationCountMax) {
+			iImgIpisTileAnimationCount=0;
 		}
 		else {
-			ihumanTileAnimationCount++;
+			iImgIpisTileAnimationCount++;
 		}
 	}
 
@@ -1821,8 +1821,8 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 	//added by Mike, 20220911; edited by Mike, 2022117
 /*
-	let ihumanTileWidth = 32; //64;
-	let ihumanTileHeight = 32; //64;
+	let iImgIpisTileWidth = 32; //64;
+	let iImgIpisTileHeight = 32; //64;
 */
 	let iImgHumanTileWidth = 32; //64;
 	let iImgHumanTileHeight = 32; //64;
@@ -1853,51 +1853,51 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 	if (bIsInitMiniGameAction) {
 /*	
-		humanTile.style.left = (iHorizontalOffset+iStageMaxWidth/2-ihumanTileWidth/2)+"px";	
-		humanTile.style.top = (iVerticalOffsetInnerScreen+iStageMaxHeight/2-ihumanTileHeight/2)+"px";	
+		imgIpisTile.style.left = (iHorizontalOffset+iStageMaxWidth/2-iImgIpisTileWidth/2)+"px";	
+		imgIpisTile.style.top = (iVerticalOffsetInnerScreen+iStageMaxHeight/2-iImgIpisTileHeight/2)+"px";	
 */		
-		humanTileX = iStageMaxWidth/2-iImgHumanTileWidth/2;
-		humanTileY = iStageMaxHeight/2-iImgHumanTileHeight/2;	
+		imgIpisTileX = iStageMaxWidth/2-iImgHumanTileWidth/2;
+		imgIpisTileY = iStageMaxHeight/2-iImgHumanTileHeight/2;	
 
-		humanTile.style.left = (iHorizontalOffset+humanTileX)+"px";	
-		humanTile.style.top = (iVerticalOffsetInnerScreen+humanTileY)+"px";	
+		imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
+		imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
 		
 		bIsInitMiniGameAction=false;
 	}
 	
 
 	//added by Mike, 20221117
-	var sNewTileLeft = (iHorizontalOffset+humanTileX)+"px";
-	var sNewTileTop = (iVerticalOffsetInnerScreen+humanTileY)+"px";		
+	var sNewTileLeft = (iHorizontalOffset+imgIpisTileX)+"px";
+	var sNewTileTop = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";		
 	
-	if (humanTile.style.left!=sNewTileLeft) {
-		humanTile.style.left=sNewTileLeft;
+	if (imgIpisTile.style.left!=sNewTileLeft) {
+		imgIpisTile.style.left=sNewTileLeft;
 	}
 
-	if (humanTile.style.top!=sNewTileTop) {
-		humanTile.style.top=sNewTileTop;
+	if (imgIpisTile.style.top!=sNewTileTop) {
+		imgIpisTile.style.top=sNewTileTop;
 	}
 	
 	//if (bKeyDownRight) { //key d
 	if (arrayKeyPressed[iKEY_D]) {
-		//humanTile.style.left =  iHorizontalOffset+humanTileX+iStepX+"px";
-		//humanTile.style.left =  humanTileX+iStepX+"px";
+		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX+iStepX+"px";
+		//imgIpisTile.style.left =  imgIpisTileX+iStepX+"px";
 
-		humanTileX+=iStepX;
-		humanTile.style.left = (iHorizontalOffset+humanTileX)+"px";	
+		imgIpisTileX+=iStepX;
+		imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
 		
 		//added by Mike, 20221116		
 		iFacingDirection=iFACING_RIGHT;
 		bIsWalkingAction=true;
 	}	
 	else if (arrayKeyPressed[iKEY_A]) {
-		//humanTile.style.left =  iHorizontalOffset+humanTileX-iStepX+"px";				
-		//humanTile.style.left =  humanTileX-iStepX+"px";				
-		humanTileX-=iStepX;
-		humanTile.style.left = (iHorizontalOffset+humanTileX)+"px";
+		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX-iStepX+"px";				
+		//imgIpisTile.style.left =  imgIpisTileX-iStepX+"px";				
+		imgIpisTileX-=iStepX;
+		imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";
 		
 		//added by Mike, 20221116
-		//humanTile.src="<?php echo base_url('assets/images/tao.png');?>";
+		//imgIpisTile.src="<?php echo base_url('assets/images/tao.png');?>";
 
 		//added by Mike, 20221116		
 		iFacingDirection=iFACING_LEFT;
@@ -1905,11 +1905,11 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		
 
 /* //edited by Mike, 20221116	
-		if (ihumanTileAnimationCount==0) {
-			humanTile.style.objectPosition="-64px 0";
+		if (iImgIpisTileAnimationCount==0) {
+			imgIpisTile.style.objectPosition="-64px 0";
 		}
 		else {
-			humanTile.style.objectPosition="-64px -64px";
+			imgIpisTile.style.objectPosition="-64px -64px";
 		}
 */		
 		//alert("hallo");	
@@ -1919,20 +1919,20 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//note: inverted Y-axis; where: @top of window is 0px
 	//if (arrayKeyPressed[iKEY_W]) {
 	else if (arrayKeyPressed[iKEY_W]) {
-//		humanTile.style.top = iVerticalOffset+humanTileY-iStepY+"px";				
-		//humanTile.style.top = humanTileY-iStepY+"px";	
-		humanTileY-=iStepY;	
-		humanTile.style.top = (iVerticalOffsetInnerScreen+humanTileY)+"px";	
+//		imgIpisTile.style.top = iVerticalOffset+imgIpisTileY-iStepY+"px";				
+		//imgIpisTile.style.top = imgIpisTileY-iStepY+"px";	
+		imgIpisTileY-=iStepY;	
+		imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
 		
 		//added by Mike, 20221116		
 		iFacingDirection=iFACING_UP;
 		bIsWalkingAction=true;
 	}	
 	else if (arrayKeyPressed[iKEY_S]) {
-//		humanTile.style.top =  iVerticalOffset+humanTileY+iStepY+"px";				
-//		humanTile.style.top =  humanTileY+iStepY+"px";				
-		humanTileY+=iStepY;	
-		humanTile.style.top = (iVerticalOffsetInnerScreen+humanTileY)+"px";	
+//		imgIpisTile.style.top =  iVerticalOffset+imgIpisTileY+iStepY+"px";				
+//		imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
+		imgIpisTileY+=iStepY;	
+		imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
 		
 		//added by Mike, 20221116		
 		iFacingDirection=iFACING_DOWN;
@@ -1949,38 +1949,38 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//added by Mike, 20221115
 	//world stage max movement
 /*	
-alert("humanTile.style.left: "+humanTile.style.left);
+alert("imgIpisTile.style.left: "+imgIpisTile.style.left);
 alert("iHorizontalOffset: "+iHorizontalOffset);
 */
 	//edited by Mike, 20221118; from 20221117
 	const iWallWidth=iImgHumanTileWidth;
 	const iWallHeight=iImgHumanTileHeight;
 	
-	if (iHorizontalOffset+humanTileX-iStepX < iHorizontalOffset+0+iWallWidth) {
-		humanTile.style.left = (iHorizontalOffset)+iWallWidth+"px";
-		humanTileX=0+iWallWidth;
+	if (iHorizontalOffset+imgIpisTileX-iStepX < iHorizontalOffset+0+iWallWidth) {
+		imgIpisTile.style.left = (iHorizontalOffset)+iWallWidth+"px";
+		imgIpisTileX=0+iWallWidth;
 	}
-	else if (iHorizontalOffset+humanTileX+iImgHumanTileWidth+iStepX>iHorizontalOffset+0+iStageMaxWidth-iWallWidth) {
-		humanTile.style.left = (iHorizontalOffset+iStageMaxWidth-iImgHumanTileWidth-iWallWidth)+"px";
-		humanTileX=iStageMaxWidth-iImgHumanTileWidth-iWallWidth;
+	else if (iHorizontalOffset+imgIpisTileX+iImgHumanTileWidth+iStepX>iHorizontalOffset+0+iStageMaxWidth-iWallWidth) {
+		imgIpisTile.style.left = (iHorizontalOffset+iStageMaxWidth-iImgHumanTileWidth-iWallWidth)+"px";
+		imgIpisTileX=iStageMaxWidth-iImgHumanTileWidth-iWallWidth;
 	}
 	
 	//iVerticalOffset
  //edited by Mike, 20221118	
-	if (humanTileY-iStepY < 0+iWallHeight) {
-		humanTile.style.top = (0+iWallHeight)+"px";
-		humanTileY=0+iWallHeight;
+	if (imgIpisTileY-iStepY < 0+iWallHeight) {
+		imgIpisTile.style.top = (0+iWallHeight)+"px";
+		imgIpisTileY=0+iWallHeight;
 	}
 
 /*
-	if (humanTileY-iStepY < 0) { //+iWallHeight) {
-		humanTile.style.top = (0)+"px";
-		humanTileY=0;
+	if (imgIpisTileY-iStepY < 0) { //+iWallHeight) {
+		imgIpisTile.style.top = (0)+"px";
+		imgIpisTileY=0;
 	}
 */	
-	else if (humanTileY+iImgHumanTileHeight+iStepY>0+iStageMaxHeight-iWallHeight) {
-		humanTile.style.top = (iStageMaxHeight-iImgHumanTileHeight-iWallHeight)+"px";
-		humanTileY=iStageMaxHeight-iImgHumanTileHeight-iWallHeight;
+	else if (imgIpisTileY+iImgHumanTileHeight+iStepY>0+iStageMaxHeight-iWallHeight) {
+		imgIpisTile.style.top = (iStageMaxHeight-iImgHumanTileHeight-iWallHeight)+"px";
+		imgIpisTileY=iStageMaxHeight-iImgHumanTileHeight-iWallHeight;
 	}
 	
 		
@@ -1994,8 +1994,8 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 		}		
 	}
 
-	humanTile.style.left = (iHorizontalOffset+humanTileX)+"px";	
-	humanTile.style.top = (iVerticalOffsetInnerScreen+humanTileY)+"px";	
+	imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
+	imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
 */
 
 /*
@@ -2007,8 +2007,8 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 */
 
 	//added by Mike, 20221115; from 20221106
-//	humanTile.style.visibility="hidden";
-	humanTile.style.visibility="visible";	
+//	imgIpisTile.style.visibility="hidden";
+	imgIpisTile.style.visibility="visible";	
 	
 	
 	//added by Mike, 20221104	
@@ -2037,8 +2037,8 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 	//added by Mike, 20220904
 	//COLLISION DETECTION UPDATE
 	
-	mdo1=humanTile;
-	mdo2=monsterTileNumber2;
+	mdo1=imgIpisTile;
+	mdo2=imgIpisTileNumber2;
 
 	if (isIntersectingRect(mdo1, mdo2)) {
 		//alert("COLLISION!");
@@ -2106,12 +2106,12 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 	//verified: object position movement in Android Samsung Duos
 	//to be NOT noticeably delayed for moving object count = 1
 
-	let imgIpisNumber2TileX = monsterTileNumber2.getBoundingClientRect().x;
-	let imgIpisNumber2TileY = monsterTileNumber2.getBoundingClientRect().y;	
+	let imgIpisNumber2TileX = imgIpisTileNumber2.getBoundingClientRect().x;
+	let imgIpisNumber2TileY = imgIpisTileNumber2.getBoundingClientRect().y;	
 	
 	//added by Mike, 20221002
 	//note: getBoundingClientRect().width includes all animation frame sequence
-//	let iImgIpisNumber2TileWidth = monsterTileNumber2.getBoundingClientRect().width;
+//	let iImgIpisNumber2TileWidth = imgIpisTileNumber2.getBoundingClientRect().width;
 	let iImgIpisNumber2TileWidth = 64; 
 	
 
@@ -2119,19 +2119,19 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 	if (imgIpisNumber2TileY+iIpisNumber2StepY<(iVerticalOffset+0)) {
 		iIpisNumber2StepY=10; //*=-1;
 	}
-	else if (imgIpisNumber2TileY+ihumanTileHeight+iIpisNumber2StepY>(iVerticalOffset+iStageMaxHeight)) {
+	else if (imgIpisNumber2TileY+iImgIpisTileHeight+iIpisNumber2StepY>(iVerticalOffset+iStageMaxHeight)) {
 		iIpisNumber2StepY=-10;
 		
-		//alert (monsterTileNumber2.style.top);
+		//alert (imgIpisTileNumber2.style.top);
 	}
 */
 
 	//edited by Mike, 20221002
-	//monsterTileNumber2.style.top = 0+iVerticalOffset+imgIpisNumber2TileY+iIpisNumber2StepY +"px"; 
-	//monsterTileNumber2.style.left = 0+iHorizontalOffset+"px"; 
+	//imgIpisTileNumber2.style.top = 0+iVerticalOffset+imgIpisNumber2TileY+iIpisNumber2StepY +"px"; 
+	//imgIpisTileNumber2.style.left = 0+iHorizontalOffset+"px"; 
 	
-	monsterTileNumber2.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
-	monsterTileNumber2.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgIpisNumber2TileWidth+"px"; 
+	imgIpisTileNumber2.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
+	imgIpisTileNumber2.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgIpisNumber2TileWidth+"px"; 
 
 
 	
@@ -2271,13 +2271,13 @@ function miniGamePuzzleUpdate() {
 	//imgUsbongLogo.style.visibility="hidden";
 	
 	//added by Mike, 20220820
-	var humanTile = document.getElementById("humanTileImageId");
+	var imgIpisTile = document.getElementById("ipisTileImageId");
 
 	//added by Mike, 20220904
-	var monsterTileNumber2 = document.getElementById("humanTileImageIdNumber2");
+	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
 
 	//added by Mike, 20221118
-	monsterTileNumber2.style.visibility="visible";	
+	imgIpisTileNumber2.style.visibility="visible";	
 	
 		
 	//added by Mike, 20221104; edited by Mike, 20221118
@@ -2331,29 +2331,29 @@ function miniGamePuzzleUpdate() {
 	 
 	//added by Mike, 20220820
 	//if class exists, remove; else, add the class;
-	//humanTile.classList.toggle('Image64x64TileFrame2');	 
+	//imgIpisTile.classList.toggle('Image64x64TileFrame2');	 
 
 	//reference: https://www.w3schools.com/jsref/prop_html_classname.asp;
 	//last accessed: 20220820
 		
 	//added by Mike, 20220829
 	//TO-DO: -add: this in Ipis class(-ification) container, et cetera
-	if (ihumanTileAnimationCount==ihumanTileAnimationCountMax) {
-		if (humanTile.className=='Image64x64TileFrame1') {
-		  humanTile.className='Image64x64TileFrame2';
+	if (iImgIpisTileAnimationCount==iImgIpisTileAnimationCountMax) {
+		if (imgIpisTile.className=='Image64x64TileFrame1') {
+		  imgIpisTile.className='Image64x64TileFrame2';
 		  
 		  //added by Mike, 20220904
-		  monsterTileNumber2.className='Image64x64TileFrame1';
+		  imgIpisTileNumber2.className='Image64x64TileFrame1';
 		}
 		else {
-		  humanTile.className='Image64x64TileFrame1';
+		  imgIpisTile.className='Image64x64TileFrame1';
 
-		  monsterTileNumber2.className='Image64x64TileFrame2';
+		  imgIpisTileNumber2.className='Image64x64TileFrame2';
 		}
-		ihumanTileAnimationCount=0;
+		iImgIpisTileAnimationCount=0;
 	}
 	else {
-		ihumanTileAnimationCount++;
+		iImgIpisTileAnimationCount++;
 	}
 
 	//reference: https://www.w3schools.com/tags/canvas_fillrect.asp; 
@@ -2390,8 +2390,8 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 */
 
 	//added by Mike, 20220911
-	let ihumanTileWidth = 64;
-	let ihumanTileHeight = 64;
+	let iImgIpisTileWidth = 64;
+	let iImgIpisTileHeight = 64;
 	
 	//edited by Mike, 20220823; edited again by Mike, 20221019
 /*
@@ -2426,52 +2426,52 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	
 	//removed by Mike, 20221012
 	//iHorizontalOffset=myCanvas.getBoundingClientRect().x;
-	//humanTile.style.left = (iHorizontalOffset+humanTileY)+"px";	
-	//humanTile.style.left = (iHorizontalOffset+humanTileX)+"px";	
+	//imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileY)+"px";	
+	//imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
 
 	//if (bKeyDownRight) { //key d
 	if (arrayKeyPressed[iKEY_D]) {
-		//humanTile.style.left =  iHorizontalOffset+humanTileX+iStepX+"px";
-		//humanTile.style.left =  humanTileX+iStepX+"px";
+		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX+iStepX+"px";
+		//imgIpisTile.style.left =  imgIpisTileX+iStepX+"px";
 
-		humanTileX+=iStepX;
-		//humanTile.style.left =  iHorizontalOffset+humanTileX +"px";
+		imgIpisTileX+=iStepX;
+		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX +"px";
 	}	
 	else if (arrayKeyPressed[iKEY_A]) {
-		//humanTile.style.left =  iHorizontalOffset+humanTileX-iStepX+"px";				
-		//humanTile.style.left =  humanTileX-iStepX+"px";				
-		humanTileX-=iStepX;
-		//humanTile.style.left =  iHorizontalOffset+humanTileX +"px";
+		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX-iStepX+"px";				
+		//imgIpisTile.style.left =  imgIpisTileX-iStepX+"px";				
+		imgIpisTileX-=iStepX;
+		//imgIpisTile.style.left =  iHorizontalOffset+imgIpisTileX +"px";
 	}
 
 	
 	//note: inverted Y-axis; where: @top of window is 0px
 	if (arrayKeyPressed[iKEY_W]) {
-//		humanTile.style.top = iVerticalOffset+humanTileY-iStepY+"px";				
-		//humanTile.style.top = humanTileY-iStepY+"px";	
-		humanTileY-=iStepY;	
+//		imgIpisTile.style.top = iVerticalOffset+imgIpisTileY-iStepY+"px";				
+		//imgIpisTile.style.top = imgIpisTileY-iStepY+"px";	
+		imgIpisTileY-=iStepY;	
 		
-		//humanTile.style.top = iVerticalOffsetInnerScreen+humanTileY+"px";	
+		//imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";	
 	}	
 	else if (arrayKeyPressed[iKEY_S]) {
-//		humanTile.style.top =  iVerticalOffset+humanTileY+iStepY+"px";				
-//		humanTile.style.top =  humanTileY+iStepY+"px";				
-		humanTileY+=iStepY;	
+//		imgIpisTile.style.top =  iVerticalOffset+imgIpisTileY+iStepY+"px";				
+//		imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
+		imgIpisTileY+=iStepY;	
 		
-		//humanTile.style.top = iVerticalOffsetInnerScreen+humanTileY+"px";		
+		//imgIpisTile.style.top = iVerticalOffsetInnerScreen+imgIpisTileY+"px";		
 	}
 
 /*	//removed by Mike, 20221106; 
 	//TO-DO: -add: as CASE @MINIGAME with IPIS
 
-	humanTile.style.left = (iHorizontalOffset+humanTileX)+"px";	
+	imgIpisTile.style.left = (iHorizontalOffset+imgIpisTileX)+"px";	
 
 	//added by Mike, 20221029
-	humanTile.style.top = (iVerticalOffsetInnerScreen+humanTileY)+"px";	
+	imgIpisTile.style.top = (iVerticalOffsetInnerScreen+imgIpisTileY)+"px";	
 */	
 	//added by Mike, 20221115; from 20221106
-	humanTile.style.visibility="hidden";
-//	humanTile.style.visibility="visible";	
+	imgIpisTile.style.visibility="hidden";
+//	imgIpisTile.style.visibility="visible";	
 	
 	//added by Mike, 20221104		
 	imgPuzzle.style.left = (iHorizontalOffset-iStageMaxWidth/2)+"px";	
@@ -2502,8 +2502,8 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//added by Mike, 20220904
 	//COLLISION DETECTION UPDATE
 	
-	mdo1=humanTile;
-	mdo2=monsterTileNumber2;
+	mdo1=imgIpisTile;
+	mdo2=imgIpisTileNumber2;
 
 	if (isIntersectingRect(mdo1, mdo2)) {
 		//alert("COLLISION!");
@@ -2540,22 +2540,22 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		else if (iCorner==1) { //TOP-RIGHT
 			//edited by Mike, 20220911
 			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-ihumanTileWidth)+"px";			
+			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgIpisTileWidth)+"px";			
 			mdo2.style.top =  iVerticalOffset+ "px";//"0px";
 		}
 		else if (iCorner==2)  { //BOTTOM-RIGHT
 			//edited by Mike, 20220911
 			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-ihumanTileWidth)+"px";
+			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgIpisTileWidth)+"px";
 			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-ihumanTileHeight)+"px";
+			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgIpisTileHeight)+"px";
 		}
 		else if (iCorner==3) { //BOTTOM-LEFT
 			//edited by Mike, 20220911
 			//mdo2.style.left = "0px";				
 			mdo2.style.left = (iHorizontalOffset+0)+"px";				
 			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-ihumanTileHeight)+"px";
+			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgIpisTileHeight)+"px";
 		}
 
 		mdo2.style.visibility="visible";	
@@ -2565,12 +2565,12 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//verified: object position movement in Android Samsung Duos
 	//to be NOT noticeably delayed for moving object count = 1
 
-	let imgIpisNumber2TileX = monsterTileNumber2.getBoundingClientRect().x;
-	let imgIpisNumber2TileY = monsterTileNumber2.getBoundingClientRect().y;	
+	let imgIpisNumber2TileX = imgIpisTileNumber2.getBoundingClientRect().x;
+	let imgIpisNumber2TileY = imgIpisTileNumber2.getBoundingClientRect().y;	
 	
 	//added by Mike, 20221002
 	//note: getBoundingClientRect().width includes all animation frame sequence
-//	let iImgIpisNumber2TileWidth = monsterTileNumber2.getBoundingClientRect().width;
+//	let iImgIpisNumber2TileWidth = imgIpisTileNumber2.getBoundingClientRect().width;
 	let iImgIpisNumber2TileWidth = 64; 
 	
 
@@ -2578,19 +2578,19 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	if (imgIpisNumber2TileY+iIpisNumber2StepY<(iVerticalOffset+0)) {
 		iIpisNumber2StepY=10; //*=-1;
 	}
-	else if (imgIpisNumber2TileY+ihumanTileHeight+iIpisNumber2StepY>(iVerticalOffset+iStageMaxHeight)) {
+	else if (imgIpisNumber2TileY+iImgIpisTileHeight+iIpisNumber2StepY>(iVerticalOffset+iStageMaxHeight)) {
 		iIpisNumber2StepY=-10;
 		
-		//alert (monsterTileNumber2.style.top);
+		//alert (imgIpisTileNumber2.style.top);
 	}
 
 
 	//edited by Mike, 20221002
-	//monsterTileNumber2.style.top = 0+iVerticalOffset+imgIpisNumber2TileY+iIpisNumber2StepY +"px"; 
-	//monsterTileNumber2.style.left = 0+iHorizontalOffset+"px"; 
+	//imgIpisTileNumber2.style.top = 0+iVerticalOffset+imgIpisNumber2TileY+iIpisNumber2StepY +"px"; 
+	//imgIpisTileNumber2.style.left = 0+iHorizontalOffset+"px"; 
 	
-	monsterTileNumber2.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
-	monsterTileNumber2.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgIpisNumber2TileWidth+"px"; 
+	imgIpisTileNumber2.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
+	imgIpisTileNumber2.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgIpisNumber2TileWidth+"px"; 
 
 
 	
@@ -3154,14 +3154,14 @@ function tempAlert(msg,duration)
 
 	//added by Mike, 20220926
 	//TO-DO: -add: auto-update for all moving objects, et cetera	
-	var humanTile = document.getElementById("humanTileImageId");
+	var imgIpisTile = document.getElementById("ipisTileImageId");
 
-	let humanTileX = humanTile.getBoundingClientRect().x;
+	let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
 	
-	humanTile.style.left =  iHorizontalOffset + (humanTileX-iHorizontalOffsetPrev)+"px";
-	//humanTile.style.left =  iHorizontalOffset + humanTileX+"px";
+	imgIpisTile.style.left =  iHorizontalOffset + (imgIpisTileX-iHorizontalOffsetPrev)+"px";
+	//imgIpisTile.style.left =  iHorizontalOffset + imgIpisTileX+"px";
 
-	//alert(humanTile.style.left);
+	//alert(imgIpisTile.style.left);
 	
 	//added by Mike, 20221006
 	var pauseLink = document.getElementById("pauseLinkId");
@@ -3431,27 +3431,27 @@ function onLoad() {
 
 	//added by Mike, 20220904	
 	//TO-DO: -add: init; where: set initial positions, et cetera
-	var monsterTileNumber2 = document.getElementById("humanTileImageIdNumber2");
-	monsterTileNumber2.style.left = screen.width/2 +"px"; //"100px";
-	monsterTileNumber2.style.top = "0px"; //"100px";
+	var imgIpisTileNumber2 = document.getElementById("ipisTileImageIdNumber2");
+	imgIpisTileNumber2.style.left = screen.width/2 +"px"; //"100px";
+	imgIpisTileNumber2.style.top = "0px"; //"100px";
 
 	//added by Mike, 20221002; edited by Mike, 20221118
-	monsterTileNumber2.style.visibility="hidden"; //visible
+	imgIpisTileNumber2.style.visibility="hidden"; //visible
 	
 /* //removed by Mike, 20221115	
 	//added by Mike, 20220911
 	//TO-DO: -update: computer instructions to reuse containers, e.g. stage width
-	var humanTile = document.getElementById("humanTileImageId");
+	var imgIpisTile = document.getElementById("ipisTileImageId");
 	//edited by Mike, 20220925
-	humanTile.style.left = screen.width/2 +"px"; //"100px";
-//	humanTile.style.left = iHorizontalOffset +"px"; //"100px";
+	imgIpisTile.style.left = screen.width/2 +"px"; //"100px";
+//	imgIpisTile.style.left = iHorizontalOffset +"px"; //"100px";
 
 	//edited by Mike, 20220911; edited again by Mike, 20220925
-	humanTile.style.top = screen.height/4 +"px"; //screen.height/2 +"px"; //"100px";
-//	humanTile.style.top = iVerticalOffset +"px"; //screen.height/2 +"px"; //"100px";
+	imgIpisTile.style.top = screen.height/4 +"px"; //screen.height/2 +"px"; //"100px";
+//	imgIpisTile.style.top = iVerticalOffset +"px"; //screen.height/2 +"px"; //"100px";
 
 	//added by Mike, 20221002
-	humanTile.style.visibility="visible";
+	imgIpisTile.style.visibility="visible";
 */
 
 	//note: smaller screen width x height for game canvas;
@@ -3476,14 +3476,14 @@ function onLoad() {
 		
 		
 /* //removed by Mike, 20220823		
-		var humanTile = document.getElementById("humanTileImageId");
+		var imgIpisTile = document.getElementById("ipisTileImageId");
 
 		//added by Mike, 20220821; OK
 		//note: myUpdateFunction() executes only 
 		//when Web Browser is set to be FOCUSED;
-		let humanTileX = humanTile.getBoundingClientRect().x;
+		let imgIpisTileX = imgIpisTile.getBoundingClientRect().x;
 		//added by Mike, 20220822
-		let humanTileY = humanTile.getBoundingClientRect().y;
+		let imgIpisTileY = imgIpisTile.getBoundingClientRect().y;
 			
 		let iStepX=4;
 		let iStepY=4;
@@ -3505,26 +3505,26 @@ function onLoad() {
 		//solved: via bKeyDownRight = false; et cetera
 		if (e.keyCode==68) { //key d
 	//			alert("dito");
-			//humanTile.style.left =  humanTileX+iStepX+"px";				
+			//imgIpisTile.style.left =  imgIpisTileX+iStepX+"px";				
 			//edited by Mike, 20220823
 			//bKeyDownRight=true;
 			arrayKeyPressed[iKEY_D]=true;			
 		}
 		else if (e.keyCode==65) { //key a			
 			//edited by Mike, 20220823
-			//humanTile.style.left =  humanTileX-iStepX+"px";				
+			//imgIpisTile.style.left =  imgIpisTileX-iStepX+"px";				
 			arrayKeyPressed[iKEY_A]=true;			
 		}
 		
 		//added by Mike, 20220822
 		if (e.keyCode==87) { //key w		
 			//edited by Mike, 20220823
-			//humanTile.style.top =  humanTileY-iStepY+"px";				
+			//imgIpisTile.style.top =  imgIpisTileY-iStepY+"px";				
 			arrayKeyPressed[iKEY_W]=true;			
 		}
 		else if (e.keyCode==83) { //key s
 			//edited by Mike, 20220823
-			//humanTile.style.top =  humanTileY+iStepY+"px";				
+			//imgIpisTile.style.top =  imgIpisTileY+iStepY+"px";				
 			arrayKeyPressed[iKEY_S]=true;			
 		}
 
@@ -3968,11 +3968,11 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 	<!-- added by Mike, 20221119 -->
 	<div id="divPuzzleTileImageTargetBorderId" class="Image32x32TileTargetBorder"></div>
 
-	<img id="humanTileImageId" class="Image32x32TileFrame1" src="<?php echo base_url('assets/images/human.png');?>">	
+	<img id="ipisTileImageId" class="Image32x32TileFrame1" src="<?php echo base_url('assets/images/human.png');?>">	
 		
 <!-- added by Mike, 20221117; from 20220904; Image32x32TileFrame1 -->
 
-	<img id="humanTileImageIdNumber2" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/ipis.png');?>">	
+	<img id="ipisTileImageIdNumber2" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/ipis.png');?>">	
 
 
 
