@@ -1107,7 +1107,9 @@ border: none;
 								TO-DO: -verify: @set vertex, e.g. center */
 							/*
 								transform: rotate(-15deg);
-							*/							
+							*/	
+
+							visibility: hidden;
 						}
 
 						.Image64x64TileFrame2 {
@@ -1209,6 +1211,10 @@ let humanTileY = iStageMaxHeight/2;
 let humanTileX = 0;
 let humanTileY = 0;	
 
+//added by Mike, 20221120
+let iImgMonsterTileWidth=64; //32;
+let iImgMonsterTileHeight=64; //32;
+
 
 //added by Mike, 20220925
 //note: for CONTROLLER BUTTONS
@@ -1268,11 +1274,15 @@ var bIsToBottomCornerDone=false;
 var bHasPressedStart=false;
 		  
 //added by Mike, 20220829
-const ihumanTileAnimationCountMax=6; //12;//20; //6;
-ihumanTileAnimationCount=0;	  
+const iHumanTileAnimationCountMax=6; //12;//20; //6;
+iHumanTileAnimationCount=0;	  
 
-//added by Mike, 20220915
-iIpisNumber2StepY=10;
+//added by Mike, 20221120
+const iMonsterTileAnimationCountMax=3;
+iMonsterTileAnimationCount=0;	  
+
+//edited by Mike, 20221120; from 20220915
+iMonsterNumber2StepY=10;
 
 //added by Mike, 20221029
 iTouchStartX=0;
@@ -1330,6 +1340,37 @@ for (iCount=0; iCount<iTotalKeyCount; iCount++) {
 function getBaseURL(){
     return sBaseURL;
 }
+
+//added by Mike, 20221120
+function changeMiniGame(iMiniGameId) {
+	alert("HALLO!");
+	
+	if (iCurrentMiniGame==MINI_GAME_PUZZLE){
+		if (iMiniGameId!=MINI_GAME_PUZZLE) {
+			removeFromPuzzleStageExcessTiles();
+		}
+	}
+
+	iCurrentMiniGame=iMiniGameId;
+
+	//added by Mike, 20221120
+	bIsInitMiniGameAction=false;
+}
+
+function removeFromPuzzleStageExcessTiles() {
+	//iTileBgCountMax = 16
+	for (let iTileBgCount=0; iTileBgCount<iTileBgCountMax; iTileBgCount++) {		
+		arrayPuzzleTileCountId[iTileBgCount] = document.getElementById("puzzleTileImageIdBg"+iTileBgCount);
+		
+		arrayPuzzleTileCountId[iTileBgCount].style.visibility="hidden";
+	}	
+	
+	//added by Mike, 2022119
+	var puzzleTileImageTargetBorder = document.getElementById("divPuzzleTileImageTargetBorderId");
+	
+	puzzleTileImageTargetBorder.style.visibility="hidden";
+}
+
 
 /*
 //added by Mike, 20220825
@@ -1594,7 +1635,7 @@ function autoGeneratePuzzleFromEnd() {
 //edited by Mike, 20220820
 function myUpdateFunction() {
 
-	iCurrentMiniGame=MINI_GAME_ACTION;
+//	iCurrentMiniGame=MINI_GAME_ACTION;
 
 	//added by Mike, 20221115
     switch(iCurrentMiniGame) {
@@ -1637,7 +1678,7 @@ function miniGameActionUpdate() {
 	var humanTile = document.getElementById("humanTileImageId");
 
 	//added by Mike, 20220904
-	var monsterTileNumber2 = document.getElementById("monsterTileImageIdNumber2");
+	var monsterTile = document.getElementById("monsterTileImageId");
 	
 	//added by Mike, 20220917; edited by Mike, 20220918
 	//var linkAsButtonLeftKey = document.getElementById("leftKeyId");
@@ -1676,28 +1717,12 @@ function miniGameActionUpdate() {
 	//reference: https://www.w3schools.com/jsref/prop_html_classname.asp;
 	//last accessed: 20220820
 		
-	//added by Mike, 20220829; edited by Mike, 20221116
-	//TO-DO: -add: this in Ipis class(-ification) container, et cetera
 	//edited by Mike, 20221116
-//	if (ihumanTileAnimationCount==ihumanTileAnimationCountMax) {
-	if (ihumanTileAnimationCount<ihumanTileAnimationCountMax/2) {
+//	if (iHumanTileAnimationCount==iHumanTileAnimationCountMax) {
+	if (iHumanTileAnimationCount<iHumanTileAnimationCountMax/2) {
 
-/* //edited by Mike, 2022116		
-		if (humanTile.className=='Image32x32TileFrame1') {
-		  humanTile.className='Image32x32TileFrame2';
-		  
-		  //added by Mike, 20220904
-		  monsterTileNumber2.className='Image64x64TileFrame1';
-		}
-		else {
-		  humanTile.className='Image32x32TileFrame1';
-
-		  monsterTileNumber2.className='Image64x64TileFrame2';
-		}
-*/		
-
-		monsterTileNumber2.className='Image64x64TileFrame1';
-		monsterTileNumber2.style.objectPosition="0px 0px";
+		monsterTile.className='Image64x64TileFrame1';
+		monsterTile.style.objectPosition="0px 0px";
 
 
 		if (iFacingDirection==iFACING_DOWN) {
@@ -1736,12 +1761,12 @@ function miniGameActionUpdate() {
 			}
 		}				
 		
-		ihumanTileAnimationCount++;
+		iHumanTileAnimationCount++;
 }
 	else {
 
-		monsterTileNumber2.className='Image64x64TileFrame2';	
-		monsterTileNumber2.style.objectPosition="-64px 0px";
+		monsterTile.className='Image64x64TileFrame2';	
+		monsterTile.style.objectPosition="-64px 0px";
 	
 		if (iFacingDirection==iFACING_DOWN) {
 			if (bIsWalkingAction) {
@@ -1775,13 +1800,13 @@ function miniGameActionUpdate() {
 				humanTile.style.objectPosition="-224px 0px";
 			}
 		}		
-		//ihumanTileAnimationCount++;
+		//iHumanTileAnimationCount++;
 
-		if (ihumanTileAnimationCount==ihumanTileAnimationCountMax) {
-			ihumanTileAnimationCount=0;
+		if (iHumanTileAnimationCount==iHumanTileAnimationCountMax) {
+			iHumanTileAnimationCount=0;
 		}
 		else {
-			ihumanTileAnimationCount++;
+			iHumanTileAnimationCount++;
 		}
 	}
 
@@ -1905,7 +1930,7 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		
 
 /* //edited by Mike, 20221116	
-		if (ihumanTileAnimationCount==0) {
+		if (iHumanTileAnimationCount==0) {
 			humanTile.style.objectPosition="-64px 0";
 		}
 		else {
@@ -1982,40 +2007,11 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 		humanTile.style.top = (iStageMaxHeight-iImgHumanTileHeight-iWallHeight)+"px";
 		humanTileY=iStageMaxHeight-iImgHumanTileHeight-iWallHeight;
 	}
-	
-		
-
-	//TO-DO: -add: as CASE @MINIGAME with IPIS
-/*
-	//added again by Mike, 20221115
-	//iTotalKeyCount
-	for (iCount=0; iCount<iDirectionTotalKeyCount; iCount++) {
-		if (arrayKeyPressed[iKey]) {
-		}		
-	}
-
-	humanTile.style.left = (iHorizontalOffset+humanTileX)+"px";	
-	humanTile.style.top = (iVerticalOffsetInnerScreen+humanTileY)+"px";	
-*/
-
-/*
-	for (iCount=0; iCount<iDirectionTotalKeyCount; iCount++) {
-		if (arrayKeyPressed[iCount]) {
-			alert(iCount);
-		}		
-	}
-*/
 
 	//added by Mike, 20221115; from 20221106
 //	humanTile.style.visibility="hidden";
 	humanTile.style.visibility="visible";	
 	
-	
-	//added by Mike, 20221104	
-/*	
-	imgPuzzle.style.left = (iHorizontalOffset-iStageMaxWidth/2)+"px";	
-	imgPuzzle.style.top = (iVerticalOffsetInnerScreen-iStageMaxHeight/2)+"px";	
-*/
 
 	//added by Mike, 20221101
 	if (arrayKeyPressed[iKEY_I]) {
@@ -2038,7 +2034,12 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 	//COLLISION DETECTION UPDATE
 	
 	mdo1=humanTile;
-	mdo2=monsterTileNumber2;
+	mdo2=monsterTile;
+	
+	//TO-DO: -add: IF human is @CENTER,
+	//IF SO, EXECUTE RHYTHM ACTION ATTACK; 
+	//keyphrase: DEFENSE, CONTROLLER
+	//TO-DO: -add: ACTION sound
 
 	if (isIntersectingRect(mdo1, mdo2)) {
 		//alert("COLLISION!");
@@ -2047,7 +2048,7 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 	
 	//regenerate
 	if (mdo2.style.visibility=="hidden") {
-		
+
 		let mdo2XPos = mdo2.getBoundingClientRect().x;
 		let mdo2YPos = mdo2.getBoundingClientRect().y;	
 
@@ -2066,11 +2067,15 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 		
 		//added by Mike, 20221117
 		iVerticalOffset=0;
-		iImgBugTileWidth=64; //32;
-		iImgBugTileHeight=64; //32;
-		
-		//edited by Mike, 20220925
-		
+
+/*		//removed by Mike, 20221120
+		//edited by Mike, 20221120
+		iImgMonsterTileWidth=64; //32;
+		iImgMonsterTileHeight=64; //32;
+*/
+		//edited by Mike, 20220925			
+		//alert("iCorner: "+iCorner);		
+				
 		if (iCorner==0) { //TOP-LEFT
 			//edited by Mike, 20220911
 			//mdo2.style.left = "0px";				
@@ -2080,59 +2085,61 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 		else if (iCorner==1) { //TOP-RIGHT
 			//edited by Mike, 20220911
 			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgBugTileWidth)+"px";			
+			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth)+"px";			
 			mdo2.style.top =  iVerticalOffset+ "px";//"0px";
 		}
 		else if (iCorner==2)  { //BOTTOM-RIGHT
 			//edited by Mike, 20220911
 			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgBugTileWidth)+"px";
+			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth)+"px";
 			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgBugTileHeight)+"px";
+			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgMonsterTileHeight)+"px";
 		}
 		else if (iCorner==3) { //BOTTOM-LEFT
 			//edited by Mike, 20220911
 			//mdo2.style.left = "0px";				
 			mdo2.style.left = (iHorizontalOffset+0)+"px";				
 			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgBugTileHeight)+"px";
+			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgMonsterTileHeight)+"px";
 		}
 
 		mdo2.style.visibility="visible";	
 	}
 	
-	
+
+/*	//removed by Mike, 20221120	
 	//added by Mike, 20220915
 	//verified: object position movement in Android Samsung Duos
 	//to be NOT noticeably delayed for moving object count = 1
 
-	let imgIpisNumber2TileX = monsterTileNumber2.getBoundingClientRect().x;
-	let imgIpisNumber2TileY = monsterTileNumber2.getBoundingClientRect().y;	
+	let imgMonsterTileX = monsterTile.getBoundingClientRect().x;
+	let imgMonsterTileY = monsterTile.getBoundingClientRect().y;	
 	
 	//added by Mike, 20221002
 	//note: getBoundingClientRect().width includes all animation frame sequence
-//	let iImgIpisNumber2TileWidth = monsterTileNumber2.getBoundingClientRect().width;
-	let iImgIpisNumber2TileWidth = 64; 
-	
+//	let iImgMonsterTileWidth = monsterTile.getBoundingClientRect().width;
+	let iImgMonsterTileWidth = 64; 
+*/	
 
 /* //removed by Mike, 20221118	
-	if (imgIpisNumber2TileY+iIpisNumber2StepY<(iVerticalOffset+0)) {
-		iIpisNumber2StepY=10; //*=-1;
+	if (imgMonsterTileY+iMonsterNumber2StepY<(iVerticalOffset+0)) {
+		iMonsterNumber2StepY=10; //*=-1;
 	}
-	else if (imgIpisNumber2TileY+ihumanTileHeight+iIpisNumber2StepY>(iVerticalOffset+iStageMaxHeight)) {
-		iIpisNumber2StepY=-10;
+	else if (imgMonsterTileY+ihumanTileHeight+iMonsterNumber2StepY>(iVerticalOffset+iStageMaxHeight)) {
+		iMonsterNumber2StepY=-10;
 		
-		//alert (monsterTileNumber2.style.top);
+		//alert (monsterTile.style.top);
 	}
 */
 
 	//edited by Mike, 20221002
-	//monsterTileNumber2.style.top = 0+iVerticalOffset+imgIpisNumber2TileY+iIpisNumber2StepY +"px"; 
-	//monsterTileNumber2.style.left = 0+iHorizontalOffset+"px"; 
+	//monsterTile.style.top = 0+iVerticalOffset+imgMonsterTileY+iMonsterNumber2StepY +"px"; 
+	//monsterTile.style.left = 0+iHorizontalOffset+"px"; 
 	
-	monsterTileNumber2.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
-	monsterTileNumber2.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgIpisNumber2TileWidth+"px"; 
-
+/* //removed by Mike, 20221120	
+	monsterTile.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
+	monsterTile.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth+"px"; 
+*/
 
 	
 			
@@ -2274,11 +2281,12 @@ function miniGamePuzzleUpdate() {
 	var humanTile = document.getElementById("humanTileImageId");
 
 	//added by Mike, 20220904
-	var monsterTileNumber2 = document.getElementById("monsterTileImageIdNumber2");
+	var monsterTile = document.getElementById("monsterTileImageId");
 
+/*	//removed by Mike, 20221120
 	//added by Mike, 20221118
-	monsterTileNumber2.style.visibility="visible";	
-	
+	monsterTile.style.visibility="visible";	
+*/	
 		
 	//added by Mike, 20221104; edited by Mike, 20221118
 //	var imgPuzzle;
@@ -2326,35 +2334,22 @@ function miniGamePuzzleUpdate() {
 
 	//		alert("screen.height: "+screen.height); //533
 
+
 	//added by Mike, 20220904
 	//ANIMATION UPDATE
-	 
-	//added by Mike, 20220820
-	//if class exists, remove; else, add the class;
-	//humanTile.classList.toggle('Image64x64TileFrame2');	 
-
-	//reference: https://www.w3schools.com/jsref/prop_html_classname.asp;
-	//last accessed: 20220820
-		
-	//added by Mike, 20220829
-	//TO-DO: -add: this in Ipis class(-ification) container, et cetera
-	if (ihumanTileAnimationCount==ihumanTileAnimationCountMax) {
-		if (humanTile.className=='Image64x64TileFrame1') {
-		  humanTile.className='Image64x64TileFrame2';
-		  
-		  //added by Mike, 20220904
-		  monsterTileNumber2.className='Image64x64TileFrame1';
+	if (iMonsterTileAnimationCount==iMonsterTileAnimationCountMax) {
+		if (monsterTile.className=='Image64x64TileFrame2') {
+		  monsterTile.className='Image64x64TileFrame1';
 		}
 		else {
-		  humanTile.className='Image64x64TileFrame1';
-
-		  monsterTileNumber2.className='Image64x64TileFrame2';
+		  monsterTile.className='Image64x64TileFrame2';
 		}
-		ihumanTileAnimationCount=0;
+		iMonsterTileAnimationCount=0;
 	}
 	else {
-		ihumanTileAnimationCount++;
+		iMonsterTileAnimationCount++;
 	}
+	
 
 	//reference: https://www.w3schools.com/tags/canvas_fillrect.asp; 
 	//last accessed: 2020911
@@ -2498,102 +2493,13 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	if (arrayKeyPressed[iKEY_L]) {
 //		alert("iKEY_L");
 	}
-	
-	//added by Mike, 20220904
-	//COLLISION DETECTION UPDATE
-	
-	mdo1=humanTile;
-	mdo2=monsterTileNumber2;
-
-	if (isIntersectingRect(mdo1, mdo2)) {
-		//alert("COLLISION!");
-		mdo2.style.visibility="hidden";
-	}
-	
-	//regenerate
-	if (mdo2.style.visibility=="hidden") {
 		
-		let mdo2XPos = mdo2.getBoundingClientRect().x;
-		let mdo2YPos = mdo2.getBoundingClientRect().y;	
+	monsterTile.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
+	monsterTile.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth+"px"; 
 
-/*	
-		mdo2.style.left =  mdo2XPos+iStepX+"px";				
-		mdo2.style.left =  mdo2YPos-iStepX+"px";
-*/		
-		//remembers: BOSS Battle with PANIKI in ALAMAT ng AGIMAT (J2ME)
-		//reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random;
-		//last accessed: 20220904
-
-		let iMax = 4;		
-		iCorner = Math.floor(Math.random() * iMax); 
-		//clock-wise count, 
-		//where: 0 = TOP-LEFT, 1 = TOP-RIGHT, 2, = BOTTOM-RIGHT, 4 = BOTTOM-LEFT
-		
-		//edited by Mike, 20220925
-		
-		if (iCorner==0) { //TOP-LEFT
-			//edited by Mike, 20220911
-			//mdo2.style.left = "0px";				
-			mdo2.style.left = (iHorizontalOffset+0)+"px";			
-			mdo2.style.top =  iVerticalOffset+"px";//"0px";
-		}
-		else if (iCorner==1) { //TOP-RIGHT
-			//edited by Mike, 20220911
-			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-ihumanTileWidth)+"px";			
-			mdo2.style.top =  iVerticalOffset+ "px";//"0px";
-		}
-		else if (iCorner==2)  { //BOTTOM-RIGHT
-			//edited by Mike, 20220911
-			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-ihumanTileWidth)+"px";
-			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-ihumanTileHeight)+"px";
-		}
-		else if (iCorner==3) { //BOTTOM-LEFT
-			//edited by Mike, 20220911
-			//mdo2.style.left = "0px";				
-			mdo2.style.left = (iHorizontalOffset+0)+"px";				
-			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-ihumanTileHeight)+"px";
-		}
-
-		mdo2.style.visibility="visible";	
-	}
-	
-	//added by Mike, 20220915
-	//verified: object position movement in Android Samsung Duos
-	//to be NOT noticeably delayed for moving object count = 1
-
-	let imgIpisNumber2TileX = monsterTileNumber2.getBoundingClientRect().x;
-	let imgIpisNumber2TileY = monsterTileNumber2.getBoundingClientRect().y;	
-	
-	//added by Mike, 20221002
-	//note: getBoundingClientRect().width includes all animation frame sequence
-//	let iImgIpisNumber2TileWidth = monsterTileNumber2.getBoundingClientRect().width;
-	let iImgIpisNumber2TileWidth = 64; 
-	
-
-	
-	if (imgIpisNumber2TileY+iIpisNumber2StepY<(iVerticalOffset+0)) {
-		iIpisNumber2StepY=10; //*=-1;
-	}
-	else if (imgIpisNumber2TileY+ihumanTileHeight+iIpisNumber2StepY>(iVerticalOffset+iStageMaxHeight)) {
-		iIpisNumber2StepY=-10;
-		
-		//alert (monsterTileNumber2.style.top);
-	}
+	monsterTile.style.visibility="visible";	
 
 
-	//edited by Mike, 20221002
-	//monsterTileNumber2.style.top = 0+iVerticalOffset+imgIpisNumber2TileY+iIpisNumber2StepY +"px"; 
-	//monsterTileNumber2.style.left = 0+iHorizontalOffset+"px"; 
-	
-	monsterTileNumber2.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
-	monsterTileNumber2.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgIpisNumber2TileWidth+"px"; 
-
-
-	
 	//reference: https://stackoverflow.com/questions/7545641/how-to-create-multidimensional-array;
 	//last accessed: 20221105
 	//answer by: Dan, 20150107T2231 
@@ -3045,21 +2951,37 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 //@return bool
 function isIntersectingRect(mdo1, mdo2) {
 	
+	//added by Mike, 20221120 
+	//note#1: mdo1=humanTile;
+	//note#2: mdo2=monsterTile;
+	
 	let mdo1XPos = mdo1.getBoundingClientRect().x;
 	let mdo1YPos = mdo1.getBoundingClientRect().y;			
-	let mdo1Width = 64; //mdo1.getBoundingClientRect().width;
-	let mdo1Height = 64; //mdo1.getBoundingClientRect().height;			
 
+/* //edited by Mike, 20221120
+	let mdo1Width = 64;
+	let mdo1Height = 64; 
+*/
+	let mdo1Width = 32;
+	let mdo1Height = 32; 
+	
 	let mdo2XPos = mdo2.getBoundingClientRect().x;
 	let mdo2YPos = mdo2.getBoundingClientRect().y;			
 	let mdo2Width = 64; //mdo2.getBoundingClientRect().width;
 	let mdo2Height = 64; //mdo2.getBoundingClientRect().height;		
-
-	let iOffsetXPosAsPixel=10;
-	let iOffsetYPosAsPixel=10;	
 	
+	//edited by Mike, 20221120
+	//note: before HUMAN reaches MONSTER
+	let iOffsetXPosAsPixel=-20; //0; //10;
+	let iOffsetYPosAsPixel=-20; //0; //10;	
+
+/*	//edited by Mike, 20221120
 	let iStepX=10;
 	let iStepY=10;	
+*/
+	let iStepX=2;
+	let iStepY=2;	
+
 
 /*	
 	alert("mdo1XPos: "+mdo1XPos+"; "+"mdo1Width: "+mdo1Width);	
@@ -3079,6 +3001,68 @@ function isIntersectingRect(mdo1, mdo2) {
 }
 
 
+//added by Mike, 20221120
+//@return bool
+function isPointIntersectingRect(iXPos, iYPos, mdo2) {
+	
+	//added by Mike, 20221120 
+	//note#1: mdo1=humanTile;
+	//note#2: mdo2=monsterTile;
+/* //removed by Mike, 20221120	
+	let mdo1XPos = mdo1.getBoundingClientRect().x;
+	let mdo1YPos = mdo1.getBoundingClientRect().y;			
+
+	let mdo1Width = 32;
+	let mdo1Height = 32; 
+*/
+
+	let mdo1XPos = iXPos;
+	let mdo1YPos = iYPos;				
+	let mdo1Width = 32;
+	let mdo1Height = 32; 
+	
+//	alert(mdo1XPos);
+		
+	let mdo2XPos = mdo2.getBoundingClientRect().x;
+	let mdo2YPos = mdo2.getBoundingClientRect().y;			
+	let mdo2Width = 64; //mdo2.getBoundingClientRect().width;
+	let mdo2Height = 64; //mdo2.getBoundingClientRect().height;		
+
+//	alert(mdo2XPos);
+
+	//edited by Mike, 20221120
+	//note: before HUMAN reaches MONSTER
+	let iOffsetXPosAsPixel=0; //-20; //0; //10;
+	let iOffsetYPosAsPixel=0; //-20; //0; //10;	
+
+/*	//edited by Mike, 20221120
+	let iStepX=10;
+	let iStepY=10;	
+*/
+	let iStepX=2;
+	let iStepY=2;	
+
+/*	
+	alert("mdo1XPos: "+mdo1XPos+"; "+"mdo1Width: "+mdo1Width);	
+	alert("mdo2XPos: "+mdo2XPos+"; "+"mdo2Width: "+mdo2Width);
+*/
+
+/*	
+	alert("mdo1YPos: "+mdo1YPos+"; "+"mdo1Height: "+mdo1Height);	
+	alert("mdo2YPos: "+mdo2YPos+"; "+"mdo2Height: "+mdo2Height);
+*/
+	
+	if ((mdo2YPos+mdo2Height < mdo1YPos+iOffsetYPosAsPixel-iStepY) || //is the bottom of mdo2 above the top of mdo1?
+		(mdo2YPos > mdo1YPos+mdo1Height-iOffsetYPosAsPixel+iStepY) || //is the top of mdo2 below the bottom of mdo1?
+		(mdo2XPos+mdo2Width < mdo1XPos+iOffsetXPosAsPixel-iStepX) || //is the right of mdo2 to the left of mdo1?
+		(mdo2XPos > mdo1XPos+mdo1Width-iOffsetXPosAsPixel+iStepX)) //is the left of mdo2 to the right of mdo1?
+	{		
+		//no collision
+		return false;
+	}
+	
+	return true;
+}
 
 //every 5secs
 //setInterval(myUpdateFunction, 5000);
@@ -3201,10 +3185,10 @@ function keyPressDown(iKey, event) {
 	}
 
 	//edited by Mike, 20221030
-	//arrayKeyPressed[iKey]=true;		
+	//arrayKeyPressed[iKey]=true;
 	
 	iEventChangedTouchCount = event.changedTouches.length;
-		
+					
 	for (iCount=0; iCount<iEventChangedTouchCount; iCount++) {		
 		if (event.changedTouches[iCount].screenX<screen.width/2) {
 		}
@@ -3431,12 +3415,13 @@ function onLoad() {
 
 	//added by Mike, 20220904	
 	//TO-DO: -add: init; where: set initial positions, et cetera
-	var monsterTileNumber2 = document.getElementById("monsterTileImageIdNumber2");
-	monsterTileNumber2.style.left = screen.width/2 +"px"; //"100px";
-	monsterTileNumber2.style.top = "0px"; //"100px";
+	var monsterTile = document.getElementById("monsterTileImageId");
+	monsterTile.style.left = screen.width/2 +"px"; //"100px";
+	monsterTile.style.top = "0px"; //"100px";
 
-	//added by Mike, 20221002; edited by Mike, 20221118
-	monsterTileNumber2.style.visibility="hidden"; //visible
+	//edited by Mike, 20221120; from 20221118
+	monsterTile.style.visibility="hidden"; //visible
+	//monsterTile.style.visibility="visible";
 	
 /* //removed by Mike, 20221115	
 	//added by Mike, 20220911
@@ -3616,6 +3601,22 @@ function onLoad() {
 	  if (event.pointerType === "pen") {		  
 	  }
 */	  
+
+		//added by Mike, 20221120
+		if (iCurrentMiniGame==MINI_GAME_PUZZLE) {			
+			var monsterTile = document.getElementById("monsterTileImageId");
+			var iXPos = event.screenX;
+			//note: screenY includes BROWSER address bar, et cetera;
+			var iYPos = event.pageY; //screenY;
+
+			//alert(iXPos);
+			//alert(isPointIntersectingRect(iXPos, iYPos, monsterTile));
+			
+			if (isPointIntersectingRect(iXPos, iYPos, monsterTile)) {
+				changeMiniGame(MINI_GAME_ACTION);
+			}
+		}
+
 	});
 
 	
@@ -3680,7 +3681,7 @@ function onLoad() {
 	//note: keyPress, keyRelease
 	//adds: keyphrase: RELAX (with TOUCH inputs), 
 	//--> not excessively fast ACTION; 
-	//swide command received as input @most one (1) time only;
+	//swipe command received as input @most one (1) time only;
 	//afterwards, shall need keyReleased, i.e. keyUP;
 	document.body.addEventListener('touchmove', function (event) {
 		//alert(event.changedTouches.length);
@@ -3970,10 +3971,8 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 
 	<img id="humanTileImageId" class="Image32x32TileFrame1" src="<?php echo base_url('assets/images/human.png');?>">	
 		
-<!-- added by Mike, 20221117; from 20220904; Image32x32TileFrame1 -->
-
-	<img id="monsterTileImageIdNumber2" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/monster.png');?>">	
-
+<!-- edited by Mike, 20221120; from 20221117; Image32x32TileFrame1 -->
+	<img id="monsterTileImageId" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/monster.png');?>">	
 
 
 <!-- removed by Mike, 20220911
