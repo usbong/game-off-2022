@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221120; from 20221119
+' @date updated: 20221121; from 20221120
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1262,13 +1262,13 @@ const iDelayAnimationCountMovementStepMax=6;
 
 //added by Mike, 20221120
 var iNoKeyPressCount=0;
-const iNoKeyPressCountMax=10;// 512;
+const iNoKeyPressCountMax=100; //10;//0;// 512;
 
 var iMonsterAttackIndex=0;
-var iMonsterAttackIndexFromTopToBottom=1;
-var iMonsterAttackIndexFromBottomToTop=2;
-var iMonsterAttackIndexFromLeftToRight=3;
-var iMonsterAttackIndexFromRightToLeft=4;
+var iMonsterAttackIndexFromTopToBottom=0;
+var iMonsterAttackIndexFromBottomToTop=1;
+var iMonsterAttackIndexFromLeftToRight=2;
+var iMonsterAttackIndexFromRightToLeft=3;
 
 var bIsMonsterExecutingAttack=false;
 
@@ -1358,7 +1358,7 @@ function getBaseURL(){
 
 //added by Mike, 20221120
 function changeMiniGame(iMiniGameId) {
-	alert("HALLO!");
+//	alert("HALLO!");
 	
 	if (iCurrentMiniGame==MINI_GAME_PUZZLE){
 		if (iMiniGameId!=MINI_GAME_PUZZLE) {
@@ -2062,14 +2062,13 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 	let iMax = 4;	
 
 	//Monster Artificial Intelligence
-	if (iNoKeyPressCount>iNoKeyPressCountMax) {		
+//	if (iNoKeyPressCount>iNoKeyPressCountMax) {		
 		if (bIsMonsterExecutingAttack) {	
-
 //alert("iMonsterAttackIndex: "+iMonsterAttackIndex);		
 			switch (iMonsterAttackIndex) {
 				case iMonsterAttackIndexFromTopToBottom:
 				
-					if (iMonsterTileY>iStageMaxHeight) {
+					if (iMonsterTileY+iImgMonsterTileHeight>iStageMaxHeight) {
 						iNoKeyPressCount=0;
 						bIsMonsterExecutingAttack=false;
 					}
@@ -2078,7 +2077,7 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 					}
 					break;
 				case iMonsterAttackIndexFromBottomToTop:
-					if (iMonsterTileY+iImgMonsterTileHeight<0) {
+					if (iMonsterTileY<0) {
 						iNoKeyPressCount=0;
 						bIsMonsterExecutingAttack=false;
 					}
@@ -2087,7 +2086,7 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 					}
 					break;
 				case iMonsterAttackIndexFromLeftToRight:
-					if (iMonsterTileX>(iStageMaxWidth)) {
+					if (iMonsterTileX+iImgMonsterTileWidth>(iStageMaxWidth)) {
 						iNoKeyPressCount=0;
 						bIsMonsterExecutingAttack=false;
 					}
@@ -2095,9 +2094,8 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 						iMonsterTileX+=iMonsterStepX;
 					}
 					break;
-				//TO-DO: -reverify: this
 				case iMonsterAttackIndexFromRightToLeft:
-					if (iMonsterTileX+iImgMonsterTileWidth<0+iHorizontalOffset) {
+					if (iMonsterTileX<0) {
 						iNoKeyPressCount=0;
 						bIsMonsterExecutingAttack=false;
 					}
@@ -2111,6 +2109,7 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 			mdo2.style.top = iMonsterTileY+"px";	
 		}		
 		
+	if (iNoKeyPressCount>iNoKeyPressCountMax) {				
 		//note: NOT using ELSE 
 		//due to bIsMonsterExecutingAttack shall be set
 		if (!bIsMonsterExecutingAttack) {				
@@ -2158,14 +2157,23 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 			mdo2.style.top = iMonsterTileY+"px";	
 			
 			bIsMonsterExecutingAttack=true;
+			
+			//alert("dito: "+iMonsterAttackIndex);
 		}	
 	}
 
 	iNoKeyPressCount++;
 
 	if (isIntersectingRect(mdo1, mdo2)) {
-		//alert("COLLISION!");
+		//added by Mike, 20221121
+		//TO-DO: -add: HIT EFFECT
+		if (bIsMonsterExecutingAttack) {
+			alert("COLLISION!");
+		}
+		
 		mdo2.style.visibility="hidden";
+		iNoKeyPressCount=0;
+		bIsMonsterExecutingAttack=false;
 	}
 	
 	//regenerate
@@ -3097,6 +3105,13 @@ function isIntersectingRect(mdo1, mdo2) {
 	//note: before HUMAN reaches MONSTER
 	let iOffsetXPosAsPixel=-20; //0; //10;
 	let iOffsetYPosAsPixel=-20; //0; //10;	
+	
+	//added by Mike, 20221121
+	if (bIsMonsterExecutingAttack) {
+		iOffsetXPosAsPixel=0; //0; //10;
+		iOffsetYPosAsPixel=0; //0; //10;	
+	}
+
 
 /*	//edited by Mike, 20221120
 	let iStepX=10;
