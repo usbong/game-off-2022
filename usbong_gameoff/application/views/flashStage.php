@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221119; from 20221118
+' @date updated: 20221120; from 20221119
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1268,7 +1268,7 @@ var bIsToBottomCornerDone=false;
 var bHasPressedStart=false;
 		  
 //added by Mike, 20220829
-const iImgIpisTileAnimationCountMax=12;//20; //6;
+const iImgIpisTileAnimationCountMax=6; //12;//20; //6;
 iImgIpisTileAnimationCount=0;	  
 
 //added by Mike, 20220915
@@ -3013,13 +3013,32 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	}
 
 						
-		//added by Mike, 20221111
-		if (!bIsInitAutoGeneratePuzzleFromEnd) {	
-			autoVerifyPuzzleIfAtEnd();			
-		}
+	//added by Mike, 20221111
+	if (!bIsInitAutoGeneratePuzzleFromEnd) {	
+		autoVerifyPuzzleIfAtEnd();			
+	}
+	//added by Mike, 20221120
+	//if (!bIsInitAutoGeneratePuzzleFromEnd) {
+	else {		
+		//TO-DO: -add: auto-generating...
+	
+		buttonLeftKey.style.visibility="hidden";
+		buttonRightKey.style.visibility="hidden";
+		buttonUpKey.style.visibility="hidden";
+		buttonDownKey.style.visibility="hidden";
 
-		//edited by Mike, 20221113; 20221112
-		autoUpdatePuzzleTileImage();
+		buttonLeverCenterNeutralKey.style.visibility="hidden";
+
+		buttonLetterJKey.style.visibility="hidden";
+		buttonLetterLKey.style.visibility="hidden";
+		buttonLetterIKey.style.visibility="hidden";
+		buttonLetterKKey.style.visibility="hidden";
+
+		buttonRightLeverCenterNeutralKey.style.visibility="hidden";
+	}
+	
+	//edited by Mike, 20221113; 20221112
+	autoUpdatePuzzleTileImage();
 }
 
 //added by Mike, 20220904
@@ -3175,7 +3194,7 @@ function tempAlert(msg,duration)
 
 //edited by Mike, 20221030
 //function keyPressDown(iKey) {
-function keyPressDown(iKey, event) {
+function keyPressDown(iKey, event) {	
 	//added again by Mike, 20221106; from 20221101
 	//note: verify before left-side buttons
 	for (iCount=iDirectionTotalKeyCount; iCount<iTotalKeyCount; iCount++) {
