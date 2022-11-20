@@ -1260,9 +1260,20 @@ var bIsInitAutoGeneratePuzzleFromEnd=false;
 var iDelayAnimationCountMovementStep=0;
 const iDelayAnimationCountMovementStepMax=6;
 
+//added by Mike, 20221120
+var iNoKeyPressCount=0;
+const iNoKeyPressCountMax=10;// 512;
+
+var iMonsterAttackIndex=0;
+var iMonsterAttackIndexFromTopToBottom=1;
+var iMonsterAttackIndexFromBottomToTop=2;
+var iMonsterAttackIndexFromLeftToRight=3;
+var iMonsterAttackIndexFromRightToLeft=4;
+
+var bIsMonsterExecutingAttack=false;
+
 //added by Mike, 20221115
 var bIsInitMiniGameAction=true;
-
 
 //added by Mike, 20221108
 var bIsToLeftCornerDone=false;
@@ -1282,7 +1293,11 @@ const iMonsterTileAnimationCountMax=3;
 iMonsterTileAnimationCount=0;	  
 
 //edited by Mike, 20221120; from 20220915
-iMonsterNumber2StepY=10;
+iMonsterStepY=10;
+iMonsterStepX=10;
+
+iMonsterTileY=0;
+iMonsterTileX=0;
 
 //added by Mike, 20221029
 iTouchStartX=0;
@@ -2041,6 +2056,113 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 	//keyphrase: DEFENSE, CONTROLLER
 	//TO-DO: -add: ACTION sound
 
+	//added by Mike, 20221120
+	//TO-DO: -reverify: this
+
+	let iMax = 4;	
+
+	//Monster Artificial Intelligence
+	if (iNoKeyPressCount>iNoKeyPressCountMax) {		
+		if (bIsMonsterExecutingAttack) {	
+
+//alert("iMonsterAttackIndex: "+iMonsterAttackIndex);		
+			switch (iMonsterAttackIndex) {
+				case iMonsterAttackIndexFromTopToBottom:
+				
+					if (iMonsterTileY>iStageMaxHeight) {
+						iNoKeyPressCount=0;
+						bIsMonsterExecutingAttack=false;
+					}
+					else {						
+						iMonsterTileY+=iMonsterStepY;
+					}
+					break;
+				case iMonsterAttackIndexFromBottomToTop:
+					if (iMonsterTileY+iImgMonsterTileHeight<0) {
+						iNoKeyPressCount=0;
+						bIsMonsterExecutingAttack=false;
+					}
+					else {						
+						iMonsterTileY-=iMonsterStepY;
+					}
+					break;
+				case iMonsterAttackIndexFromLeftToRight:
+					if (iMonsterTileX>(iStageMaxWidth)) {
+						iNoKeyPressCount=0;
+						bIsMonsterExecutingAttack=false;
+					}
+					else {						
+						iMonsterTileX+=iMonsterStepX;
+					}
+					break;
+				//TO-DO: -reverify: this
+				case iMonsterAttackIndexFromRightToLeft:
+					if (iMonsterTileX+iImgMonsterTileWidth<0+iHorizontalOffset) {
+						iNoKeyPressCount=0;
+						bIsMonsterExecutingAttack=false;
+					}
+					else {						
+						iMonsterTileX-=iMonsterStepX;
+					}
+					break;
+			}
+			
+			mdo2.style.left = (iHorizontalOffset+iMonsterTileX)+"px";			
+			mdo2.style.top = iMonsterTileY+"px";	
+		}		
+		
+		//note: NOT using ELSE 
+		//due to bIsMonsterExecutingAttack shall be set
+		if (!bIsMonsterExecutingAttack) {				
+			iMonsterAttackIndex = Math.floor(Math.random() * iMax); 
+			
+			switch (iMonsterAttackIndex) {
+				case iMonsterAttackIndexFromTopToBottom:
+					
+					/*
+					mdo2.style.left = (iHorizontalOffset+0+iStageMaxWidth/2-iImgMonsterTileWidth/2)+"px";			
+					mdo2.style.top =  0+"px";
+					*/
+
+					iMonsterTileX=(0+iStageMaxWidth/2-iImgMonsterTileWidth/2);	
+					iMonsterTileY=0;					
+					break;
+				case iMonsterAttackIndexFromBottomToTop:
+/*				
+					mdo2.style.left = (iHorizontalOffset+0+iStageMaxWidth/2-iImgMonsterTileWidth/2)+"px";			
+					mdo2.style.top =  (iStageMaxHeight-iImgMonsterTileHeight)+"px";
+*/
+					iMonsterTileX=(0+iStageMaxWidth/2-iImgMonsterTileWidth/2);	
+					iMonsterTileY=(iStageMaxHeight-iImgMonsterTileHeight);					
+					break;
+				case iMonsterAttackIndexFromLeftToRight:
+/*				
+					mdo2.style.left = (iHorizontalOffset+0)+"px";			
+					mdo2.style.top =  (iStageMaxHeight/2-iImgMonsterTileHeight/2)+"px";
+*/					
+					
+					iMonsterTileX=(0);	
+					iMonsterTileY=(iStageMaxHeight/2-iImgMonsterTileHeight/2);					
+					break;
+				case iMonsterAttackIndexFromRightToLeft:
+/*				
+					mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth)+"px";			
+					mdo2.style.top =  (iStageMaxHeight/2-iImgMonsterTileHeight/2)+"px";
+*/
+					iMonsterTileX=(iStageMaxWidth-iImgMonsterTileWidth);	
+					iMonsterTileY=(iStageMaxHeight/2-iImgMonsterTileHeight/2);					
+					break;
+			}							
+		
+			mdo2.style.left = (iHorizontalOffset+iMonsterTileX)+"px";			
+			mdo2.style.top = iMonsterTileY+"px";	
+			
+			bIsMonsterExecutingAttack=true;
+		}	
+	}
+
+	iNoKeyPressCount++;
+
 	if (isIntersectingRect(mdo1, mdo2)) {
 		//alert("COLLISION!");
 		mdo2.style.visibility="hidden";
@@ -2060,7 +2182,8 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 		//reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random;
 		//last accessed: 20220904
 
-		let iMax = 4;		
+		//let iMax = 4;	//removed by Mike, 20221120
+		
 		iCorner = Math.floor(Math.random() * iMax); 
 		//clock-wise count, 
 		//where: 0 = TOP-LEFT, 1 = TOP-RIGHT, 2, = BOTTOM-RIGHT, 4 = BOTTOM-LEFT
@@ -2122,18 +2245,18 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 */	
 
 /* //removed by Mike, 20221118	
-	if (imgMonsterTileY+iMonsterNumber2StepY<(iVerticalOffset+0)) {
-		iMonsterNumber2StepY=10; //*=-1;
+	if (imgMonsterTileY+iMonsterStepY<(iVerticalOffset+0)) {
+		iMonsterStepY=10; //*=-1;
 	}
-	else if (imgMonsterTileY+ihumanTileHeight+iMonsterNumber2StepY>(iVerticalOffset+iStageMaxHeight)) {
-		iMonsterNumber2StepY=-10;
+	else if (imgMonsterTileY+ihumanTileHeight+iMonsterStepY>(iVerticalOffset+iStageMaxHeight)) {
+		iMonsterStepY=-10;
 		
 		//alert (monsterTile.style.top);
 	}
 */
 
 	//edited by Mike, 20221002
-	//monsterTile.style.top = 0+iVerticalOffset+imgMonsterTileY+iMonsterNumber2StepY +"px"; 
+	//monsterTile.style.top = 0+iVerticalOffset+imgMonsterTileY+iMonsterStepY +"px"; 
 	//monsterTile.style.left = 0+iHorizontalOffset+"px"; 
 	
 /* //removed by Mike, 20221120	
@@ -3204,6 +3327,8 @@ function keyPressDown(iKey, event) {
 	
 		arrayKeyPressed[iKey]=true;		
 	}	
+
+	iNoKeyPressCount=0;	
 }
 
 //edited by Mike, 20220918
