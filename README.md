@@ -7,7 +7,7 @@ GAME OFF 2022: https://itch.io/jam/game-off-2022
 set of reusable computer instructions that execute via the <b>Web Browser</b> 
 
 ## Current Version (PUBLIC)
-http://store.usbong.ph/flashStage (work-in-progress)
+http://store.usbong.ph/gameoff (work-in-progress)
 
 ### Screenshots
 
