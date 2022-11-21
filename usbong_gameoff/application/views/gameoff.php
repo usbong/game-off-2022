@@ -1283,6 +1283,9 @@ var bIsToBottomCornerDone=false;
 
 //added by Mike, 20221114
 var bHasPressedStart=false;
+
+//added by Mike, 20221123
+var bIsActionKeyPressed=false;
 		  
 //added by Mike, 20220829
 const iHumanTileAnimationCountMax=6; //12;//20; //6;
@@ -1480,12 +1483,20 @@ function executeMonsterAttackAI() {
 	}
 
 	iNoKeyPressCount++;
-
+	
 	if (isIntersectingRect(mdo1, mdo2)) {
 		//added by Mike, 20221121
 		//TO-DO: -add: HIT EFFECT
 		if (bIsMonsterExecutingAttack) {
-			alert("COLLISION!");
+			//alert("COLLISION!");	
+			
+			//added by Mike, 20221121
+			if (bIsActionKeyPressed) {
+				alert("DEFENDED!!!!!!");
+			}
+			else {
+				alert("COLLISION!");
+			}
 
 			for (iCount=0; iCount<iTotalKeyCount; iCount++) {
 				arrayKeyPressed[iCount]=false;				
@@ -1848,8 +1859,14 @@ function miniGameActionUpdate() {
 	}
 */	
 	//added by Mike, 2022118
-	imgPuzzle.setAttribute("src", getBaseURL()+"assets/images/bgImageCave.png");
-	imgPuzzle.setAttribute("class", "ImageBackgroundOfAction");
+    //edited by Mike, 20221121; 
+    //reverify: if solves noticeable DELAY in loading image file			
+	//alert(imgPuzzle.src);	
+	if (!imgPuzzle.src.toLowerCase().includes("cave")) {
+		imgPuzzle.setAttribute("src", getBaseURL()+"assets/images/bgImageCave.png");
+		imgPuzzle.setAttribute("class", "ImageBackgroundOfAction");	
+	}	
+	
 	imgPuzzle.style.visibility="visible";		
 	
 /*	
@@ -2075,17 +2092,34 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	}
 	
 
-	//added by Mike, 20221117
+	//edited by Mike, 20221121; from 20221117
+	//note: verify change in positions via zoom tool
 	var sNewTileLeft = (iHorizontalOffset+humanTileX)+"px";
 	var sNewTileTop = (iVerticalOffsetInnerScreen+humanTileY)+"px";		
 	
 	if (humanTile.style.left!=sNewTileLeft) {
-		humanTile.style.left=sNewTileLeft;
+		humanTile.style.left=sNewTileLeft;		
 	}
 
 	if (humanTile.style.top!=sNewTileTop) {
 		humanTile.style.top=sNewTileTop;
 	}
+
+	var sNewMonsterTileLeft = (iHorizontalOffset+iMonsterTileX)+"px";
+	var sNewMonsterTileTop = (iVerticalOffsetInnerScreen+iMonsterTileY)+"px";		
+	
+	if (monsterTile.style.left!=sNewMonsterTileLeft) {
+		monsterTile.style.left=sNewMonsterTileLeft;		
+	}
+
+	if (monsterTile.style.top!=sNewMonsterTileTop) {
+		monsterTile.style.top=sNewMonsterTileTop;
+	}
+
+	//----------
+		
+
+
 	
 	//if (bKeyDownRight) { //key d
 	if (arrayKeyPressed[iKEY_D]) {
@@ -2535,7 +2569,7 @@ function miniGamePuzzleUpdate() {
 	//added by Mike, 20221118
 	monsterTile.style.visibility="visible";	
 */	
-		
+
 	//added by Mike, 20221104; edited by Mike, 20221118
 //	var imgPuzzle;
 	if (document.getElementById("puzzleImageId")==null) {
@@ -2547,9 +2581,15 @@ function miniGamePuzzleUpdate() {
 	}
 
 	imgPuzzle = document.getElementById("puzzleImageId");
-	//added by Mike, 2022118
-	imgPuzzle.setAttribute("src", getBaseURL()+"assets/images/mtPinatubo20150115T1415.jpg");
-	imgPuzzle.setAttribute("class", "ImageBackgroundOfPuzzle");
+
+    //edited by Mike, 20221121; 
+    //reverify: if solves noticeable DELAY in loading image file			
+	//alert(imgPuzzle.src);	
+	if (!imgPuzzle.src.toLowerCase().includes("pinatubo")) {
+		//added by Mike, 2022118
+		imgPuzzle.setAttribute("src", getBaseURL()+"assets/images/mtPinatubo20150115T1415.jpg");
+		imgPuzzle.setAttribute("class", "ImageBackgroundOfPuzzle");	
+	}
 
 	//added by Mike, 20221105
 	imgPuzzle.style.visibility="visible";	
@@ -3276,14 +3316,15 @@ function isPointIntersectingRect(iXPos, iYPos, mdo2) {
 	let mdo1Width = 32;
 	let mdo1Height = 32; 
 	
-//	alert(mdo1XPos);
-		
+	//alert("mdo1XPos: "+mdo1XPos);
+
+	//edited by Mike, 202221121
 	let mdo2XPos = mdo2.getBoundingClientRect().x;
 	let mdo2YPos = mdo2.getBoundingClientRect().y;			
 	let mdo2Width = 64; //mdo2.getBoundingClientRect().width;
 	let mdo2Height = 64; //mdo2.getBoundingClientRect().height;		
 
-//	alert(mdo2XPos);
+//	alert("mdo2XPos: "+mdo2XPos);
 
 	//edited by Mike, 20221120
 	//note: before HUMAN reaches MONSTER
@@ -3435,9 +3476,19 @@ function tempAlert(msg,duration)
 function keyPressDown(iKey, event) {	
 	//added again by Mike, 20221106; from 20221101
 	//note: verify before left-side buttons
+/*	//edited by Mike, 20221121
 	for (iCount=iDirectionTotalKeyCount; iCount<iTotalKeyCount; iCount++) {
 		arrayKeyPressed[iKey]=true;		
 	}
+*/
+	arrayKeyPressed[iKey]=true;	
+	
+	//added by Mike, 20221121
+	for (iActionKeyCount=iDirectionTotalKeyCount; iActionKeyCount<iTotalKeyCount; iActionKeyCount++) {
+		if (arrayKeyPressed[iActionKeyCount]) {
+			bIsActionKeyPressed=true;
+		}
+	}		
 
 	//edited by Mike, 20221030
 	//arrayKeyPressed[iKey]=true;
@@ -3451,15 +3502,15 @@ function keyPressDown(iKey, event) {
 			return;
 		}
 		
-		//edited by Mike, 20221106
-		//for (iCount=0; iCount<iDirectionTotalKeyCount; iCount++) {
-		for (iCount=0; iCount<iTotalKeyCount; iCount++) {
-			arrayKeyPressed[iCount]=false;
+		//edited by Mike, 20221121; from 20221106
+		for (iKeyCount=0; iKeyCount<iDirectionTotalKeyCount; iKeyCount++) {
+		//for (iCount=0; iCount<iTotalKeyCount; iCount++) {
+			arrayKeyPressed[iKeyCount]=false;
 		}		
 	
 		arrayKeyPressed[iKey]=true;		
 	}	
-
+	
 	iNoKeyPressCount=0;	
 }
 
@@ -3476,6 +3527,9 @@ function keyPressUp(iKey, event) {
 	
 	//added by Mike, 20221117
 	bIsWalkingAction=false;
+	
+	//added by Mike, 20221121
+	bIsActionKeyPressed=false;
 }
 
 //added by Mike, 20221029
@@ -3776,18 +3830,30 @@ function onLoad() {
 
 		//RIGHT-SIDE BUTTONS
 		if (e.keyCode==73) { //key i
-			arrayKeyPressed[iKEY_I]=true;			
+			arrayKeyPressed[iKEY_I]=true;		
+			
+			//added by Mike, 20221121
+			bIsActionKeyPressed=true;	
 		}
 		else if (e.keyCode==75) { //key k			
 			arrayKeyPressed[iKEY_K]=true;			
+
+			//added by Mike, 20221121
+			bIsActionKeyPressed=true;	
 		}
 		
 		if (e.keyCode==74) { //key j		
 			arrayKeyPressed[iKEY_J]=true;			
+
+			//added by Mike, 20221121
+			bIsActionKeyPressed=true;	
 		}
 		else if (e.keyCode==76) { //key l
 			arrayKeyPressed[iKEY_L]=true;			
-		}		
+
+			//added by Mike, 20221121
+			bIsActionKeyPressed=true;
+		}				
 	}
 
 	//added by Mike, 20220822
@@ -3796,7 +3862,7 @@ function onLoad() {
 		if (e.keyCode==68) { //key d
 			//edited by Mike, 20220823
 			//bKeyDownRight=false;
-			arrayKeyPressed[iKEY_D]=false;			
+			arrayKeyPressed[iKEY_D]=false;						
 		}
 		else if (e.keyCode==65) { //key a			
 			arrayKeyPressed[iKEY_A]=false;			
@@ -3815,19 +3881,28 @@ function onLoad() {
 		if (e.keyCode==73) { //key i
 			arrayKeyPressed[iKEY_I]=false;		
 			
-//			alert("HALLO");			
+			//added by Mike, 20221121
+			bIsActionKeyPressed=false;	
 		}
 		else if (e.keyCode==75) { //key k			
 			arrayKeyPressed[iKEY_K]=false;			
+
+			//added by Mike, 20221121
+			bIsActionKeyPressed=false;	
 		}
 		
 		if (e.keyCode==74) { //key j		
 			arrayKeyPressed[iKEY_J]=false;			
+
+			//added by Mike, 20221121
+			bIsActionKeyPressed=false;
 		}
 		else if (e.keyCode==76) { //key l
 			arrayKeyPressed[iKEY_L]=false;			
-		}
-		
+
+			//added by Mike, 20221121
+			bIsActionKeyPressed=false;	
+		}		
 	}	
 	
 	//added by Mike, 20221110
@@ -3862,7 +3937,10 @@ function onLoad() {
 		//added by Mike, 20221120
 		if (iCurrentMiniGame==MINI_GAME_PUZZLE) {			
 			var monsterTile = document.getElementById("monsterTileImageId");
-			var iXPos = event.screenX;
+			//edited by Mike, 20221121
+			//note: ZOOM function causes position ERROR via screenX
+			var iXPos = event.clientX;//screenX;
+
 			//note: screenY includes BROWSER address bar, et cetera;
 			var iYPos = event.pageY; //screenY;
 
@@ -4259,9 +4337,6 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 
 ?>
 
-<!-- //edited by Mike, 20220918
-<button id="leftKeyId" class="controlKeyButton" ontouchstart="leftKeyPressDown()" ontouchend="leftKeyPressUp()"><|</button>
--->
 
 <button id="upKeyId" class="controlKeyButtonUp" ontouchstart="keyPressDown(<?php echo iKEY_W;?>, event)" ontouchend="keyPressUp(<?php echo iKEY_W;?>, event)">AAA</button>
 <button id="leftKeyId" class="controlKeyButtonLeft" ontouchstart="keyPressDown(<?php echo iKEY_A;?>, event)" ontouchend="keyPressUp(<?php echo iKEY_A;?>, event)">AAA</button>
