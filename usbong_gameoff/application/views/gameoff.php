@@ -3769,32 +3769,9 @@ function onLoad() {
 			case MINI_GAME_ACTION:
 				break;						
 		}
-		
-		
-/* //removed by Mike, 20220823		
-		var humanTile = document.getElementById("humanTileImageId");
-
-		//added by Mike, 20220821; OK
-		//note: myUpdateFunction() executes only 
-		//when Web Browser is set to be FOCUSED;
-		let humanTileX = humanTile.getBoundingClientRect().x;
-		//added by Mike, 20220822
-		let humanTileY = humanTile.getBoundingClientRect().y;
 			
-		let iStepX=4;
-		let iStepY=4;
-*/
-		//note: simultaneous keypresses now OK;
-				
-				
-//added by Mike, 20221029; removed by Mike, 20221029;
-//still incorrect output; quick sequence from top to left button, output error
-/*
-			arrayKeyPressed[iKEY_D]=false;			
-			arrayKeyPressed[iKEY_A]=false;			
-			arrayKeyPressed[iKEY_W]=false;			
-			arrayKeyPressed[iKEY_S]=false;		
-*/			
+		//added by Mike, 20221121
+		bIsActionKeyPressed=false;					
 				
 		//OK; //note: unicode keycode, where: key d : 100?
 		//note: auto-accepts keyhold; however, with noticeable delay 
