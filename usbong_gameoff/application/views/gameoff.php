@@ -1442,6 +1442,12 @@ function executeMonsterAttackAI() {
 		//note: NOT using ELSE 
 		//due to bIsMonsterExecutingAttack shall be set
 		if (!bIsMonsterExecutingAttack) {				
+			
+			//added by Mike, 20221121
+			//TO-DO: -identify: HUMAN's position 
+			//to appear @opposite position;
+			//objective: eliminate noticeable double image
+			
 			iMonsterAttackIndex = Math.floor(Math.random() * iMax); 
 			
 			switch (iMonsterAttackIndex) {
@@ -1480,6 +1486,10 @@ function executeMonsterAttackAI() {
 		//TO-DO: -add: HIT EFFECT
 		if (bIsMonsterExecutingAttack) {
 			alert("COLLISION!");
+
+			for (iCount=0; iCount<iTotalKeyCount; iCount++) {
+				arrayKeyPressed[iCount]=false;				
+			}
 		}
 		
 		mdo2.style.visibility="hidden";
