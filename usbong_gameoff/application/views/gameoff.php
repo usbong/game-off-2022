@@ -975,6 +975,31 @@ border: none;
 							z-index: 4;		
 						}
 						
+						.Image32x32TileSpaceBorder {
+							position: absolute;
+
+							width: 27px;
+							height: 27px;
+
+							background-color: transparent;
+							color: #222222;
+
+							font-weight: bold;
+							font-size: 146%; /*18px;*/
+
+							text-align: center;							
+							line-height: 32px;
+
+							border: 3px solid #ffffff;
+							border-radius: 3px;
+
+							visibility: hidden;
+
+							margin: 0px;
+							padding: 0px;
+							z-index: 4;		
+						}
+						
 						
 						.Image32x32TileSpaceTargetPrev {
 							position: absolute;
@@ -1233,6 +1258,9 @@ bIsUsingAppleMac=false;
 //added by Mike, 20221110
 bIsAudioPlaying=false;
 
+//added by Mike, 20221121
+iCurrentPuzzleStage=0;
+
 //added by Mike, 20221105
 bIsTargetAtSpace = true;
 		  
@@ -1383,10 +1411,15 @@ function removeFromPuzzleStageExcessTiles() {
 		arrayPuzzleTileCountId[iTileBgCount].style.visibility="hidden";
 	}	
 	
-	//added by Mike, 2022119
+	//added by Mike, 20221119
 	var puzzleTileImageTargetBorder = document.getElementById("divPuzzleTileImageTargetBorderId");
 	
 	puzzleTileImageTargetBorder.style.visibility="hidden";
+	
+	//added by Mike, 20221121
+	var puzzleTileImageSpaceBorder = document.getElementById("divPuzzleTileImageSpaceBorderId");
+	
+	puzzleTileImageSpaceBorder.style.visibility="hidden";	
 }
 
 //added by Mike, 20221121
@@ -2817,9 +2850,12 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//added by Mike, 20221113
 	var bHasExecutedTileExchange=false;
 
-	//added by Mike, 2022119
+	//added by Mike, 20221119
 	var puzzleTileImageTargetBorder = document.getElementById("divPuzzleTileImageTargetBorderId");
 	
+	//added by Mike, 20221121
+	var puzzleTileImageSpaceBorder = document.getElementById("divPuzzleTileImageSpaceBorderId");
+		
 	
 //	for (let iTileBgCount=0; iTileBgCount<16; iTileBgCount++) {		
 	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {		
@@ -2833,8 +2869,22 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		//added by Mike, 20221118
 		//reference: https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_img_create;
 		//last accessed: 20221118	
-		arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/count1024x1024.png");
+		//edited by Mike, 20221121
+//		arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/count1024x1024.png");
 
+	
+		//added by Mike, 20221121
+		
+		iCurrentPuzzleStage=1;
+		
+		switch (iCurrentPuzzleStage) {
+			case 0:
+				arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/count1024x1024.png");			
+				break;
+			default:
+				arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/cambodia1024x1024-20141225T0958.jpg");
+				break;
+		}
 	
 		//alert(iTileBgCount);
 
@@ -2972,22 +3022,59 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 				//added by Mike, 20221113; removed by Mike, 20221113
 				//if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
 					
-				if (iTargetAtSpaceBlinkAnimationCount==iTargetAtSpaceBlinkAnimationCountMax) {
-					if (arrayPuzzleTileCountId[iTileBgCount].className=='Image32x32TileSpace') {
-					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
+				//edited by Mike, 20221121
+				//STAGE 1: NUMBERS SEQUENCE
+				if (iCurrentPuzzleStage==0) { 					
+					if (iTargetAtSpaceBlinkAnimationCount==iTargetAtSpaceBlinkAnimationCountMax) {
+						if (arrayPuzzleTileCountId[iTileBgCount].className=='Image32x32TileSpace') {
+						arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpaceTarget";
+						}
+						else {
+						arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+						}
+						iTargetAtSpaceBlinkAnimationCount=0;
 					}
 					else {
-					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
-					}
-					iTargetAtSpaceBlinkAnimationCount=0;
+						iTargetAtSpaceBlinkAnimationCount++;
+					}				
+	//alert(iTargetAtSpaceBlinkAnimationCount);	
 				}
 				else {
-					iTargetAtSpaceBlinkAnimationCount++;
-				}				
-//alert(iTargetAtSpaceBlinkAnimationCount);	
+/*					arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+					
+					puzzleTileImageSpaceBorder.style.left = arrayPuzzleTileCountId[iTileBgCount].style.left;
+					
+					puzzleTileImageSpaceBorder.style.top = arrayPuzzleTileCountId[iTileBgCount].style.top;
+					
+					puzzleTileImageSpaceBorder.style.visibility =   "visible";				
+*/					
+					
+if (iTargetAtSpaceBlinkAnimationCount==iTargetAtSpaceBlinkAnimationCountMax) {
+															
+					
+							if (puzzleTileImageSpaceBorder.style.visibility==   "hidden") {
 
+arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
+					
+					puzzleTileImageSpaceBorder.style.left = arrayPuzzleTileCountId[iTileBgCount].style.left;
+					
+					puzzleTileImageSpaceBorder.style.top = arrayPuzzleTileCountId[iTileBgCount].style.top;
+					
+					puzzleTileImageSpaceBorder.style.visibility =   "visible";				
 
+					}
+						
+						iTargetAtSpaceBlinkAnimationCount=0;
+					}
+					else {
+									
+					puzzleTileImageSpaceBorder.style.visibility =   "hidden";
 			
+						iTargetAtSpaceBlinkAnimationCount++;
+					}						
+						
+					
+				}
 			}				
 			else {				
 				//edited by Mike, 20221113
@@ -4281,6 +4368,9 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 	<!-- added by Mike, 20221119 -->
 	<div id="divPuzzleTileImageTargetBorderId" class="Image32x32TileTargetBorder"></div>
 
+	<!-- added by Mike, 20221121 -->
+	<div id="divPuzzleTileImageSpaceBorderId" class="Image32x32TileSpaceBorder"></div>
+	
 	<img id="humanTileImageId" class="Image32x32TileFrame1" src="<?php echo base_url('assets/images/human.png');?>">	
 		
 <!-- edited by Mike, 20221120; from 20221117; Image32x32TileFrame1 -->
