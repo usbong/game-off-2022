@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221121; from 20221120
+' @date updated: 20221122; from 20221121
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1954,6 +1954,11 @@ function miniGameActionUpdate() {
 	var textEnterDiv = document.getElementById("textEnterDivId");
 	textEnterDiv.style.visibility="hidden";
 	
+	//added by Mike, 202221121
+	var miniPuzzleTileImage = document.getElementById("miniPuzzleTileImageId");	
+	miniPuzzleTileImage.style.visibility = "hidden";
+	
+	
 	//added by Mike, 2022118
     //edited by Mike, 20221121; 
     //reverify: if solves noticeable DELAY in loading image file			
@@ -2790,7 +2795,12 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	
 	//added by Mike, 202221121
 	var miniPuzzleTileImage = document.getElementById("miniPuzzleTileImageId");	
-	miniPuzzleTileImage.style.visibility = "visible";
+
+	//added by Mike, 20221121
+	//add mini puzzle tile image after auto-generating
+	if (!bIsInitAutoGeneratePuzzleFromEnd) {
+		miniPuzzleTileImage.style.visibility = "visible";
+	}
 		
 	miniPuzzleTileImageId.style.left = iHorizontalOffset+"px";
 	miniPuzzleTileImageId.style.top= (iStageMaxHeight-iMiniPuzzleHeight)+"px";
@@ -3986,11 +3996,14 @@ function onLoad() {
 	//last accessed: 20221110
 	//answer by:  Jacob, 20220124T0110
 	document.body.addEventListener('pointerdown', (event) => {
+/* //edited by Mike, 20221122		
 	  if (event.pointerType === "mouse") {
 		  //alert("MOUSE");
 		  if (bIsUsingAppleWebKit) {
 			bIsUsingAppleMac=true;
 		  }
+
+
 	  }
 	  if (event.pointerType === "touch") {
 		  //alert("TOUCH");		  
@@ -4005,43 +4018,101 @@ function onLoad() {
 			bIsMobile=true; //added by Mike, 20221110			
 		  }
 	  }
-/*	//removed by Mike, 20221110	  
-	  if (event.pointerType === "pen") {		  
-	  }
-*/	  
+//	//removed by Mike, 20221110	  
+////	  if (event.pointerType === "pen") {		  
+////	  }
+*/	
+		//reference: https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent/pointerType;
+		//last accessed: 20221122
+		switch(event.pointerType) {
+			case 'mouse':
+				if (bIsUsingAppleWebKit) {
+				  bIsUsingAppleMac=true;
+				}
+				break;
+			case 'touch':
+			    //alert("TOUCH");		  
+			    if (bIsUsingAppleWebKit) {
+				  //added by Mike, 20221111; removed by Mike, 20221118
+				  //note: NOT yet set
+				  if (bIsUsingAppleMac) {
+					toggleFullScreen();
+				  }
 
-		//added by Mike, 20221120
-		if (iCurrentMiniGame==MINI_GAME_PUZZLE) {			
-			var monsterTile = document.getElementById("monsterTileImageId");
-			//edited by Mike, 20221121
-			//note: ZOOM function causes position ERROR via screenX
-			var iXPos = event.clientX;//screenX;
-
-			//note: screenY includes BROWSER address bar, et cetera;
-			var iYPos = event.pageY; //screenY;
-
-			//alert(iXPos);
-			//alert(isPointIntersectingRect(iXPos, iYPos, monsterTile));
-			
-			if (isPointIntersectingRect(iXPos, iYPos, monsterTile)) {
-				changeMiniGame(MINI_GAME_ACTION);
-			}
+				  bIsUsingAppleMac=false;
+				  bIsMobile=true; //added by Mike, 20221110			
+			    }
+				break;				
 		}
 
 	});
 
 	
-	//added by Mike, 20221101
-	//TO-DO: -re-verify: using array container
-	//--> with iTouchStartX, iTouchEndX
+	//added by Mike, 20221122
+	//reference: https://stackoverflow.com/questions/43335183/window-click-event-does-not-fire-on-ios-safari-javascript-only;
+	//last accessed: 20221122
+	//question as the answer by: Nick Thakkar, 20170411T0112
+	//Safari on MacBookPro
+	document.addEventListener("click", function (event) {
+		//alert('dito');
+		//added by Mike, 20221121
+		if (iCurrentMiniGame==MINI_GAME_PUZZLE) {
+			if (bHasPressedStart) {
+				var monsterTile = document.getElementById("monsterTileImageId");
+				//edited by Mike, 20221121
+				//note: ZOOM function causes position ERROR via screenX
+				var iXPos = event.clientX;//screenX;
+
+				//note: screenY includes BROWSER address bar, et cetera;
+				var iYPos = event.pageY; //screenY;
+//				var iYPos = event.clientY; //screenY;
+
+				//alert(iYPos);
+/*
+				alert("iXPos: "+iXPos);
+				alert("iYPos: "+iYPos);
+*/
+				if (isPointIntersectingRect(iXPos, iYPos, monsterTile)) {
+					changeMiniGame(MINI_GAME_ACTION);
+				}
+			}
+		}		
+	});
 		
 	//added by Mike, 20221029
 	//reference: https://stackoverflow.com/questions/62823062/adding-a-simple-left-right-swipe-gesture/62825217#62825217;
 	//answer by: smmehrab, 20200709T2330; edited 20200711T0355
 	document.body.addEventListener('touchstart', function (event) {
+		
 		iEventChangedTouchCount = event.changedTouches.length;
 		
-		for (iCount=0; iCount<iEventChangedTouchCount; iCount++) {		
+		
+		for (iCount=0; iCount<iEventChangedTouchCount; iCount++) {
+			
+		//added by Mike, 20221121
+		if (iCurrentMiniGame==MINI_GAME_PUZZLE) {
+			if (bHasPressedStart) {
+				var monsterTile = document.getElementById("monsterTileImageId");
+				//edited by Mike, 20221121
+				//note: ZOOM function causes position ERROR via screenX
+				var iXPos = event.changedTouches[iCount].clientX;//screenX;
+
+				//note: screenY includes BROWSER address bar, et cetera;
+				var iYPos = event.changedTouches[iCount].pageY; //screenY;
+
+				//alert(iYPos);
+/*
+				alert("iXPos: "+iXPos);
+				alert("iYPos: "+iYPos);
+*/
+				if (isPointIntersectingRect(iXPos, iYPos, monsterTile)) {
+					changeMiniGame(MINI_GAME_ACTION);
+				}
+			}
+		}
+		
+		
+		
 			if (event.changedTouches[iCount].screenX<screen.width/2) {
 			}
 			else {
