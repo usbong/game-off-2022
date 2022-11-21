@@ -138,6 +138,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							z-index: -1;							
 						}
 						
+						/*added by Mike, 20221121 */
+						div.DivTextStatus
+						{
+							position: absolute;
+							background-color: #000000aa;
+							color: #ffbd00; /* gold */
+
+							/*opacity: 50%;*/
+
+							font-size: 16px;
+							font-weight: bold;
+							
+							padding: 10px;
+
+							visibility: hidden;							
+						}
+						
+						div.DivTextEnter
+						{
+							position: absolute;
+							/*background-color: #000000aa;*/
+							color: #ffffff;
+
+							/*opacity: 50%;*/
+
+							font-size: 16px;
+							font-weight: bold;
+							
+							padding: 10px;
+
+							visibility: visible;							
+						}						
+						
 						audio.myAudio
 						{
 							width: 416px;
@@ -1111,6 +1144,19 @@ border: none;
 						}
 												
 						
+						/* added by Mike, 20221121 */
+						.ImageMiniPuzzleImage {
+							position: absolute;
+							
+							width: 64px;
+						    height: 64px;
+							object-fit: contain;
+
+							z-index: 2;		
+							
+							visibility: hidden;						
+						}				
+						
 						/* noted by Mike, 20220820
 						using: absolute positions; 
 						add: auto-identify IF mobile*/
@@ -1176,7 +1222,7 @@ border: none;
     /**/
     </style>
     <title>
-      囲碁 STAGE
+      GAMEOFF 2022
     </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style type="text/css">
@@ -1260,6 +1306,7 @@ bIsAudioPlaying=false;
 
 //added by Mike, 20221121
 iCurrentPuzzleStage=0;
+bIsPuzzleDone=false;
 
 //added by Mike, 20221105
 bIsTargetAtSpace = true;
@@ -1288,9 +1335,21 @@ var bIsInitAutoGeneratePuzzleFromEnd=false;
 var iDelayAnimationCountMovementStep=0;
 const iDelayAnimationCountMovementStepMax=6;
 
+//added by Mike, 20221121
+var iDelayAnimationCountEnter=0;
+const iDelayAnimationCountEnterMax=10;
+
+//added by Mike, 20221121
+var iDelayCountToNextLevel=0;
+const iDelayCountToNextLevelMax=100;
+
 //added by Mike, 20221120
 var iNoKeyPressCount=0;
 const iNoKeyPressCountMax=100; //10;//0;// 512;
+
+//added by Mike, 20221121
+var iKeyPressCount=0;
+const iKeyPressCountMaxBeforeMiniDisplay=100; 
 
 var iMonsterAttackIndex=0;
 var iMonsterAttackIndexFromTopToBottom=0;
@@ -1329,6 +1388,10 @@ iMonsterStepX=10;
 
 iMonsterTileY=0;
 iMonsterTileX=0;
+
+//added by Mike, 20221121
+iMiniPuzzleWidth=64;
+iMiniPuzzleHeight=64;
 
 //added by Mike, 20221029
 iTouchStartX=0;
@@ -1736,7 +1799,9 @@ function autoUpdatePuzzleTileImage() {
 
 
 //added by Mike, 20221111
-function autoVerifyPuzzleIfAtEnd() {
+//function autoVerifyPuzzleIfAtEnd() {
+function isAutoVerifiedPuzzleDone() {
+
 	if (!bIsInitAutoGeneratePuzzleFromEnd) {
 		iTileBgCount=0;
 
@@ -1747,14 +1812,16 @@ function autoVerifyPuzzleIfAtEnd() {
 				if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
 				}				
 				else if (arrayPuzzleTileCountId[iTileBgCount].alt!=(iTileBgCount+1)) {
-					return;
+					return false;
 				}			
 				
 				iTileBgCount++;
 			}
 		}
-			
-		alert("DONE!");
+		
+		//removed by Mike, 20221121
+		//alert("DONE!");
+		return true;
 	}	
 }
 
@@ -1779,14 +1846,14 @@ function autoGeneratePuzzleFromEnd() {
 		}
 		iCountMovementStep=0;
 		bIsToLeftCornerDone=true;
-/*		
+		
 		//added by Mike, 20221111; removed by Mike, 20221111
 		//note: add to quickly verify end OUTPUT
 		bIsInitAutoGeneratePuzzleFromEnd=false;
 		return;
-*/		
-	}
 	
+	}
+		
 	if (!bIsToTopCornerDone) {
 		//to: top corner	
 		if (iCountMovementStep<iRowCountMax) {
@@ -1882,15 +1949,11 @@ function miniGameActionUpdate() {
 	//imgUsbongLogo.style.visibility="hidden";
 	
 	//added by Mike, 20221118
-	imgPuzzle = document.getElementById("puzzleImageId");
-/*
-	if (imgPuzzle!=null) {		
-		//imgPuzzle.style.visibility="hidden";		
-		//imgPuzzle.remove();		
-		
-		imgPuzzle.parentNode.removeChild(imgPuzzle);
-	}
-*/	
+	imgPuzzle = document.getElementById("puzzleImageId");	
+	var textStatusDiv = document.getElementById("textStatusDivId");
+	var textEnterDiv = document.getElementById("textEnterDivId");
+	textEnterDiv.style.visibility="hidden";
+	
 	//added by Mike, 2022118
     //edited by Mike, 20221121; 
     //reverify: if solves noticeable DELAY in loading image file			
@@ -2071,6 +2134,11 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
 	pauseLink.style.top = 0+iStageMaxHeight +"px"; 
 	pauseLink.style.visibility="visible";	  
+	
+	//added by Mike, 20221121	
+	textStatusDiv.style.left=0+iHorizontalOffset+iStageMaxWidth/2+"px";
+	textStatusDiv.style.top=0+"px";
+	textStatusDiv.style.visibility="hidden";
 	
 	//identify offset due to smaller window centered @horizontal
 /*	
@@ -2294,166 +2362,8 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 
 	//added by Mike, 20221120
 	//TO-DO: -reverify: this
-	
 	executeMonsterAttackAI();
-/* //edited by Mike, 20221121 
-	let iMax = 4;	
 
-	//Monster Artificial Intelligence
-//	if (iNoKeyPressCount>iNoKeyPressCountMax) {		
-		if (bIsMonsterExecutingAttack) {	
-//alert("iMonsterAttackIndex: "+iMonsterAttackIndex);		
-			switch (iMonsterAttackIndex) {
-				case iMonsterAttackIndexFromTopToBottom:
-				
-					if (iMonsterTileY+iImgMonsterTileHeight>iStageMaxHeight) {
-						iNoKeyPressCount=0;
-						bIsMonsterExecutingAttack=false;
-					}
-					else {						
-						iMonsterTileY+=iMonsterStepY;
-					}
-					break;
-				case iMonsterAttackIndexFromBottomToTop:
-					if (iMonsterTileY<0) {
-						iNoKeyPressCount=0;
-						bIsMonsterExecutingAttack=false;
-					}
-					else {						
-						iMonsterTileY-=iMonsterStepY;
-					}
-					break;
-				case iMonsterAttackIndexFromLeftToRight:
-					if (iMonsterTileX+iImgMonsterTileWidth>(iStageMaxWidth)) {
-						iNoKeyPressCount=0;
-						bIsMonsterExecutingAttack=false;
-					}
-					else {						
-						iMonsterTileX+=iMonsterStepX;
-					}
-					break;
-				case iMonsterAttackIndexFromRightToLeft:
-					if (iMonsterTileX<0) {
-						iNoKeyPressCount=0;
-						bIsMonsterExecutingAttack=false;
-					}
-					else {						
-						iMonsterTileX-=iMonsterStepX;
-					}
-					break;
-			}
-			
-			mdo2.style.left = (iHorizontalOffset+iMonsterTileX)+"px";			
-			mdo2.style.top = iMonsterTileY+"px";	
-		}		
-		
-	if (iNoKeyPressCount>iNoKeyPressCountMax) {				
-		//note: NOT using ELSE 
-		//due to bIsMonsterExecutingAttack shall be set
-		if (!bIsMonsterExecutingAttack) {				
-			iMonsterAttackIndex = Math.floor(Math.random() * iMax); 
-			
-			switch (iMonsterAttackIndex) {
-				case iMonsterAttackIndexFromTopToBottom:
-					iMonsterTileX=(0+iStageMaxWidth/2-iImgMonsterTileWidth/2);	
-					iMonsterTileY=0;					
-					break;
-				case iMonsterAttackIndexFromBottomToTop:
-					iMonsterTileX=(0+iStageMaxWidth/2-iImgMonsterTileWidth/2);	
-					iMonsterTileY=(iStageMaxHeight-iImgMonsterTileHeight);					
-					break;
-				case iMonsterAttackIndexFromLeftToRight:
-									
-					iMonsterTileX=(0);	
-					iMonsterTileY=(iStageMaxHeight/2-iImgMonsterTileHeight/2);					
-					break;
-				case iMonsterAttackIndexFromRightToLeft:
-					iMonsterTileX=(iStageMaxWidth-iImgMonsterTileWidth);	
-					iMonsterTileY=(iStageMaxHeight/2-iImgMonsterTileHeight/2);					
-					break;
-			}							
-		
-			mdo2.style.left = (iHorizontalOffset+iMonsterTileX)+"px";			
-			mdo2.style.top = iMonsterTileY+"px";	
-			
-			bIsMonsterExecutingAttack=true;
-			
-			//alert("dito: "+iMonsterAttackIndex);
-		}	
-	}
-
-	iNoKeyPressCount++;
-
-	if (isIntersectingRect(mdo1, mdo2)) {
-		//added by Mike, 20221121
-		//TO-DO: -add: HIT EFFECT
-		if (bIsMonsterExecutingAttack) {
-			alert("COLLISION!");
-		}
-		
-		mdo2.style.visibility="hidden";
-		iNoKeyPressCount=0;
-		bIsMonsterExecutingAttack=false;
-	}
-	
-	//regenerate
-	if (mdo2.style.visibility=="hidden") {
-
-		let mdo2XPos = mdo2.getBoundingClientRect().x;
-		let mdo2YPos = mdo2.getBoundingClientRect().y;	
-
-		
-		//remembers: BOSS Battle with PANIKI in ALAMAT ng AGIMAT (J2ME)
-		//reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random;
-		//last accessed: 20220904
-
-		//let iMax = 4;	//removed by Mike, 20221120
-		
-		iCorner = Math.floor(Math.random() * iMax); 
-		//clock-wise count, 
-		//where: 0 = TOP-LEFT, 1 = TOP-RIGHT, 2, = BOTTOM-RIGHT, 4 = BOTTOM-LEFT
-		
-		//added by Mike, 20221117
-		iVerticalOffset=0;
-
-		//removed by Mike, 20221120
-//		//edited by Mike, 20221120
-////		iImgMonsterTileWidth=64; //32;
-////		iImgMonsterTileHeight=64; //32;
-
-		//edited by Mike, 20220925			
-		//alert("iCorner: "+iCorner);		
-				
-		if (iCorner==0) { //TOP-LEFT
-			//edited by Mike, 20220911
-			//mdo2.style.left = "0px";				
-			mdo2.style.left = (iHorizontalOffset+0)+"px";			
-			mdo2.style.top =  iVerticalOffset+"px";//"0px";
-		}
-		else if (iCorner==1) { //TOP-RIGHT
-			//edited by Mike, 20220911
-			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth)+"px";			
-			mdo2.style.top =  iVerticalOffset+ "px";//"0px";
-		}
-		else if (iCorner==2)  { //BOTTOM-RIGHT
-			//edited by Mike, 20220911
-			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth)+"px";
-			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgMonsterTileHeight)+"px";
-		}
-		else if (iCorner==3) { //BOTTOM-LEFT
-			//edited by Mike, 20220911
-			//mdo2.style.left = "0px";				
-			mdo2.style.left = (iHorizontalOffset+0)+"px";				
-			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgMonsterTileHeight)+"px";
-		}
-
-		mdo2.style.visibility="visible";	
-	}
-*/
 	
 
 	
@@ -2461,18 +2371,6 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 
 	//added by Mike, 20221108; edited by Mike, 20221114
 	if (bHasPressedStart) {
-/* //removed by Mike, 20221115	
-		if (bIsInitAutoGeneratePuzzleFromEnd) {
-			if (iDelayAnimationCountMovementStep==iDelayAnimationCountMovementStepMax) 	
-			{
-				autoGeneratePuzzleFromEnd();
-				iDelayAnimationCountMovementStep=0;
-			}
-			else {
-				iDelayAnimationCountMovementStep++;
-			}
-		}	
-*/		
 	}
 		
 	//added by Mike, 20220917	
@@ -2598,6 +2496,10 @@ function miniGamePuzzleUpdate() {
 	//added by Mike, 20220904
 	var monsterTile = document.getElementById("monsterTileImageId");
 
+	//added by Mike, 20221121
+	var textStatusDiv = document.getElementById("textStatusDivId");
+	var textEnterDiv = document.getElementById("textEnterDivId");
+
 /*	//removed by Mike, 20221120
 	//added by Mike, 20221118
 	monsterTile.style.visibility="visible";	
@@ -2698,6 +2600,57 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
 	pauseLink.style.top = 0+iStageMaxHeight +"px"; 
 	pauseLink.style.visibility="visible";	  
+
+	//added by Mike, 20221121
+	if (!bHasPressedStart) {
+		var iTextEnterDivWidth = (textEnterDiv.clientWidth);
+		var iTextEnterDivHeight = (textEnterDiv.clientHeight);
+	
+		textEnterDiv.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iTextEnterDivWidth/2 +"px";
+		textEnterDiv.style.top = 0+iStageMaxHeight-iTextEnterDivHeight+"px"; 
+			
+		//reference: https://github.com/masarapmabuhay/tugon/blob/main/mainLinux.cpp; last accessed: 20221121
+		//keyphrase: GAMEOFF 2021, TUGON
+		if (iDelayAnimationCountEnter<iDelayAnimationCountEnterMax) {
+			textEnterDiv.style.visibility="visible";
+		}
+		else {
+			if (iDelayAnimationCountEnter>20) {
+				iDelayAnimationCountEnter=0;
+			}
+			textEnterDiv.style.visibility="hidden";
+		}			
+	
+		iDelayAnimationCountEnter++;
+	}
+	else {
+		textEnterDiv.style.visibility="hidden";
+	}
+		
+	//added by Mike, 20221121	
+	var sText = "AUTO-GENERATING...";
+
+//alert(sText.length);
+	var iTextStatusDivWidth = (textStatusDiv.clientWidth);
+	var iTextStatusDivHeight = (textStatusDiv.clientHeight);
+
+	textStatusDiv.innerHTML = sText;
+
+	textStatusDiv.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iTextStatusDivWidth/2 +"px";
+	textStatusDiv.style.top = 0+iStageMaxHeight-iTextStatusDivHeight*1.5+"px"; 
+				
+	if (bHasPressedStart) {
+		if (bIsInitAutoGeneratePuzzleFromEnd) {		
+			textStatusDiv.style.visibility="visible";
+		}
+		else {
+			textStatusDiv.style.visibility="hidden";
+		}
+	}
+	else {
+		textStatusDiv.style.visibility="hidden";
+	}
+
 	
 	//identify offset due to smaller window centered @horizontal
 /*	
@@ -2793,28 +2746,7 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	imgPuzzle.style.left = (iHorizontalOffset-iStageMaxWidth/2)+"px";	
 
 	imgPuzzle.style.top = (iVerticalOffsetInnerScreen-iStageMaxHeight/2)+"px";	
-/*
-	imgPuzzle.style.left = (0)+"px";	
-	imgPuzzle.style.top = (0)+"px";	
-*/	
-	
-	//added by Mike, 20221101
-	if (arrayKeyPressed[iKEY_I]) {
-//		alert("iKEY_I");
-	}
 
-	if (arrayKeyPressed[iKEY_K]) {
-//		alert("iKEY_K");
-	}
-
-	if (arrayKeyPressed[iKEY_J]) {
-//		alert("iKEY_J");
-	}
-
-	if (arrayKeyPressed[iKEY_L]) {
-//		alert("iKEY_L");
-	}
-		
 	monsterTile.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
 	monsterTile.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth+"px"; 
 
@@ -2855,7 +2787,26 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	
 	//added by Mike, 20221121
 	var puzzleTileImageSpaceBorder = document.getElementById("divPuzzleTileImageSpaceBorderId");
+	
+	//added by Mike, 202221121
+	var miniPuzzleTileImage = document.getElementById("miniPuzzleTileImageId");	
+	miniPuzzleTileImage.style.visibility = "visible";
 		
+	miniPuzzleTileImageId.style.left = iHorizontalOffset+"px";
+	miniPuzzleTileImageId.style.top= (iStageMaxHeight-iMiniPuzzleHeight)+"px";
+	
+	
+//iCurrentPuzzleStage=1;
+			
+		switch (iCurrentPuzzleStage) {
+			case 1: //next level
+				miniPuzzleTileImage.setAttribute("src", getBaseURL()+"assets/images/cambodia1024x1024-20141225T0958.jpg");
+				break;
+			default: //starting level
+				miniPuzzleTileImage.setAttribute("src", getBaseURL()+"assets/images/count1024x1024.png");			
+				miniPuzzleTileImage.style.visibility = "hidden";
+				break;
+		}	
 	
 //	for (let iTileBgCount=0; iTileBgCount<16; iTileBgCount++) {		
 	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {		
@@ -2875,14 +2826,14 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	
 		//added by Mike, 20221121
 		
-		iCurrentPuzzleStage=1;
+		//iCurrentPuzzleStage=1;
 		
 		switch (iCurrentPuzzleStage) {
-			case 0:
-				arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/count1024x1024.png");			
+			case 1: //next level
+				arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/cambodia1024x1024-20141225T0958.jpg");
 				break;
 			default:
-				arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/cambodia1024x1024-20141225T0958.jpg");
+				arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/count1024x1024.png");			
 				break;
 		}
 	
@@ -2903,6 +2854,14 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		//arrayPuzzleTileCountId[iTileBgCount].className="Image32x32Tile";
 
 		//alert(arrayPuzzleTileCountId[iTileBgCount].style.verticalAlign); 
+		
+		//added by Mike, 20221121
+		if (bIsPuzzleDone) {			
+			for (iCount=0; iCount<iTotalKeyCount; iCount++) {
+				//set to FALSE all pressed keys
+				arrayKeyPressed[iCount]=false;
+			}
+		}
 		
 	
 //edited by Mike, 20221105; note: last tile @#16, space
@@ -3294,14 +3253,47 @@ arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 
 						
 	//added by Mike, 20221111
-	if (!bIsInitAutoGeneratePuzzleFromEnd) {	
-		autoVerifyPuzzleIfAtEnd();			
+	if (!bIsInitAutoGeneratePuzzleFromEnd) {
+		//edited by Mike, 20221121	
+		//autoVerifyPuzzleIfAtEnd();		
+		
+		bIsPuzzleDone = isAutoVerifiedPuzzleDone();
+				
+		if (bIsPuzzleDone) {
+			//alert("Done!");
+			
+			
+			var sText = "CONGRATULATIONS!";
+
+			//alert(sText.length);
+			var iTextStatusDivWidth = (textStatusDiv.clientWidth);
+			var iTextStatusDivHeight = (textStatusDiv.clientHeight);
+		
+			textStatusDiv.innerHTML = sText;
+
+			textStatusDiv.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iTextStatusDivWidth/2 +"px";
+			textStatusDiv.style.top = 0+iStageMaxHeight-iTextStatusDivHeight*1.5+"px"; 
+			
+			textStatusDiv.style.visibility="visible";
+			
+			if (iDelayCountToNextLevel>=iDelayCountToNextLevelMax) {
+				iDelayCountToNextLevel=0;
+				
+				iCurrentPuzzleStage++;
+				
+				if (iCurrentPuzzleStage==1) {
+					initPuzzleTileTextValueContainer();
+				}
+				else {
+					//TO-DO: -add: THANK YOU FOR PLAYING!
+				}				
+			}
+			iDelayCountToNextLevel++;
+		}	
 	}
 	//added by Mike, 20221120
 	//if (!bIsInitAutoGeneratePuzzleFromEnd) {
-	else {		
-		//TO-DO: -add: auto-generating...
-	
+	else {			
 		buttonLeftKey.style.visibility="hidden";
 		buttonRightKey.style.visibility="hidden";
 		buttonUpKey.style.visibility="hidden";
@@ -3668,8 +3660,27 @@ function handleGesture() {
 	}
 }
 
+//added by Mike, 20221121
+function reset() {
+	bIsToLeftCornerDone=false;
+	bIsToTopCornerDone=false;
+	bIsToRightCornerDone=false;
+	bIsToBottomCornerDone=false;
+	bHasPressedStart=false;
+	bIsActionKeyPressed=false;	
+
+	bIsInitAutoGeneratePuzzleFromEnd=true;	
+	bIsPuzzleDone=false;
+	
+	iCountMovementStep=0;
+}
+
 //added by Mike, 20221113
 function initPuzzleTileTextValueContainer() {
+
+	//added by Mike, 20221121
+	reset();		
+
 	iTileBgCount=0;
 
 	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
@@ -3694,6 +3705,7 @@ function initPuzzleTileTextValueContainer() {
 		}
 	}
 }
+
 
 //added by Mike, 20220822
 function onLoad() {
@@ -4344,7 +4356,13 @@ alert("iButtonHeight"+iButtonHeight);
 
 <!-- edited by Mike, 20221119; from 20221105; mtPinatubo20150115T1415.jpg -->
 	<img id="puzzleImageId" class="ImageBackgroundOfPuzzle" src="<?php echo base_url('assets/images/blank.png');?>">	
-
+	
+<!-- added by Mike, 20221121 -->	
+	<img id="miniPuzzleTileImageId" class="ImageMiniPuzzleImage" onerror="" src="<?php echo base_url('assets/images/cambodia1024x1024-20141225T0958.jpg');?>" alt="" title="">	
+	
+	<div id="textStatusDivId" class="DivTextStatus">CONGRATULATIONS!</div>
+	<div id="textEnterDivId" class="DivTextEnter">PRESS ENTER</div>
+	
 <?php 
 	$iRowCountMax=4; 
 	$iColumnCountMax=4; 	
