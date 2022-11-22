@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221122; from 20221121
+' @date updated: 20221123; from 20221122
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1522,9 +1522,8 @@ for (iCount=0; iCount<iTotalKeyCount; iCount++) {
 }
 
 //added by Mike, 20221122
-iArrayHealthActionCountMax=8;
-iArrayHealthActionCount=8;
-
+const iArrayHealthActionCountMax=8;
+var iCurrentArrayHealthActionCount=8;
 var arrayHealthAction = [];
 
 
@@ -1702,7 +1701,12 @@ function executeMonsterAttackAI() {
 				alert("DEFENDED!!!!!!");
 			}
 			else {
-				alert("COLLISION!");
+				//alert("COLLISION!");
+				iCurrentArrayHealthActionCount--;
+				
+				if (iCurrentArrayHealthActionCount<=0) {
+					alert("「ここまでか・・・!」"); //END!
+				}
 			}
 
 			for (iCount=0; iCount<iTotalKeyCount; iCount++) {
@@ -2072,13 +2076,17 @@ function miniGameActionUpdate() {
 	var miniPuzzleTileImage = document.getElementById("miniPuzzleTileImageId");	
 	miniPuzzleTileImage.style.visibility = "hidden";
 	
-	//added by Mike, 20221122	
+	//edited by Mike, 20221123; from 20221122	
+	//iArrayHealthActionCountMax
+	//iCurrentArrayHealthActionCount
 	for (let iHealthCount=0; iHealthCount<iArrayHealthActionCountMax; iHealthCount++) {
+//	for (let iHealthCount=iCurrentArrayHealthActionCount-1; iHealthCount>=0; iHealthCount--) {
+
 		arrayHealthAction[iHealthCount] = document.getElementById("divActionHealthId"+iHealthCount);
 		
 		arrayHealthAction[iHealthCount].style.visibility="visible";
 	}
-
+	
 	var iDivActionHealthHeight = (arrayHealthAction[0].clientHeight);
 	var iDivActionHealthWidth = (arrayHealthAction[0].clientWidth);	
 	
@@ -2278,15 +2286,23 @@ iArrayHealthActionCountMax=8;
 iArrayHealthActionCount=8;
 */	
 	
-	//added by Mike, 20221122	
-	for (let iHealthCount=0; iHealthCount<iArrayHealthActionCount; iHealthCount++) {
+	//edited by Mike, 20221123; from 20221122	
+//	for (let iHealthCount=0; iHealthCount<iArrayHealthActionCount; iHealthCount++) {
+//	for (let iHealthCount=iCurrentArrayHealthActionCount-1; iHealthCount>=0; iHealthCount--) {
+	for (let iHealthCount=iArrayHealthActionCountMax-1; iHealthCount>=0; iHealthCount--) {
+		
+		if (iHealthCount>=iCurrentArrayHealthActionCount) {
+			arrayHealthAction[iHealthCount].style.visibility="hidden";
+			//alert("dito");
+		}
+
 		//arrayHealthAction[iHealthCount] = document.getElementById("divActionHealthId"+iHealthCount);
 
 		arrayHealthAction[iHealthCount].style.left=0+iHorizontalOffset+"px";
 		
-		arrayHealthAction[iHealthCount].style.top=0+(iOffsetDivActionHealthTop)+(iOffsetDivActionHealth*iHealthCount)+(iHealthCount*iDivActionHealthHeight)+"px";
+		arrayHealthAction[iHealthCount].style.top=0+(iOffsetDivActionHealthTop)+(iOffsetDivActionHealth*(iArrayHealthActionCountMax-iHealthCount))+((iArrayHealthActionCountMax-iHealthCount)*iDivActionHealthHeight)+"px";
 		
-		arrayHealthAction[iHealthCount].style.visibility="visible";
+		//arrayHealthAction[iHealthCount].style.visibility="visible";
 	}	
 	
 	
@@ -2515,10 +2531,7 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 	//TO-DO: -reverify: this
 	executeMonsterAttackAI();
 
-	
-
-	
-			
+				
 
 	//added by Mike, 20221108; edited by Mike, 20221114
 	if (bHasPressedStart) {
