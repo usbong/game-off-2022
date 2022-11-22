@@ -896,7 +896,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							position: absolute;
 
 							text-align: center;
-							line-height: 32px;																												
+							line-height: 32px;
+							
 							visibility: hidden;
 							
 							width: 160px;
@@ -905,6 +906,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							/* //added by Mike, 20221104 */
 							z-index: 10;									
 						}
+
+						.ImageMiniController {
+							position: absolute;
+							
+							width: 32px;
+						    height: 32px;
+							object-fit: contain;
+
+							pointer-events: none;
+							
+							/* put above button */
+							z-index: 20;		
+							
+							background: transparent;
+							opacity: 80%;
+							
+							margin: 10px;
+							
+							visibility: hidden;						
+						}
+
 						
 						.ButtonControllerGuide {
 							position: absolute;	
@@ -912,15 +934,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						    height: 32px;
 							object-fit: contain;
   								  								
-  							background: #ffffff; /*transparent;*/
-  								
+  							background: transparent; /*#ffffff;*/
+  							border: none;
+								
   							/*
 							background:url("../assets/images/gameOff2022ControllerGuideButton.png") no-repeat;
 							*/
-																					
+																								margin: 10px;
+							
 							z-index: 10;	
 							
 							visibility: hidden;			
+						}
+						
+						.ButtonControllerGuide:active {
+							background: transparent; /*#ffffff;*/
+  							border: none;							
 						}
 
 
@@ -1488,6 +1517,13 @@ function getBaseURL(){
 function toggleControllerGuide() {
 	if (bHasPressedStart) {
 		var controllerGuideImage = document.getElementById("controllerGuideImageId");			
+	
+		//added by Mike, 20221122
+		var controllerGuideButton = document.getElementById("controllerGuideButtonId");
+		//remove focus on clicked button
+		//to NOT execute when ENTER key is pressed;
+		controllerGuideButton.blur();
+	
 	//alert("dito");		
 			
 		if (controllerGuideImage.style.visibility=="hidden") {
@@ -1496,6 +1532,9 @@ function toggleControllerGuide() {
 		else {
 			controllerGuideImage.style.visibility = "hidden";
 		}	
+		
+		
+		
 	}
 }
 
@@ -1729,70 +1768,73 @@ function pauseAudio() {
 
 
 //--
-	//note: learned: to be doable via Android (Samsung Galaxy S Duos)
-	//after observing successful execution of the following:
-	//1) https://invertedhat.itch.io/postie; last accessed: 20221031; from 20221031
-	//2) https://allalonegamez.itch.io/rewind-time; last accessed: 20220825
-	//
-	//reference: https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API;
-	//last accessed: 20220825
-	function toggleFullScreen() {		
-	  //added by Mike, 20221114	
-	  bHasPressedStart=true;
+//note: learned: to be doable via Android (Samsung Galaxy S Duos)
+//after observing successful execution of the following:
+//1) https://invertedhat.itch.io/postie; last accessed: 20221031; from 20221031
+//2) https://allalonegamez.itch.io/rewind-time; last accessed: 20220825
+//
+//reference: https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API;
+//last accessed: 20220825
+function toggleFullScreen() {		
+  //added by Mike, 20221114	
+  bHasPressedStart=true;
+	
+  //added by Mike, 20221108
+  //note: fullscreenElement command 
+  //does NOT execute on AppleWebKit, e.g. iPad 15
+  //added by Mike, 20221110
+  if (!bIsUsingAppleWebKit) {
+	  if (!document.fullscreenElement) {
+		document.documentElement.requestFullscreen();
 		
-	  //added by Mike, 20221108
-	  //note: fullscreenElement command 
-	  //does NOT execute on AppleWebKit, e.g. iPad 15
-	  //added by Mike, 20221110
-	  if (!bIsUsingAppleWebKit) {
-		  if (!document.fullscreenElement) {
-			document.documentElement.requestFullscreen();
-			
-			document.getElementById("myAudioId").play();
-			bIsAudioPlaying=true;
+		document.getElementById("myAudioId").play();
+		bIsAudioPlaying=true;
 
-					//alert("hallo");
+				//alert("hallo");
 
-		  } else if (document.exitFullscreen) {
+	  } else if (document.exitFullscreen) {
 
-			//added by Mike, 20221020
-			//pauseAudio();
-			document.getElementById("myAudioId").pause();
+		//added by Mike, 20221020
+		//pauseAudio();
+		document.getElementById("myAudioId").pause();
 
-			//added by Mike, 20221110
-			bIsAudioPlaying=false;
-			
-			document.exitFullscreen();
-		  }
+		//added by Mike, 20221110
+		bIsAudioPlaying=false;
+		
+		document.exitFullscreen();
+	  }
+  }
+  else {
+	  if (!bIsAudioPlaying) {		
+//			alert("play");
+		document.getElementById("myAudioId").play();		  
+		bIsAudioPlaying=true;
 	  }
 	  else {
-		  if (!bIsAudioPlaying) {		
-//			alert("play");
-		  	document.getElementById("myAudioId").play();		  
-			bIsAudioPlaying=true;
-		  }
-		  else {
 //			alert("pause");
-		    document.getElementById("myAudioId").pause();
-		    bIsAudioPlaying=false;
-		  }
+		document.getElementById("myAudioId").pause();
+		bIsAudioPlaying=false;
 	  }
-	}
+  }
+}
 
-	document.addEventListener("keydown", (e) => {
-	  if (e.key === "Enter") {
-		toggleFullScreen();
-	  }
-	  
-	  //added by Mike, 20221101; removed by Mike, 20221101
+document.addEventListener("keydown", (e) => {
+	
+  //alert("e.key: "+e.key);
+	
+  if (e.key === "Enter") {
+	toggleFullScreen();
+  }
+  
+  //added by Mike, 20221101; removed by Mike, 20221101
 /*
-	  //note: shall need to override existing pre-written ACTIONS
-	  if (e.key === "Escape") {
+  //note: shall need to override existing pre-written ACTIONS
+  if (e.key === "Escape") {
 //		  alert("dito");
-		toggleFullScreen();
-	  }
+	toggleFullScreen();
+  }
 */
-	}, false);
+}, false);
 //--
 
 //added by Mike, 20221112
@@ -2549,6 +2591,10 @@ function miniGamePuzzleUpdate() {
 
 	var iControllerGuideImageWidth = (controllerGuideImage.clientWidth);
 	var iControllerGuideImageHeight = (controllerGuideImage.clientHeight);	
+	
+	var controllerGuideMiniImage = document.getElementById("controllerGuideMiniImageId");		
+	controllerGuideMiniImage.style.visibility = "visible"; 
+		
 
 	var controllerGuideButton = document.getElementById("controllerGuideButtonId");	
 	
@@ -2674,15 +2720,18 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	controllerGuideImage.style.top = (iVerticalOffsetInnerScreen+0+iStageMaxHeight/2 -iControllerGuideImageHeight/2)+"px";
 	controllerGuideImage.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iControllerGuideImageWidth/2 +"px";
 
-/*
-	controllerGuideButton.style.top = (iVerticalOffsetInnerScreen+0+iStageMaxHeight -iControllerGuideButtonHeight)+"px";
-	
-	controllerGuideButton.style.left = 0+iHorizontalOffset+iStageMaxWidth -iControllerGuideButtonWidth +"px";
-*/
+	//@BOTTOM-RIGHT
+//	controllerGuideButton.style.left = iHorizontalOffset+iStageMaxWidth -iControllerGuideButtonWidth+"px";
+//	controllerGuideButton.style.top= (iStageMaxHeight-iControllerGuideButtonHeight)+"px";
 
+	//@TOP-LEFT
+	controllerGuideButton.style.left = iHorizontalOffset+"px";
+	controllerGuideButton.style.top= (0)+"px";
 	
-	controllerGuideButton.style.left = iHorizontalOffset+iStageMaxWidth -iControllerGuideButtonWidth+"px";
-	controllerGuideButton.style.top= (iStageMaxHeight-iControllerGuideButtonHeight)+"px";
+	//added by Mike, 20221122
+	controllerGuideMiniImage.style.left = iHorizontalOffset+"px";
+	controllerGuideMiniImage.style.top= (0)+"px";
+	
 	
 
 	//edited by Mike, 20221012
@@ -3931,6 +3980,10 @@ function onLoad() {
 		}
 	}
 
+	//added by Mike, 20221122
+	var controllerGuideImage = document.getElementById("controllerGuideImageId");			
+	controllerGuideImage.style.visibility = "hidden"; //hidden
+
 	
 	//reference: https://stackoverflow.com/questions/4917664/detect-viewport-orientation-if-orientation-is-portrait-display-alert-message-ad; last accessed: 20220910
 	//answer by: Jatin, 20120731T0711;
@@ -4574,8 +4627,10 @@ alert("iButtonHeight"+iButtonHeight);
 <!-- added by Mike, 20221122 -->
 	<img id="controllerGuideImageId" class="ImageController" src="<?php echo base_url('assets/images/gameOff2022ControllerGuide.png');?>">	
 
-<button id="controllerGuideButtonId" class="buttonControllerGuide" onClick="toggleControllerGuide()" ontouchstart="toggleControllerGuide()" ontouchend="toggleControllerGuide()">
+<button id="controllerGuideButtonId" class="buttonControllerGuide" onClick="toggleControllerGuide()">
 </button>		
+
+	<img id="controllerGuideMiniImageId" class="ImageMiniController" src="<?php echo base_url('assets/images/gameOff2022MiniControllerGuide.png');?>">	
 
 	
 	<div id="textStatusDivId" class="DivTextStatus">CONGRATULATIONS!</div>
