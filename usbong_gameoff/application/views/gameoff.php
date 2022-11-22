@@ -1093,7 +1093,6 @@ border: none;
 							z-index: 4;		
 						}
 						
-						
 						.Image32x32TileSpaceTargetPrev {
 							position: absolute;
 
@@ -1217,6 +1216,23 @@ border: none;
 							visibility: hidden;						
 						}				
 						
+						.ImageHealthTile {
+							position: absolute;
+
+							width: 20px;
+							height: 5px;
+
+							background-color: #00aa00;
+							color: #222222;
+
+							visibility: hidden;
+
+							margin: 5px;
+							padding: 0px;
+							z-index: 10;		
+						}
+						
+															
 						/* noted by Mike, 20220820
 						using: absolute positions; 
 						add: auto-identify IF mobile*/
@@ -1504,6 +1520,13 @@ const arrayKeyPressed = [];
 for (iCount=0; iCount<iTotalKeyCount; iCount++) {
 	arrayKeyPressed[iCount]=false;
 }
+
+//added by Mike, 20221122
+iArrayHealthActionCountMax=8;
+iArrayHealthActionCount=8;
+
+var arrayHealthAction = [];
+
 
 //added by Mike, 20221118
 //reference: https://stackoverflow.com/questions/21246818/how-to-get-the-base-url-in-javascript;
@@ -2049,6 +2072,16 @@ function miniGameActionUpdate() {
 	var miniPuzzleTileImage = document.getElementById("miniPuzzleTileImageId");	
 	miniPuzzleTileImage.style.visibility = "hidden";
 	
+	//added by Mike, 20221122	
+	for (let iHealthCount=0; iHealthCount<iArrayHealthActionCountMax; iHealthCount++) {
+		arrayHealthAction[iHealthCount] = document.getElementById("divActionHealthId"+iHealthCount);
+		
+		arrayHealthAction[iHealthCount].style.visibility="visible";
+	}
+
+	var iDivActionHealthHeight = (arrayHealthAction[0].clientHeight);
+	var iDivActionHealthWidth = (arrayHealthAction[0].clientWidth);	
+	
 	//added by Mike, 2022118
     //edited by Mike, 20221121; 
     //reverify: if solves noticeable DELAY in loading image file			
@@ -2097,7 +2130,6 @@ function miniGameActionUpdate() {
 	var iPauseLinkWidth = (pauseLink.clientWidth);//+1; + "px"
 
 	//		alert("screen.height: "+screen.height); //533
-
 
 	//added by Mike, 20220904
 	//ANIMATION UPDATE
@@ -2234,6 +2266,30 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	textStatusDiv.style.left=0+iHorizontalOffset+iStageMaxWidth/2+"px";
 	textStatusDiv.style.top=0+"px";
 	textStatusDiv.style.visibility="hidden";
+	
+	//added by Mike, 20221122
+	//divActionHealth.style.visibility = "visible";
+	var iOffsetDivActionHealthTop=iDivActionHealthHeight*10;
+	var iOffsetDivActionHealth=iDivActionHealthHeight/2;
+
+/*
+//added by Mike, 20221122
+iArrayHealthActionCountMax=8;
+iArrayHealthActionCount=8;
+*/	
+	
+	//added by Mike, 20221122	
+	for (let iHealthCount=0; iHealthCount<iArrayHealthActionCount; iHealthCount++) {
+		//arrayHealthAction[iHealthCount] = document.getElementById("divActionHealthId"+iHealthCount);
+
+		arrayHealthAction[iHealthCount].style.left=0+iHorizontalOffset+"px";
+		
+		arrayHealthAction[iHealthCount].style.top=0+(iOffsetDivActionHealthTop)+(iOffsetDivActionHealth*iHealthCount)+(iHealthCount*iDivActionHealthHeight)+"px";
+		
+		arrayHealthAction[iHealthCount].style.visibility="visible";
+	}	
+	
+	
 	
 	//identify offset due to smaller window centered @horizontal
 /*	
@@ -4667,6 +4723,17 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 <!-- edited by Mike, 20221120; from 20221117; Image32x32TileFrame1 -->
 	<img id="monsterTileImageId" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/monster.png');?>">	
 
+	<!-- added by Mike, 20221122 -->
+<?php
+
+$iActionHealthMax=8;
+
+for ($iCount=0; $iCount<$iActionHealthMax; $iCount++) {	
+?>
+	<div id="divActionHealthId<?php echo $iCount;?>" class="ImageHealthTile"></div>
+<?php
+}
+?>
 
 <!-- removed by Mike, 20220911
 	<br />
@@ -4730,10 +4797,11 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 	//audio/x-m4a
 	//UsbongGameOff2022Puzzle20221119T1427.mp3
 	//UsbongGameOff2022Action20221119T1911.mp3
+	//UsbongGameOff2022ActionPiano20221122T1542.mp3
 	
 	//note: put audio file in SERVER on CLOUD
 -->
-	<audio id="myAudioId" class="myAudio" src="assets/audio/UsbongGameOff2022Action20221119T1911.mp3" type="audio/x-m4a" controls loop>
+	<audio id="myAudioId" class="myAudio" src="assets/audio/UsbongGameOff2022ActionPiano20221122T1542.mp3" type="audio/x-m4a" controls loop>
 	  Your browser does not support the audio tag.
 	</audio><br/>	
 
