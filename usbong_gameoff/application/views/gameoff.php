@@ -1231,6 +1231,22 @@ border: none;
 							padding: 0px;
 							z-index: 10;		
 						}
+
+						.ImageMonsterHealthTile {
+							position: absolute;
+
+							width: 20px;
+							height: 5px;
+
+							background-color: #faff00;
+							color: #222222;
+
+							visibility: hidden;
+
+							margin: 5px;
+							padding: 0px;
+							z-index: 10;		
+						}
 						
 															
 						/* noted by Mike, 20220820
@@ -1526,6 +1542,11 @@ const iArrayHealthActionCountMax=8;
 var iCurrentArrayHealthActionCount=8;
 var arrayHealthAction = [];
 
+//added by Mike, 20221122
+const iArrayMonsterHealthActionCountMax=8;
+var iCurrentArrayMonsterHealthActionCount=8;
+var arrayMonsterHealthAction = [];
+
 
 //added by Mike, 20221118
 //reference: https://stackoverflow.com/questions/21246818/how-to-get-the-base-url-in-javascript;
@@ -1698,7 +1719,12 @@ function executeMonsterAttackAI() {
 			
 			//added by Mike, 20221121
 			if (bIsActionKeyPressed) {
-				alert("DEFENDED!!!!!!");
+				//alert("DEFENDED!!!!!!");
+				iCurrentArrayMonsterHealthActionCount--;
+
+				if (iCurrentArrayMonsterHealthActionCount<=0) {
+					alert("「魔物を倒した!」"); //MONSTER DESTROYED!
+				}
 			}
 			else {
 				//alert("COLLISION!");
@@ -2080,15 +2106,24 @@ function miniGameActionUpdate() {
 	//iArrayHealthActionCountMax
 	//iCurrentArrayHealthActionCount
 	for (let iHealthCount=0; iHealthCount<iArrayHealthActionCountMax; iHealthCount++) {
-//	for (let iHealthCount=iCurrentArrayHealthActionCount-1; iHealthCount>=0; iHealthCount--) {
-
 		arrayHealthAction[iHealthCount] = document.getElementById("divActionHealthId"+iHealthCount);
 		
-		arrayHealthAction[iHealthCount].style.visibility="visible";
+		arrayHealthAction[iHealthCount].style.visibility="visible";	
 	}
 	
 	var iDivActionHealthHeight = (arrayHealthAction[0].clientHeight);
 	var iDivActionHealthWidth = (arrayHealthAction[0].clientWidth);	
+
+
+	for (let iMonsterHealthCount=0; iMonsterHealthCount<iArrayMonsterHealthActionCountMax; iMonsterHealthCount++) {
+		arrayMonsterHealthAction[iMonsterHealthCount] = document.getElementById("divActionMonsterHealthId"+iMonsterHealthCount);
+		
+		arrayMonsterHealthAction[iMonsterHealthCount].style.visibility="visible";		
+	}
+
+
+	var iDivActionMonsterHealthHeight = (arrayMonsterHealthAction[0].clientHeight);
+	var iDivActionMonsterHealthWidth = (arrayMonsterHealthAction[0].clientWidth);	
 	
 	//added by Mike, 2022118
     //edited by Mike, 20221121; 
@@ -2280,6 +2315,11 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	var iOffsetDivActionHealthTop=iDivActionHealthHeight*10;
 	var iOffsetDivActionHealth=iDivActionHealthHeight/2;
 
+
+	var iOffsetDivActionMonsterHealthTop=iDivActionMonsterHealthHeight*10;
+	var iOffsetDivActionMonsterHealth=iDivActionMonsterHealthHeight/2;
+
+
 /*
 //added by Mike, 20221122
 iArrayHealthActionCountMax=8;
@@ -2287,8 +2327,6 @@ iArrayHealthActionCount=8;
 */	
 	
 	//edited by Mike, 20221123; from 20221122	
-//	for (let iHealthCount=0; iHealthCount<iArrayHealthActionCount; iHealthCount++) {
-//	for (let iHealthCount=iCurrentArrayHealthActionCount-1; iHealthCount>=0; iHealthCount--) {
 	for (let iHealthCount=iArrayHealthActionCountMax-1; iHealthCount>=0; iHealthCount--) {
 		
 		if (iHealthCount>=iCurrentArrayHealthActionCount) {
@@ -2304,7 +2342,22 @@ iArrayHealthActionCount=8;
 		
 		//arrayHealthAction[iHealthCount].style.visibility="visible";
 	}	
-	
+
+
+	for (let iMonsterHealthCount=iArrayMonsterHealthActionCountMax-1; iMonsterHealthCount>=0; iMonsterHealthCount--) {
+				
+		if (iMonsterHealthCount>=iCurrentArrayMonsterHealthActionCount) {
+			arrayMonsterHealthAction[iMonsterHealthCount].style.visibility="hidden";
+			
+		}
+
+		arrayMonsterHealthAction[iMonsterHealthCount].style.left=(0+iHorizontalOffset+iStageMaxWidth-iDivActionMonsterHealthWidth*2)+"px";	//note *2 due to margin exists	
+		
+		arrayMonsterHealthAction[iMonsterHealthCount].style.top=0+(iOffsetDivActionMonsterHealthTop)+(iOffsetDivActionMonsterHealth*(iArrayMonsterHealthActionCountMax-iMonsterHealthCount))+((iArrayMonsterHealthActionCountMax-iMonsterHealthCount)*iDivActionMonsterHealthHeight)+"px";
+		
+		//arrayHealthAction[iHealthCount].style.visibility="visible";
+	}	
+
 	
 	
 	//identify offset due to smaller window centered @horizontal
@@ -4744,6 +4797,9 @@ $iActionHealthMax=8;
 for ($iCount=0; $iCount<$iActionHealthMax; $iCount++) {	
 ?>
 	<div id="divActionHealthId<?php echo $iCount;?>" class="ImageHealthTile"></div>
+
+	<div id="divActionMonsterHealthId<?php echo $iCount;?>" class="ImageMonsterHealthTile"></div>
+
 <?php
 }
 ?>
