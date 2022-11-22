@@ -892,6 +892,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							
 						}
 
+						.ImageController {
+							position: absolute;
+
+							text-align: center;
+							line-height: 32px;																												
+							visibility: hidden;
+							
+							width: 160px;
+							height: 144px;							
+							
+							/* //added by Mike, 20221104 */
+							z-index: 10;									
+						}
+						
+						.ButtonControllerGuide {
+							position: absolute;	
+							width: 32px;
+						    height: 32px;
+							object-fit: contain;
+  								  								
+  							background: #ffffff; /*transparent;*/
+  								
+  							/*
+							background:url("../assets/images/gameOff2022ControllerGuideButton.png") no-repeat;
+							*/
+																					
+							z-index: 10;	
+							
+							visibility: hidden;			
+						}
+
 
 						/* noted by Mike, 20221105 */						
 						.Image32x32Tile {
@@ -1371,6 +1402,9 @@ var bIsToBottomCornerDone=false;
 //added by Mike, 20221114
 var bHasPressedStart=false;
 
+//added by Mike, 20221122
+var bHasViewedControllerGuide=false;
+
 //added by Mike, 20221123
 var bIsActionKeyPressed=false;
 		  
@@ -1448,6 +1482,21 @@ for (iCount=0; iCount<iTotalKeyCount; iCount++) {
 //answer by: Muhammad Raheel, 20140121T0707
 function getBaseURL(){
     return sBaseURL;
+}
+
+//added by Mike, 20221122
+function toggleControllerGuide() {
+	if (bHasPressedStart) {
+		var controllerGuideImage = document.getElementById("controllerGuideImageId");			
+	//alert("dito");		
+			
+		if (controllerGuideImage.style.visibility=="hidden") {
+			controllerGuideImage.style.visibility = "visible";
+		}
+		else {
+			controllerGuideImage.style.visibility = "hidden";
+		}	
+	}
 }
 
 //added by Mike, 20221120
@@ -1957,7 +2006,6 @@ function miniGameActionUpdate() {
 	//added by Mike, 202221121
 	var miniPuzzleTileImage = document.getElementById("miniPuzzleTileImageId");	
 	miniPuzzleTileImage.style.visibility = "hidden";
-	
 	
 	//added by Mike, 2022118
     //edited by Mike, 20221121; 
@@ -2495,6 +2543,28 @@ function miniGamePuzzleUpdate() {
 	var imgUsbongLogo = document.getElementById("usbongLogoId");
 	//imgUsbongLogo.style.visibility="hidden";
 	
+	//added by Mike, 20221122
+	var controllerGuideImage = document.getElementById("controllerGuideImageId");	
+	//controllerGuideImage.style.visibility = "hidden"; //hidden
+
+	var iControllerGuideImageWidth = (controllerGuideImage.clientWidth);
+	var iControllerGuideImageHeight = (controllerGuideImage.clientHeight);	
+
+	var controllerGuideButton = document.getElementById("controllerGuideButtonId");	
+	
+	if (bHasPressedStart) {	
+		controllerGuideButton.style.visibility = "visible"; 
+	}
+
+/*
+	var iControllerGuideButtonWidth = (controllerGuideButton.clientWidth);
+	var iControllerGuideButtonHeight = (controllerGuideButton.clientHeight);		
+*/	
+
+	var iControllerGuideButtonWidth = 32;
+	var iControllerGuideButtonHeight = 32;
+
+		
 	//added by Mike, 20220820
 	var humanTile = document.getElementById("humanTileImageId");
 
@@ -2600,6 +2670,20 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	imgPuzzle.style.top = (iVerticalOffsetInnerScreen+0)+"px";
 	imgPuzzle.style.left = (iHorizontalOffset+0)+"px";
 
+	//added by Mike, 20221122
+	controllerGuideImage.style.top = (iVerticalOffsetInnerScreen+0+iStageMaxHeight/2 -iControllerGuideImageHeight/2)+"px";
+	controllerGuideImage.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iControllerGuideImageWidth/2 +"px";
+
+/*
+	controllerGuideButton.style.top = (iVerticalOffsetInnerScreen+0+iStageMaxHeight -iControllerGuideButtonHeight)+"px";
+	
+	controllerGuideButton.style.left = 0+iHorizontalOffset+iStageMaxWidth -iControllerGuideButtonWidth +"px";
+*/
+
+	
+	controllerGuideButton.style.left = iHorizontalOffset+iStageMaxWidth -iControllerGuideButtonWidth+"px";
+	controllerGuideButton.style.top= (iStageMaxHeight-iControllerGuideButtonHeight)+"px";
+	
 
 	//edited by Mike, 20221012
 	pauseLink.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iPauseLinkWidth/2 +"px";
@@ -4486,6 +4570,13 @@ alert("iButtonHeight"+iButtonHeight);
 	
 <!-- added by Mike, 20221121 -->	
 	<img id="miniPuzzleTileImageId" class="ImageMiniPuzzleImage" onerror="" src="<?php echo base_url('assets/images/cambodia1024x1024-20141225T0958.jpg');?>" alt="" title="">	
+
+<!-- added by Mike, 20221122 -->
+	<img id="controllerGuideImageId" class="ImageController" src="<?php echo base_url('assets/images/gameOff2022ControllerGuide.png');?>">	
+
+<button id="controllerGuideButtonId" class="buttonControllerGuide" onClick="toggleControllerGuide()" ontouchstart="toggleControllerGuide()" ontouchend="toggleControllerGuide()">
+</button>		
+
 	
 	<div id="textStatusDivId" class="DivTextStatus">CONGRATULATIONS!</div>
 	<div id="textEnterDivId" class="DivTextEnter">PRESS ENTER</div>
