@@ -1469,13 +1469,14 @@ var bHasViewedControllerGuide=false;
 //added by Mike, 20221123
 var bIsActionKeyPressed=false;
 var bHasHitMonster=false;
+var bHasDefeatedMonster=false;
 		  
 //added by Mike, 20220829
 const iHumanTileAnimationCountMax=6; //12;//20; //6;
 iHumanTileAnimationCount=0;	  
 
-//added by Mike, 20221120
-const iMonsterTileAnimationCountMax=3;
+//edited by Mike, 20221123; from 20221120
+const iMonsterTileAnimationCountMax=6; //3;
 iMonsterTileAnimationCount=0;	  
 
 //edited by Mike, 20221120; from 20220915
@@ -1723,17 +1724,21 @@ function executeMonsterAttackAI() {
 				//alert("DEFENDED!!!!!!");
 				iCurrentArrayMonsterHealthActionCount--;
 
-				//iCurrentArrayMonsterHealthActionCount=0;
+				iCurrentArrayMonsterHealthActionCount=0;
 
 				if (iCurrentArrayMonsterHealthActionCount<=0) {
 					alert("「魔物を倒した!」"); //MONSTER DESTROYED!
 
-/*//TO-DO: -reverify: this
+					bHasDefeatedMonster=true;
+
 					//added by Mike, 20221122
 					iCurrentMiniGame=MINI_GAME_PUZZLE;
+					reset();
 					toggleFullScreen();
-					initPuzzleTileTextValueContainer();
-*/
+					
+					//removed by Mike, 20221123;
+					//return to mini game: PUZZLE with no reset of positions
+					//initPuzzleTileTextValueContainer();
 				}
 											
 				//added by Mike, 20221123
@@ -2208,13 +2213,17 @@ function miniGameActionUpdate() {
 	//reference: https://www.w3schools.com/jsref/prop_html_classname.asp;
 	//last accessed: 20220820
 		
-	//edited by Mike, 20221116
+		
+		
+	//edited by Mike, 20221123; from 20221116
 //	if (iHumanTileAnimationCount==iHumanTileAnimationCountMax) {
 	if (iHumanTileAnimationCount<iHumanTileAnimationCountMax/2) {
+//	if (iHumanTileAnimationCount<iHumanTileAnimationCountMax) {
 
+/*	//removed by Mike, 20221123
 		monsterTile.className='Image64x64TileFrame1';
 		monsterTile.style.objectPosition="0px 0px";
-
+*/
 
 		if (iFacingDirection==iFACING_DOWN) {
 			//edited by Mike, 20221117
@@ -2252,13 +2261,16 @@ function miniGameActionUpdate() {
 			}
 		}				
 		
+		//edited by Mike, 20221123
 		iHumanTileAnimationCount++;
-}
+		//iHumanTileAnimationCount=0;
+	}
 	else {
 
+/* //removed by Mike, 20221123
 		monsterTile.className='Image64x64TileFrame2';	
 		monsterTile.style.objectPosition="-64px 0px";
-	
+*/	
 		if (iFacingDirection==iFACING_DOWN) {
 			if (bIsWalkingAction) {
 				humanTile.style.objectPosition="0px -64px";
@@ -2291,7 +2303,10 @@ function miniGameActionUpdate() {
 				humanTile.style.objectPosition="-224px 0px";
 			}
 		}		
+
+		//edited by Mike, 20221123
 		//iHumanTileAnimationCount++;
+		//iHumanTileAnimationCount=0;
 
 		if (iHumanTileAnimationCount==iHumanTileAnimationCountMax) {
 			iHumanTileAnimationCount=0;
@@ -2300,6 +2315,29 @@ function miniGameActionUpdate() {
 			iHumanTileAnimationCount++;
 		}
 	}
+	
+	//added by Mike, 20221123
+	//TO-DO: -reverify: animation instructions
+	if (iMonsterTileAnimationCount<iMonsterTileAnimationCountMax/2) {
+		monsterTile.className='Image64x64TileFrame1';
+		monsterTile.style.objectPosition="0px 0px";
+		
+		iMonsterTileAnimationCount++;
+	}
+	else {
+		monsterTile.className='Image64x64TileFrame2';	
+		monsterTile.style.objectPosition="-64px 0px";
+
+		//iMonsterTileAnimationCount=0;
+		
+		if (iMonsterTileAnimationCount==iMonsterTileAnimationCountMax) {
+			iMonsterTileAnimationCount=0;
+		}
+		else {
+			iMonsterTileAnimationCount++;
+		}		
+	}	
+	
 
 	//reference: https://www.w3schools.com/tags/canvas_fillrect.asp; 
 	//last accessed: 2020911
@@ -2841,21 +2879,45 @@ function miniGamePuzzleUpdate() {
 	//		alert("screen.height: "+screen.height); //533
 
 
-	//added by Mike, 20220904
+	//edited by Mike, 20221123; from 20220904
 	//ANIMATION UPDATE
-	if (iMonsterTileAnimationCount==iMonsterTileAnimationCountMax) {
-		if (monsterTile.className=='Image64x64TileFrame2') {
-		  monsterTile.className='Image64x64TileFrame1';
+	if (!bHasDefeatedMonster) {	
+		if (iMonsterTileAnimationCount==iMonsterTileAnimationCountMax) {
+			if (monsterTile.className=='Image64x64TileFrame2') {
+		  	monsterTile.className='Image64x64TileFrame1';
+			}
+			else {
+		  	monsterTile.className='Image64x64TileFrame2';
+			}
+			iMonsterTileAnimationCount=0;
 		}
 		else {
-		  monsterTile.className='Image64x64TileFrame2';
+			iMonsterTileAnimationCount++;
 		}
-		iMonsterTileAnimationCount=0;
-	}
-	else {
+	}		
+/*
+	//added by Mike, 20221123
+	//TO-DO: -reverify: animation instructions
+	if (iMonsterTileAnimationCount<iMonsterTileAnimationCountMax/2) {
+		monsterTile.className='Image64x64TileFrame1';
+		monsterTile.style.objectPosition="0px 0px";
+		
 		iMonsterTileAnimationCount++;
 	}
-	
+	else {
+		monsterTile.className='Image64x64TileFrame2';	
+		monsterTile.style.objectPosition="-64px 0px";
+
+		//iMonsterTileAnimationCount=0;
+		
+		if (iMonsterTileAnimationCount==iMonsterTileAnimationCountMax) {
+			iMonsterTileAnimationCount=0;
+		}
+		else {
+			iMonsterTileAnimationCount++;
+		}		
+	}		
+*/	
 
 	//reference: https://www.w3schools.com/tags/canvas_fillrect.asp; 
 	//last accessed: 2020911
@@ -3047,10 +3109,15 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 	imgPuzzle.style.top = (iVerticalOffsetInnerScreen-iStageMaxHeight/2)+"px";	
 
-	monsterTile.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
-	monsterTile.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth+"px"; 
-
-	monsterTile.style.visibility="visible";	
+	if (bHasDefeatedMonster) {
+		monsterTile.style.visibility="hidden";	
+	}
+	else {
+		monsterTile.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
+		monsterTile.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth+"px"; 
+		
+		monsterTile.style.visibility="visible";	
+	}
 
 
 	//reference: https://stackoverflow.com/questions/7545641/how-to-create-multidimensional-array;
@@ -4002,6 +4069,9 @@ function reset() {
 	bIsPuzzleDone=false;
 	
 	iCountMovementStep=0;
+	//added by Mike, 20221123
+	iHumanTileAnimationCount=0;
+	iMonsterTileAnimationCount=0;
 }
 
 //added by Mike, 20221113
