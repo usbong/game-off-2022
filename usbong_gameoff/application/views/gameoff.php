@@ -1238,7 +1238,7 @@ border: none;
 							width: 20px;
 							height: 5px;
 
-							background-color: #faff00;
+							background-color: #ffda00;
 							color: #222222;
 
 							visibility: hidden;
@@ -1468,6 +1468,7 @@ var bHasViewedControllerGuide=false;
 
 //added by Mike, 20221123
 var bIsActionKeyPressed=false;
+var bHasHitMonster=false;
 		  
 //added by Mike, 20220829
 const iHumanTileAnimationCountMax=6; //12;//20; //6;
@@ -1725,6 +1726,20 @@ function executeMonsterAttackAI() {
 				if (iCurrentArrayMonsterHealthActionCount<=0) {
 					alert("「魔物を倒した!」"); //MONSTER DESTROYED!
 				}
+											
+				//added by Mike, 20221123
+				if (bIsAudioPlaying) {
+					//if has NOT yet hit Monster
+					if (!bHasHitMonster) {			
+						var myAudio = document.getElementById("myAudioId");
+						myAudio.pause();
+						myAudio.setAttribute("src", getBaseURL()+"assets/audio/UsbongGameOff2022ActionPiano20221122T1542.mp3");
+						myAudio.volume=0.2;
+						myAudio.play();
+					}
+				}
+				
+				bHasHitMonster=true;
 			}
 			else {
 				//alert("COLLISION!");
@@ -2336,7 +2351,7 @@ iArrayHealthActionCount=8;
 
 		//arrayHealthAction[iHealthCount] = document.getElementById("divActionHealthId"+iHealthCount);
 
-		arrayHealthAction[iHealthCount].style.left=0+iHorizontalOffset+"px";
+		arrayHealthAction[iHealthCount].style.left=(0+iHorizontalOffset+iDivActionHealthWidth/4)+"px";
 		
 		arrayHealthAction[iHealthCount].style.top=0+(iOffsetDivActionHealthTop)+(iOffsetDivActionHealth*(iArrayHealthActionCountMax-iHealthCount))+((iArrayHealthActionCountMax-iHealthCount)*iDivActionHealthHeight)+"px";
 		
@@ -2351,7 +2366,7 @@ iArrayHealthActionCount=8;
 			
 		}
 
-		arrayMonsterHealthAction[iMonsterHealthCount].style.left=(0+iHorizontalOffset+iStageMaxWidth-iDivActionMonsterHealthWidth*2)+"px";	//note *2 due to margin exists	
+		arrayMonsterHealthAction[iMonsterHealthCount].style.left=(0+iHorizontalOffset+iStageMaxWidth-iDivActionMonsterHealthWidth*1.75)+"px";	//note *1.5 due to margin exists	
 		
 		arrayMonsterHealthAction[iMonsterHealthCount].style.top=0+(iOffsetDivActionMonsterHealthTop)+(iOffsetDivActionMonsterHealth*(iArrayMonsterHealthActionCountMax-iMonsterHealthCount))+((iArrayMonsterHealthActionCountMax-iMonsterHealthCount)*iDivActionMonsterHealthHeight)+"px";
 		
@@ -4870,7 +4885,7 @@ for ($iCount=0; $iCount<$iActionHealthMax; $iCount++) {
 	
 	//note: put audio file in SERVER on CLOUD
 -->
-	<audio id="myAudioId" class="myAudio" src="assets/audio/UsbongGameOff2022ActionPiano20221122T1542.mp3" type="audio/x-m4a" controls loop>
+	<audio id="myAudioId" class="myAudio" src="assets/audio/UsbongGameOff2022Action20221119T1911.mp3" type="audio/x-m4a" controls loop>
 	  Your browser does not support the audio tag.
 	</audio><br/>	
 
