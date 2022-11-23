@@ -1723,8 +1723,17 @@ function executeMonsterAttackAI() {
 				//alert("DEFENDED!!!!!!");
 				iCurrentArrayMonsterHealthActionCount--;
 
+				//iCurrentArrayMonsterHealthActionCount=0;
+
 				if (iCurrentArrayMonsterHealthActionCount<=0) {
 					alert("「魔物を倒した!」"); //MONSTER DESTROYED!
+
+/*//TO-DO: -reverify: this
+					//added by Mike, 20221122
+					iCurrentMiniGame=MINI_GAME_PUZZLE;
+					toggleFullScreen();
+					initPuzzleTileTextValueContainer();
+*/
 				}
 											
 				//added by Mike, 20221123
@@ -2732,12 +2741,28 @@ function miniGamePuzzleUpdate() {
 	var controllerGuideMiniImage = document.getElementById("controllerGuideMiniImageId");		
 	controllerGuideMiniImage.style.visibility = "visible"; 
 		
-
 	var controllerGuideButton = document.getElementById("controllerGuideButtonId");	
 	
 	if (bHasPressedStart) {	
 		controllerGuideButton.style.visibility = "visible"; 
 	}
+
+
+	//added by Mike, 20221123	
+	for (let iHealthCount=0; iHealthCount<iArrayHealthActionCountMax; iHealthCount++) {
+		arrayHealthAction[iHealthCount] = document.getElementById("divActionHealthId"+iHealthCount);
+		
+		arrayHealthAction[iHealthCount].style.visibility="hidden";	
+	}
+
+	for (let iMonsterHealthCount=0; iMonsterHealthCount<iArrayMonsterHealthActionCountMax; iMonsterHealthCount++) {		
+
+		arrayMonsterHealthAction[iMonsterHealthCount] = document.getElementById("divActionMonsterHealthId"+iMonsterHealthCount);
+
+		arrayMonsterHealthAction[iMonsterHealthCount].style.visibility="hidden";		
+	}
+
+
 
 /*
 	var iControllerGuideButtonWidth = (controllerGuideButton.clientWidth);
@@ -3986,9 +4011,12 @@ function initPuzzleTileTextValueContainer() {
 	reset();		
 
 	iTileBgCount=0;
-
-	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
+	
+	//edited by Mike, 20221123
+/*	for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {
 		for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
+*/			
+	while (iTileBgCount<16) {					
 			//alert(arrayPuzzleTileCountId[iTileBgCount].alt);
 //			arrayPuzzleTileCountId[iTileBgCount].alt=(iTileBgCount+1)+"";		
 
@@ -4006,7 +4034,7 @@ function initPuzzleTileTextValueContainer() {
 			}
 			
 			iTileBgCount++;
-		}
+//		}
 	}
 }
 
