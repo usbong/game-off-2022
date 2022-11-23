@@ -2,7 +2,22 @@
 
 GAME OFF 2022: https://itch.io/jam/game-off-2022
 
-## REMINDER
+## OBJECTIVE
+
+1) increase: know-how of MAJORITY
+
+2) share: know-how with MAJORITY
+
+where: know-how : COMPUTER SERVICES
+
+### OUTPUT#1
+
+SELL COMPUTERS via SERVICES<br/>
+where: COMPUTER : software and hardware<br/>
+
+#### REMINDER: NOT QUICK MONEY
+
+### OUTPUT#2
 
 set of reusable computer instructions that execute via the <b>Web Browser</b> 
 
