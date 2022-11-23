@@ -1724,7 +1724,7 @@ function executeMonsterAttackAI() {
 				//alert("DEFENDED!!!!!!");
 				iCurrentArrayMonsterHealthActionCount--;
 
-				iCurrentArrayMonsterHealthActionCount=0;
+				//iCurrentArrayMonsterHealthActionCount=0;
 
 				if (iCurrentArrayMonsterHealthActionCount<=0) {
 					alert("「魔物を倒した!」"); //MONSTER DESTROYED!
@@ -4486,22 +4486,25 @@ function onLoad() {
 		//added by Mike, 20221121
 		if (iCurrentMiniGame==MINI_GAME_PUZZLE) {
 			if (bHasPressedStart) {
-				var monsterTile = document.getElementById("monsterTileImageId");
-				//edited by Mike, 20221121
-				//note: ZOOM function causes position ERROR via screenX
-				var iXPos = event.clientX;//screenX;
+				//added by Mike, 20221123
+				if (!bHasDefeatedMonster) {
+					var monsterTile = document.getElementById("monsterTileImageId");
+					//edited by Mike, 20221121
+					//note: ZOOM function causes position ERROR via screenX
+					var iXPos = event.clientX;//screenX;
 
-				//note: screenY includes BROWSER address bar, et cetera;
-				var iYPos = event.pageY; //screenY;
-//				var iYPos = event.clientY; //screenY;
+					//note: screenY includes BROWSER address bar, et cetera;
+					var iYPos = event.pageY; //screenY;
+	//				var iYPos = event.clientY; //screenY;
 
-				//alert(iYPos);
-/*
-				alert("iXPos: "+iXPos);
-				alert("iYPos: "+iYPos);
-*/
-				if (isPointIntersectingRect(iXPos, iYPos, monsterTile)) {
-					changeMiniGame(MINI_GAME_ACTION);
+					//alert(iYPos);
+	/*
+					alert("iXPos: "+iXPos);
+					alert("iYPos: "+iYPos);
+	*/
+					if (isPointIntersectingRect(iXPos, iYPos, monsterTile)) {
+						changeMiniGame(MINI_GAME_ACTION);
+					}
 				}
 			}
 		}		
