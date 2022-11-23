@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221123; from 20221122
+' @date updated: 20221124; from 20221123
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1225,6 +1225,12 @@ border: none;
 							background-color: #00aa00;
 							color: #222222;
 
+							/*border: 2px solid #d6d6d6;*/
+							/*
+							border-top: 2px solid #000000;
+							border-bottom: 2px solid #000000;
+							*/
+
 							visibility: hidden;
 
 							margin: 5px;
@@ -1248,6 +1254,22 @@ border: none;
 							z-index: 10;		
 						}
 						
+						.ImageHealthTileContainer {
+							position: absolute;
+
+							width: 20px;
+							height: 5px;
+
+							background-color: #000000;
+
+							/*border: 2px solid #ffffff;*/
+							visibility: hidden;
+
+							margin: 5px;
+							padding: 0px;
+							z-index: 10;		
+						}
+
 															
 						/* noted by Mike, 20220820
 						using: absolute positions; 
@@ -1724,7 +1746,7 @@ function executeMonsterAttackAI() {
 				//alert("DEFENDED!!!!!!");
 				iCurrentArrayMonsterHealthActionCount--;
 
-				//iCurrentArrayMonsterHealthActionCount=0;
+				iCurrentArrayMonsterHealthActionCount=0;
 
 				if (iCurrentArrayMonsterHealthActionCount<=0) {
 					alert("「魔物を倒した!」"); //MONSTER DESTROYED!
@@ -1734,6 +1756,10 @@ function executeMonsterAttackAI() {
 					//added by Mike, 20221122
 					iCurrentMiniGame=MINI_GAME_PUZZLE;
 					reset();
+
+					//added by Mike, 20221124					
+					bIsInitAutoGeneratePuzzleFromEnd=false;
+
 					toggleFullScreen();
 					
 					//removed by Mike, 20221123;
@@ -2154,6 +2180,16 @@ function miniGameActionUpdate() {
 	var iDivActionMonsterHealthHeight = (arrayMonsterHealthAction[0].clientHeight);
 	var iDivActionMonsterHealthWidth = (arrayMonsterHealthAction[0].clientWidth);	
 	
+	//added by Mike, 20221124
+	var divActionHealthContainer = document.getElementById("divActionHealthContainerId");
+		
+	divActionHealthContainer.style.visibility="visible";		
+	
+	var iDivActionHealthContainerHeight = (divActionHealthContainer.clientHeight);
+	var iDivActionHealthContainerWidth = (divActionHealthContainer.clientWidth);	
+	
+	
+	
 	//added by Mike, 2022118
     //edited by Mike, 20221121; 
     //reverify: if solves noticeable DELAY in loading image file			
@@ -2381,6 +2417,16 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	var iOffsetDivActionMonsterHealthTop=iDivActionMonsterHealthHeight*10;
 	var iOffsetDivActionMonsterHealth=iDivActionMonsterHealthHeight/2;
 
+	//added by Mike, 20221124
+	//put: Health container before the Health bars via HTML
+	divActionHealthContainer.style.left=(0+iHorizontalOffset+iDivActionHealthContainerWidth/4)+"px";
+	
+	//note: effect IF has only 1 remaining HEALTH
+	//divActionHealthContainer.style.top=0+(iOffsetDivActionHealthTop+(iOffsetDivActionMonsterHealth))+"px";
+
+	divActionHealthContainer.style.top=0+(iOffsetDivActionHealthTop+(iOffsetDivActionHealth)+(iDivActionHealthHeight))+"px";
+	
+	divActionHealthContainer.style.height=(iOffsetDivActionHealth*(iArrayHealthActionCountMax-1))+((iArrayHealthActionCountMax-1)*iDivActionHealthHeight);
 
 /*
 //added by Mike, 20221122
@@ -2420,6 +2466,7 @@ iArrayHealthActionCount=8;
 		//arrayHealthAction[iHealthCount].style.visibility="visible";
 	}	
 
+	
 	
 	
 	//identify offset due to smaller window centered @horizontal
@@ -4904,6 +4951,11 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 		
 <!-- edited by Mike, 20221120; from 20221117; Image32x32TileFrame1 -->
 	<img id="monsterTileImageId" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/monster.png');?>">	
+
+	<!-- added by Mike, 20221124 -->
+	<div id="divActionHealthContainerId" class="ImageHealthTileContainer"></div>
+
+	<div id="divActionMonsterHealthContainerId" class="ImageMonsterHealthTileContainer"></div>
 
 	<!-- added by Mike, 20221122 -->
 <?php
