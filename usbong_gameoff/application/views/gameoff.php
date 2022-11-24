@@ -1437,6 +1437,18 @@ bIsAudioPlaying=false;
 iCurrentPuzzleStage=0;
 bIsPuzzleDone=false;
 
+//added by Mike, 20221124
+const sAudioPuzzleStage0="assets/audio/UsbongGameOff2022Action20221119T1911.mp3";
+
+const sAudioPuzzleStage1="assets/audio/UsbongGameOff2022Puzzle20221119T1427.mp3";
+
+const sAudioAction="assets/audio/UsbongGameOff2022ActionPiano20221122T1542.mp3";
+
+
+//TO-DO: -add: END
+//const sAudioPuzzleStage3="assets/audio/UsbongGameOff2022PuzzleEND.mp3";
+
+
 //added by Mike, 20221105
 bIsTargetAtSpace = true;
 		  
@@ -1788,7 +1800,10 @@ function executeMonsterAttackAI() {
 					if (!bHasHitMonster) {			
 						var myAudio = document.getElementById("myAudioId");
 						myAudio.pause();
-						myAudio.setAttribute("src", getBaseURL()+"assets/audio/UsbongGameOff2022ActionPiano20221122T1542.mp3");
+						//myAudio.setAttribute("src", getBaseURL()+"assets/audio/UsbongGameOff2022ActionPiano20221122T1542.mp3");
+
+						myAudio.setAttribute("src", getBaseURL()+sAudioAction);
+						
 						myAudio.volume=0.2;
 						myAudio.play();
 					}
@@ -3283,8 +3298,10 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		
 	miniPuzzleTileImageId.style.left = iHorizontalOffset+"px";
 	miniPuzzleTileImageId.style.top= (iStageMaxHeight-iMiniPuzzleHeight)+"px";
-	
-	
+
+	//added by Mike, 20221124
+	var myAudio = document.getElementById("myAudioId");
+		
 //iCurrentPuzzleStage=1;
 	//miniPuzzleTileImage
 	switch (iCurrentPuzzleStage) {
@@ -3293,9 +3310,40 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 			miniPuzzleTileImage.setAttribute("src", getBaseURL()+"assets/images/count1024x1024.png");			
 */			
 			miniPuzzleTileImage.style.visibility = "hidden";
+
+			//added by Mike, 20221124
+//			alert("myAudio.src: "+myAudio.src);
+//			alert("getBaseURL()+sAudioPuzzleStage0: "+getBaseURL()+sAudioPuzzleStage0);
+
+			if (myAudio.src!=getBaseURL()+sAudioPuzzleStage0) {
+				if (myAudio.volume>0) {
+					myAudio.volume-=0.5;
+				}
+				else {				
+					//alert("dito");
+					myAudio.pause();
+					myAudio.setAttribute("src", getBaseURL()+sAudioPuzzleStage0);
+					myAudio.volume=1.0;
+					myAudio.play();	
+				}
+			}
+			
 			break;
 		case 1: //next level
 			miniPuzzleTileImage.setAttribute("src", getBaseURL()+"assets/images/cambodia1024x1024-20141225T0958.jpg");
+
+			//added by Mike, 20221124			
+			if (myAudio.src!=getBaseURL()+sAudioPuzzleStage1) {
+				if (myAudio.volume>0) {
+					myAudio.volume-=0.5;
+				}
+				else {				
+					myAudio.pause();
+					myAudio.setAttribute("src", getBaseURL()+sAudioPuzzleStage1);
+					myAudio.volume=1.0;
+					myAudio.play();				
+				}
+			}			
 			break;
 		default: //END
 			//alert("dito");
@@ -5099,8 +5147,6 @@ for ($iCount=0; $iCount<$iActionHealthMax; $iCount++) {
 	</audio><br/>	
 	
 	//edited by Mike, 20221119
-	//Tinig UsbongFlashReferenceDQ1GameboyColorLow64KBitsPerSec.mp3
-	//UsbongGameOff2022Action20221119T1213.mp3
 	//audio/x-m4a
 	//UsbongGameOff2022Puzzle20221119T1427.mp3
 	//UsbongGameOff2022Action20221119T1911.mp3
