@@ -1773,7 +1773,7 @@ function executeMonsterAttackAI() {
 				//alert("DEFENDED!!!!!!");
 				iCurrentArrayMonsterHealthActionCount--;
 
-				//iCurrentArrayMonsterHealthActionCount=0;
+				iCurrentArrayMonsterHealthActionCount=0;
 
 				if (iCurrentArrayMonsterHealthActionCount<=0) {
 					alert("「魔物を倒した!」"); //MONSTER DESTROYED!
@@ -1782,12 +1782,15 @@ function executeMonsterAttackAI() {
 
 					//added by Mike, 20221122
 					iCurrentMiniGame=MINI_GAME_PUZZLE;
-					reset();
+					reset(); //removed by Mike, 20221124
 
 					//added by Mike, 20221124					
 					bIsInitAutoGeneratePuzzleFromEnd=false;
 
 					toggleFullScreen();
+					
+					//added by Mike, 20221124
+					return;
 					
 					//removed by Mike, 20221123;
 					//return to mini game: PUZZLE with no reset of positions
@@ -2932,6 +2935,13 @@ function miniGamePuzzleUpdate() {
 		arrayMonsterHealthAction[iMonsterHealthCount].style.visibility="hidden";		
 	}
 
+	//added by Mike, 20221124
+	var divActionHealthContainer = document.getElementById("divActionHealthContainerId");
+	divActionHealthContainer.style.visibility="hidden";		
+
+	var divActionMonsterHealthContainer = document.getElementById("divActionMonsterHealthContainerId");
+	divActionMonsterHealthContainer.style.visibility="hidden";		
+	
 
 
 /*
