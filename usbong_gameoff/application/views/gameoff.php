@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221124; from 20221123
+' @date updated: 20221125; from 20221124
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1438,6 +1438,9 @@ iCurrentPuzzleStage=0;
 bIsPuzzleDone=false;
 
 //added by Mike, 20221124
+fMyAudioVolume=1.0;
+
+//added by Mike, 20221124
 const sAudioPuzzleStage0="assets/audio/UsbongGameOff2022Action20221119T1911.mp3";
 
 const sAudioPuzzleStage1="assets/audio/UsbongGameOff2022Puzzle20221119T1427.mp3";
@@ -1810,8 +1813,12 @@ function executeMonsterAttackAI() {
 						//myAudio.setAttribute("src", getBaseURL()+"assets/audio/UsbongGameOff2022ActionPiano20221122T1542.mp3");
 
 						myAudio.setAttribute("src", getBaseURL()+sAudioAction);
-						
-						myAudio.volume=0.2;
+
+						//edited by Mike, 20221125
+						//myAudio.volume=0.2;						
+						fMyAudioVolume=0.2;						
+						myAudio.volume=fMyAudioVolume;
+
 						myAudio.play();
 					}
 				}
@@ -3334,26 +3341,33 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 //			alert("myAudio.src: "+myAudio.src);
 //			alert("getBaseURL()+sAudioPuzzleStage0: "+getBaseURL()+sAudioPuzzleStage0);
 
-
 			if (myAudio.src!=getBaseURL()+sAudioPuzzleStage0) {
 				if (myAudio.volume>0) {
-					//edited by Mike, 20221124
-					//TO-DO: -update: this
+					//edited by Mike, 20221125; from 20221124
 					
-					myAudio.volume=0.5;  //-0.5
-/*
-		if (bHasDefeatedMonster) {
-			alert("ditoVol");
-		}
-*/		
+//					myAudio.volume=0.5;  //-0.5
+
+					fMyAudioVolume-=0.2;
+					if (fMyAudioVolume<0) {
+						fMyAudioVolume=0;
+					}
+					
+					myAudio.volume=fMyAudioVolume; 
 				}
 				else {				
 					//alert("dito");
 					myAudio.pause();
 					myAudio.setAttribute("src", getBaseURL()+sAudioPuzzleStage0);
-					myAudio.volume=1.0;
+
+					//edited by Mike, 20221125
+					//myAudio.volume=1.0;					
+					fMyAudioVolume=1.0;
+					//myAudio.volume=1.0;
+					myAudio.volume=fMyAudioVolume;
+
 					myAudio.play();	
 				}
+
 			}			
 			break;
 		case 1: //next level
@@ -3361,6 +3375,7 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 			//added by Mike, 20221124			
 			if (myAudio.src!=getBaseURL()+sAudioPuzzleStage1) {
+/*				//edited by Mike, 20221125				
 				if (myAudio.volume>0) {
 					myAudio.volume=0.5; //-0.5
 				}
@@ -3369,6 +3384,34 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 					myAudio.setAttribute("src", getBaseURL()+sAudioPuzzleStage1);
 					myAudio.volume=1.0;
 					myAudio.play();				
+				}
+*/				
+				if (myAudio.volume>0) {
+					//edited by Mike, 20221125; from 20221124
+					
+//					myAudio.volume=0.5;  //-0.5
+
+					fMyAudioVolume-=0.2;
+					if (fMyAudioVolume<0) {
+						fMyAudioVolume=0;
+					}
+					
+					myAudio.volume=fMyAudioVolume; 
+					
+					//alert(fMyAudioVolume);
+				}
+				else {				
+					//alert("dito");
+					myAudio.pause();
+					myAudio.setAttribute("src", getBaseURL()+sAudioPuzzleStage1);
+
+					//edited by Mike, 20221125
+					//myAudio.volume=1.0;					
+					fMyAudioVolume=1.0;
+					//myAudio.volume=1.0;
+					myAudio.volume=fMyAudioVolume;
+
+					myAudio.play();	
 				}
 			}			
 			break;
@@ -3872,6 +3915,21 @@ arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 			textStatusDiv.style.top = 0+iStageMaxHeight-iTextStatusDivHeight*1.5+"px"; 
 			
 			textStatusDiv.style.visibility="visible";
+			
+			//added by Mike, 20221125
+			if (myAudio.volume>0) {
+				fMyAudioVolume-=0.2;
+
+				if (fMyAudioVolume<0) {
+					fMyAudioVolume=0;
+				}
+					
+				myAudio.volume=fMyAudioVolume; 
+			}
+			else {				
+				myAudio.pause();
+			}
+		
 			
 			if (iDelayCountToNextLevel>=iDelayCountToNextLevelMax) {
 				iDelayCountToNextLevel=0;
