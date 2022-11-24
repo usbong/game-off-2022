@@ -1270,6 +1270,21 @@ border: none;
 							z-index: 10;		
 						}
 
+						.ImageMonsterHealthTileContainer {
+							position: absolute;
+
+							width: 20px;
+							height: 5px;
+
+							background-color: #000000;
+
+							/*border: 2px solid #ffffff;*/
+							visibility: hidden;
+
+							margin: 5px;	
+							padding: 0px;
+							z-index: 10;		
+						}
 															
 						/* noted by Mike, 20220820
 						using: absolute positions; 
@@ -1746,7 +1761,7 @@ function executeMonsterAttackAI() {
 				//alert("DEFENDED!!!!!!");
 				iCurrentArrayMonsterHealthActionCount--;
 
-				iCurrentArrayMonsterHealthActionCount=0;
+				//iCurrentArrayMonsterHealthActionCount=0;
 
 				if (iCurrentArrayMonsterHealthActionCount<=0) {
 					alert("「魔物を倒した!」"); //MONSTER DESTROYED!
@@ -2146,6 +2161,18 @@ function myUpdateFunction() {
 function miniGameActionUpdate() {
 	var imgUsbongLogo = document.getElementById("usbongLogoId");
 	//imgUsbongLogo.style.visibility="hidden";
+
+	//added by Mike, 20221124
+	var controllerGuideImage = document.getElementById("controllerGuideImageId");	
+	//controllerGuideImage.style.visibility = "hidden"; //hidden
+
+	var iControllerGuideImageWidth = (controllerGuideImage.clientWidth);
+	var iControllerGuideImageHeight = (controllerGuideImage.clientHeight);	
+	
+	var controllerGuideMiniImage = document.getElementById("controllerGuideMiniImageId");		
+	controllerGuideMiniImage.style.visibility = "visible"; 
+		
+	var controllerGuideButton = document.getElementById("controllerGuideButtonId");	
 	
 	//added by Mike, 20221118
 	imgPuzzle = document.getElementById("puzzleImageId");	
@@ -2188,6 +2215,13 @@ function miniGameActionUpdate() {
 	var iDivActionHealthContainerHeight = (divActionHealthContainer.clientHeight);
 	var iDivActionHealthContainerWidth = (divActionHealthContainer.clientWidth);	
 	
+	//added by Mike, 20221124
+	var divActionMonsterHealthContainer = document.getElementById("divActionMonsterHealthContainerId");
+		
+	divActionMonsterHealthContainer.style.visibility="visible";		
+	
+	var iDivActionMonsterHealthContainerHeight = (divActionMonsterHealthContainer.clientHeight);
+	var iDivActionMonsterHealthContainerWidth = (divActionMonsterHealthContainer.clientWidth);	
 	
 	
 	//added by Mike, 2022118
@@ -2393,6 +2427,26 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//added by Mike, 20221012
 	iHorizontalOffset=myCanvas.getBoundingClientRect().x;
 
+
+	//added by Mike, 20221122
+	controllerGuideImage.style.top = (iVerticalOffsetInnerScreen+0+iStageMaxHeight/2 -iControllerGuideImageHeight/2)+"px";
+	controllerGuideImage.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iControllerGuideImageWidth/2 +"px";
+
+	//@BOTTOM-RIGHT
+//	controllerGuideButton.style.left = iHorizontalOffset+iStageMaxWidth -iControllerGuideButtonWidth+"px";
+//	controllerGuideButton.style.top= (iStageMaxHeight-iControllerGuideButtonHeight)+"px";
+
+	//@TOP-LEFT
+	controllerGuideButton.style.left = iHorizontalOffset+"px";
+	controllerGuideButton.style.top= (0)+"px";
+	
+	//added by Mike, 20221122
+	controllerGuideMiniImage.style.left = iHorizontalOffset+"px";
+	controllerGuideMiniImage.style.top= (0)+"px";
+
+
+
+
 	//edited by Mike, 20221120
 	imgPuzzle.style.top = (iVerticalOffsetInnerScreen+0)+"px";
 	imgPuzzle.style.left = (iHorizontalOffset+0)+"px";
@@ -2422,11 +2476,27 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	divActionHealthContainer.style.left=(0+iHorizontalOffset+iDivActionHealthContainerWidth/4)+"px";
 	
 	//note: effect IF has only 1 remaining HEALTH
-	//divActionHealthContainer.style.top=0+(iOffsetDivActionHealthTop+(iOffsetDivActionMonsterHealth))+"px";
+	//divActionHealthContainer.style.top=0+(iOffsetDivActionHealthTop+(iOffsetDivActionHealth))+"px";
 
 	divActionHealthContainer.style.top=0+(iOffsetDivActionHealthTop+(iOffsetDivActionHealth)+(iDivActionHealthHeight))+"px";
 	
-	divActionHealthContainer.style.height=(iOffsetDivActionHealth*(iArrayHealthActionCountMax-1))+((iArrayHealthActionCountMax-1)*iDivActionHealthHeight);
+	divActionHealthContainer.style.height=(iOffsetDivActionHealth*(iArrayHealthActionCountMax))+((iArrayHealthActionCountMax)*iDivActionHealthHeight)-iOffsetDivActionHealth;
+	
+	
+	//added by Mike, 20221124
+	//MONSTER
+	//put: Health container before the Health bars via HTML
+	//divActionMonsterHealthContainer.style.left=0+(iOffsetDivActionHealthTop+(iOffsetDivActionHealth)+(iDivActionHealthHeight))+"px";
+
+	divActionMonsterHealthContainer.style.left=(0+iHorizontalOffset+iStageMaxWidth-iDivActionMonsterHealthWidth*1.75)+"px";	//note *1.5 due to margin exists	
+	
+	//note: effect IF has only 1 remaining HEALTH
+	//divActionMonsterHealthContainer.style.top=0+(iOffsetDivActionMonsterHealthTop+(iOffsetDivActionMonsterHealth))+"px";
+
+	divActionMonsterHealthContainer.style.top=0+(iOffsetDivActionMonsterHealthTop+(iOffsetDivActionMonsterHealth)+(iDivActionMonsterHealthHeight))+"px";
+	
+	divActionMonsterHealthContainer.style.height=(iOffsetDivActionMonsterHealth*(iArrayMonsterHealthActionCountMax))+((iArrayMonsterHealthActionCountMax)*iDivActionMonsterHealthHeight)-iOffsetDivActionMonsterHealth;
+	
 
 /*
 //added by Mike, 20221122
