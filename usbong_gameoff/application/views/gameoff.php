@@ -1773,7 +1773,7 @@ function executeMonsterAttackAI() {
 				//alert("DEFENDED!!!!!!");
 				iCurrentArrayMonsterHealthActionCount--;
 
-				iCurrentArrayMonsterHealthActionCount=0;
+				//iCurrentArrayMonsterHealthActionCount=0;
 
 				if (iCurrentArrayMonsterHealthActionCount<=0) {
 					alert("「魔物を倒した!」"); //MONSTER DESTROYED!
@@ -1785,11 +1785,12 @@ function executeMonsterAttackAI() {
 					reset(); //removed by Mike, 20221124
 
 					//added by Mike, 20221124					
-					bIsInitAutoGeneratePuzzleFromEnd=false;
+					//bIsInitAutoGeneratePuzzleFromEnd=false;
 
 					toggleFullScreen();
-					
+										
 					//added by Mike, 20221124
+					bHasPressedStart=false;
 					return;
 					
 					//removed by Mike, 20221123;
@@ -3144,7 +3145,10 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	textStatusDiv.style.top = 0+iStageMaxHeight-iTextStatusDivHeight*1.5+"px"; 
 				
 	if (bHasPressedStart) {
-		if (bIsInitAutoGeneratePuzzleFromEnd) {		
+		//edited by Mike, 20221124
+		//if (bIsInitAutoGeneratePuzzleFromEnd) {	
+		if ((bIsInitAutoGeneratePuzzleFromEnd) && (!bHasDefeatedMonster)) {	
+		
 			textStatusDiv.style.visibility="visible";
 		}
 		else {
@@ -4247,6 +4251,9 @@ function reset() {
 	//added by Mike, 20221123
 	iHumanTileAnimationCount=0;
 	iMonsterTileAnimationCount=0;
+	
+	//added by Mike, 20221124
+	iDelayAnimationCountEnter=0;
 }
 
 //added by Mike, 20221113
