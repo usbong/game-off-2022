@@ -881,7 +881,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							transform: scale(0.5,0.8);	
 
 							/* //added by Mike, 20221104 */
-							z-index: 0;		
+							z-index: 0;	
+
+							visibility: hidden;
 							
 						}
 
@@ -1463,6 +1465,7 @@ bIsPuzzleDone=false;
 
 //added by Mike, 20221124
 fMyAudioVolume=1.0;
+fMyAudioEffectVolume=1.0; //added by Mike, 20221126
 
 //added by Mike, 20221124
 const sAudioPuzzleStage0="assets/audio/UsbongGameOff2022Action20221119T1911.mp3";
@@ -1470,6 +1473,9 @@ const sAudioPuzzleStage0="assets/audio/UsbongGameOff2022Action20221119T1911.mp3"
 const sAudioPuzzleStage1="assets/audio/UsbongGameOff2022Puzzle20221119T1427.mp3";
 
 const sAudioAction="assets/audio/UsbongGameOff2022ActionPiano20221122T1542.mp3";
+
+const sAudioEffectActionStart="assets/audio/UsbongGameOff2022ActionStartV20221126T0554.mp3";
+
 
 //TO-DO: -add: END
 //const sAudioPuzzleStage3="assets/audio/UsbongGameOff2022PuzzleEND.mp3";
@@ -1682,6 +1688,34 @@ function changeMiniGame(iMiniGameId) {
 	if (iCurrentMiniGame==MINI_GAME_PUZZLE){
 		if (iMiniGameId!=MINI_GAME_PUZZLE) {
 			removeFromPuzzleStageExcessTiles();
+			
+			//added by Mike, 20221126
+			var myAudio = document.getElementById("myAudioId");
+			//myAudio.pause();
+			
+			if (myAudio.src!=getBaseURL()+sAudioPuzzleStage0) {
+				myAudio.setAttribute("src", getBaseURL()+sAudioPuzzleStage0);
+			}
+	
+			fMyAudioVolume=0.1;						
+			myAudio.volume=fMyAudioVolume;
+			
+			myAudio.play();
+
+
+/*
+						var myAudio = document.getElementById("myAudioId");
+
+						myAudio.setAttribute("src", getBaseURL()+sAudioAction);
+
+						//edited by Mike, 20221125
+						//myAudio.volume=0.2;						
+						fMyAudioVolume=0.2;						
+						myAudio.volume=fMyAudioVolume;
+
+						myAudio.play();
+*/
+
 		}
 	}
 
@@ -3528,24 +3562,13 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 			}			
 			break;
 		case 1: //next level
+			//note: cicada sound  : school bell in forest
 			miniPuzzleTileImage.setAttribute("src", getBaseURL()+"assets/images/cambodia1024x1024-20141225T0958.jpg");
 
 			//added by Mike, 20221124			
-			if (myAudio.src!=getBaseURL()+sAudioPuzzleStage1) {
-/*				//edited by Mike, 20221125				
+			if (myAudio.src!=getBaseURL()+sAudioPuzzleStage1) {	
 				if (myAudio.volume>0) {
-					myAudio.volume=0.5; //-0.5
-				}
-				else {				
-					myAudio.pause();
-					myAudio.setAttribute("src", getBaseURL()+sAudioPuzzleStage1);
-					myAudio.volume=1.0;
-					myAudio.play();				
-				}
-*/				
-				if (myAudio.volume>0) {
-					//edited by Mike, 20221125; from 20221124
-					
+					//edited by Mike, 20221125; from 20221124					
 //					myAudio.volume=0.5;  //-0.5
 
 					fMyAudioVolume-=0.2;
@@ -3564,7 +3587,9 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 					//edited by Mike, 20221125
 					//myAudio.volume=1.0;					
-					fMyAudioVolume=1.0;
+					//edited by Mike, 20221126
+					fMyAudioVolume=0.2;//1.0;
+
 					//myAudio.volume=1.0;
 					myAudio.volume=fMyAudioVolume;
 
@@ -4930,6 +4955,16 @@ function onLoad() {
 					alert("iYPos: "+iYPos);
 	*/
 					if (isPointIntersectingRect(iXPos, iYPos, monsterTile)) {
+							
+						var myAudioEffect = document.getElementById("myAudioEffectId");
+
+						myAudioEffect.setAttribute("src", getBaseURL()+sAudioEffectActionStart);
+
+						fMyAudioEffectVolume=0.2;						
+						myAudioEffect.volume=fMyAudioEffectVolume;
+						myAudioEffect.loop=false;
+						myAudioEffect.play();
+
 						changeMiniGame(MINI_GAME_ACTION);
 					}
 				}
@@ -5415,6 +5450,10 @@ for ($iCount=0; $iCount<$iActionHealthMax; $iCount++) {
 	//note: put audio file in SERVER on CLOUD
 -->
 	<audio id="myAudioId" class="myAudio" src="assets/audio/UsbongGameOff2022Action20221119T1911.mp3" type="audio/x-m4a" controls loop>
+	  Your browser does not support the audio tag.
+	</audio><br/>	
+
+	<audio id="myAudioEffectId" class="myAudio" src="assets/audio/UsbongGameOff2022ActionStartV20221126T0554.mp3" type="audio/x-m4a">
 	  Your browser does not support the audio tag.
 	</audio><br/>	
 
