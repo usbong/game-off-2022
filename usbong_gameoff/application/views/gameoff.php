@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221125; from 20221124
+' @date updated: 20221126; from 20221125
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -137,6 +137,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							/* //added by Mike, 20221104 */
 							z-index: -1;							
 						}
+						
+						canvas.myEffectCanvas {		
+							position: absolute;
+											
+							padding: 0;
+							margin: auto;							
+							display: block;
+/*							
+							width: 320px;
+							height: 288px;	
+*/							
+							visibility: hidden;
+
+							z-index: 99;							
+						}						
 						
 						/*added by Mike, 20221121 */
 						div.DivTextStatus
@@ -1391,6 +1406,12 @@ var iHorizontalOffsetOfTargetBorder=0;
 //added by Mike, 20221108
 iCurrentAppleWebKitInnerWidth=0;
 
+//added by Mike, 20221125
+const iMyEffectCanvasContextRadius=50;
+var iMyDefendedEffectCount=0;
+const iMyDefendedEffectCountMax=6;
+var bHasPressedActionCommand;
+
 //added by Mike, 20221118
 var sBaseURL = '<?php echo base_url();?>';
 
@@ -1409,12 +1430,15 @@ let humanTileX = iStageMaxWidth/2;
 let humanTileY = iStageMaxHeight/2;	
 */
 let humanTileX = 0;
-let humanTileY = 0;	
+let humanTileY = 0;
+
+const iImgHumanTileWidth = 32;
+const iImgHumanTileHeight = 32;
+
 
 //added by Mike, 20221120
 let iImgMonsterTileWidth=64; //32;
 let iImgMonsterTileHeight=64; //32;
-
 
 //added by Mike, 20220925
 //note: for CONTROLLER BUTTONS
@@ -1505,6 +1529,19 @@ var iMonsterAttackIndexFromLeftToRight=2;
 var iMonsterAttackIndexFromRightToLeft=3;
 
 var bIsMonsterExecutingAttack=false;
+
+//added by Mike, 20221125
+//reference: https://github.com/usbong/tugon/blob/main/mainLinux.cpp;
+//last accessed: 20221125
+var bIsExecutingDestroyHuman=false;
+var iDestroyHumanShakeDelayCount=0;
+var iDestroyHumanShakeDelayMax=5;
+
+var iShakeOffsetWidthMax=2;
+var iShakeOffsetHeightMax=2;
+
+var iShakeOffsetWidth=iShakeOffsetWidthMax;
+var iShakeOffsetHeight=iShakeOffsetHeightMax;
 
 //added by Mike, 20221115
 var bIsInitMiniGameAction=true;
@@ -1777,6 +1814,18 @@ function executeMonsterAttackAI() {
 			//added by Mike, 20221121
 			if (bIsActionKeyPressed) {
 				//alert("DEFENDED!!!!!!");
+			
+				//----
+				var humanTile = document.getElementById("humanTileImageId");
+				var myEffectCanvas = document.getElementById("myEffectCanvasId");
+
+				myEffectCanvas.style.top = (iVerticalOffsetInnerScreen+humanTileY-iMyEffectCanvasContextRadius+iImgHumanTileHeight/2)+"px";
+				myEffectCanvas.style.left = (iHorizontalOffset+humanTileX-iMyEffectCanvasContextRadius+iImgHumanTileWidth/2)+"px";
+				myEffectCanvas.style.visibility="visible";			
+				iMyDefendedEffectCount=0;
+				//----
+				
+			
 				iCurrentArrayMonsterHealthActionCount--;
 
 				//iCurrentArrayMonsterHealthActionCount=0;
@@ -1785,7 +1834,7 @@ function executeMonsterAttackAI() {
 					alert("「魔物を倒した!」"); //MONSTER DESTROYED!
 
 					bHasDefeatedMonster=true;
-
+					
 					//added by Mike, 20221122
 					iCurrentMiniGame=MINI_GAME_PUZZLE;
 					reset(); //removed by Mike, 20221124
@@ -1827,8 +1876,11 @@ function executeMonsterAttackAI() {
 			}
 			else {
 				//alert("COLLISION!");
+				//added by Mike, 20221125
+				bIsExecutingDestroyHuman=true;				
+
 				iCurrentArrayHealthActionCount--;
-				
+							
 				if (iCurrentArrayHealthActionCount<=0) {
 					alert("「ここまでか・・・!」"); //END!
 				}
@@ -2263,6 +2315,7 @@ function miniGameActionUpdate() {
 	}	
 	
 	imgPuzzle.style.visibility="visible";		
+//	imgPuzzle.style.visibility="hidden";
 	
 /*	
 	//note: directional and action movements executable without yet ENTER
@@ -2444,17 +2497,76 @@ function miniGameActionUpdate() {
 	var myCanvasContext = myCanvas.getContext("2d");
 	//edited by Mike, 20221119
 	myCanvasContext.fillStyle = "#000000"; //black; //"#ababab"; //"rgb(128,89,27)"; //"#604122"; //"blue";
-
 	myCanvasContext.fillRect(0, 0, iStageMaxWidth, iStageMaxHeight);	
+
+	//added by Mike, 20221125
+	var myEffectCanvas = document.getElementById("myEffectCanvasId");
+	var myEffectCanvasContext = myEffectCanvas.getContext("2d");
+
+	myEffectCanvasContext.strokeStyle = "#00b2da"; 
+	myEffectCanvasContext.beginPath();
+	//reference: https://www.w3schools.com/tags/canvas_arc.asp;
+	//last accessed: 20221125
+	//x,y, radius, start angle, end angle, false (as clockwise; default)
+	myEffectCanvasContext.arc(50, 50, iMyEffectCanvasContextRadius, 0, 2 * Math.PI);
+	myEffectCanvasContext.stroke(); 
+
+	//myEffectCanvas.style.visibility="hidden";
+
+	if (iMyDefendedEffectCount>=iMyDefendedEffectCountMax) {
+		myEffectCanvas.style.visibility="hidden";
+	}
+	else {
+		iMyDefendedEffectCount++;
+	}
+
 
 //alert (iHorizontalOffset);
 
-//added by Mike, 20221002; edited by Mike, 20221005
-//myCanvas.style.top = (0)+"px"; //iVerticalOffset+
-myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
+/* //edited by Mike, 20221125
+	//added by Mike, 20221002; edited by Mike, 20221005
+	//myCanvas.style.top = (0)+"px"; //iVerticalOffset+
+	myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 	//added by Mike, 20221012
 	iHorizontalOffset=myCanvas.getBoundingClientRect().x;
+*/	
+	//removed by Mike, 20221125
+/*	//reference: https://stackoverflow.com/questions/21093570/force-page-zoom-at-100-with-js;
+	//last accessed: 20221125
+	//answer by: Fırat Deniz, 20140113T1455;
+	//edited by: kR105, 20160607T0637
+	
+	//var scale = 'scale(1.0, 1.0)';
+	document.body.style.webkitTransform =  scale;    // Chrome, Opera, Safari
+ 	document.body.style.msTransform =   scale;       // IE 9
+ 	document.body.style.transform = scale;     // General	
+*/
+
+	//added by Mike, 20221125
+	if (bIsExecutingDestroyHuman) {	
+		iShakeOffsetWidth=iShakeOffsetWidthMax;
+		iShakeOffsetHeight=iShakeOffsetHeightMax;
+
+		//alert("dito");
+	
+		if (iDestroyHumanShakeDelayCount==iDestroyHumanShakeDelayMax) {		
+			//myKeysDown[KEY_K] = FALSE;
+    		bIsExecutingDestroyHuman = false;					
+    		iDestroyHumanShakeDelayCount=0;
+    	}
+    	else {
+				iDestroyHumanShakeDelayCount+=1;					
+    	}    			
+	}		
+	else {
+  			iShakeOffsetWidth=0;
+			iShakeOffsetHeight=0;				
+	}
+	
+
+	myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+iShakeOffsetHeight+"px";
+	iHorizontalOffset=myCanvas.getBoundingClientRect().x+iShakeOffsetWidth;
 
 
 	//added by Mike, 20221122
@@ -2579,9 +2691,11 @@ iArrayHealthActionCount=8;
 	let ihumanTileWidth = 32; //64;
 	let ihumanTileHeight = 32; //64;
 */
-	let iImgHumanTileWidth = 32; //64;
-	let iImgHumanTileHeight = 32; //64;
 
+/*	//removed by Mike, 20221125
+	iImgHumanTileWidth = 32; //64;
+	iImgHumanTileHeight = 32; //64;
+*/
 	
 /* //edited by Mike, 20221117
 	let iStepX=5; //4;
@@ -2757,25 +2871,61 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 
 	//added by Mike, 20221115; from 20221106
 //	humanTile.style.visibility="hidden";
-	humanTile.style.visibility="visible";	
-	
+	humanTile.style.visibility="visible";
+		
+	myEffectCanvas.style.visibility="hidden";		
+	bHasPressedActionCommand=false;
 
 	//added by Mike, 20221101
 	if (arrayKeyPressed[iKEY_I]) {
-//		alert("iKEY_I");
+		//added by Mike, 20221125
+		bHasPressedActionCommand=true;
 	}
 
 	if (arrayKeyPressed[iKEY_K]) {
-//		alert("iKEY_K");
+		//added by Mike, 20221125
+		bHasPressedActionCommand=true;
 	}
 
 	if (arrayKeyPressed[iKEY_J]) {
-//		alert("iKEY_J");
+		//added by Mike, 20221125
+		bHasPressedActionCommand=true;
 	}
 
 	if (arrayKeyPressed[iKEY_L]) {
-//		alert("iKEY_L");
+		//added by Mike, 20221125
+		bHasPressedActionCommand=true;
 	}
+	
+	//directional command pressed?
+	for (iKeyCount=0; iKeyCount<iDirectionTotalKeyCount; iKeyCount++) {
+		if (arrayKeyPressed[iKeyCount]) {
+			myEffectCanvas.style.visibility="hidden";		
+			bHasPressedActionCommand=false;
+
+			//note: no simultaneous press of DIRECTION and ACTION COMMANDS			
+			for (iActionKeyCount=iDirectionTotalKeyCount; iActionKeyCount<iTotalKeyCount; iActionKeyCount++) {
+				if (arrayKeyPressed[iActionKeyCount]) {
+					bIsActionKeyPressed=false;
+					arrayKeyPressed[iActionKeyCount]=false;
+				}
+			}				
+			break;
+		}
+	}	
+		
+	
+	if (bHasPressedActionCommand) {
+/*		
+		var humanTile = document.getElementById("humanTileImageId");
+		var myEffectCanvas = document.getElementById("myEffectCanvasId");
+*/
+		myEffectCanvas.style.top = (iVerticalOffsetInnerScreen+humanTileY-iMyEffectCanvasContextRadius+iImgHumanTileHeight/2)+"px";
+		myEffectCanvas.style.left = (iHorizontalOffset+humanTileX-iMyEffectCanvasContextRadius+iImgHumanTileWidth/2)+"px";
+		myEffectCanvas.style.visibility="visible";			
+		iMyDefendedEffectCount=0;		
+	}
+
 	
 	//added by Mike, 20220904
 	//COLLISION DETECTION UPDATE
@@ -2931,6 +3081,13 @@ function miniGamePuzzleUpdate() {
 		controllerGuideButton.style.visibility = "visible"; 
 	}
 
+	//added by Mike, 20221125
+	var myEffectCanvas = document.getElementById("myEffectCanvasId");
+	myEffectCanvas.style.visibility="hidden";
+
+	if (iMyDefendedEffectCount>=iMyDefendedEffectCountMax) {
+		myEffectCanvas.style.visibility="hidden";
+	}
 
 	//added by Mike, 20221123	
 	for (let iHealthCount=0; iHealthCount<iArrayHealthActionCountMax; iHealthCount++) {
@@ -5115,7 +5272,10 @@ alert("iButtonHeight"+iButtonHeight);
 	<canvas id="myCanvasId" class="myCanvas">
 	</canvas>
 	
-
+	
+	<!-- added by Mike, 20221125 -->
+	<canvas id="myEffectCanvasId" class="myEffectCanvas">
+	</canvas>
 
 <!--
 //reference: https://stackoverflow.com/questions/9454125/javascript-request-fullscreen-is-unreliable;
@@ -5246,11 +5406,6 @@ for ($iCount=0; $iCount<$iActionHealthMax; $iCount++) {
 	//answer by: George Dimitriadis, 20171016T1500
 	//edited by: 404 - Brain Not Found, 20221124T2110
 	
-	<audio id="myAudioId" class="myAudio" controls loop>
-	  <source src="assets/audio/Tinig UsbongFlashReferenceDQ1GameboyColorLow64KBitsPerSec.mp3" type="audio/x-m4a">
-	  Your browser does not support the audio tag.
-	</audio><br/>	
-	
 	//edited by Mike, 20221119
 	//audio/x-m4a
 	//UsbongGameOff2022Puzzle20221119T1427.mp3
@@ -5262,6 +5417,7 @@ for ($iCount=0; $iCount<$iActionHealthMax; $iCount++) {
 	<audio id="myAudioId" class="myAudio" src="assets/audio/UsbongGameOff2022Action20221119T1911.mp3" type="audio/x-m4a" controls loop>
 	  Your browser does not support the audio tag.
 	</audio><br/>	
+
 
   </body>
 </html>
