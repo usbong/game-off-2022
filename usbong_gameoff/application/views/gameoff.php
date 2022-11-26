@@ -1431,19 +1431,22 @@ var imgPuzzle;
 
 //added by Mike, 20221012; edited by Mike, 2022115
 /*
-let humanTileX = iStageMaxWidth/2;
-let humanTileY = iStageMaxHeight/2;	
+let iHumanTileX = iStageMaxWidth/2;
+let iHumanTileY = iStageMaxHeight/2;	
 */
-let humanTileX = 0;
-let humanTileY = 0;
+let iHumanTileX = 0;
+let iHumanTileY = 0;
 
-const iImgHumanTileWidth = 32;
-const iImgHumanTileHeight = 32;
+const iHumanTileWidth = 32;
+const iHumanTileHeight = 32;
 
+//edited by Mike, 20221126; from 20221120
+const iImgMonsterTileWidth=64; //32;
+const iImgMonsterTileHeight=64; //32;
 
-//added by Mike, 20221120
-let iImgMonsterTileWidth=64; //32;
-let iImgMonsterTileHeight=64; //32;
+//added by Mike, 20221126
+var monsterTileYOffset=0;
+const defaultMonsterTileYOffset=0;
 
 //added by Mike, 20220925
 //note: for CONTROLLER BUTTONS
@@ -1537,7 +1540,15 @@ var iMonsterAttackIndexFromBottomToTop=1;
 var iMonsterAttackIndexFromLeftToRight=2;
 var iMonsterAttackIndexFromRightToLeft=3;
 
+const iCornerCountMax=4;	
+
 var bIsMonsterExecutingAttack=false;
+var bIsMonsterInHitState=false;
+
+var iMonsterInHitStateCount=0;
+var iMonsterInHitStateCountMax=20;
+
+
 
 //added by Mike, 20221125
 //reference: https://github.com/usbong/tugon/blob/main/mainLinux.cpp;
@@ -1749,7 +1760,11 @@ function removeFromPuzzleStageExcessTiles() {
 
 //added by Mike, 20221121
 function executeMonsterAttackAI() {
-	let iMax = 4;	
+	//removed by Mike, 20221126
+//	let iMax = 4;	
+
+	//added by Mike, 20221126
+	var humanTile = document.getElementById("humanTileImageId");
 
 	//Monster Artificial Intelligence
 //	if (iNoKeyPressCount>iNoKeyPressCountMax) {		
@@ -1804,33 +1819,79 @@ function executeMonsterAttackAI() {
 		//due to bIsMonsterExecutingAttack shall be set
 		if (!bIsMonsterExecutingAttack) {				
 			
-			//added by Mike, 20221121
-			//TO-DO: -identify: HUMAN's position 
+			//TO-DO: -add: IF executable DEFENSE TIMING of INCOMING ATTACK
+			//keyphrase: BASEBALL, BLANK v.s. RYU
+			
+			//added by Mike, 20221126; from 20221121
+			//note: auto-identifies: HUMAN's position 
 			//to appear @opposite position;
-			//objective: eliminate noticeable double image
 			
-			iMonsterAttackIndex = Math.floor(Math.random() * iMax); 
+			//edited by Mike, 20221126
+//			iMonsterAttackIndex = Math.floor(Math.random() * iMax); 
+
+			iMonsterAttackIndex = Math.floor(Math.random() * iCornerCountMax); 
+					
+			var iWallOffset=64;
+
+			//if HUMAN @TOP of MONSTER
+			if (iHumanTileX-iHumanTileWidth<=0+iWallOffset) {		
+				//set MONSTER to NOT appear @HUMAN
+				if (iMonsterAttackIndex==iMonsterAttackIndexFromLeftToRight) {
+iMonsterAttackIndex=iMonsterAttackIndexFromRightToLeft;
+
+//alert("dito");
+				}
+			}
+			//if HUMAN @BOTTOM of MONSTER
+			else if (iHumanTileX+iHumanTileWidth>=iStageMaxWidth-iWallOffset) {
+				//set MONSTER to NOT appear @HUMAN
+				if (iMonsterAttackIndex==iMonsterAttackIndexFromRightToLeft) {
+					iMonsterAttackIndex=iMonsterAttackIndexFromLeftToRight;
+				}
+			}
+
 			
+			//if HUMAN @TOP of MONSTER
+//			if (humanTile.style.top>mdo2.style.top) {
+			
+			if (iHumanTileY-iHumanTileHeight<=0+iWallOffset) {		
+				//set MONSTER to NOT appear @HUMAN
+				if (iMonsterAttackIndex==iMonsterAttackIndexFromTopToBottom) {
+iMonsterAttackIndex=iMonsterAttackIndexFromBottomToTop;
+
+//alert("dito");
+				}
+			}
+			//if HUMAN @BOTTOM of MONSTER
+			else if (iHumanTileY+iHumanTileHeight>=iStageMaxHeight-iWallOffset) {
+				//set MONSTER to NOT appear @HUMAN
+				if (iMonsterAttackIndex==iMonsterAttackIndexFromBottomToTop) {
+					iMonsterAttackIndex=iMonsterAttackIndexFromTopToBottom;
+				}
+			}
+			
+			
+	
 			switch (iMonsterAttackIndex) {
 				case iMonsterAttackIndexFromTopToBottom:
 					iMonsterTileX=(0+iStageMaxWidth/2-iImgMonsterTileWidth/2);	
-					iMonsterTileY=0;					
+					iMonsterTileY=0;
 					break;
 				case iMonsterAttackIndexFromBottomToTop:
 					iMonsterTileX=(0+iStageMaxWidth/2-iImgMonsterTileWidth/2);	
 					iMonsterTileY=(iStageMaxHeight-iImgMonsterTileHeight);					
 					break;
 				case iMonsterAttackIndexFromLeftToRight:
-									
 					iMonsterTileX=(0);	
 					iMonsterTileY=(iStageMaxHeight/2-iImgMonsterTileHeight/2);					
 					break;
 				case iMonsterAttackIndexFromRightToLeft:
 					iMonsterTileX=(iStageMaxWidth-iImgMonsterTileWidth);	
-					iMonsterTileY=(iStageMaxHeight/2-iImgMonsterTileHeight/2);					
+					iMonsterTileY=(iStageMaxHeight/2-iImgMonsterTileHeight/2);
 					break;
 			}							
 		
+		}
 			mdo2.style.left = (iHorizontalOffset+iMonsterTileX)+"px";			
 			mdo2.style.top = iMonsterTileY+"px";	
 			
@@ -1838,7 +1899,7 @@ function executeMonsterAttackAI() {
 			
 			//alert("dito: "+iMonsterAttackIndex);
 		}	
-	}
+	//}
 
 	iNoKeyPressCount++;
 	
@@ -1853,11 +1914,13 @@ function executeMonsterAttackAI() {
 				//alert("DEFENDED!!!!!!");
 			
 				//----
-				var humanTile = document.getElementById("humanTileImageId");
+				//removed by Mike, 20221126
+				//var humanTile = document.getElementById("humanTileImageId");
+				
 				var myEffectCanvas = document.getElementById("myEffectCanvasId");
 
-				myEffectCanvas.style.top = (iVerticalOffsetInnerScreen+humanTileY-iMyEffectCanvasContextRadius+iImgHumanTileHeight/2)+"px";
-				myEffectCanvas.style.left = (iHorizontalOffset+humanTileX-iMyEffectCanvasContextRadius+iImgHumanTileWidth/2)+"px";
+				myEffectCanvas.style.top = (iVerticalOffsetInnerScreen+iHumanTileY-iMyEffectCanvasContextRadius+iHumanTileHeight/2)+"px";
+				myEffectCanvas.style.left = (iHorizontalOffset+iHumanTileX-iMyEffectCanvasContextRadius+iHumanTileWidth/2)+"px";
 				myEffectCanvas.style.visibility="visible";			
 				iMyDefendedEffectCount=0;
 				
@@ -1868,14 +1931,15 @@ function executeMonsterAttackAI() {
 //				fFramesPerSecond=32.00; //16.66;				
 //				fFramesPerSecond=64.00; //16.66;				
 				//fFramesPerSecond=1000.00; //16.66;				
-				
+/*				
 				//notes: stops
 				clearInterval(iCurrentIntervalId);
 								
 				iCurrentIntervalId=setInterval(myUpdateFunction, fFramesPerSecond);
-				
+*/				
 				//----
-				
+								
+				bIsMonsterInHitState=true;
 			
 				iCurrentArrayMonsterHealthActionCount--;
 
@@ -1942,68 +2006,79 @@ function executeMonsterAttackAI() {
 			}
 		}
 		
+		//removed by Mike, 20221126; added by Mike, 20221126	
 		mdo2.style.visibility="hidden";
+
 		iNoKeyPressCount=0;
 		bIsMonsterExecutingAttack=false;
 	}
-	
+
 	//regenerate
-	if (mdo2.style.visibility=="hidden") {
+	if (mdo2.style.visibility=="hidden") {	
+//	if (bIsExecutingDestroyHuman) {
+	
+//alert("dito");
+	
+			let mdo2XPos = mdo2.getBoundingClientRect().x;
+			let mdo2YPos = mdo2.getBoundingClientRect().y;	
+	
+			
+			//remembers: BOSS Battle with PANIKI in ALAMAT ng AGIMAT (J2ME)
+			//reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random;
+			//last accessed: 20220904
+	
+			//let iMax = 4;	//removed by Mike, 20221120
 
-		let mdo2XPos = mdo2.getBoundingClientRect().x;
-		let mdo2YPos = mdo2.getBoundingClientRect().y;	
+			//edited by Mike, 20221126
+			//iCorner = Math.floor(Math.random() * iMax); 
+			iCorner = Math.floor(Math.random() * iCornerCountMax); 
 
-		
-		//remembers: BOSS Battle with PANIKI in ALAMAT ng AGIMAT (J2ME)
-		//reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random;
-		//last accessed: 20220904
-
-		//let iMax = 4;	//removed by Mike, 20221120
-		
-		iCorner = Math.floor(Math.random() * iMax); 
-		//clock-wise count, 
-		//where: 0 = TOP-LEFT, 1 = TOP-RIGHT, 2, = BOTTOM-RIGHT, 4 = BOTTOM-LEFT
-		
-		//added by Mike, 20221117
-		iVerticalOffset=0;
-
-		//removed by Mike, 20221120
-//		//edited by Mike, 20221120
-////		iImgMonsterTileWidth=64; //32;
-////		iImgMonsterTileHeight=64; //32;
-
-		//edited by Mike, 20220925			
-		//alert("iCorner: "+iCorner);		
-				
-		if (iCorner==0) { //TOP-LEFT
-			//edited by Mike, 20220911
-			//mdo2.style.left = "0px";				
-			mdo2.style.left = (iHorizontalOffset+0)+"px";			
-			mdo2.style.top =  iVerticalOffset+"px";//"0px";
-		}
-		else if (iCorner==1) { //TOP-RIGHT
-			//edited by Mike, 20220911
-			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth)+"px";			
-			mdo2.style.top =  iVerticalOffset+ "px";//"0px";
-		}
-		else if (iCorner==2)  { //BOTTOM-RIGHT
-			//edited by Mike, 20220911
-			//mdo2.style.left = iStageMaxWidth+"px";				
-			mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth)+"px";
-			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgMonsterTileHeight)+"px";
-		}
-		else if (iCorner==3) { //BOTTOM-LEFT
-			//edited by Mike, 20220911
-			//mdo2.style.left = "0px";				
-			mdo2.style.left = (iHorizontalOffset+0)+"px";				
-			//mdo2.style.top = iStageMaxHeight+"px";
-			mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgMonsterTileHeight)+"px";
-		}
-
-		mdo2.style.visibility="visible";	
-	}
+			
+			//clock-wise count, 
+			//where: 0 = TOP-LEFT, 1 = TOP-RIGHT, 2, = BOTTOM-RIGHT, 4 = BOTTOM-LEFT
+			
+			//added by Mike, 20221117
+			iVerticalOffset=0;
+	
+			//removed by Mike, 20221120
+	//		//edited by Mike, 20221120
+	////		iImgMonsterTileWidth=64; //32;
+	////		iImgMonsterTileHeight=64; //32;
+	
+			//edited by Mike, 20220925			
+			//alert("iCorner: "+iCorner);		
+					
+			if (iCorner==0) { //TOP-LEFT
+				//edited by Mike, 20220911
+				//mdo2.style.left = "0px";				
+				mdo2.style.left = (iHorizontalOffset+0)+"px";			
+				mdo2.style.top =  iVerticalOffset+"px";//"0px";
+			}
+			else if (iCorner==1) { //TOP-RIGHT
+				//edited by Mike, 20220911
+				//mdo2.style.left = iStageMaxWidth+"px";				
+				mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth)+"px";			
+				mdo2.style.top =  iVerticalOffset+ "px";//"0px";
+			}
+			else if (iCorner==2)  { //BOTTOM-RIGHT
+				//edited by Mike, 20220911
+				//mdo2.style.left = iStageMaxWidth+"px";				
+				mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth)+"px";
+				//mdo2.style.top = iStageMaxHeight+"px";
+				mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgMonsterTileHeight)+"px";
+			}
+			else if (iCorner==3) { //BOTTOM-LEFT
+				//edited by Mike, 20220911
+				//mdo2.style.left = "0px";				
+				mdo2.style.left = (iHorizontalOffset+0)+"px";				
+				//mdo2.style.top = iStageMaxHeight+"px";
+				mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgMonsterTileHeight)+"px";
+			}
+	
+	//alert("iCorner: "+iCorner);
+	
+			mdo2.style.visibility="visible";
+	}	
 }
 
 /*
@@ -2523,18 +2598,27 @@ function miniGameActionUpdate() {
 	//TO-DO: -reverify: animation instructions
 	if (iMonsterTileAnimationCount<iMonsterTileAnimationCountMax/2) {
 		monsterTile.className='Image64x64TileFrame1';
-		monsterTile.style.objectPosition="0px 0px";
-		
+		//edited by Mike, 20221126
+		//monsterTile.style.objectPosition="0px 0px";
+//		monsterTile.style.objectPosition="0px "+(-monsterTileYOffset) +"px";
+		monsterTile.style.objectPosition="0px -"+(monsterTileYOffset) +"px";
+	
 		iMonsterTileAnimationCount++;
 	}
 	else {
 		monsterTile.className='Image64x64TileFrame2';	
+		//edited by Mike, 20221126
 		monsterTile.style.objectPosition="-64px 0px";
-
+		//monsterTile.style.objectPosition="-64px "+(-monsterTileYOffset)+"px";
+//		monsterTile.style.objectPosition="-64px -"+(monsterTileYOffset)+"px";
+	
 		//iMonsterTileAnimationCount=0;
 		
 		if (iMonsterTileAnimationCount==iMonsterTileAnimationCountMax) {
 			iMonsterTileAnimationCount=0;
+			
+			//added by Mike, 20221126
+			monsterTileYOffset=0;
 		}
 		else {
 			iMonsterTileAnimationCount++;
@@ -2745,8 +2829,8 @@ iArrayHealthActionCount=8;
 */
 
 /*	//removed by Mike, 20221125
-	iImgHumanTileWidth = 32; //64;
-	iImgHumanTileHeight = 32; //64;
+	iHumanTileWidth = 32; //64;
+	iHumanTileHeight = 32; //64;
 */
 	
 /* //edited by Mike, 20221117
@@ -2777,11 +2861,11 @@ iArrayHealthActionCount=8;
 		humanTile.style.left = (iHorizontalOffset+iStageMaxWidth/2-ihumanTileWidth/2)+"px";	
 		humanTile.style.top = (iVerticalOffsetInnerScreen+iStageMaxHeight/2-ihumanTileHeight/2)+"px";	
 */		
-		humanTileX = iStageMaxWidth/2-iImgHumanTileWidth/2;
-		humanTileY = iStageMaxHeight/2-iImgHumanTileHeight/2;	
+		iHumanTileX = iStageMaxWidth/2-iHumanTileWidth/2;
+		iHumanTileY = iStageMaxHeight/2-iHumanTileHeight/2;	
 
-		humanTile.style.left = (iHorizontalOffset+humanTileX)+"px";	
-		humanTile.style.top = (iVerticalOffsetInnerScreen+humanTileY)+"px";	
+		humanTile.style.left = (iHorizontalOffset+iHumanTileX)+"px";	
+		humanTile.style.top = (iVerticalOffsetInnerScreen+iHumanTileY)+"px";	
 		
 		bIsInitMiniGameAction=false;
 	}
@@ -2789,8 +2873,8 @@ iArrayHealthActionCount=8;
 
 	//edited by Mike, 20221121; from 20221117
 	//note: verify change in positions via zoom tool
-	var sNewTileLeft = (iHorizontalOffset+humanTileX)+"px";
-	var sNewTileTop = (iVerticalOffsetInnerScreen+humanTileY)+"px";		
+	var sNewTileLeft = (iHorizontalOffset+iHumanTileX)+"px";
+	var sNewTileTop = (iVerticalOffsetInnerScreen+iHumanTileY)+"px";		
 	
 	if (humanTile.style.left!=sNewTileLeft) {
 		humanTile.style.left=sNewTileLeft;		
@@ -2818,21 +2902,21 @@ iArrayHealthActionCount=8;
 	
 	//if (bKeyDownRight) { //key d
 	if (arrayKeyPressed[iKEY_D]) {
-		//humanTile.style.left =  iHorizontalOffset+humanTileX+iStepX+"px";
-		//humanTile.style.left =  humanTileX+iStepX+"px";
+		//humanTile.style.left =  iHorizontalOffset+iHumanTileX+iStepX+"px";
+		//humanTile.style.left =  iHumanTileX+iStepX+"px";
 
-		humanTileX+=iStepX;
-		humanTile.style.left = (iHorizontalOffset+humanTileX)+"px";	
+		iHumanTileX+=iStepX;
+		humanTile.style.left = (iHorizontalOffset+iHumanTileX)+"px";	
 		
 		//added by Mike, 20221116		
 		iFacingDirection=iFACING_RIGHT;
 		bIsWalkingAction=true;
 	}	
 	else if (arrayKeyPressed[iKEY_A]) {
-		//humanTile.style.left =  iHorizontalOffset+humanTileX-iStepX+"px";				
-		//humanTile.style.left =  humanTileX-iStepX+"px";				
-		humanTileX-=iStepX;
-		humanTile.style.left = (iHorizontalOffset+humanTileX)+"px";
+		//humanTile.style.left =  iHorizontalOffset+iHumanTileX-iStepX+"px";				
+		//humanTile.style.left =  iHumanTileX-iStepX+"px";				
+		iHumanTileX-=iStepX;
+		humanTile.style.left = (iHorizontalOffset+iHumanTileX)+"px";
 		
 		//added by Mike, 20221116
 		//humanTile.src="<?php echo base_url('assets/images/tao.png');?>";
@@ -2857,20 +2941,20 @@ iArrayHealthActionCount=8;
 	//note: inverted Y-axis; where: @top of window is 0px
 	//if (arrayKeyPressed[iKEY_W]) {
 	else if (arrayKeyPressed[iKEY_W]) {
-//		humanTile.style.top = iVerticalOffset+humanTileY-iStepY+"px";				
-		//humanTile.style.top = humanTileY-iStepY+"px";	
-		humanTileY-=iStepY;	
-		humanTile.style.top = (iVerticalOffsetInnerScreen+humanTileY)+"px";	
+//		humanTile.style.top = iVerticalOffset+iHumanTileY-iStepY+"px";				
+		//humanTile.style.top = iHumanTileY-iStepY+"px";	
+		iHumanTileY-=iStepY;	
+		humanTile.style.top = (iVerticalOffsetInnerScreen+iHumanTileY)+"px";	
 		
 		//added by Mike, 20221116		
 		iFacingDirection=iFACING_UP;
 		bIsWalkingAction=true;
 	}	
 	else if (arrayKeyPressed[iKEY_S]) {
-//		humanTile.style.top =  iVerticalOffset+humanTileY+iStepY+"px";				
-//		humanTile.style.top =  humanTileY+iStepY+"px";				
-		humanTileY+=iStepY;	
-		humanTile.style.top = (iVerticalOffsetInnerScreen+humanTileY)+"px";	
+//		humanTile.style.top =  iVerticalOffset+iHumanTileY+iStepY+"px";				
+//		humanTile.style.top =  iHumanTileY+iStepY+"px";				
+		iHumanTileY+=iStepY;	
+		humanTile.style.top = (iVerticalOffsetInnerScreen+iHumanTileY)+"px";	
 		
 		//added by Mike, 20221116		
 		iFacingDirection=iFACING_DOWN;
@@ -2891,34 +2975,34 @@ alert("humanTile.style.left: "+humanTile.style.left);
 alert("iHorizontalOffset: "+iHorizontalOffset);
 */
 	//edited by Mike, 20221118; from 20221117
-	const iWallWidth=iImgHumanTileWidth;
-	const iWallHeight=iImgHumanTileHeight;
+	const iWallWidth=iHumanTileWidth;
+	const iWallHeight=iHumanTileHeight;
 	
-	if (iHorizontalOffset+humanTileX-iStepX < iHorizontalOffset+0+iWallWidth) {
+	if (iHorizontalOffset+iHumanTileX-iStepX < iHorizontalOffset+0+iWallWidth) {
 		humanTile.style.left = (iHorizontalOffset)+iWallWidth+"px";
-		humanTileX=0+iWallWidth;
+		iHumanTileX=0+iWallWidth;
 	}
-	else if (iHorizontalOffset+humanTileX+iImgHumanTileWidth+iStepX>iHorizontalOffset+0+iStageMaxWidth-iWallWidth) {
-		humanTile.style.left = (iHorizontalOffset+iStageMaxWidth-iImgHumanTileWidth-iWallWidth)+"px";
-		humanTileX=iStageMaxWidth-iImgHumanTileWidth-iWallWidth;
+	else if (iHorizontalOffset+iHumanTileX+iHumanTileWidth+iStepX>iHorizontalOffset+0+iStageMaxWidth-iWallWidth) {
+		humanTile.style.left = (iHorizontalOffset+iStageMaxWidth-iHumanTileWidth-iWallWidth)+"px";
+		iHumanTileX=iStageMaxWidth-iHumanTileWidth-iWallWidth;
 	}
 	
 	//iVerticalOffset
  //edited by Mike, 20221118	
-	if (humanTileY-iStepY < 0+iWallHeight) {
+	if (iHumanTileY-iStepY < 0+iWallHeight) {
 		humanTile.style.top = (0+iWallHeight)+"px";
-		humanTileY=0+iWallHeight;
+		iHumanTileY=0+iWallHeight;
 	}
 
 /*
-	if (humanTileY-iStepY < 0) { //+iWallHeight) {
+	if (iHumanTileY-iStepY < 0) { //+iWallHeight) {
 		humanTile.style.top = (0)+"px";
-		humanTileY=0;
+		iHumanTileY=0;
 	}
 */	
-	else if (humanTileY+iImgHumanTileHeight+iStepY>0+iStageMaxHeight-iWallHeight) {
-		humanTile.style.top = (iStageMaxHeight-iImgHumanTileHeight-iWallHeight)+"px";
-		humanTileY=iStageMaxHeight-iImgHumanTileHeight-iWallHeight;
+	else if (iHumanTileY+iHumanTileHeight+iStepY>0+iStageMaxHeight-iWallHeight) {
+		humanTile.style.top = (iStageMaxHeight-iHumanTileHeight-iWallHeight)+"px";
+		iHumanTileY=iStageMaxHeight-iHumanTileHeight-iWallHeight;
 	}
 
 	//added by Mike, 20221115; from 20221106
@@ -2972,9 +3056,11 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 		var humanTile = document.getElementById("humanTileImageId");
 		var myEffectCanvas = document.getElementById("myEffectCanvasId");
 */
-		myEffectCanvas.style.top = (iVerticalOffsetInnerScreen+humanTileY-iMyEffectCanvasContextRadius+iImgHumanTileHeight/2)+"px";
-		myEffectCanvas.style.left = (iHorizontalOffset+humanTileX-iMyEffectCanvasContextRadius+iImgHumanTileWidth/2)+"px";
-		myEffectCanvas.style.visibility="visible";			
+		myEffectCanvas.style.top = (iVerticalOffsetInnerScreen+iHumanTileY-iMyEffectCanvasContextRadius+iHumanTileHeight/2)+"px";
+		
+		myEffectCanvas.style.left = (iHorizontalOffset+iHumanTileX-iMyEffectCanvasContextRadius+iHumanTileWidth/2)+"px";
+		
+		myEffectCanvas.style.visibility="visible";
 		iMyDefendedEffectCount=0;		
 	}
 
@@ -2992,9 +3078,89 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 
 	//added by Mike, 20221120
 	//TO-DO: -reverify: this
-	executeMonsterAttackAI();
+	//removed by Mike, 20221126
+	//executeMonsterAttackAI();
 
+	//added by Mike, 20221126
+	if (bIsMonsterInHitState) {
+		monsterTileYOffset=iImgMonsterTileHeight;
+		
+		iMonsterInHitStateCount++;
+		
+		if (iMonsterInHitStateCount>=iMonsterInHitStateCountMax) {
+			iMonsterInHitStateCount=0;
+			bIsMonsterInHitState=false;
+			//bIsMonsterExecutingAttack=false;
+//			mdo2.style.visibility="hidden";
+//		}
+		
+		}
+	}
+
+/*	
+	if (bIsExecutingDestroyHuman) {	
+		//regenerate
+//		if (mdo2.style.visibility=="hidden") {	
+				let mdo2XPos = mdo2.getBoundingClientRect().x;
+				let mdo2YPos = mdo2.getBoundingClientRect().y;	
+					
+									
+				//remembers: BOSS Battle with PANIKI in ALAMAT ng AGIMAT (J2ME)
+				//reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random;
+				//last accessed: 20220904
+		
+				//let iMax = 4;	//removed by Mike, 20221120
+
+				//edited by Mike, 20221126
+				//iCorner = Math.floor(Math.random() * iMax); 
+				iCorner = Math.floor(Math.random() * iCornerCountMax); 
 				
+				//clock-wise count, 
+				//where: 0 = TOP-LEFT, 1 = TOP-RIGHT, 2, = BOTTOM-RIGHT, 4 = BOTTOM-LEFT
+				
+				//added by Mike, 20221117
+				iVerticalOffset=0;
+		
+				//edited by Mike, 20220925			
+				//alert("iCorner: "+iCorner);		
+						
+						iCorner=0;
+						
+				if (iCorner==0) { //TOP-LEFT
+					mdo2.style.left = (iHorizontalOffset+0)+"px";			
+					mdo2.style.top =  iVerticalOffset+"px";//"0px";
+				}
+				else if (iCorner==1) { //TOP-RIGHT
+					mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth)+"px";			
+					mdo2.style.top =  iVerticalOffset+ "px";//"0px";
+				}
+				else if (iCorner==2)  { //BOTTOM-RIGHT
+					mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth)+"px";
+					//mdo2.style.top = iStageMaxHeight+"px";
+					mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgMonsterTileHeight)+"px";
+				}
+				else if (iCorner==3) { //BOTTOM-LEFT
+					mdo2.style.left = (iHorizontalOffset+0)+"px";				
+					//mdo2.style.top = iStageMaxHeight+"px";
+					mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgMonsterTileHeight)+"px";
+				}
+		
+		//alert("iCorner: "+iCorner);
+		
+				mdo2.style.visibility="visible";
+				
+				//bIsExecutingDestroyHuman=false;
+		//}		
+	}
+*/	
+/*	
+	//if (!bIsMonsterInHitState) {
+	else {
+		executeMonsterAttackAI();
+	}
+*/
+		executeMonsterAttackAI();
+
 
 	//added by Mike, 20221108; edited by Mike, 20221114
 	if (bHasPressedStart) {
@@ -3384,11 +3550,11 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	alert(screen.width);
 	alert(screen.height);
 */
-
+/*	//removed by Mike, 20221126
 	//added by Mike, 20220911
-	let ihumanTileWidth = 64;
-	let ihumanTileHeight = 64;
-	
+	let iHumanTileWidth = 64;
+	let iHumanTileHeight = 64;
+*/	
 	//edited by Mike, 20220823; edited again by Mike, 20221019
 /*
 	let iStepX=10; //4;
@@ -3422,48 +3588,48 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	
 	//removed by Mike, 20221012
 	//iHorizontalOffset=myCanvas.getBoundingClientRect().x;
-	//humanTile.style.left = (iHorizontalOffset+humanTileY)+"px";	
-	//humanTile.style.left = (iHorizontalOffset+humanTileX)+"px";	
+	//humanTile.style.left = (iHorizontalOffset+iHumanTileY)+"px";	
+	//humanTile.style.left = (iHorizontalOffset+iHumanTileX)+"px";	
 
 	//if (bKeyDownRight) { //key d
 	if (arrayKeyPressed[iKEY_D]) {
-		//humanTile.style.left =  iHorizontalOffset+humanTileX+iStepX+"px";
-		//humanTile.style.left =  humanTileX+iStepX+"px";
+		//humanTile.style.left =  iHorizontalOffset+iHumanTileX+iStepX+"px";
+		//humanTile.style.left =  iHumanTileX+iStepX+"px";
 
-		humanTileX+=iStepX;
-		//humanTile.style.left =  iHorizontalOffset+humanTileX +"px";
+		iHumanTileX+=iStepX;
+		//humanTile.style.left =  iHorizontalOffset+iHumanTileX +"px";
 	}	
 	else if (arrayKeyPressed[iKEY_A]) {
-		//humanTile.style.left =  iHorizontalOffset+humanTileX-iStepX+"px";				
-		//humanTile.style.left =  humanTileX-iStepX+"px";				
-		humanTileX-=iStepX;
-		//humanTile.style.left =  iHorizontalOffset+humanTileX +"px";
+		//humanTile.style.left =  iHorizontalOffset+iHumanTileX-iStepX+"px";				
+		//humanTile.style.left =  iHumanTileX-iStepX+"px";				
+		iHumanTileX-=iStepX;
+		//humanTile.style.left =  iHorizontalOffset+iHumanTileX +"px";
 	}
 
 	
 	//note: inverted Y-axis; where: @top of window is 0px
 	if (arrayKeyPressed[iKEY_W]) {
-//		humanTile.style.top = iVerticalOffset+humanTileY-iStepY+"px";				
-		//humanTile.style.top = humanTileY-iStepY+"px";	
-		humanTileY-=iStepY;	
+//		humanTile.style.top = iVerticalOffset+iHumanTileY-iStepY+"px";				
+		//humanTile.style.top = iHumanTileY-iStepY+"px";	
+		iHumanTileY-=iStepY;	
 		
-		//humanTile.style.top = iVerticalOffsetInnerScreen+humanTileY+"px";	
+		//humanTile.style.top = iVerticalOffsetInnerScreen+iHumanTileY+"px";	
 	}	
 	else if (arrayKeyPressed[iKEY_S]) {
-//		humanTile.style.top =  iVerticalOffset+humanTileY+iStepY+"px";				
-//		humanTile.style.top =  humanTileY+iStepY+"px";				
-		humanTileY+=iStepY;	
+//		humanTile.style.top =  iVerticalOffset+iHumanTileY+iStepY+"px";				
+//		humanTile.style.top =  iHumanTileY+iStepY+"px";				
+		iHumanTileY+=iStepY;	
 		
-		//humanTile.style.top = iVerticalOffsetInnerScreen+humanTileY+"px";		
+		//humanTile.style.top = iVerticalOffsetInnerScreen+iHumanTileY+"px";		
 	}
 
 /*	//removed by Mike, 20221106; 
 	//TO-DO: -add: as CASE @MINIGAME with IPIS
 
-	humanTile.style.left = (iHorizontalOffset+humanTileX)+"px";	
+	humanTile.style.left = (iHorizontalOffset+iHumanTileX)+"px";	
 
 	//added by Mike, 20221029
-	humanTile.style.top = (iVerticalOffsetInnerScreen+humanTileY)+"px";	
+	humanTile.style.top = (iVerticalOffsetInnerScreen+iHumanTileY)+"px";	
 */	
 	//added by Mike, 20221115; from 20221106
 	humanTile.style.visibility="hidden";
@@ -4181,6 +4347,11 @@ arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 //@return bool
 function isIntersectingRect(mdo1, mdo2) {
 	
+	//added by Mike, 20221126
+	if (bIsMonsterInHitState) {
+		return false;
+	}
+	
 	//added by Mike, 20221120 
 	//note#1: mdo1=humanTile;
 	//note#2: mdo2=monsterTile;
@@ -4236,6 +4407,57 @@ function isIntersectingRect(mdo1, mdo2) {
 	
 	return true;
 }
+
+//added by Mike, 20221126
+//version 2; with offset, et cetera
+//@return bool
+function isIntersectingRectDefault(mdo1, mdo2) {
+	
+	//added by Mike, 20221120 
+	//note#1: mdo1=humanTile;
+	//note#2: mdo2=monsterTile;
+	
+	let mdo1XPos = mdo1.getBoundingClientRect().x;
+	let mdo1YPos = mdo1.getBoundingClientRect().y;			
+
+/* //edited by Mike, 20221120
+	let mdo1Width = 64;
+	let mdo1Height = 64; 
+*/
+	let mdo1Width = 32;
+	let mdo1Height = 32; 
+	
+	let mdo2XPos = mdo2.getBoundingClientRect().x;
+	let mdo2YPos = mdo2.getBoundingClientRect().y;			
+	let mdo2Width = 64; //mdo2.getBoundingClientRect().width;
+	let mdo2Height = 64; //mdo2.getBoundingClientRect().height;		
+	
+	//edited by Mike, 20221120
+	//note: before HUMAN reaches MONSTER
+	let iOffsetXPosAsPixel=0; //-20; //0; //10;
+	let iOffsetYPosAsPixel=0; //-20; //0; //10;	
+
+	let iStepX=2;
+	let iStepY=2;	
+
+
+/*	
+	alert("mdo1XPos: "+mdo1XPos+"; "+"mdo1Width: "+mdo1Width);	
+	alert("mdo2XPos: "+mdo2XPos+"; "+"mdo2Width: "+mdo2Width);
+*/
+	
+	if ((mdo2YPos+mdo2Height < mdo1YPos+iOffsetYPosAsPixel-iStepY) || //is the bottom of mdo2 above the top of mdo1?
+		(mdo2YPos > mdo1YPos+mdo1Height-iOffsetYPosAsPixel+iStepY) || //is the top of mdo2 below the bottom of mdo1?
+		(mdo2XPos+mdo2Width < mdo1XPos+iOffsetXPosAsPixel-iStepX) || //is the right of mdo2 to the left of mdo1?
+		(mdo2XPos > mdo1XPos+mdo1Width-iOffsetXPosAsPixel+iStepX)) //is the left of mdo2 to the right of mdo1?
+	{		
+		//no collision
+		return false;
+	}
+	
+	return true;
+}
+
 
 
 //added by Mike, 20221120
@@ -4301,6 +4523,8 @@ function isPointIntersectingRect(iXPos, iYPos, mdo2) {
 	
 	return true;
 }
+
+
 
 //every 5secs
 //setInterval(myUpdateFunction, 5000);
@@ -4377,10 +4601,10 @@ function tempAlert(msg,duration)
 	//TO-DO: -add: auto-update for all moving objects, et cetera	
 	var humanTile = document.getElementById("humanTileImageId");
 
-	let humanTileX = humanTile.getBoundingClientRect().x;
+	let iHumanTileX = humanTile.getBoundingClientRect().x;
 	
-	humanTile.style.left =  iHorizontalOffset + (humanTileX-iHorizontalOffsetPrev)+"px";
-	//humanTile.style.left =  iHorizontalOffset + humanTileX+"px";
+	humanTile.style.left =  iHorizontalOffset + (iHumanTileX-iHorizontalOffsetPrev)+"px";
+	//humanTile.style.left =  iHorizontalOffset + iHumanTileX+"px";
 
 	//alert(humanTile.style.left);
 	
@@ -4784,26 +5008,26 @@ function onLoad() {
 		//solved: via bKeyDownRight = false; et cetera
 		if (e.keyCode==68) { //key d
 	//			alert("dito");
-			//humanTile.style.left =  humanTileX+iStepX+"px";				
+			//humanTile.style.left =  iHumanTileX+iStepX+"px";				
 			//edited by Mike, 20220823
 			//bKeyDownRight=true;
 			arrayKeyPressed[iKEY_D]=true;			
 		}
 		else if (e.keyCode==65) { //key a			
 			//edited by Mike, 20220823
-			//humanTile.style.left =  humanTileX-iStepX+"px";				
+			//humanTile.style.left =  iHumanTileX-iStepX+"px";				
 			arrayKeyPressed[iKEY_A]=true;			
 		}
 		
 		//added by Mike, 20220822
 		if (e.keyCode==87) { //key w		
 			//edited by Mike, 20220823
-			//humanTile.style.top =  humanTileY-iStepY+"px";				
+			//humanTile.style.top =  iHumanTileY-iStepY+"px";				
 			arrayKeyPressed[iKEY_W]=true;			
 		}
 		else if (e.keyCode==83) { //key s
 			//edited by Mike, 20220823
-			//humanTile.style.top =  humanTileY+iStepY+"px";				
+			//humanTile.style.top =  iHumanTileY+iStepY+"px";				
 			arrayKeyPressed[iKEY_S]=true;			
 		}
 
