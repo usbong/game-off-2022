@@ -1414,6 +1414,9 @@ var iMyDefendedEffectCount=0;
 const iMyDefendedEffectCountMax=6;
 var bHasPressedActionCommand;
 
+var fFramesPerSecond=16.66;
+var iCurrentIntervalId=-1;
+
 //added by Mike, 20221118
 var sBaseURL = '<?php echo base_url();?>';
 
@@ -1857,6 +1860,20 @@ function executeMonsterAttackAI() {
 				myEffectCanvas.style.left = (iHorizontalOffset+humanTileX-iMyEffectCanvasContextRadius+iImgHumanTileWidth/2)+"px";
 				myEffectCanvas.style.visibility="visible";			
 				iMyDefendedEffectCount=0;
+				
+				//speed-up
+				//fFramesPerSecond=1.00; //16.66;				
+				
+				//speed-down
+//				fFramesPerSecond=32.00; //16.66;				
+//				fFramesPerSecond=64.00; //16.66;				
+				//fFramesPerSecond=1000.00; //16.66;				
+				
+				//notes: stops
+				clearInterval(iCurrentIntervalId);
+								
+				iCurrentIntervalId=setInterval(myUpdateFunction, fFramesPerSecond);
+				
 				//----
 				
 			
@@ -2549,6 +2566,7 @@ function miniGameActionUpdate() {
 
 	if (iMyDefendedEffectCount>=iMyDefendedEffectCountMax) {
 		myEffectCanvas.style.visibility="hidden";
+		//fFramesPerSecond=16.66; //added by Mike, 20221126
 	}
 	else {
 		iMyDefendedEffectCount++;
@@ -4346,7 +4364,6 @@ function tempAlert(msg,duration)
 		}		
 	}
 
-
 	//added by Mike, 20220925	
 	//iVerticalOffset=iStageMaxHeight+((screen.height-iStageMaxHeight)/2);
 	iVerticalOffset=(iStageMaxHeight+(screen.height/1.5-iStageMaxHeight));	
@@ -5294,9 +5311,10 @@ alert("iButtonHeight"+iButtonHeight);
 	initPuzzleTileTextValueContainer();
 		
 			
-	//added by Mike, 20220904
-	setInterval(myUpdateFunction, 16.66); //1000/60=16.66; 60 frames per second
-	
+	//edited by Mike, 20221126; from 20220904
+	//fFramesPerSecond=16.66;
+	//setInterval(myUpdateFunction, 16.66); //1000/60=16.66; 60 frames per second	
+	iCurrentIntervalId=setInterval(myUpdateFunction, fFramesPerSecond); //1000/60=16.66; 60 	
 }		
 
 	
