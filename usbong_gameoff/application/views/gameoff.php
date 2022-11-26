@@ -1415,6 +1415,7 @@ const iMyDefendedEffectCountMax=6;
 var bHasPressedActionCommand;
 
 var fFramesPerSecond=16.66;
+const fFramesPerSecondDefault=16.66;
 var iCurrentIntervalId=-1;
 
 //added by Mike, 20221118
@@ -1547,8 +1548,8 @@ var bIsMonsterInHitState=false;
 
 var iMonsterInHitStateCount=0;
 var iMonsterInHitStateCountMax=20;
-
-
+var iMonsterInDestroyedStateCountMax=40;
+var iMonsterEndStateCountMax=200;
 
 //added by Mike, 20221125
 //reference: https://github.com/usbong/tugon/blob/main/mainLinux.cpp;
@@ -1764,6 +1765,11 @@ function executeMonsterAttackAI() {
 //	let iMax = 4;	
 
 	//added by Mike, 20221126
+	if (bHasDefeatedMonster) {
+		return;
+	}
+
+	//added by Mike, 20221126
 	var humanTile = document.getElementById("humanTileImageId");
 
 	//Monster Artificial Intelligence
@@ -1941,15 +1947,24 @@ iMonsterAttackIndex=iMonsterAttackIndexFromBottomToTop;
 								
 				bIsMonsterInHitState=true;
 			
-				iCurrentArrayMonsterHealthActionCount--;
+//				iCurrentArrayMonsterHealthActionCount--;
+				iCurrentArrayMonsterHealthActionCount-=5;
 
 				//iCurrentArrayMonsterHealthActionCount=0;
 
 				if (iCurrentArrayMonsterHealthActionCount<=0) {
-					alert("「魔物を倒した!」"); //MONSTER DESTROYED!
-
+					//alert("「魔物を倒した!」"); //MONSTER DESTROYED!
+				
+					//edited by Mike, 20221126
 					bHasDefeatedMonster=true;
-					
+
+				fFramesPerSecond=100.00; //16.66;				
+				clearInterval(iCurrentIntervalId);
+				iCurrentIntervalId=setInterval(myUpdateFunction, fFramesPerSecond);
+
+/*					
+					bHasDefeatedMonster=true;
+
 					//added by Mike, 20221122
 					iCurrentMiniGame=MINI_GAME_PUZZLE;
 					reset(); //removed by Mike, 20221124
@@ -1962,6 +1977,7 @@ iMonsterAttackIndex=iMonsterAttackIndexFromBottomToTop;
 					//added by Mike, 20221124
 					bHasPressedStart=false;
 					return;
+*/					
 					
 					//removed by Mike, 20221123;
 					//return to mini game: PUZZLE with no reset of positions
@@ -2108,7 +2124,16 @@ function pauseAudio() {
 function toggleFullScreen() {		
   //added by Mike, 20221114	
   bHasPressedStart=true;
-	
+
+  //added by Mike, 20221126
+  if (iCurrentMiniGame==MINI_GAME_ACTION) {
+  	if (bHasDefeatedMonster) {
+		if (iMonsterInHitStateCount>=iMonsterInDestroyedStateCountMax) {
+  			iMonsterInHitStateCount=iMonsterEndStateCountMax;
+		}
+  	}
+  }
+		
   //added by Mike, 20221108
   //note: fullscreenElement command 
   //does NOT execute on AppleWebKit, e.g. iPad 15
@@ -2900,6 +2925,89 @@ iArrayHealthActionCount=8;
 
 
 	
+	//added by Mike, 20220904
+	//COLLISION DETECTION UPDATE
+	
+	mdo1=humanTile;
+	mdo2=monsterTile;
+	
+	//TO-DO: -add: IF human is @CENTER,
+	//IF SO, EXECUTE RHYTHM ACTION ATTACK; 
+	//keyphrase: DEFENSE, CONTROLLER
+	//TO-DO: -add: ACTION sound
+
+	//added by Mike, 20221120
+	//TO-DO: -reverify: this
+	//removed by Mike, 20221126
+	//executeMonsterAttackAI();
+
+	//added by Mike, 20221126
+	if (bIsMonsterInHitState) {
+		monsterTileYOffset=iImgMonsterTileHeight;
+		
+		iMonsterInHitStateCount++;
+		
+		if (iMonsterInHitStateCount>=iMonsterInHitStateCountMax) {
+/*
+			//edited by Mike, 20221126
+			iMonsterInHitStateCount=0;
+			bIsMonsterInHitState=false;
+*/
+			//added by Mike, 20221126
+			if (!bHasDefeatedMonster) {
+				iMonsterInHitStateCount=0;
+				bIsMonsterInHitState=false;
+			}
+			//if (bHasDefeatedMonster) {
+			else {
+				mdo2.style.visibility="hidden";
+				if (iMonsterInHitStateCount>=iMonsterInDestroyedStateCountMax) {
+
+					if (iMonsterInHitStateCount>=iMonsterEndStateCountMax) {
+					
+				fFramesPerSecond=fFramesPerSecondDefault; //16.66;			
+				clearInterval(iCurrentIntervalId);							
+				iCurrentIntervalId=setInterval(myUpdateFunction, fFramesPerSecond);
+									
+					//added by Mike, 20221122
+					iCurrentMiniGame=MINI_GAME_PUZZLE;
+					reset(); //removed by Mike, 20221124
+
+						//added by Mike, 20221124					
+						//bIsInitAutoGeneratePuzzleFromEnd=false;
+	
+						toggleFullScreen();
+											
+						//added by Mike, 20221124
+						bHasPressedStart=false;
+						return;	
+					}	
+					
+					//toggleFullScreen();
+					
+					if (iMonsterInHitStateCount==iMonsterInDestroyedStateCountMax) {
+						//face the bottom
+						if (!arrayKeyPressed[iKEY_S]) {
+							arrayKeyPressed[iKEY_S]=true;
+							iFacingDirection=iFACING_DOWN;
+							bIsWalkingAction=false;
+						}
+					}
+					else {
+						arrayKeyPressed[iKEY_S]=false;
+						bIsWalkingAction=false;
+					}
+					
+					return;
+				}
+			}
+			
+		}
+	}
+	
+	
+	//----------
+	
 	//if (bKeyDownRight) { //key d
 	if (arrayKeyPressed[iKEY_D]) {
 		//humanTile.style.left =  iHorizontalOffset+iHumanTileX+iStepX+"px";
@@ -3064,109 +3172,9 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 		iMyDefendedEffectCount=0;		
 	}
 
-	
-	//added by Mike, 20220904
-	//COLLISION DETECTION UPDATE
-	
-	mdo1=humanTile;
-	mdo2=monsterTile;
-	
-	//TO-DO: -add: IF human is @CENTER,
-	//IF SO, EXECUTE RHYTHM ACTION ATTACK; 
-	//keyphrase: DEFENSE, CONTROLLER
-	//TO-DO: -add: ACTION sound
 
-	//added by Mike, 20221120
-	//TO-DO: -reverify: this
-	//removed by Mike, 20221126
-	//executeMonsterAttackAI();
+	executeMonsterAttackAI();
 
-	//added by Mike, 20221126
-	if (bIsMonsterInHitState) {
-		monsterTileYOffset=iImgMonsterTileHeight;
-		
-		iMonsterInHitStateCount++;
-		
-		if (iMonsterInHitStateCount>=iMonsterInHitStateCountMax) {
-			iMonsterInHitStateCount=0;
-			bIsMonsterInHitState=false;
-			//bIsMonsterExecutingAttack=false;
-//			mdo2.style.visibility="hidden";
-//		}
-		
-		}
-	}
-
-/*	
-	if (bIsExecutingDestroyHuman) {	
-		//regenerate
-//		if (mdo2.style.visibility=="hidden") {	
-				let mdo2XPos = mdo2.getBoundingClientRect().x;
-				let mdo2YPos = mdo2.getBoundingClientRect().y;	
-					
-									
-				//remembers: BOSS Battle with PANIKI in ALAMAT ng AGIMAT (J2ME)
-				//reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random;
-				//last accessed: 20220904
-		
-				//let iMax = 4;	//removed by Mike, 20221120
-
-				//edited by Mike, 20221126
-				//iCorner = Math.floor(Math.random() * iMax); 
-				iCorner = Math.floor(Math.random() * iCornerCountMax); 
-				
-				//clock-wise count, 
-				//where: 0 = TOP-LEFT, 1 = TOP-RIGHT, 2, = BOTTOM-RIGHT, 4 = BOTTOM-LEFT
-				
-				//added by Mike, 20221117
-				iVerticalOffset=0;
-		
-				//edited by Mike, 20220925			
-				//alert("iCorner: "+iCorner);		
-						
-						iCorner=0;
-						
-				if (iCorner==0) { //TOP-LEFT
-					mdo2.style.left = (iHorizontalOffset+0)+"px";			
-					mdo2.style.top =  iVerticalOffset+"px";//"0px";
-				}
-				else if (iCorner==1) { //TOP-RIGHT
-					mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth)+"px";			
-					mdo2.style.top =  iVerticalOffset+ "px";//"0px";
-				}
-				else if (iCorner==2)  { //BOTTOM-RIGHT
-					mdo2.style.left = (iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth)+"px";
-					//mdo2.style.top = iStageMaxHeight+"px";
-					mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgMonsterTileHeight)+"px";
-				}
-				else if (iCorner==3) { //BOTTOM-LEFT
-					mdo2.style.left = (iHorizontalOffset+0)+"px";				
-					//mdo2.style.top = iStageMaxHeight+"px";
-					mdo2.style.top =  iVerticalOffset+(iStageMaxHeight-iImgMonsterTileHeight)+"px";
-				}
-		
-		//alert("iCorner: "+iCorner);
-		
-				mdo2.style.visibility="visible";
-				
-				//bIsExecutingDestroyHuman=false;
-		//}		
-	}
-*/	
-/*	
-	//if (!bIsMonsterInHitState) {
-	else {
-		executeMonsterAttackAI();
-	}
-*/
-		executeMonsterAttackAI();
-
-
-	//added by Mike, 20221108; edited by Mike, 20221114
-	if (bHasPressedStart) {
-	}
-		
-	//added by Mike, 20220917	
 
 
 	//alert (buttonLeftKey.getBoundingClientRect().width);	//Example Output: 47.28334045410156
@@ -4645,7 +4653,7 @@ function keyPressDown(iKey, event) {
 	for (iCount=iDirectionTotalKeyCount; iCount<iTotalKeyCount; iCount++) {
 		arrayKeyPressed[iKey]=true;		
 	}
-*/
+*/	
 	arrayKeyPressed[iKey]=true;	
 	
 	//added by Mike, 20221121
