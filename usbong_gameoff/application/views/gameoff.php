@@ -1549,6 +1549,7 @@ var bIsMonsterInHitState=false;
 var iMonsterInHitStateCount=0;
 var iMonsterInHitStateCountMax=20;
 var iMonsterInDestroyedStateCountMax=40;
+var iMonsterEndStateCountBeforeMax=180;
 var iMonsterEndStateCountMax=200;
 
 //added by Mike, 20221125
@@ -2130,6 +2131,30 @@ function toggleFullScreen() {
   	if (bHasDefeatedMonster) {
 		if (iMonsterInHitStateCount>=iMonsterInDestroyedStateCountMax) {
   			iMonsterInHitStateCount=iMonsterEndStateCountMax;
+			
+			//added by Mike, 20221126
+			//TO-DO: -reverify: this due to noticeable DELAY in execution
+			var imgPuzzle = document.getElementById("puzzleImageId");	
+			imgPuzzle.style.visibility="hidden";
+		
+			if (!imgPuzzle.src.toLowerCase().includes("pinatubo")) {
+				//added by Mike, 2022118
+				imgPuzzle.setAttribute("src", getBaseURL()+"assets/images/mtPinatubo20150115T1415.jpg");
+				imgPuzzle.setAttribute("class", "ImageBackgroundOfPuzzle");	
+			}	
+			
+						
+			//added by Mike, 20221126
+			var myAudioEffect = document.getElementById("myAudioEffectId");
+
+			myAudioEffect.setAttribute("src", getBaseURL()+sAudioEffectActionStart);
+
+			//edited by Mike, 20221126
+			//fMyAudioEffectVolume=0.2;					
+			fMyAudioEffectVolume=0.4;						
+			myAudioEffect.volume=fMyAudioEffectVolume;
+			myAudioEffect.loop=false;
+			myAudioEffect.play();
 		}
   	}
   }
@@ -2961,43 +2986,71 @@ iArrayHealthActionCount=8;
 			//if (bHasDefeatedMonster) {
 			else {
 				mdo2.style.visibility="hidden";
+								
 				if (iMonsterInHitStateCount>=iMonsterInDestroyedStateCountMax) {
-
-					if (iMonsterInHitStateCount>=iMonsterEndStateCountMax) {
 					
-				fFramesPerSecond=fFramesPerSecondDefault; //16.66;			
-				clearInterval(iCurrentIntervalId);							
-				iCurrentIntervalId=setInterval(myUpdateFunction, fFramesPerSecond);
-									
-					//added by Mike, 20221122
-					iCurrentMiniGame=MINI_GAME_PUZZLE;
-					reset(); //removed by Mike, 20221124
-
-						//added by Mike, 20221124					
-						//bIsInitAutoGeneratePuzzleFromEnd=false;
-	
-						toggleFullScreen();
-											
-						//added by Mike, 20221124
-						bHasPressedStart=false;
-						return;	
-					}	
-					
-					//toggleFullScreen();
-					
-					if (iMonsterInHitStateCount==iMonsterInDestroyedStateCountMax) {
-						//face the bottom
-						if (!arrayKeyPressed[iKEY_S]) {
-							arrayKeyPressed[iKEY_S]=true;
-							iFacingDirection=iFACING_DOWN;
+						if (iMonsterInHitStateCount==iMonsterInDestroyedStateCountMax) {
+							//face the bottom
+							if (!arrayKeyPressed[iKEY_S]) {
+								arrayKeyPressed[iKEY_S]=true;
+								iFacingDirection=iFACING_DOWN;
+								bIsWalkingAction=false;
+							}
+						}
+						else {
+							arrayKeyPressed[iKEY_S]=false;
 							bIsWalkingAction=false;
 						}
-					}
-					else {
-						arrayKeyPressed[iKEY_S]=false;
-						bIsWalkingAction=false;
+						
+				
+					if (iMonsterInHitStateCount>=iMonsterEndStateCountBeforeMax) {	
+
+						//added by Mike, 20221126
+						var imgPuzzle = document.getElementById("puzzleImageId");	
+						imgPuzzle.style.visibility="hidden";
+					
+						if (!imgPuzzle.src.toLowerCase().includes("pinatubo")) {
+							//added by Mike, 2022118
+							imgPuzzle.setAttribute("src", getBaseURL()+"assets/images/mtPinatubo20150115T1415.jpg");
+							imgPuzzle.setAttribute("class", "ImageBackgroundOfPuzzle");	
+						}	
+						
+				var myAudio = document.getElementById("myAudioId");
+
+				if (myAudio.volume>0) {
+					fMyAudioVolume-=0.2;
+					if (fMyAudioVolume<0) {
+						fMyAudioVolume=0;
 					}
 					
+					myAudio.volume=fMyAudioVolume; 
+				}							
+
+	
+	
+						if (iMonsterInHitStateCount>=iMonsterEndStateCountMax) {	
+							
+							fFramesPerSecond=fFramesPerSecondDefault; //16.66;			
+							clearInterval(iCurrentIntervalId);							
+							iCurrentIntervalId=setInterval(myUpdateFunction, fFramesPerSecond);
+												
+								//added by Mike, 20221122
+								iCurrentMiniGame=MINI_GAME_PUZZLE;
+								reset(); //removed by Mike, 20221124
+
+							//added by Mike, 20221124					
+							//bIsInitAutoGeneratePuzzleFromEnd=false;
+		
+							toggleFullScreen();
+												
+							//added by Mike, 20221124
+							bHasPressedStart=false;
+							return;	
+						}	
+						
+						//toggleFullScreen();
+					}
+
 					return;
 				}
 			}
@@ -5209,7 +5262,9 @@ function onLoad() {
 
 						myAudioEffect.setAttribute("src", getBaseURL()+sAudioEffectActionStart);
 
-						fMyAudioEffectVolume=0.2;						
+						//edited by Mike, 20221126
+						//fMyAudioEffectVolume=0.2;					
+						fMyAudioEffectVolume=0.4;						
 						myAudioEffect.volume=fMyAudioEffectVolume;
 						myAudioEffect.loop=false;
 						myAudioEffect.play();
