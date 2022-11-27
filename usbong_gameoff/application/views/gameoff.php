@@ -2176,14 +2176,16 @@ function toggleFullScreen() {
 				
 			//added by Mike, 20221126
 			//TO-DO: -reverify: this due to noticeable DELAY in execution
+			//notes: CAUSE to be requestFullscreen()
 			var imgPuzzle = document.getElementById("puzzleImageId");	
 			imgPuzzle.style.visibility="hidden";
-		
+/*		
 			if (!imgPuzzle.src.toLowerCase().includes("pinatubo")) {
 				//added by Mike, 2022118
 				imgPuzzle.setAttribute("src", getBaseURL()+"assets/images/mtPinatubo20150115T1415.jpg");
 				imgPuzzle.setAttribute("class", "ImageBackgroundOfPuzzle");	
 			}	
+*/
 
 /*	//removed by Mike, 20221127; 
 //note: shake appears to be due change in background image
@@ -2213,7 +2215,15 @@ function toggleFullScreen() {
   //added by Mike, 20221110
   if (!bIsUsingAppleWebKit) {
 	  if (!document.fullscreenElement) {
-		document.documentElement.requestFullscreen();
+		  
+		//edited by Mike, 20221127
+		//document.documentElement.requestFullscreen();
+		
+		if ((!bIsMobile) || (bIsUsingAppleMac)) {				
+		}
+		else {
+			document.documentElement.requestFullscreen();
+		}
 		
 		document.getElementById("myAudioId").play();
 		bIsAudioPlaying=true;
