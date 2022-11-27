@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221126; from 20221125
+' @date updated: 20221127; from 20221126
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1547,10 +1547,15 @@ var bIsMonsterExecutingAttack=false;
 var bIsMonsterInHitState=false;
 
 var iMonsterInHitStateCount=0;
-var iMonsterInHitStateCountMax=20;
-var iMonsterInDestroyedStateCountMax=40;
-var iMonsterEndStateCountBeforeMax=180;
-var iMonsterEndStateCountMax=200;
+const iMonsterInHitStateCountMax=20;
+const iMonsterInDestroyedStateCountMax=40;
+const iMonsterEndStateCountBeforeMax=180;
+const iMonsterEndStateCountMax=200;
+
+var iHumanInHitStateCount=0;
+const iHumanInDestroyedStateCountMax=100;
+const iHumanEndStateCountBeforeMax=180;
+
 
 //added by Mike, 20221125
 //reference: https://github.com/usbong/tugon/blob/main/mainLinux.cpp;
@@ -1584,14 +1589,15 @@ var bHasViewedControllerGuide=false;
 var bIsActionKeyPressed=false;
 var bHasHitMonster=false;
 var bHasDefeatedMonster=false;
+var bHasDefeatedHuman=false; //added by Mike, 20221127
 		  
 //added by Mike, 20220829
 const iHumanTileAnimationCountMax=6; //12;//20; //6;
-iHumanTileAnimationCount=0;	  
+var iHumanTileAnimationCount=0;	  
 
 //edited by Mike, 20221123; from 20221120
 const iMonsterTileAnimationCountMax=6; //3;
-iMonsterTileAnimationCount=0;	  
+var iMonsterTileAnimationCount=0;	  
 
 //edited by Mike, 20221120; from 20220915
 iMonsterStepY=10;
@@ -1704,7 +1710,7 @@ function changeMiniGame(iMiniGameId) {
 	if (iCurrentMiniGame==MINI_GAME_PUZZLE){
 		if (iMiniGameId!=MINI_GAME_PUZZLE) {
 			removeFromPuzzleStageExcessTiles();
-			
+
 			//added by Mike, 20221126
 			var myAudio = document.getElementById("myAudioId");
 			//myAudio.pause();
@@ -1950,11 +1956,13 @@ iMonsterAttackIndex=iMonsterAttackIndexFromBottomToTop;
 			
 //				iCurrentArrayMonsterHealthActionCount--;
 				iCurrentArrayMonsterHealthActionCount-=5;
+				//3 hits; max @8
+				//iCurrentArrayMonsterHealthActionCount-=3; 
 
 				//iCurrentArrayMonsterHealthActionCount=0;
 
 				if (iCurrentArrayMonsterHealthActionCount<=0) {
-					//alert("「魔物を倒した!」"); //MONSTER DESTROYED!
+					//MONSTER DESTROYED!
 				
 					//edited by Mike, 20221126
 					bHasDefeatedMonster=true;
@@ -1962,6 +1970,14 @@ iMonsterAttackIndex=iMonsterAttackIndexFromBottomToTop;
 				fFramesPerSecond=100.00; //16.66;				
 				clearInterval(iCurrentIntervalId);
 				iCurrentIntervalId=setInterval(myUpdateFunction, fFramesPerSecond);
+				
+/*	//removed by Mike, 20221127;
+//note: shake appears to be due to update in image background			
+			//added by Mike, 20221127
+			bIsExecutingDestroyHuman=false;
+  			iShakeOffsetWidth=0;
+			iShakeOffsetHeight=0;		
+*/			
 
 /*					
 					bHasDefeatedMonster=true;
@@ -2011,10 +2027,29 @@ iMonsterAttackIndex=iMonsterAttackIndexFromBottomToTop;
 				//added by Mike, 20221125
 				bIsExecutingDestroyHuman=true;				
 
-				iCurrentArrayHealthActionCount--;
-							
+//				iCurrentArrayHealthActionCount--;
+
+				//edited by Mike, 20221127
+				//iCurrentArrayHealthActionCount-=4;
+				//3 hits; max @8
+				iCurrentArrayHealthActionCount-=3;
+
 				if (iCurrentArrayHealthActionCount<=0) {
-					alert("「ここまでか・・・!」"); //END!
+					//END!
+
+					//added by Mike, 20221127					
+					bHasDefeatedHuman=true;
+					bHasDefeatedMonster=false;
+					humanTile.style.visibility="hidden";
+					mdo2.style.visibility="visible";
+					bIsMonsterInHitState=false;
+					bIsMonsterExecutingAttack=false;
+					
+					return;
+/*					
+					iMonsterInHitStateCount=iMonsterEndStateCountBeforeMax;
+					toggleFullScreen();
+*/					
 				}
 			}
 
@@ -2128,10 +2163,17 @@ function toggleFullScreen() {
 
   //added by Mike, 20221126
   if (iCurrentMiniGame==MINI_GAME_ACTION) {
+	  //edited by Mike, 20221128
   	if (bHasDefeatedMonster) {
+//  	if (bHasDefeatedHuman) {
+		
+/* //edited by Mike, 20221127
 		if (iMonsterInHitStateCount>=iMonsterInDestroyedStateCountMax) {
+*/
+		if (iMonsterInHitStateCount>=iMonsterEndStateCountBeforeMax) {
+
   			iMonsterInHitStateCount=iMonsterEndStateCountMax;
-			
+				
 			//added by Mike, 20221126
 			//TO-DO: -reverify: this due to noticeable DELAY in execution
 			var imgPuzzle = document.getElementById("puzzleImageId");	
@@ -2142,7 +2184,13 @@ function toggleFullScreen() {
 				imgPuzzle.setAttribute("src", getBaseURL()+"assets/images/mtPinatubo20150115T1415.jpg");
 				imgPuzzle.setAttribute("class", "ImageBackgroundOfPuzzle");	
 			}	
-			
+
+/*	//removed by Mike, 20221127; 
+//note: shake appears to be due change in background image
+			//added by Mike, 20221127
+			var myCanvas = document.getElementById("myCanvasId");
+			myCanvas.style.visibility="hidden";
+*/			
 						
 			//added by Mike, 20221126
 			var myAudioEffect = document.getElementById("myAudioEffectId");
@@ -3057,6 +3105,24 @@ iArrayHealthActionCount=8;
 			
 		}
 	}
+
+	//added by Mike, 20221127
+	if (bHasDefeatedHuman) {
+		humanTile.style.visibility="hidden";
+		
+		if (iHumanInHitStateCount>=iHumanInDestroyedStateCountMax) {
+			iCurrentMiniGame=MINI_GAME_PUZZLE;
+			reset();
+			
+			toggleFullScreen();
+								
+			//added by Mike, 20221124
+			bHasPressedStart=false;
+		}
+		iHumanInHitStateCount++;		
+		
+		return;
+	}
 	
 	
 	//----------
@@ -3468,15 +3534,16 @@ function miniGamePuzzleUpdate() {
 	//		alert("screen.height: "+screen.height); //533
 
 
+/* //removed by Mike, 20221127
 	//edited by Mike, 20221123; from 20220904
 	//ANIMATION UPDATE
 	if (!bHasDefeatedMonster) {	
 		if (iMonsterTileAnimationCount==iMonsterTileAnimationCountMax) {
 			if (monsterTile.className=='Image64x64TileFrame2') {
-		  	monsterTile.className='Image64x64TileFrame1';
+				monsterTile.className='Image64x64TileFrame1';
 			}
 			else {
-		  	monsterTile.className='Image64x64TileFrame2';
+				monsterTile.className='Image64x64TileFrame2';
 			}
 			iMonsterTileAnimationCount=0;
 		}
@@ -3484,6 +3551,9 @@ function miniGamePuzzleUpdate() {
 			iMonsterTileAnimationCount++;
 		}
 	}		
+*/	
+	
+	
 /*
 	//added by Mike, 20221123
 	//TO-DO: -reverify: animation instructions
@@ -3708,7 +3778,46 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		monsterTile.style.top = 0+"px"; //iVerticalOffset //note: control buttons offset
 		monsterTile.style.left = 0+iHorizontalOffset+iStageMaxWidth-iImgMonsterTileWidth+"px"; 
 		
+		//edited by Mike, 20221127
 		monsterTile.style.visibility="visible";	
+
+		//ANIMATION UPDATE
+			if (iMonsterTileAnimationCount==iMonsterTileAnimationCountMax) {
+				if (monsterTile.className=='Image64x64TileFrame2') {
+					monsterTile.className='Image64x64TileFrame1';
+					monsterTile.style.objectPosition="0px 0px";
+				}
+				else {
+					monsterTile.className='Image64x64TileFrame2';
+					monsterTile.style.objectPosition="-64px 0px";
+				}
+				iMonsterTileAnimationCount=0;
+			}
+			else {
+				iMonsterTileAnimationCount++;
+			}			
+
+/*
+			if (iMonsterTileAnimationCount<iMonsterTileAnimationCountMax/2) {
+					monsterTile.className='Image64x64TileFrame1';
+					monsterTile.style.objectPosition="0px -"+(monsterTileYOffset) +"px";
+				
+					iMonsterTileAnimationCount++;
+			}
+			else {
+				monsterTile.className='Image64x64TileFrame2';	
+				monsterTile.style.objectPosition="-64px 0px";
+				
+				if (iMonsterTileAnimationCount==iMonsterTileAnimationCountMax) {
+					iMonsterTileAnimationCount=0;
+					
+					monsterTileYOffset=0;
+				}
+				else {
+					iMonsterTileAnimationCount++;
+				}		
+			}
+*/			
 	}
 
 
@@ -4538,8 +4647,13 @@ function isPointIntersectingRect(iXPos, iYPos, mdo2) {
 
 	let mdo1XPos = iXPos;
 	let mdo1YPos = iYPos;				
+	
+/* //edited by Mike, 20221127	
 	let mdo1Width = 32;
 	let mdo1Height = 32; 
+*/
+	let mdo1Width = 0;
+	let mdo1Height = 0; 
 	
 	//alert("mdo1XPos: "+mdo1XPos);
 
@@ -4572,7 +4686,10 @@ function isPointIntersectingRect(iXPos, iYPos, mdo2) {
 	alert("mdo1YPos: "+mdo1YPos+"; "+"mdo1Height: "+mdo1Height);	
 	alert("mdo2YPos: "+mdo2YPos+"; "+"mdo2Height: "+mdo2Height);
 */
-	
+/*
+	alert("mdo1XPos: "+mdo1XPos+"; "+"mdo1Width: "+mdo1Width);	
+	alert("mdo2XPos: "+mdo2XPos+"; "+"mdo2Width: "+mdo2Width);
+*/	
 	if ((mdo2YPos+mdo2Height < mdo1YPos+iOffsetYPosAsPixel-iStepY) || //is the bottom of mdo2 above the top of mdo1?
 		(mdo2YPos > mdo1YPos+mdo1Height-iOffsetYPosAsPixel+iStepY) || //is the top of mdo2 below the bottom of mdo1?
 		(mdo2XPos+mdo2Width < mdo1XPos+iOffsetXPosAsPixel-iStepX) || //is the right of mdo2 to the left of mdo1?
@@ -4820,12 +4937,29 @@ function reset() {
 	bIsPuzzleDone=false;
 	
 	iCountMovementStep=0;
+	
 	//added by Mike, 20221123
 	iHumanTileAnimationCount=0;
 	iMonsterTileAnimationCount=0;
 	
 	//added by Mike, 20221124
 	iDelayAnimationCountEnter=0;
+	
+	//added by Mike, 20221127	
+	if (!bHasDefeatedMonster) {
+		bHasDefeatedMonster=false;
+		bHasDefeatedHuman=false;
+		bHasHitMonster=false;
+		iMonsterInHitStateCount=0;
+		iHumanInHitStateCount=0;
+		bIsMonsterExecutingAttack=false;
+		bIsMonsterInHitState=false;	
+		iCurrentArrayHealthActionCount=8;
+		iCurrentArrayMonsterHealthActionCount=8;	
+		//iMonsterTileAnimationCount=0;
+		iNoKeyPressCount=0;
+		bIsExecutingDestroyHuman=false;
+	}	
 }
 
 //added by Mike, 20221113
@@ -5303,6 +5437,20 @@ function onLoad() {
 				alert("iYPos: "+iYPos);
 */
 				if (isPointIntersectingRect(iXPos, iYPos, monsterTile)) {
+					//added by Mike, 20221127
+					//TO-DO: -put: in function to be reusable
+						var myAudioEffect = document.getElementById("myAudioEffectId");
+
+						myAudioEffect.setAttribute("src", getBaseURL()+sAudioEffectActionStart);
+
+						//edited by Mike, 20221126
+						//fMyAudioEffectVolume=0.2;					
+						fMyAudioEffectVolume=0.4;						
+						myAudioEffect.volume=fMyAudioEffectVolume;
+						myAudioEffect.loop=false;
+						myAudioEffect.play();
+
+					
 					changeMiniGame(MINI_GAME_ACTION);
 				}
 			}
