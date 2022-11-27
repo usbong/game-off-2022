@@ -41,7 +41,9 @@ http://store.usbong.ph/gameoff (work-in-progress)
 ## References
 1) [USBONG 囲碁](https://github.com/usbong/IGO)
 
-2) BLUEBLADE Technologies: MAJIKA PICTURE SLIDING PUZZLE GAME (J2ME)<br/>
+2) [ALL I NEED IS ONE DREAM: NIGHTWING AND HIS DUCK ARMY](https://www.redbubble.com/i/sticker/Nightwing-and-his-duck-Army-by-one-dream/103360727.EJUG5#&gid=1&pid=3)
+
+3) BLUEBLADE Technologies: MAJIKA PICTURE SLIDING PUZZLE GAME (J2ME)<br/>
 --> notes: auto-generate PUZZLE from finished OUTPUT,<br/>
 --> to be certain that CORRECT sequence exists;<br/>
 --> learns: in FF1, TILE SLIDING PUZZLE GAME to also exist<br/>
