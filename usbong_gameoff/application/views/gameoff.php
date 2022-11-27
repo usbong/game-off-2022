@@ -875,10 +875,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   							/*clip: rect(0px,64px,64px,0px);*/
 																								visibility: hidden;
-							
-							/*
-							transform: scale(0.5);						*/	
+														
+							/* //removed by Mike, 20221127
 							transform: scale(0.5,0.8);	
+							*/
+
+							padding: 0;
+							margin: auto;
+							display: block;							
+														
+							width: 320px;
+							height: 320px;
 
 							/* //added by Mike, 20221104 */
 							z-index: 0;	
@@ -902,7 +909,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							display: block;							
 														
 							width: 320px;
-							height: 288px;
+							height: 320px;
+							object-fit: contain;
 
 							/* //added by Mike, 20221104 */
 							z-index: 0;		
@@ -1502,11 +1510,18 @@ const sAudioEffectActionStart="assets/audio/UsbongGameOff2022ActionStartV2022112
 //const sImagePuzzleStage0="assets/images/count1024x1024.png"
 //const sImagePuzzleStage0="assets/images/allineedisonedreamNightwingAndHisDuckArmy.jpg"
 
-const sImagePuzzleStage0="assets/images/count1024x1024.png"
+const sImagePuzzleStage0="assets/images/count1024x1024.png";
 
-const sImagePuzzleStage1="assets/images/allineedisonedreamNightwingAndHisDuckArmyZoomIn.jpg"
+const sImagePuzzleStage1="assets/images/allineedisonedreamNightwingAndHisDuckArmyZoomIn.jpg";
 
-const sImagePuzzleStage2="assets/images/cambodia1024x1024-20141225T0958.jpg"
+const sImagePuzzleStage2="assets/images/cambodia1024x1024-20141225T0958.jpg";
+
+//added by Mike, 20221127
+//"assets/images/mtPinatubo20150115T1415.jpg"
+const sImagePuzzleBg="assets/images/mtPinatubo512x512-20150115T1415.jpg";
+
+//assets/images/assets/images/bgImageCave.png
+const sImageActionBg="assets/images/bgImageCave512x512.png";
 
 
 //added by Mike, 20221105
@@ -2563,7 +2578,7 @@ function miniGameActionUpdate() {
     //reverify: if solves noticeable DELAY in loading image file			
 	//alert(imgPuzzle.src);	
 	if (!imgPuzzle.src.toLowerCase().includes("cave")) {
-		imgPuzzle.setAttribute("src", getBaseURL()+"assets/images/bgImageCave.png");
+		imgPuzzle.setAttribute("src", getBaseURL()+sImageActionBg);
 		imgPuzzle.setAttribute("class", "ImageBackgroundOfAction");	
 	}	
 
@@ -3099,7 +3114,7 @@ iArrayHealthActionCount=8;
 					
 						if (!imgPuzzle.src.toLowerCase().includes("pinatubo")) {
 							//added by Mike, 2022118
-							imgPuzzle.setAttribute("src", getBaseURL()+"assets/images/mtPinatubo20150115T1415.jpg");
+							imgPuzzle.setAttribute("src", getBaseURL()+sImagePuzzleBg);
 							imgPuzzle.setAttribute("class", "ImageBackgroundOfPuzzle");	
 						}	
 						
@@ -3538,7 +3553,7 @@ function miniGamePuzzleUpdate() {
 	//alert(imgPuzzle.src);	
 	if (!imgPuzzle.src.toLowerCase().includes("pinatubo")) {
 		//added by Mike, 2022118
-		imgPuzzle.setAttribute("src", getBaseURL()+"assets/images/mtPinatubo20150115T1415.jpg");
+		imgPuzzle.setAttribute("src", getBaseURL()+sImagePuzzleBg);
 		imgPuzzle.setAttribute("class", "ImageBackgroundOfPuzzle");	
 	}
 
@@ -3810,9 +3825,12 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 //	humanTile.style.visibility="visible";	
 	
 	//added by Mike, 20221104		
+/*	//removed by Mike, 20221127; 
+	//ANCHOR @TOP-LEFT, instead of @CENTER	
 	imgPuzzle.style.left = (iHorizontalOffset-iStageMaxWidth/2)+"px";	
 
 	imgPuzzle.style.top = (iVerticalOffsetInnerScreen-iStageMaxHeight/2)+"px";	
+*/
 
 	if (bHasDefeatedMonster) {
 		monsterTile.style.visibility="hidden";	
