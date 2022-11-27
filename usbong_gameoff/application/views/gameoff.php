@@ -885,8 +885,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							display: block;							
 														
 							width: 320px;
-							height: 320px;
-
+							height: 288px;
+							
+							/* 
+							object-fit: contain;
+							*/
+							
 							/* //added by Mike, 20221104 */
 							z-index: 0;	
 
@@ -909,8 +913,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							display: block;							
 														
 							width: 320px;
-							height: 320px;
+							height: 288px;
+							
+							/* 
 							object-fit: contain;
+							*/
 
 							/* //added by Mike, 20221104 */
 							z-index: 0;		
