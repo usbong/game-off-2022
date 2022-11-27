@@ -1499,10 +1499,10 @@ fMyAudioEffectVolume=1.0; //added by Mike, 20221126
 //added by Mike, 20221124
 const sAudioPuzzleStage0="assets/audio/UsbongGameOff2022Action20221119T1911.mp3";
 
-const sAudioPuzzleStage1="assets/audio/UsbongGameOff2022Puzzle20221119T1427.mp3";
+const sAudioPuzzleStage1="assets/audio/UsbongGameOff2022PuzzleRhythm20221127from20211012.mp3";
 
 //TO-DO: -update: this
-const sAudioPuzzleStage2="assets/audio/UsbongGameOff2022Puzzle20221119T1427-2.mp3";
+const sAudioPuzzleStage2="assets/audio/UsbongGameOff2022Puzzle20221119T1427.mp3";
 
 const sAudioAction="assets/audio/UsbongGameOff2022ActionPiano20221122T1542.mp3";
 
