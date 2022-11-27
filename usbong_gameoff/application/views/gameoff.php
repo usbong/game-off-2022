@@ -977,11 +977,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							/* //added by Mike, 20221113 */
 						    width: 128px;
 						    height: 128px;
+/*
+						    width: 256px;
+						    height: 256px;
+*/							
+
 							object-fit: contain;
 	
 							/* //added by Mike, 20221112 */
   							clip: rect(0px,32px,32px,0px);
-	
+/*
+ 							clip: rect(0px,64px,64px,0px);
+*/	
 							background-color: transparent;
 							border: none;
 
@@ -1479,6 +1486,9 @@ const sAudioPuzzleStage0="assets/audio/UsbongGameOff2022Action20221119T1911.mp3"
 
 const sAudioPuzzleStage1="assets/audio/UsbongGameOff2022Puzzle20221119T1427.mp3";
 
+//TO-DO: -update: this
+const sAudioPuzzleStage2="assets/audio/UsbongGameOff2022Puzzle20221119T1427-2.mp3";
+
 const sAudioAction="assets/audio/UsbongGameOff2022ActionPiano20221122T1542.mp3";
 
 const sAudioEffectActionStart="assets/audio/UsbongGameOff2022ActionStartV20221126T0554.mp3";
@@ -1489,7 +1499,14 @@ const sAudioEffectActionStart="assets/audio/UsbongGameOff2022ActionStartV2022112
 
 
 //added by Mike, 20221124
+//const sImagePuzzleStage0="assets/images/count1024x1024.png"
+//const sImagePuzzleStage0="assets/images/allineedisonedreamNightwingAndHisDuckArmy.jpg"
+
 const sImagePuzzleStage0="assets/images/count1024x1024.png"
+
+const sImagePuzzleStage1="assets/images/allineedisonedreamNightwingAndHisDuckArmyZoomIn.jpg"
+
+const sImagePuzzleStage2="assets/images/cambodia1024x1024-20141225T0958.jpg"
 
 
 //added by Mike, 20221105
@@ -2490,7 +2507,9 @@ function miniGameActionUpdate() {
 	var controllerGuideButton = document.getElementById("controllerGuideButtonId");	
 	
 	//added by Mike, 20221118
-	imgPuzzle = document.getElementById("puzzleImageId");	
+	imgPuzzle = document.getElementById("puzzleImageId");
+	
+	
 	var textStatusDiv = document.getElementById("textStatusDivId");
 	var textEnterDiv = document.getElementById("textEnterDivId");
 	textEnterDiv.style.visibility="hidden";
@@ -2547,9 +2566,20 @@ function miniGameActionUpdate() {
 		imgPuzzle.setAttribute("src", getBaseURL()+"assets/images/bgImageCave.png");
 		imgPuzzle.setAttribute("class", "ImageBackgroundOfAction");	
 	}	
-	
-	imgPuzzle.style.visibility="visible";		
+
+	//edited by Mike, 20221127
+	//imgPuzzle.style.visibility="visible";		
 //	imgPuzzle.style.visibility="hidden";
+
+	if (bHasDefeatedMonster) {
+		if (iMonsterInHitStateCount>=iMonsterEndStateCountBeforeMax) {
+			imgPuzzle.style.visibility="hidden";
+		}
+	}
+	else {
+		imgPuzzle.style.visibility="visible";		
+	}
+
 	
 /*	
 	//note: directional and action movements executable without yet ENTER
@@ -3514,6 +3544,9 @@ function miniGamePuzzleUpdate() {
 
 	//added by Mike, 20221105
 	imgPuzzle.style.visibility="visible";	
+	
+	
+	
 	imgPuzzle.style.zIndex=0; //added by Mike, 20221118
 		
 	//added by Mike, 20220917; edited by Mike, 20220918
@@ -3881,6 +3914,8 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//added by Mike, 20221124
 	var myAudio = document.getElementById("myAudioId");
 	
+	//edited by Mike, 20221127
+	//iCurrentPuzzleStage=1;
 	
 //iCurrentPuzzleStage=1;
 	//miniPuzzleTileImage
@@ -3899,9 +3934,6 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 			if (myAudio.src!=getBaseURL()+sAudioPuzzleStage0) {
 				if (myAudio.volume>0) {
 					//edited by Mike, 20221125; from 20221124
-					
-//					myAudio.volume=0.5;  //-0.5
-
 					fMyAudioVolume-=0.2;
 					if (fMyAudioVolume<0) {
 						fMyAudioVolume=0;
@@ -3925,16 +3957,13 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 			}			
 			break;
-		case 1: //next level
+		case 1: //next level; cambodia
 			//note: cicada sound  : school bell in forest
-			miniPuzzleTileImage.setAttribute("src", getBaseURL()+"assets/images/cambodia1024x1024-20141225T0958.jpg");
+			miniPuzzleTileImage.setAttribute("src", getBaseURL()+sImagePuzzleStage1);
 
 			//added by Mike, 20221124			
 			if (myAudio.src!=getBaseURL()+sAudioPuzzleStage1) {	
 				if (myAudio.volume>0) {
-					//edited by Mike, 20221125; from 20221124					
-//					myAudio.volume=0.5;  //-0.5
-
 					fMyAudioVolume-=0.2;
 					if (fMyAudioVolume<0) {
 						fMyAudioVolume=0;
@@ -3949,22 +3978,47 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 					myAudio.pause();
 					myAudio.setAttribute("src", getBaseURL()+sAudioPuzzleStage1);
 
-					//edited by Mike, 20221125
-					//myAudio.volume=1.0;					
-					//edited by Mike, 20221126
 					fMyAudioVolume=0.2;//1.0;
-
-					//myAudio.volume=1.0;
 					myAudio.volume=fMyAudioVolume;
 
 					myAudio.play();	
 				}
 			}			
 			break;
+		case 2: //next level; duck army
+			miniPuzzleTileImage.setAttribute("src", getBaseURL()+sImagePuzzleStage2);
+
+			//added by Mike, 20221127
+			//note: myAudio NOT played IF same file due to instructions
+			//added by Mike, 20221124			
+			if (myAudio.src!=getBaseURL()+sAudioPuzzleStage2) {	
+				if (myAudio.volume>0) {
+					fMyAudioVolume-=0.2;
+					if (fMyAudioVolume<0) {
+						fMyAudioVolume=0;
+					}
+					
+					myAudio.volume=fMyAudioVolume; 
+					
+					//alert(fMyAudioVolume);
+				}
+				else {			
+					//alert("dito");
+					myAudio.pause();
+					myAudio.setAttribute("src", getBaseURL()+sAudioPuzzleStage2);
+
+					fMyAudioVolume=0.2;//1.0;
+					myAudio.volume=fMyAudioVolume;
+
+					myAudio.play();	
+				}
+			}	
+			break;			
+			
 		default: //END
-			//alert("dito");
-		
-			miniPuzzleTileImage.setAttribute("src", getBaseURL()+"assets/images/blank.png");			
+//			miniPuzzleTileImage.setAttribute("src", getBaseURL()+"assets/images/blank.png");			
+			miniPuzzleTileImage.setAttribute("src", getBaseURL()+sImagePuzzleStage0);			
+			
 			miniPuzzleTileImage.style.visibility = "hidden";
 			break;
 	}	
@@ -3991,19 +4045,24 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 		//edited by Mike, 20221122; from 20221121		
 		//iCurrentPuzzleStage=1;		
 		switch (iCurrentPuzzleStage) {
-			case 0: //starting level
+			case 0: //starting level; numbers sequence
 				//alert("dito");
 
 				//edited by Mike, 20221124
 			//arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/count1024x1024.png");
 				
 				if (arrayPuzzleTileCountId[iTileBgCount].src!=getBaseURL()+sImagePuzzleStage0) {
-					arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/count1024x1024.png");
+					
+				    //edited by Mike, 20221127	//arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/count1024x1024.png");
+					arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+sImagePuzzleStage0);
 				}
 				break;
-			case 1: //next level
-				arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/cambodia1024x1024-20141225T0958.jpg");				
-				break;				
+			case 1: //next level; cambodia
+				arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+sImagePuzzleStage1);
+				break;		
+			case 2: //next level; duck army
+				arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+sImagePuzzleStage2);			
+				break;					
 			default:		
 				iCurrentPuzzleStage=0;			
 
@@ -4011,7 +4070,10 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 				//edited by Mike, 20221124
 			//arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/count1024x1024.png");	
 				if (arrayPuzzleTileCountId[iTileBgCount].src!=getBaseURL()+sImagePuzzleStage0) {
-					arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/count1024x1024.png");
+					//edited by Mike, 20221127
+				//arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+"assets/images/count1024x1024.png");
+arrayPuzzleTileCountId[iTileBgCount].setAttribute("src", getBaseURL()+sImagePuzzleStage0);				
+				
 				}
 				
 
@@ -4031,8 +4093,10 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 //		alert (iPuzzleTileWidth*iRowCount);
 
 
-		arrayPuzzleTileCountId[iTileBgCount].style.visibility="visible";
-		
+		//edited by Mike, 20221127	//arrayPuzzleTileCountId[iTileBgCount].style.visibility="visible";	
+		if (bHasPressedStart) {
+			arrayPuzzleTileCountId[iTileBgCount].style.visibility="visible";
+		}		
 		
 		
 		//added by Mike, 20221106; removed by Mike, 20221106
@@ -4163,7 +4227,10 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 			}
 
 			
-			if (bIsTargetAtSpace) {	
+			//edited by Mike, 20221127
+			//if (bIsTargetAtSpace) {	
+			if ((bIsTargetAtSpace) && (bHasPressedStart)) {
+
 				//added by Mike, 20221113; removed by Mike, 20221113
 				//if (arrayPuzzleTileCountId[iTileBgCount].alt=="") {
 					
@@ -4969,6 +5036,10 @@ function reset() {
 		//iMonsterTileAnimationCount=0;
 		iNoKeyPressCount=0;
 		bIsExecutingDestroyHuman=false;
+	}	
+	
+	for (iCount=0; iCount<iTotalKeyCount; iCount++) {
+		arrayKeyPressed[iCount]=false;
 	}	
 }
 
