@@ -144,14 +144,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							padding: 0;
 							margin: auto;							
 							display: block;
-/*							
-							width: 320px;
-							height: 288px;	
-*/							
+					
 							visibility: hidden;
 
 							z-index: 99;							
 						}						
+						
+						canvas.myHitByAttackEffectCanvas {		
+							position: absolute;
+											
+							padding: 0;
+							margin: auto;							
+							display: block;
+					
+							visibility: hidden;
+
+							z-index: 99;							
+						}
 						
 						/*added by Mike, 20221121 */
 						div.DivTextStatus
@@ -1431,10 +1440,16 @@ var iHorizontalOffsetOfTargetBorder=0;
 iCurrentAppleWebKitInnerWidth=0;
 
 //added by Mike, 20221125
-const iMyEffectCanvasContextRadius=50;
+const iMyDefendedEffectCanvasContextRadius=50;
 var iMyDefendedEffectCount=0;
-const iMyDefendedEffectCountMax=20; //6;
+const iMyDefendedEffectCountMax=10; //20; //6;
 var bHasPressedActionCommand;
+
+//added by Mike, 20221128
+const iMyHitByAttackEffectCanvasContextRadius=30;
+const iMyHitByAttackEffectCountMax=10; //20; //6;
+var iMyHitByAttackEffectCount=iMyHitByAttackEffectCountMax;
+
 
 var fFramesPerSecond=16.66;
 const fFramesPerSecondDefault=16.66;
@@ -1983,13 +1998,10 @@ iMonsterAttackIndex=iMonsterAttackIndexFromBottomToTop;
 				
 				var myEffectCanvas = document.getElementById("myEffectCanvasId");
 
-				myEffectCanvas.style.top = (iVerticalOffsetInnerScreen+iHumanTileY-iMyEffectCanvasContextRadius+iHumanTileHeight/2)+"px";
-				myEffectCanvas.style.left = (iHorizontalOffset+iHumanTileX-iMyEffectCanvasContextRadius+iHumanTileWidth/2)+"px";
+				myEffectCanvas.style.top = (iVerticalOffsetInnerScreen+iHumanTileY-iMyDefendedEffectCanvasContextRadius+iHumanTileHeight/2)+"px";
+				myEffectCanvas.style.left = (iHorizontalOffset+iHumanTileX-iMyDefendedEffectCanvasContextRadius+iHumanTileWidth/2)+"px";
 				myEffectCanvas.style.visibility="visible";			
-				
-				
-
-								
+												
 				//speed-up
 				//fFramesPerSecond=1.00; //16.66;				
 				
@@ -2089,6 +2101,19 @@ iMonsterAttackIndex=iMonsterAttackIndexFromBottomToTop;
 				//iCurrentArrayHealthActionCount-=4;
 				//3 hits; max @8
 				iCurrentArrayHealthActionCount-=3;
+				
+				//added by Mike, 20221128
+				//human hit by monster attack
+				iMyHitByAttackEffectCount=0;
+
+				var myHitByAttackEffectCanvas = document.getElementById("myHitByAttackEffectCanvasId");
+
+				myHitByAttackEffectCanvas.style.top = (iVerticalOffsetInnerScreen+iHumanTileY-iMyDefendedEffectCanvasContextRadius+iHumanTileHeight/2)+"px";
+				myHitByAttackEffectCanvas.style.left = (iHorizontalOffset+iHumanTileX-iMyDefendedEffectCanvasContextRadius+iHumanTileWidth/2)+"px";
+				myHitByAttackEffectCanvas.style.visibility="visible";			
+				
+				
+
 
 				if (iCurrentArrayHealthActionCount<=0) {
 					//END!
@@ -2628,6 +2653,7 @@ function miniGameActionUpdate() {
 
 	//added by Mike, 20220820
 	var humanTile = document.getElementById("humanTileImageId");
+	var humanDeathTile = document.getElementById("humanDeathTileImageId");
 
 	//added by Mike, 20220904
 	var monsterTile = document.getElementById("monsterTileImageId");
@@ -2814,48 +2840,67 @@ function miniGameActionUpdate() {
 	//added by Mike, 20221125
 	var myEffectCanvas = document.getElementById("myEffectCanvasId");
 	var myEffectCanvasContext = myEffectCanvas.getContext("2d");
-
 	myEffectCanvasContext.strokeStyle = "#00b2da"; 
-	
 
+	var myHitByAttackEffectCanvas = document.getElementById("myHitByAttackEffectCanvasId");
+	var myHitByAttackEffectCanvasContext = myHitByAttackEffectCanvas.getContext("2d");
+	//brown
+	myHitByAttackEffectCanvasContext.strokeStyle = "80591b"; //"#ff0000";
+	
+	//notes: technique noticeable used with FLASH games,
+	//--> where: sprite image-based animation sequences few
+	//TO-DO: -update: this
+	myHitByAttackEffectCanvasContext.lineWidth = 1;
+	myHitByAttackEffectCanvasContext.setLineDash([5, 3]); //dash 5px; space 3px
 			
 /* //removed by Mike, 20221128
 	myEffectCanvasContext.beginPath();
 	//reference: https://www.w3schools.com/tags/canvas_arc.asp;
 	//last accessed: 20221125
 	//x,y, radius, start angle, end angle, false (as clockwise; default)
-	myEffectCanvasContext.arc(50, 50, iMyEffectCanvasContextRadius, 0, 2 * Math.PI);
+	myEffectCanvasContext.arc(50, 50, iMyDefendedEffectCanvasContextRadius, 0, 2 * Math.PI);
 	myEffectCanvasContext.stroke(); 
 */
 	//myEffectCanvas.style.visibility="hidden";
 
 	if (iMyDefendedEffectCount>=iMyDefendedEffectCountMax) {
 		myEffectCanvas.style.visibility="hidden";
-		//fFramesPerSecond=16.66; //added by Mike, 20221126
-		
-		//removed by Mike, 20221128
-		//iMyDefendedEffectCount=0;	
-		
-		//added by Mike, 20221128
-		//iMyDefendedEffectCount=0;
+
 		if (bIsActionKeyPressed) {
-			//alert("dito");
 			iMyDefendedEffectCount=0;
-		}	
-			
+		}				
 	}
 	else {
-		//alert(iMyDefendedEffectCount);
-	
 		//added by Mike, 20221128
 		myEffectCanvasContext.clearRect(0, 0, myEffectCanvas.width, myEffectCanvas.height);
 		
 		myEffectCanvasContext.beginPath();
-			myEffectCanvasContext.arc(50, 50, (iMyEffectCanvasContextRadius/iMyDefendedEffectCountMax)*iMyDefendedEffectCount, 0, 2 * Math.PI);
+			myEffectCanvasContext.arc(50, 50, (iMyDefendedEffectCanvasContextRadius/iMyDefendedEffectCountMax)*iMyDefendedEffectCount, 0, 2 * Math.PI);
 		myEffectCanvasContext.stroke(); 
 	
 		iMyDefendedEffectCount++;
 	}
+
+	//added by Mike, 20221128
+	if (iMyHitByAttackEffectCount<iMyHitByAttackEffectCountMax) {
+//		alert("dito");
+	
+		//added by Mike, 20221128
+		myHitByAttackEffectCanvasContext.clearRect(0, 0, myHitByAttackEffectCanvas.width, myHitByAttackEffectCanvas.height);
+		
+		myHitByAttackEffectCanvasContext.beginPath();
+		myHitByAttackEffectCanvasContext.arc(50, 50, (iMyHitByAttackEffectCanvasContextRadius/iMyHitByAttackEffectCountMax)*iMyHitByAttackEffectCount, 0, 2 * Math.PI);
+
+		myHitByAttackEffectCanvasContext.stroke(); 
+	
+		myHitByAttackEffectCanvas.style.visibility="visible";
+	
+		iMyHitByAttackEffectCount++;
+	}
+	else {
+		myHitByAttackEffectCanvas.style.visibility="hidden"
+	}
+	
 
 
 //alert (iHorizontalOffset);
@@ -3212,6 +3257,10 @@ iArrayHealthActionCount=8;
 	//added by Mike, 20221127
 	if (bHasDefeatedHuman) {
 		humanTile.style.visibility="hidden";
+		humanDeathTile.style.visibility="visible";
+		
+		humanDeathTile.style.top = (iVerticalOffsetInnerScreen+iHumanTileY)+"px";
+		humanDeathTile.style.left = (iHorizontalOffset+iHumanTileX)+"px";				
 		
 		if (iHumanInHitStateCount>=iHumanInDestroyedStateCountMax) {
 			iCurrentMiniGame=MINI_GAME_PUZZLE;
@@ -3225,6 +3274,9 @@ iArrayHealthActionCount=8;
 		iHumanInHitStateCount++;		
 		
 		return;
+	}
+	else {
+		humanDeathTile.style.visibility="hidden";
 	}
 	
 	
@@ -3374,6 +3426,8 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 				if (arrayKeyPressed[iActionKeyCount]) {
 					bIsActionKeyPressed=false;
 					arrayKeyPressed[iActionKeyCount]=false;
+					//added by Mike, 20221128
+					iMyDefendedEffectCount=0;
 				}
 			}				
 			break;
@@ -3386,9 +3440,9 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 		var humanTile = document.getElementById("humanTileImageId");
 		var myEffectCanvas = document.getElementById("myEffectCanvasId");
 */
-		myEffectCanvas.style.top = (iVerticalOffsetInnerScreen+iHumanTileY-iMyEffectCanvasContextRadius+iHumanTileHeight/2)+"px";
+		myEffectCanvas.style.top = (iVerticalOffsetInnerScreen+iHumanTileY-iMyDefendedEffectCanvasContextRadius+iHumanTileHeight/2)+"px";
 		
-		myEffectCanvas.style.left = (iHorizontalOffset+iHumanTileX-iMyEffectCanvasContextRadius+iHumanTileWidth/2)+"px";
+		myEffectCanvas.style.left = (iHorizontalOffset+iHumanTileX-iMyDefendedEffectCanvasContextRadius+iHumanTileWidth/2)+"px";
 		
 		myEffectCanvas.style.visibility="visible";
 		
@@ -3535,9 +3589,15 @@ function miniGamePuzzleUpdate() {
 	var myEffectCanvas = document.getElementById("myEffectCanvasId");
 	myEffectCanvas.style.visibility="hidden";
 
+	//TO-DO: -reverify: this if can be deleted
 	if (iMyDefendedEffectCount>=iMyDefendedEffectCountMax) {
 		myEffectCanvas.style.visibility="hidden";
 	}
+	
+	//added by Mike, 20221128	
+	var myHitByAttackEffectCanvas = document.getElementById("myHitByAttackEffectCanvasId");
+	myHitByAttackEffectCanvas.style.visibility="hidden";
+
 
 	//added by Mike, 20221123	
 	for (let iHealthCount=0; iHealthCount<iArrayHealthActionCountMax; iHealthCount++) {
@@ -3573,6 +3633,10 @@ function miniGamePuzzleUpdate() {
 		
 	//added by Mike, 20220820
 	var humanTile = document.getElementById("humanTileImageId");
+
+	//added by Mike, 20220828
+	var humanDeathTile = document.getElementById("humanDeathTileImageId");
+	humanDeathTile.style.visibility="hidden";
 
 	//added by Mike, 20220904
 	var monsterTile = document.getElementById("monsterTileImageId");
@@ -5909,9 +5973,12 @@ alert("iButtonHeight"+iButtonHeight);
 	<canvas id="myCanvasId" class="myCanvas">
 	</canvas>
 	
-	
 	<!-- added by Mike, 20221125 -->
 	<canvas id="myEffectCanvasId" class="myEffectCanvas">
+	</canvas>
+
+	<!-- added by Mike, 20221128 -->
+	<canvas id="myHitByAttackEffectCanvasId" class="myHitByAttackEffectCanvas">
 	</canvas>
 
 <!--
@@ -5971,6 +6038,10 @@ for ($iCount=0; $iCount<$iTileBgCountMax; $iCount++) {
 		
 <!-- edited by Mike, 20221120; from 20221117; Image32x32TileFrame1 -->
 	<img id="monsterTileImageId" class="Image64x64TileFrame1" src="<?php echo base_url('assets/images/monster.png');?>">	
+
+<!-- added by Mike, 20221128 -->
+	<img id="humanDeathTileImageId" class="Image32x32TileFrame1" src="<?php echo base_url('assets/images/favicon.png');?>">	
+
 
 	<!-- added by Mike, 20221124 -->
 	<div id="divActionHealthContainerId" class="ImageHealthTileContainer"></div>
