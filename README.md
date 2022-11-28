@@ -2,6 +2,18 @@
 
 GAME OFF 2022: https://itch.io/jam/game-off-2022
 
+## DESKTOP
+
+1) CLASSIC
+
+<img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/gameoff2022Stage2DuckArmyV20221129.png" width="80%">
+
+2) CHALLENGE
+
+<img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/gameoff2022Stage2DuckArmyChallengeV20221129.png" width="80%">
+
+
+
 ## OBJECTIVE
 
 1) increase: know-how of MAJORITY
