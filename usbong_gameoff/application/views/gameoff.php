@@ -1660,6 +1660,10 @@ iMonsterStepX=10;
 iMonsterTileY=0;
 iMonsterTileX=0;
 
+//added by Mike, 20221128
+iHumanStepX=2; //5;
+iHumanStepY=2; //5;
+
 //added by Mike, 20221121
 iMiniPuzzleWidth=64;
 iMiniPuzzleHeight=64;
@@ -2894,6 +2898,64 @@ function miniGameActionUpdate() {
 		myHitByAttackEffectCanvasContext.stroke(); 
 	
 		myHitByAttackEffectCanvas.style.visibility="visible";
+
+		//added by Mike, 20221128
+		if (iMyHitByAttackEffectCount==0) {
+			//alert(iMonsterAttackIndex);
+			
+/*			//edited by Mike, 20221128
+			iHumanTileX = iHumanTileX+iHumanStepX*10;
+			iHumanTileY = iHumanTileY+iHumanStepY*10;	
+*/
+
+			iToWhichSideIndex = Math.floor(Math.random() * 2); 
+			
+			switch (iMonsterAttackIndex) {
+				case iMonsterAttackIndexFromTopToBottom:
+					if (iToWhichSideIndex==0) {
+						iHumanTileX = iHumanTileX+iHumanStepX*10*(-1);
+					}					
+					else {
+						iHumanTileX = iHumanTileX+iHumanStepX*10;
+					}
+
+					iHumanTileY = iHumanTileY+iHumanStepY*10*(1);
+					break;
+				case iMonsterAttackIndexFromBottomToTop:
+					if (iToWhichSideIndex==0) {
+						iHumanTileX = iHumanTileX+iHumanStepX*10*(-1);
+					}					
+					else {
+						iHumanTileX = iHumanTileX+iHumanStepX*10;
+					}
+
+					iHumanTileY = iHumanTileY+iHumanStepY*10*(-1);
+					break;
+				case iMonsterAttackIndexFromLeftToRight:
+					if (iToWhichSideIndex==0) {
+						iHumanTileY = iHumanTileY+iHumanStepY*10*(-1);
+					}					
+					else {
+						iHumanTileY = iHumanTileY+iHumanStepY*10;
+					}
+
+					iHumanTileX = iHumanTileX+iHumanStepX*10*(1);
+					break;
+				case iMonsterAttackIndexFromRightToLeft:
+					if (iToWhichSideIndex==0) {
+						iHumanTileY = iHumanTileY+iHumanStepY*10*(-1);
+					}					
+					else {
+						iHumanTileY = iHumanTileY+iHumanStepY*10;
+					}
+
+					iHumanTileX = iHumanTileX+iHumanStepX*10*(-1);
+					break;			
+			}
+
+			humanTile.style.left = (iHorizontalOffset+iHumanTileX)+"px";	
+			humanTile.style.top = (iVerticalOffsetInnerScreen+iHumanTileY)+"px";	
+		}
 	
 		iMyHitByAttackEffectCount++;
 	}
@@ -3080,12 +3142,14 @@ iArrayHealthActionCount=8;
 */
 	
 /* //edited by Mike, 20221117
-	let iStepX=5; //4;
-	let iStepY=5; //4;
+	let iHumanStepX=5; //4;
+	let iHumanStepY=5; //4;
 */	
-	let iStepX=2; //5;
-	let iStepY=2; //5;
 
+/*	//removed by Mike, 20221128
+	let iHumanStepX=2; //5;
+	let iHumanStepY=2; //5;
+*/
 
 	//added by Mike, 20221030
 	//TO-DO: -reverify: adding this in touchmove
@@ -3284,10 +3348,10 @@ iArrayHealthActionCount=8;
 	
 	//if (bKeyDownRight) { //key d
 	if (arrayKeyPressed[iKEY_D]) {
-		//humanTile.style.left =  iHorizontalOffset+iHumanTileX+iStepX+"px";
-		//humanTile.style.left =  iHumanTileX+iStepX+"px";
+		//humanTile.style.left =  iHorizontalOffset+iHumanTileX+iHumanStepX+"px";
+		//humanTile.style.left =  iHumanTileX+iHumanStepX+"px";
 
-		iHumanTileX+=iStepX;
+		iHumanTileX+=iHumanStepX;
 		humanTile.style.left = (iHorizontalOffset+iHumanTileX)+"px";	
 		
 		//added by Mike, 20221116		
@@ -3295,9 +3359,9 @@ iArrayHealthActionCount=8;
 		bIsWalkingAction=true;
 	}	
 	else if (arrayKeyPressed[iKEY_A]) {
-		//humanTile.style.left =  iHorizontalOffset+iHumanTileX-iStepX+"px";				
-		//humanTile.style.left =  iHumanTileX-iStepX+"px";				
-		iHumanTileX-=iStepX;
+		//humanTile.style.left =  iHorizontalOffset+iHumanTileX-iHumanStepX+"px";				
+		//humanTile.style.left =  iHumanTileX-iHumanStepX+"px";				
+		iHumanTileX-=iHumanStepX;
 		humanTile.style.left = (iHorizontalOffset+iHumanTileX)+"px";
 		
 		//added by Mike, 20221116
@@ -3323,9 +3387,9 @@ iArrayHealthActionCount=8;
 	//note: inverted Y-axis; where: @top of window is 0px
 	//if (arrayKeyPressed[iKEY_W]) {
 	else if (arrayKeyPressed[iKEY_W]) {
-//		humanTile.style.top = iVerticalOffset+iHumanTileY-iStepY+"px";				
-		//humanTile.style.top = iHumanTileY-iStepY+"px";	
-		iHumanTileY-=iStepY;	
+//		humanTile.style.top = iVerticalOffset+iHumanTileY-iHumanStepY+"px";				
+		//humanTile.style.top = iHumanTileY-iHumanStepY+"px";	
+		iHumanTileY-=iHumanStepY;	
 		humanTile.style.top = (iVerticalOffsetInnerScreen+iHumanTileY)+"px";	
 		
 		//added by Mike, 20221116		
@@ -3333,9 +3397,9 @@ iArrayHealthActionCount=8;
 		bIsWalkingAction=true;
 	}	
 	else if (arrayKeyPressed[iKEY_S]) {
-//		humanTile.style.top =  iVerticalOffset+iHumanTileY+iStepY+"px";				
-//		humanTile.style.top =  iHumanTileY+iStepY+"px";				
-		iHumanTileY+=iStepY;	
+//		humanTile.style.top =  iVerticalOffset+iHumanTileY+iHumanStepY+"px";				
+//		humanTile.style.top =  iHumanTileY+iHumanStepY+"px";				
+		iHumanTileY+=iHumanStepY;	
 		humanTile.style.top = (iVerticalOffsetInnerScreen+iHumanTileY)+"px";	
 		
 		//added by Mike, 20221116		
@@ -3360,29 +3424,29 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 	const iWallWidth=iHumanTileWidth;
 	const iWallHeight=iHumanTileHeight;
 	
-	if (iHorizontalOffset+iHumanTileX-iStepX < iHorizontalOffset+0+iWallWidth) {
+	if (iHorizontalOffset+iHumanTileX-iHumanStepX < iHorizontalOffset+0+iWallWidth) {
 		humanTile.style.left = (iHorizontalOffset)+iWallWidth+"px";
 		iHumanTileX=0+iWallWidth;
 	}
-	else if (iHorizontalOffset+iHumanTileX+iHumanTileWidth+iStepX>iHorizontalOffset+0+iStageMaxWidth-iWallWidth) {
+	else if (iHorizontalOffset+iHumanTileX+iHumanTileWidth+iHumanStepX>iHorizontalOffset+0+iStageMaxWidth-iWallWidth) {
 		humanTile.style.left = (iHorizontalOffset+iStageMaxWidth-iHumanTileWidth-iWallWidth)+"px";
 		iHumanTileX=iStageMaxWidth-iHumanTileWidth-iWallWidth;
 	}
 	
 	//iVerticalOffset
  //edited by Mike, 20221118	
-	if (iHumanTileY-iStepY < 0+iWallHeight) {
+	if (iHumanTileY-iHumanStepY < 0+iWallHeight) {
 		humanTile.style.top = (0+iWallHeight)+"px";
 		iHumanTileY=0+iWallHeight;
 	}
 
 /*
-	if (iHumanTileY-iStepY < 0) { //+iWallHeight) {
+	if (iHumanTileY-iHumanStepY < 0) { //+iWallHeight) {
 		humanTile.style.top = (0)+"px";
 		iHumanTileY=0;
 	}
 */	
-	else if (iHumanTileY+iHumanTileHeight+iStepY>0+iStageMaxHeight-iWallHeight) {
+	else if (iHumanTileY+iHumanTileHeight+iHumanStepY>0+iStageMaxHeight-iWallHeight) {
 		humanTile.style.top = (iStageMaxHeight-iHumanTileHeight-iWallHeight)+"px";
 		iHumanTileY=iStageMaxHeight-iHumanTileHeight-iWallHeight;
 	}
@@ -3860,11 +3924,11 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 */	
 	//edited by Mike, 20220823; edited again by Mike, 20221019
 /*
-	let iStepX=10; //4;
-	let iStepY=10; //4;
+	let iHumanStepX=10; //4;
+	let iHumanStepY=10; //4;
 */
-	let iStepX=5; //4;
-	let iStepY=5; //4;
+	let iHumanStepX=5; //4;
+	let iHumanStepY=5; //4;
 
 
 	//added by Mike, 20221030
@@ -3896,32 +3960,32 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 
 	//if (bKeyDownRight) { //key d
 	if (arrayKeyPressed[iKEY_D]) {
-		//humanTile.style.left =  iHorizontalOffset+iHumanTileX+iStepX+"px";
-		//humanTile.style.left =  iHumanTileX+iStepX+"px";
+		//humanTile.style.left =  iHorizontalOffset+iHumanTileX+iHumanStepX+"px";
+		//humanTile.style.left =  iHumanTileX+iHumanStepX+"px";
 
-		iHumanTileX+=iStepX;
+		iHumanTileX+=iHumanStepX;
 		//humanTile.style.left =  iHorizontalOffset+iHumanTileX +"px";
 	}	
 	else if (arrayKeyPressed[iKEY_A]) {
-		//humanTile.style.left =  iHorizontalOffset+iHumanTileX-iStepX+"px";				
-		//humanTile.style.left =  iHumanTileX-iStepX+"px";				
-		iHumanTileX-=iStepX;
+		//humanTile.style.left =  iHorizontalOffset+iHumanTileX-iHumanStepX+"px";				
+		//humanTile.style.left =  iHumanTileX-iHumanStepX+"px";				
+		iHumanTileX-=iHumanStepX;
 		//humanTile.style.left =  iHorizontalOffset+iHumanTileX +"px";
 	}
 
 	
 	//note: inverted Y-axis; where: @top of window is 0px
 	if (arrayKeyPressed[iKEY_W]) {
-//		humanTile.style.top = iVerticalOffset+iHumanTileY-iStepY+"px";				
-		//humanTile.style.top = iHumanTileY-iStepY+"px";	
-		iHumanTileY-=iStepY;	
+//		humanTile.style.top = iVerticalOffset+iHumanTileY-iHumanStepY+"px";				
+		//humanTile.style.top = iHumanTileY-iHumanStepY+"px";	
+		iHumanTileY-=iHumanStepY;	
 		
 		//humanTile.style.top = iVerticalOffsetInnerScreen+iHumanTileY+"px";	
 	}	
 	else if (arrayKeyPressed[iKEY_S]) {
-//		humanTile.style.top =  iVerticalOffset+iHumanTileY+iStepY+"px";				
-//		humanTile.style.top =  iHumanTileY+iStepY+"px";				
-		iHumanTileY+=iStepY;	
+//		humanTile.style.top =  iVerticalOffset+iHumanTileY+iHumanStepY+"px";				
+//		humanTile.style.top =  iHumanTileY+iHumanStepY+"px";				
+		iHumanTileY+=iHumanStepY;	
 		
 		//humanTile.style.top = iVerticalOffsetInnerScreen+iHumanTileY+"px";		
 	}
@@ -4763,11 +4827,11 @@ function isIntersectingRect(mdo1, mdo2) {
 
 
 /*	//edited by Mike, 20221120
-	let iStepX=10;
-	let iStepY=10;	
+	let iHumanStepX=10;
+	let iHumanStepY=10;	
 */
-	let iStepX=2;
-	let iStepY=2;	
+	let iHumanStepX=2;
+	let iHumanStepY=2;	
 
 
 /*	
@@ -4775,10 +4839,10 @@ function isIntersectingRect(mdo1, mdo2) {
 	alert("mdo2XPos: "+mdo2XPos+"; "+"mdo2Width: "+mdo2Width);
 */
 	
-	if ((mdo2YPos+mdo2Height < mdo1YPos+iOffsetYPosAsPixel-iStepY) || //is the bottom of mdo2 above the top of mdo1?
-		(mdo2YPos > mdo1YPos+mdo1Height-iOffsetYPosAsPixel+iStepY) || //is the top of mdo2 below the bottom of mdo1?
-		(mdo2XPos+mdo2Width < mdo1XPos+iOffsetXPosAsPixel-iStepX) || //is the right of mdo2 to the left of mdo1?
-		(mdo2XPos > mdo1XPos+mdo1Width-iOffsetXPosAsPixel+iStepX)) //is the left of mdo2 to the right of mdo1?
+	if ((mdo2YPos+mdo2Height < mdo1YPos+iOffsetYPosAsPixel-iHumanStepY) || //is the bottom of mdo2 above the top of mdo1?
+		(mdo2YPos > mdo1YPos+mdo1Height-iOffsetYPosAsPixel+iHumanStepY) || //is the top of mdo2 below the bottom of mdo1?
+		(mdo2XPos+mdo2Width < mdo1XPos+iOffsetXPosAsPixel-iHumanStepX) || //is the right of mdo2 to the left of mdo1?
+		(mdo2XPos > mdo1XPos+mdo1Width-iOffsetXPosAsPixel+iHumanStepX)) //is the left of mdo2 to the right of mdo1?
 	{		
 		//no collision
 		return false;
@@ -4816,8 +4880,8 @@ function isIntersectingRectDefault(mdo1, mdo2) {
 	let iOffsetXPosAsPixel=0; //-20; //0; //10;
 	let iOffsetYPosAsPixel=0; //-20; //0; //10;	
 
-	let iStepX=2;
-	let iStepY=2;	
+	let iHumanStepX=2;
+	let iHumanStepY=2;	
 
 
 /*	
@@ -4825,10 +4889,10 @@ function isIntersectingRectDefault(mdo1, mdo2) {
 	alert("mdo2XPos: "+mdo2XPos+"; "+"mdo2Width: "+mdo2Width);
 */
 	
-	if ((mdo2YPos+mdo2Height < mdo1YPos+iOffsetYPosAsPixel-iStepY) || //is the bottom of mdo2 above the top of mdo1?
-		(mdo2YPos > mdo1YPos+mdo1Height-iOffsetYPosAsPixel+iStepY) || //is the top of mdo2 below the bottom of mdo1?
-		(mdo2XPos+mdo2Width < mdo1XPos+iOffsetXPosAsPixel-iStepX) || //is the right of mdo2 to the left of mdo1?
-		(mdo2XPos > mdo1XPos+mdo1Width-iOffsetXPosAsPixel+iStepX)) //is the left of mdo2 to the right of mdo1?
+	if ((mdo2YPos+mdo2Height < mdo1YPos+iOffsetYPosAsPixel-iHumanStepY) || //is the bottom of mdo2 above the top of mdo1?
+		(mdo2YPos > mdo1YPos+mdo1Height-iOffsetYPosAsPixel+iHumanStepY) || //is the top of mdo2 below the bottom of mdo1?
+		(mdo2XPos+mdo2Width < mdo1XPos+iOffsetXPosAsPixel-iHumanStepX) || //is the right of mdo2 to the left of mdo1?
+		(mdo2XPos > mdo1XPos+mdo1Width-iOffsetXPosAsPixel+iHumanStepX)) //is the left of mdo2 to the right of mdo1?
 	{		
 		//no collision
 		return false;
@@ -4880,11 +4944,11 @@ function isPointIntersectingRect(iXPos, iYPos, mdo2) {
 	let iOffsetYPosAsPixel=0; //-20; //0; //10;	
 
 /*	//edited by Mike, 20221120
-	let iStepX=10;
-	let iStepY=10;	
+	let iHumanStepX=10;
+	let iHumanStepY=10;	
 */
-	let iStepX=2;
-	let iStepY=2;	
+	let iHumanStepX=2;
+	let iHumanStepY=2;	
 
 /*	
 	alert("mdo1XPos: "+mdo1XPos+"; "+"mdo1Width: "+mdo1Width);	
@@ -4899,10 +4963,10 @@ function isPointIntersectingRect(iXPos, iYPos, mdo2) {
 	alert("mdo1XPos: "+mdo1XPos+"; "+"mdo1Width: "+mdo1Width);	
 	alert("mdo2XPos: "+mdo2XPos+"; "+"mdo2Width: "+mdo2Width);
 */	
-	if ((mdo2YPos+mdo2Height < mdo1YPos+iOffsetYPosAsPixel-iStepY) || //is the bottom of mdo2 above the top of mdo1?
-		(mdo2YPos > mdo1YPos+mdo1Height-iOffsetYPosAsPixel+iStepY) || //is the top of mdo2 below the bottom of mdo1?
-		(mdo2XPos+mdo2Width < mdo1XPos+iOffsetXPosAsPixel-iStepX) || //is the right of mdo2 to the left of mdo1?
-		(mdo2XPos > mdo1XPos+mdo1Width-iOffsetXPosAsPixel+iStepX)) //is the left of mdo2 to the right of mdo1?
+	if ((mdo2YPos+mdo2Height < mdo1YPos+iOffsetYPosAsPixel-iHumanStepY) || //is the bottom of mdo2 above the top of mdo1?
+		(mdo2YPos > mdo1YPos+mdo1Height-iOffsetYPosAsPixel+iHumanStepY) || //is the top of mdo2 below the bottom of mdo1?
+		(mdo2XPos+mdo2Width < mdo1XPos+iOffsetXPosAsPixel-iHumanStepX) || //is the right of mdo2 to the left of mdo1?
+		(mdo2XPos > mdo1XPos+mdo1Width-iOffsetXPosAsPixel+iHumanStepX)) //is the left of mdo2 to the right of mdo1?
 	{		
 		//no collision
 		return false;
@@ -5416,26 +5480,26 @@ function onLoad() {
 		//solved: via bKeyDownRight = false; et cetera
 		if (e.keyCode==68) { //key d
 	//			alert("dito");
-			//humanTile.style.left =  iHumanTileX+iStepX+"px";				
+			//humanTile.style.left =  iHumanTileX+iHumanStepX+"px";				
 			//edited by Mike, 20220823
 			//bKeyDownRight=true;
 			arrayKeyPressed[iKEY_D]=true;			
 		}
 		else if (e.keyCode==65) { //key a			
 			//edited by Mike, 20220823
-			//humanTile.style.left =  iHumanTileX-iStepX+"px";				
+			//humanTile.style.left =  iHumanTileX-iHumanStepX+"px";				
 			arrayKeyPressed[iKEY_A]=true;			
 		}
 		
 		//added by Mike, 20220822
 		if (e.keyCode==87) { //key w		
 			//edited by Mike, 20220823
-			//humanTile.style.top =  iHumanTileY-iStepY+"px";				
+			//humanTile.style.top =  iHumanTileY-iHumanStepY+"px";				
 			arrayKeyPressed[iKEY_W]=true;			
 		}
 		else if (e.keyCode==83) { //key s
 			//edited by Mike, 20220823
-			//humanTile.style.top =  iHumanTileY+iStepY+"px";				
+			//humanTile.style.top =  iHumanTileY+iHumanStepY+"px";				
 			arrayKeyPressed[iKEY_S]=true;			
 		}
 
