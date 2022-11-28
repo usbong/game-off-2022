@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221127; from 20221126
+' @date updated: 20221128; from 20221127
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1433,7 +1433,7 @@ iCurrentAppleWebKitInnerWidth=0;
 //added by Mike, 20221125
 const iMyEffectCanvasContextRadius=50;
 var iMyDefendedEffectCount=0;
-const iMyDefendedEffectCountMax=6;
+const iMyDefendedEffectCountMax=20; //6;
 var bHasPressedActionCommand;
 
 var fFramesPerSecond=16.66;
@@ -1817,10 +1817,18 @@ function executeMonsterAttackAI() {
 
 	//added by Mike, 20221126
 	var humanTile = document.getElementById("humanTileImageId");
+	
+	//added by Mike, 20221128
+	var imgPuzzle = document.getElementById("puzzleImageId");
 
 	//Monster Artificial Intelligence
 //	if (iNoKeyPressCount>iNoKeyPressCountMax) {		
 		if (bIsMonsterExecutingAttack) {	
+		
+			//added by Mike, 20221128
+			imgPuzzle.style.visibility="visible";
+
+		
 //alert("iMonsterAttackIndex: "+iMonsterAttackIndex);		
 			switch (iMonsterAttackIndex) {
 				case iMonsterAttackIndexFromTopToBottom:
@@ -1949,6 +1957,10 @@ iMonsterAttackIndex=iMonsterAttackIndexFromBottomToTop;
 			
 			bIsMonsterExecutingAttack=true;
 			
+			
+			//added by Mike, 20221128
+			imgPuzzle.style.visibility="hidden";
+			
 			//alert("dito: "+iMonsterAttackIndex);
 		}	
 	//}
@@ -1974,8 +1986,10 @@ iMonsterAttackIndex=iMonsterAttackIndexFromBottomToTop;
 				myEffectCanvas.style.top = (iVerticalOffsetInnerScreen+iHumanTileY-iMyEffectCanvasContextRadius+iHumanTileHeight/2)+"px";
 				myEffectCanvas.style.left = (iHorizontalOffset+iHumanTileX-iMyEffectCanvasContextRadius+iHumanTileWidth/2)+"px";
 				myEffectCanvas.style.visibility="visible";			
-				iMyDefendedEffectCount=0;
 				
+				
+
+								
 				//speed-up
 				//fFramesPerSecond=1.00; //16.66;				
 				
@@ -1994,7 +2008,10 @@ iMonsterAttackIndex=iMonsterAttackIndexFromBottomToTop;
 				bIsMonsterInHitState=true;
 			
 //				iCurrentArrayMonsterHealthActionCount--;
-				iCurrentArrayMonsterHealthActionCount-=5;
+				//edited by Mike, 20221128
+//				iCurrentArrayMonsterHealthActionCount-=5;
+				iCurrentArrayMonsterHealthActionCount-=2;
+				
 				//3 hits; max @8
 				//iCurrentArrayMonsterHealthActionCount-=3; 
 
@@ -2799,20 +2816,44 @@ function miniGameActionUpdate() {
 	var myEffectCanvasContext = myEffectCanvas.getContext("2d");
 
 	myEffectCanvasContext.strokeStyle = "#00b2da"; 
+	
+
+			
+/* //removed by Mike, 20221128
 	myEffectCanvasContext.beginPath();
 	//reference: https://www.w3schools.com/tags/canvas_arc.asp;
 	//last accessed: 20221125
 	//x,y, radius, start angle, end angle, false (as clockwise; default)
 	myEffectCanvasContext.arc(50, 50, iMyEffectCanvasContextRadius, 0, 2 * Math.PI);
 	myEffectCanvasContext.stroke(); 
-
+*/
 	//myEffectCanvas.style.visibility="hidden";
 
 	if (iMyDefendedEffectCount>=iMyDefendedEffectCountMax) {
 		myEffectCanvas.style.visibility="hidden";
 		//fFramesPerSecond=16.66; //added by Mike, 20221126
+		
+		//removed by Mike, 20221128
+		//iMyDefendedEffectCount=0;	
+		
+		//added by Mike, 20221128
+		//iMyDefendedEffectCount=0;
+		if (bIsActionKeyPressed) {
+			//alert("dito");
+			iMyDefendedEffectCount=0;
+		}	
+			
 	}
 	else {
+		//alert(iMyDefendedEffectCount);
+	
+		//added by Mike, 20221128
+		myEffectCanvasContext.clearRect(0, 0, myEffectCanvas.width, myEffectCanvas.height);
+		
+		myEffectCanvasContext.beginPath();
+			myEffectCanvasContext.arc(50, 50, (iMyEffectCanvasContextRadius/iMyDefendedEffectCountMax)*iMyDefendedEffectCount, 0, 2 * Math.PI);
+		myEffectCanvasContext.stroke(); 
+	
 		iMyDefendedEffectCount++;
 	}
 
@@ -3350,7 +3391,9 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 		myEffectCanvas.style.left = (iHorizontalOffset+iHumanTileX-iMyEffectCanvasContextRadius+iHumanTileWidth/2)+"px";
 		
 		myEffectCanvas.style.visibility="visible";
-		iMyDefendedEffectCount=0;		
+		
+		//removed by Mike, 20221128
+		//iMyDefendedEffectCount=0;		
 	}
 
 
