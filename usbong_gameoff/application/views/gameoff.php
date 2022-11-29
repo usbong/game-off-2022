@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221128; from 20221127
+' @date updated: 20221129; from 20221128
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -1450,9 +1450,12 @@ const iMyHitByAttackEffectCanvasContextRadius=30;
 const iMyHitByAttackEffectCountMax=10; //20; //6;
 var iMyHitByAttackEffectCount=iMyHitByAttackEffectCountMax;
 
-
-var fFramesPerSecond=16.66;
+//edited by Mike, 20221129
+//1000/60=16.66; 60 frames per second
+//1000/30=33.33; 30 frames 
 const fFramesPerSecondDefault=16.66;
+//const fFramesPerSecondDefault=33.33;
+var fFramesPerSecond=fFramesPerSecondDefault;
 var iCurrentIntervalId=-1;
 
 //added by Mike, 20221118
@@ -1754,10 +1757,7 @@ function toggleControllerGuide() {
 		}
 		else {
 			controllerGuideImage.style.visibility = "hidden";
-		}	
-		
-		
-		
+		}			
 	}
 }
 
