@@ -10,7 +10,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20200306
-' @date updated: 20221129; from 20221128
+' @date updated: 20221130; from 20221129
 '
 ' Note: re-used computer instructions mainly from the following:
 '	1) Usbong Knowledge Management System (KMS);
@@ -2290,6 +2290,7 @@ function toggleFullScreen() {
   //put this before bHasPressedStart=true;
   if (bHasPressedStart) { 
   	bHasViewedHowToPlayGuide=true;
+	return;
   }
 	
   //added by Mike, 20221114	
@@ -2367,7 +2368,6 @@ function toggleFullScreen() {
 				//alert("hallo");
 
 	  } else if (document.exitFullscreen) {
-
 		//added by Mike, 20221020
 		//pauseAudio();
 		document.getElementById("myAudioId").pause();
@@ -4350,8 +4350,12 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 						myAudio.play();	
 					}
 				}
-
-			}			
+			}	
+			//added by Mike, 20221130
+			else {
+				fMyAudioVolume=1.0;
+				myAudio.volume=fMyAudioVolume;
+			}
 			break;
 		case 1: //next level; duck army
 			//note: cicada sound  : school bell in forest
