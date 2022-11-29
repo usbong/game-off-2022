@@ -2289,8 +2289,10 @@ function toggleFullScreen() {
   //added by Mike, 20221129
   //put this before bHasPressedStart=true;
   if (bHasPressedStart) { 
-  	bHasViewedHowToPlayGuide=true;
-	return;
+	if (!bHasViewedHowToPlayGuide) {
+		bHasViewedHowToPlayGuide=true;
+		return;
+	}
   }
 	
   //added by Mike, 20221114	
