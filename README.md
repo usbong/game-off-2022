@@ -1,6 +1,6 @@
 # Usbong's ENTRY to GAME OFF 2022
 
-# Reconnect
+# Cliché: "Just reconnect."
 
 GAME OFF 2022: https://itch.io/jam/game-off-2022
 
