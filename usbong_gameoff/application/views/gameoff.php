@@ -943,11 +943,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							
 /*							//edited by Mike, 20221129
 							width: 160px;
-							height: 144px;					*/		
+							height: 144px;					*/	
+							
 							width: 320px;
 							height: 288px;												
 							/* //added by Mike, 20221104 */
-							z-index: 10;									
+							z-index: 15;									
 						}
 						
 						.ImageHowToPlayGuide {
@@ -1000,7 +1001,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							*/
 																								margin: 10px;
 							
-							z-index: 10;	
+							z-index: 20;	
 							
 							visibility: hidden;			
 						}
