@@ -1,5 +1,7 @@
 # Usbong's ENTRY to GAME OFF 2022
 
+# Reconnect
+
 GAME OFF 2022: https://itch.io/jam/game-off-2022
 
 ## Current Version (PUBLIC)
@@ -19,13 +21,7 @@ http://store.usbong.ph/gameoff (work-in-progress)
 
 ## MOBILE
 
-1) PORTRAIT
-
-<img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/usbongGameoff2022MobilePortraitV20221130T0543.png" width="25%">
-
-2) LANDSCAPE
-
-<img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/usbongGameoff2022MobileLandscapeV20221130T0543.png" width="40%">
+<img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/usbongGameoff2022MobileV20221130T0611NoteMSPAINT.png" width="80%">
 
 
 ## OBJECTIVE
