@@ -2909,7 +2909,8 @@ function miniGameActionUpdate() {
 	//--> where: sprite image-based animation sequences few
 	//TO-DO: -update: this
 	myHitByAttackEffectCanvasContext.lineWidth = 1;
-	myHitByAttackEffectCanvasContext.setLineDash([5, 3]); //dash 5px; space 3px
+	//edited by Mike, 20221129
+	//myHitByAttackEffectCanvasContext.setLineDash([5, 3]); //dash 5px; space 3px
 			
 /* //removed by Mike, 20221128
 	myEffectCanvasContext.beginPath();
@@ -2931,10 +2932,41 @@ function miniGameActionUpdate() {
 	else {
 		//added by Mike, 20221128
 		myEffectCanvasContext.clearRect(0, 0, myEffectCanvas.width, myEffectCanvas.height);
-		
+
+	    //edited by Mike, 20221129		
 		myEffectCanvasContext.beginPath();
 			myEffectCanvasContext.arc(50, 50, (iMyDefendedEffectCanvasContextRadius/iMyDefendedEffectCountMax)*iMyDefendedEffectCount, 0, 2 * Math.PI);
 		myEffectCanvasContext.stroke(); 
+
+
+		/* //note: BUBBLE EFFECT 		
+		var iMyDefendedEffectIndex = iMyDefendedEffectCount%2;
+		
+		if (iMyDefendedEffectIndex==0) {
+			//note: 00 alpha at end : NOT drawn
+			//outer stroke
+			myEffectCanvasContext.strokeStyle = "#00b2da33"; 
+			myEffectCanvasContext.lineWidth = 1;
+		}
+		else {
+			//inner stroke
+			myEffectCanvasContext.strokeStyle = "#00b2da66"; 
+			myEffectCanvasContext.lineWidth = 2;
+		}
+		
+		//iMyDefendedEffectCountMax-
+		
+		//myEffectCanvasContext.lineWidth = 1;
+		myEffectCanvasContext.beginPath();
+		myEffectCanvasContext.arc(50, 50, (iMyDefendedEffectCanvasContextRadius-(iMyDefendedEffectIndex*2)), 0, 2 * Math.PI);
+		myEffectCanvasContext.stroke(); 
+
+	
+	myEffectCanvasContext.lineWidth = 1;
+			myEffectCanvasContext.beginPath();
+			myEffectCanvasContext.arc(50, 50, (iMyDefendedEffectCanvasContextRadius-(iMyDefendedEffectIndex)), 0, 2 * Math.PI);
+		myEffectCanvasContext.stroke(); 
+*/
 	
 		iMyDefendedEffectCount++;
 	}
@@ -2942,6 +2974,14 @@ function miniGameActionUpdate() {
 	//added by Mike, 20221128
 	if (iMyHitByAttackEffectCount<iMyHitByAttackEffectCountMax) {
 //		alert("dito");
+	
+		//added by Mike, 20221129
+		//dash 5px; space 3px
+		//myHitByAttackEffectCanvasContext.setLineDash([5, 3]);
+		//note: spiral effect
+			myHitByAttackEffectCanvasContext.lineWidth = 5;
+		myHitByAttackEffectCanvasContext.setLineDash([2, 3*iMyHitByAttackEffectCount]);		
+
 	
 		//added by Mike, 20221128
 		myHitByAttackEffectCanvasContext.clearRect(0, 0, myHitByAttackEffectCanvas.width, myHitByAttackEffectCanvas.height);
