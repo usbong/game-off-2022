@@ -941,12 +941,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							
 							visibility: hidden;
 							
+/*							//edited by Mike, 20221129
 							width: 160px;
-							height: 144px;							
-							
+							height: 144px;					*/		
+							width: 320px;
+							height: 288px;												
 							/* //added by Mike, 20221104 */
 							z-index: 10;									
 						}
+						
+						.ImageHowToPlayGuide {
+							position: absolute;
+
+							text-align: center;
+							line-height: 32px;
+							
+							visibility: hidden;
+							
+							width: 320px;
+							height: 288px;							
+							
+							/* //added by Mike, 20221104 */
+							z-index: 10;									
+						}						
 
 						.ImageMiniController {
 							position: absolute;
@@ -1642,6 +1659,9 @@ var bHasPressedStart=false;
 //added by Mike, 20221122
 var bHasViewedControllerGuide=false;
 
+//added by Mike, 20221129
+var bHasViewedHowToPlayGuide=false;
+
 //added by Mike, 20221123
 var bIsActionKeyPressed=false;
 var bHasHitMonster=false;
@@ -1741,7 +1761,9 @@ function getBaseURL(){
 
 //added by Mike, 20221122
 function toggleControllerGuide() {
-	if (bHasPressedStart) {
+	//edited by Mike, 20221129
+//	if (bHasPressedStart) {
+	if ((bHasPressedStart) && (bHasViewedHowToPlayGuide)){	
 		var controllerGuideImage = document.getElementById("controllerGuideImageId");			
 	
 		//added by Mike, 20221122
@@ -1757,6 +1779,22 @@ function toggleControllerGuide() {
 		}
 		else {
 			controllerGuideImage.style.visibility = "hidden";
+		}			
+	}
+}
+
+//added by Mike, 20221129
+function toggleHowToPlayGuide() {
+	if (bHasPressedStart) {
+		var howToPlayGuideImage = document.getElementById("howToPlayGuideImageId");			
+		
+		//alert("dito");		
+			
+		if (howToPlayGuideImage.style.visibility=="hidden") {
+			howToPlayGuideImage.style.visibility = "visible";
+		}
+		else {
+			howToPlayGuideImage.style.visibility = "hidden";
 		}			
 	}
 }
@@ -2243,6 +2281,13 @@ function pauseAudio() {
 //reference: https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API;
 //last accessed: 20220825
 function toggleFullScreen() {		
+
+  //added by Mike, 20221129
+  //put this before bHasPressedStart=true;
+  if (bHasPressedStart) { 
+  	bHasViewedHowToPlayGuide=true;
+  }
+	
   //added by Mike, 20221114	
   bHasPressedStart=true;
 
@@ -2467,7 +2512,7 @@ function autoGeneratePuzzleFromEnd() {
 		return;
 	
 	}
-		
+				
 	if (!bIsToTopCornerDone) {
 		//to: top corner	
 		if (iCountMovementStep<iRowCountMax) {
@@ -2577,6 +2622,9 @@ function miniGameActionUpdate() {
 	//added by Mike, 20221118
 	imgPuzzle = document.getElementById("puzzleImageId");
 	
+	//added by Mike, 20221129	
+	var howToPlayGuideImage = document.getElementById("howToPlayGuideImageId");	
+	howToPlayGuideImage.style.visibility="hidden";
 	
 	var textStatusDiv = document.getElementById("textStatusDivId");
 	var textEnterDiv = document.getElementById("textEnterDivId");
@@ -3641,12 +3689,41 @@ function miniGamePuzzleUpdate() {
 	var iControllerGuideImageHeight = (controllerGuideImage.clientHeight);	
 	
 	var controllerGuideMiniImage = document.getElementById("controllerGuideMiniImageId");		
-	controllerGuideMiniImage.style.visibility = "visible"; 
+	//removed by Mike, 20221129
+//	controllerGuideMiniImage.style.visibility = "visible"; 
 		
 	var controllerGuideButton = document.getElementById("controllerGuideButtonId");	
-	
-	if (bHasPressedStart) {	
+
+	//edited by Mike, 20221129
+	if (bHasPressedStart) {
+	 	if (bHasViewedHowToPlayGuide) {	
 		controllerGuideButton.style.visibility = "visible"; 
+		controllerGuideMiniImage.style.visibility = "visible"; 
+
+		}
+		//added by Mike, 20221129
+		else {
+			controllerGuideMiniImage.style.visibility = "hidden"; 
+		}
+	}
+	
+	//added by Mike, 20221129	
+	var howToPlayGuideImage = document.getElementById("howToPlayGuideImageId");	
+	//howToPlayGuide.style.visibility="hidden";
+	
+	var iHowToPlayGuideImageWidth = (howToPlayGuideImage.clientWidth);
+	var iHowToPlayGuideImageHeight = (howToPlayGuideImage.clientHeight);	
+
+
+	if (bHasPressedStart) {
+		if (!bHasViewedHowToPlayGuide) {	
+			howToPlayGuideImage.style.visibility = "visible"; 
+		}
+		else {
+			//removed by Mike, 20221129
+			//bIsInitAutoGeneratePuzzleFromEnd=true;
+			howToPlayGuideImage.style.visibility = "hidden"; 
+		}
 	}
 
 	//added by Mike, 20221125
@@ -3838,6 +3915,13 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//added by Mike, 20221122
 	controllerGuideImage.style.top = (iVerticalOffsetInnerScreen+0+iStageMaxHeight/2 -iControllerGuideImageHeight/2)+"px";
 	controllerGuideImage.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iControllerGuideImageWidth/2 +"px";
+	
+	
+	//added by Mike, 20221129	
+	howToPlayGuideImage.style.top = (iVerticalOffsetInnerScreen+0+iStageMaxHeight/2 -iHowToPlayGuideImageHeight/2)+"px";
+	howToPlayGuideImage.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iHowToPlayGuideImageWidth/2 +"px";
+
+
 
 	//@BOTTOM-RIGHT
 //	controllerGuideButton.style.left = iHorizontalOffset+iStageMaxWidth -iControllerGuideButtonWidth+"px";
@@ -3858,8 +3942,9 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	pauseLink.style.top = 0+iStageMaxHeight +"px"; 
 	pauseLink.style.visibility="visible";	  
 
-	//added by Mike, 20221121
-	if (!bHasPressedStart) {
+	//edited by Mike, 20221129; from 20221121
+//	if (!bHasPressedStart) {
+	if ((!bHasPressedStart)||(!bHasViewedHowToPlayGuide)) {
 		var iTextEnterDivWidth = (textEnterDiv.clientWidth);
 		var iTextEnterDivHeight = (textEnterDiv.clientHeight);
 	
@@ -3896,15 +3981,18 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	textStatusDiv.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iTextStatusDivWidth/2 +"px";
 	textStatusDiv.style.top = 0+iStageMaxHeight-iTextStatusDivHeight*1.5+"px"; 
 				
-	if (bHasPressedStart) {
-		//edited by Mike, 20221124
-		//if (bIsInitAutoGeneratePuzzleFromEnd) {	
-		if ((bIsInitAutoGeneratePuzzleFromEnd) && (!bHasDefeatedMonster)) {	
-		
-			textStatusDiv.style.visibility="visible";
-		}
-		else {
-			textStatusDiv.style.visibility="hidden";
+	if (bHasPressedStart) {	
+		//added by Mike, 20221129
+		if (bHasViewedHowToPlayGuide) {	
+			//edited by Mike, 20221124
+			//if (bIsInitAutoGeneratePuzzleFromEnd) {	
+			if ((bIsInitAutoGeneratePuzzleFromEnd) && (!bHasDefeatedMonster)) {	
+			
+				textStatusDiv.style.visibility="visible";
+			}
+			else {
+				textStatusDiv.style.visibility="hidden";
+			}
 		}
 	}
 	else {
@@ -4578,16 +4666,19 @@ arrayPuzzleTileCountId[iTileBgCount].className="Image32x32TileSpace";
 
 	//added by Mike, 20221108; edited by Mike, 20221114
 	if (bHasPressedStart) {
-		if (bIsInitAutoGeneratePuzzleFromEnd) {
-			if (iDelayAnimationCountMovementStep==iDelayAnimationCountMovementStepMax) 	
-			{
-				autoGeneratePuzzleFromEnd();
-				iDelayAnimationCountMovementStep=0;
-			}
-			else {
-				iDelayAnimationCountMovementStep++;
-			}
-		}	
+		//added by Mike, 20221129
+		if (bHasViewedHowToPlayGuide) {	
+			if (bIsInitAutoGeneratePuzzleFromEnd) {
+				if (iDelayAnimationCountMovementStep==iDelayAnimationCountMovementStepMax) 	
+				{
+					autoGeneratePuzzleFromEnd();
+					iDelayAnimationCountMovementStep=0;
+				}
+				else {
+					iDelayAnimationCountMovementStep++;
+				}
+			}	
+		}
 	}
 		
 	//added by Mike, 20220917	
@@ -6016,7 +6107,9 @@ alert("iButtonHeight"+iButtonHeight);
 	}, false);
 	
 	//added by Mike, 20221108; edited by Mike, 20221111
-	bIsInitAutoGeneratePuzzleFromEnd=true;	
+	//removed by Mike, 20221129
+	//bIsInitAutoGeneratePuzzleFromEnd=true;	
+	
 	//autoGeneratePuzzleFromEnd();
 
 	//added by Mike, 20221113
@@ -6068,6 +6161,8 @@ alert("iButtonHeight"+iButtonHeight);
 
 	<img id="controllerGuideMiniImageId" class="ImageMiniController" src="<?php echo base_url('assets/images/gameOff2022MiniControllerGuide.png');?>">	
 
+<!-- added by Mike, 20221129 -->
+	<img id="howToPlayGuideImageId" class="ImageHowToPlayGuide" src="<?php echo base_url('assets/images/gameOff2022HowToPlay.png');?>">	
 	
 	<div id="textStatusDivId" class="DivTextStatus">CONGRATULATIONS!</div>
 	<div id="textEnterDivId" class="DivTextEnter">PRESS ENTER</div>
