@@ -2612,6 +2612,11 @@ function miniGameActionUpdate() {
 	var controllerGuideImage = document.getElementById("controllerGuideImageId");	
 	//controllerGuideImage.style.visibility = "hidden"; //hidden
 
+	//added by Mike, 20221129
+	if (controllerGuideImage.style.visibility=="visible") {
+		return;
+	}	
+
 	var iControllerGuideImageWidth = (controllerGuideImage.clientWidth);
 	var iControllerGuideImageHeight = (controllerGuideImage.clientHeight);	
 	
@@ -2619,7 +2624,7 @@ function miniGameActionUpdate() {
 	controllerGuideMiniImage.style.visibility = "visible"; 
 		
 	var controllerGuideButton = document.getElementById("controllerGuideButtonId");	
-	
+		
 	//added by Mike, 20221118
 	imgPuzzle = document.getElementById("puzzleImageId");
 	
