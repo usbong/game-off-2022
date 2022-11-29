@@ -4,9 +4,15 @@
 
 GAME OFF 2022: https://itch.io/jam/game-off-2022
 
-## Current Version (PUBLIC)
+## Current Version (PUBLIC): 
 
 http://store.usbong.ph/gameoff (work-in-progress)
+
+## 
+
+
+<a href="http://store.usbong.ph/gameoff" target="_blank"><img src="https://github.com/usbong/game-off-2022/blob/main/notes/actual/gameOff2022HowToPlay.png" width="40%"></a>
+   
 
 ## DESKTOP
 
