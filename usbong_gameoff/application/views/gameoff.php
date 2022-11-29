@@ -1594,6 +1594,9 @@ var bIsInitAutoGeneratePuzzleFromEnd=false;
 var iDelayAnimationCountMovementStep=0;
 const iDelayAnimationCountMovementStepMax=6;
 
+//added by Mike, 20221129
+var iPrevDirection=0;
+
 //added by Mike, 20221121
 var iDelayAnimationCountEnter=0;
 const iDelayAnimationCountEnterMax=10;
@@ -2291,6 +2294,9 @@ function toggleFullScreen() {
 	
   //added by Mike, 20221114	
   bHasPressedStart=true;
+  
+  //added by Mike, 20221129
+  var textEnterDiv = document.getElementById("textEnterDivId");
 
   //added by Mike, 20221126
   if (iCurrentMiniGame==MINI_GAME_ACTION) {
@@ -2355,10 +2361,9 @@ function toggleFullScreen() {
 		else {
 			document.documentElement.requestFullscreen();
 		}
-		
+
 		document.getElementById("myAudioId").play();
 		bIsAudioPlaying=true;
-
 				//alert("hallo");
 
 	  } else if (document.exitFullscreen) {
@@ -2507,11 +2512,12 @@ function autoGeneratePuzzleFromEnd() {
 		iCountMovementStep=0;
 		bIsToLeftCornerDone=true;
 		
+/*		
 		//added by Mike, 20221111; removed by Mike, 20221111
 		//note: add to quickly verify end OUTPUT
 		bIsInitAutoGeneratePuzzleFromEnd=false;
 		return;
-	
+*/	
 	}
 				
 	if (!bIsToTopCornerDone) {
@@ -2556,7 +2562,64 @@ function autoGeneratePuzzleFromEnd() {
 //	for (iCount=0; iCount<iCountMovementStepMax; iCount++) {
 	
 	if (iCountMovementStep<iCountMovementStepMax) {
+		
+		//edited by Mike, 20221129
 		let iDirection = window.parseInt(Math.random() * 4);	
+
+		
+		//added by Mike, 20221129
+		//objective: reduce immediate left-right 
+		//and up-down movements
+		//keyphrase: Artificial Intelligence
+		//-----
+		switch (iPrevDirection) {
+			case iKEY_W: //0
+				if (iDirection==iKEY_S) {
+					if (iDirection%2==0) {
+						iDirection=iKEY_A;
+					}
+					else {
+						iDirection=iKEY_D;
+					}
+				}
+				break;	
+			case iKEY_S: //1
+				if (iDirection==iKEY_W) {
+					if (iDirection%2==0) {
+						iDirection=iKEY_A;
+					}
+					else {
+						iDirection=iKEY_D;
+					}
+				}
+				break;	
+			case iKEY_A: //2
+				if (iDirection==iKEY_D) {
+					if (iDirection%2==0) {
+						iDirection=iKEY_W;
+					}
+					else {
+						iDirection=iKEY_S;
+					}
+				}
+				break;	
+			case iKEY_D: //3
+				if (iDirection==iKEY_A) {
+					if (iDirection%2==0) {
+						iDirection=iKEY_W;
+					}
+					else {
+						iDirection=iKEY_S;
+					}
+				}
+				break;	
+		}		
+		
+		iPrevDirection=iDirection;
+		
+		//-----
+		
+		
 		switch (iDirection) {
 			case iKEY_W: //0
 				arrayKeyPressed[iKEY_W]=true;	
@@ -4282,12 +4345,15 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 					//myAudio.volume=1.0;
 					myAudio.volume=fMyAudioVolume;
 
-					myAudio.play();	
+					//added by Mike, 20221129
+					if (textEnterDiv.style.visibility=="hidden") {
+						myAudio.play();	
+					}
 				}
 
 			}			
 			break;
-		case 1: //next level; cambodia
+		case 1: //next level; duck army
 			//note: cicada sound  : school bell in forest
 			miniPuzzleTileImage.setAttribute("src", getBaseURL()+sImagePuzzleStage1);
 
@@ -4311,11 +4377,14 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 					fMyAudioVolume=0.2;//1.0;
 					myAudio.volume=fMyAudioVolume;
 
-					myAudio.play();	
+					//added by Mike, 20221129
+					if (textEnterDiv.style.visibility=="hidden") {
+						myAudio.play();	
+					}
 				}
 			}			
 			break;
-		case 2: //next level; duck army
+		case 2: //next level; cambodia
 			miniPuzzleTileImage.setAttribute("src", getBaseURL()+sImagePuzzleStage2);
 
 			//added by Mike, 20221127
@@ -4340,7 +4409,10 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 					fMyAudioVolume=0.2;//1.0;
 					myAudio.volume=fMyAudioVolume;
 
-					myAudio.play();	
+					//added by Mike, 20221129
+					if (textEnterDiv.style.visibility=="hidden") {
+						myAudio.play();	
+					}
 				}
 			}	
 			break;			
