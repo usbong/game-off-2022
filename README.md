@@ -17,6 +17,16 @@ http://store.usbong.ph/gameoff (work-in-progress)
 <img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/gameoff2022Stage2DuckArmyChallengeV20221129.png" width="80%">
 
 
+## MOBILE
+
+1) PORTRAIT
+
+<img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/usbongGameoff2022MobilePortraitV20221130T0543.png" width="25%">
+
+2) LANDSCAPE
+
+<img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/usbongGameoff2022MobileLandscapeV20221130T0543.png" width="40%">
+
 
 ## OBJECTIVE
 
