@@ -15,7 +15,7 @@ https://itch.io/jam/game-off-2022
 https://masarapmabuhay.itch.io/just-reconnect
 
 
-#### OBJECTIVE
+#### OBJECTIVES
 
 1) increase: know-how of MAJORITY
 
