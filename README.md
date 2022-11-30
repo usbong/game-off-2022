@@ -2,6 +2,8 @@
 
 # Cliché: "Just reconnect."
 
+<a href="http://store.usbong.ph/gameoff" target="_blank"><img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/usbongGameoff2022ItchDotIoTitle.jpg" width="40%"></a>
+
 <b>GAME OFF 2022:</b><br/> 
 https://itch.io/jam/game-off-2022<br/>
 <br/>
@@ -26,7 +28,7 @@ http://store.usbong.ph/gameoff (work-in-progress)
 
 <img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/gameoff2022Stage2DuckArmyV20221129.png" width="80%">
 
-### 2) CHALLENGE
+### 2) CHALLENGE (via Web Browser's ZOOM Tool)
 
 <img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/gameoff2022Stage2DuckArmyChallengeV20221129.png" width="80%">
 
