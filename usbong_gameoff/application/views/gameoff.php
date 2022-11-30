@@ -5950,6 +5950,14 @@ function onLoad() {
 						myAudioEffect.volume=fMyAudioEffectVolume;
 						myAudioEffect.loop=false;
 						myAudioEffect.play();
+						
+						//added by Mike, 20221130
+						bIsInitAutoGeneratePuzzleFromEnd=false;
+						for (iKeyCount=0; iKeyCount<iTotalKeyCount; iKeyCount++) {
+							if (arrayKeyPressed[iKeyCount]) {
+								arrayKeyPressed[iKeyCount]=false;
+							}
+						}				
 
 						changeMiniGame(MINI_GAME_ACTION);
 					}
