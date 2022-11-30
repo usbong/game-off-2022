@@ -2536,12 +2536,12 @@ function autoGeneratePuzzleFromEnd() {
 		iCountMovementStep=0;
 		bIsToLeftCornerDone=true;
 		
-		
+/*		
 		//added by Mike, 20221111; removed by Mike, 20221111
 		//note: add to quickly verify end OUTPUT
 		bIsInitAutoGeneratePuzzleFromEnd=false;
 		return;
-	
+*/	
 	}
 				
 	if (!bIsToTopCornerDone) {
