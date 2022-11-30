@@ -194,7 +194,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							visibility: visible;							
 						}						
-						
+																
 						audio.myAudio
 						{
 							width: 416px;
@@ -966,6 +966,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							z-index: 10;									
 						}						
 
+
+						 /* //added by Mike, 20221130 */
+						.ImageTitle {
+							position: absolute;
+
+							text-align: center;
+							line-height: 32px;
+							
+							visibility: hidden;
+/*							
+							width: 320px;
+							height: 288px;							
+*/							
+							width: 320px;
+							object-fit: contain;
+
+							z-index: 10;									
+						}	
+
 						.ImageMiniController {
 							position: absolute;
 							
@@ -1660,6 +1679,9 @@ var bIsToBottomCornerDone=false;
 //added by Mike, 20221114
 var bHasPressedStart=false;
 
+//added by Mike, 20221130
+var bHasViewedTitle=false;
+
 //added by Mike, 20221122
 var bHasViewedControllerGuide=false;
 
@@ -2289,7 +2311,7 @@ function toggleFullScreen() {
   //added by Mike, 20221129
   //put this before bHasPressedStart=true;
   if (bHasPressedStart) { 
-	if (!bHasViewedHowToPlayGuide) {
+ 	if (!bHasViewedHowToPlayGuide) {
 		bHasViewedHowToPlayGuide=true;
 		return;
 	}
@@ -2514,12 +2536,12 @@ function autoGeneratePuzzleFromEnd() {
 		iCountMovementStep=0;
 		bIsToLeftCornerDone=true;
 		
-/*		
+		
 		//added by Mike, 20221111; removed by Mike, 20221111
 		//note: add to quickly verify end OUTPUT
 		bIsInitAutoGeneratePuzzleFromEnd=false;
 		return;
-*/	
+	
 	}
 				
 	if (!bIsToTopCornerDone) {
@@ -2672,6 +2694,10 @@ function myUpdateFunction() {
 function miniGameActionUpdate() {
 	var imgUsbongLogo = document.getElementById("usbongLogoId");
 	//imgUsbongLogo.style.visibility="hidden";
+
+	//added by Mike, 20221130
+	var titleImage = document.getElementById("titleImageId");	
+	titleImage.style.visibility="hidden";
 
 	//added by Mike, 20221124
 	var controllerGuideImage = document.getElementById("controllerGuideImageId");	
@@ -3489,6 +3515,9 @@ iArrayHealthActionCount=8;
 			iCurrentMiniGame=MINI_GAME_PUZZLE;
 			reset();
 			
+			//added by Mike, 20221130
+			bHasViewedTitle=false;
+			
 			toggleFullScreen();
 								
 			//added by Mike, 20221124
@@ -3791,7 +3820,14 @@ alert("iHorizontalOffset: "+iHorizontalOffset);
 function miniGamePuzzleUpdate() {
 	var imgUsbongLogo = document.getElementById("usbongLogoId");
 	//imgUsbongLogo.style.visibility="hidden";
+		
+	//added by Mike, 20221130
+	var titleImage = document.getElementById("titleImageId");	
+	//titleImage.style.visibility="hidden";
 	
+	var iTitleImageWidth = (titleImage.clientWidth);
+	var iTitleImageHeight = (titleImage.clientHeight);	
+		
 	//added by Mike, 20221122
 	var controllerGuideImage = document.getElementById("controllerGuideImageId");	
 	//controllerGuideImage.style.visibility = "hidden"; //hidden
@@ -3805,12 +3841,21 @@ function miniGamePuzzleUpdate() {
 		
 	var controllerGuideButton = document.getElementById("controllerGuideButtonId");	
 
+	//added by Mike, 20221130
+	if (!bHasViewedTitle) {
+		titleImage.style.visibility="visible";
+	}
+
 	//edited by Mike, 20221129
 	if (bHasPressedStart) {
+		//added by Mike, 20221130
+		//var titleImage = document.getElementById("titleImageId");	
+		titleImage.style.visibility="hidden";
+		bHasViewedTitle=true;
+	
 	 	if (bHasViewedHowToPlayGuide) {	
-		controllerGuideButton.style.visibility = "visible"; 
-		controllerGuideMiniImage.style.visibility = "visible"; 
-
+			controllerGuideButton.style.visibility = "visible"; 
+			controllerGuideMiniImage.style.visibility = "visible"; 
 		}
 		//added by Mike, 20221129
 		else {
@@ -4022,6 +4067,17 @@ myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+"px"; //iVerticalOffset+
 	//added by Mike, 20221118
 	imgPuzzle.style.top = (iVerticalOffsetInnerScreen+0)+"px";
 	imgPuzzle.style.left = (iHorizontalOffset+0)+"px";
+
+
+	//added by Mike, 20221130
+/*	//removed by Mike, 20221130
+	var titleImage = document.getElementById("titleImageId");	
+	titleImage.style.visibility="visible";
+*/
+
+	titleImage.style.top = (iVerticalOffsetInnerScreen+0+iStageMaxHeight/3 -iTitleImageHeight/2)+"px";
+	titleImage.style.left = 0+iHorizontalOffset+iStageMaxWidth/2 -iTitleImageWidth/2 +"px";
+	
 
 	//added by Mike, 20221122
 	controllerGuideImage.style.top = (iVerticalOffsetInnerScreen+0+iStageMaxHeight/2 -iControllerGuideImageHeight/2)+"px";
@@ -6287,10 +6343,14 @@ alert("iButtonHeight"+iButtonHeight);
 
 <!-- added by Mike, 20221129 -->
 	<img id="howToPlayGuideImageId" class="ImageHowToPlayGuide" src="<?php echo base_url('assets/images/gameOff2022HowToPlay.png');?>">	
+
+<!-- added by Mike, 20221130 -->
+	<img id="titleImageId" class="ImageTitle" src="<?php echo base_url('assets/images/gameOff2022Title.png');?>">	
+
 	
 	<div id="textStatusDivId" class="DivTextStatus">CONGRATULATIONS!</div>
 	<div id="textEnterDivId" class="DivTextEnter">PRESS ENTER</div>
-	
+			
 <?php 
 	$iRowCountMax=4; 
 	$iColumnCountMax=4; 	
