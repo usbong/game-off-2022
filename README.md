@@ -2,25 +2,31 @@
 
 # Cliché: "Just reconnect."
 
-GAME OFF 2022: https://itch.io/jam/game-off-2022
-
-## Current Version (PUBLIC): 
-
+<b>GAME OFF 2022:</b><br/> 
+https://itch.io/jam/game-off-2022<br/>
+<br/>
+<b>Current Version (PUBLIC):</b><br/> 
 http://store.usbong.ph/gameoff (work-in-progress)
+
+#### OBJECTIVE
+
+1) increase: know-how of MAJORITY
+
+2) share: know-how with MAJORITY<br/>
+
+--> where: know-how : COMPUTER SERVICES
 
 ## 
 
-
 <a href="http://store.usbong.ph/gameoff" target="_blank"><img src="https://github.com/usbong/game-off-2022/blob/main/notes/actual/gameOff2022HowToPlay.png" width="40%"></a>
    
-
 ## DESKTOP
 
-1) CLASSIC
+### 1) CLASSIC
 
 <img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/gameoff2022Stage2DuckArmyV20221129.png" width="80%">
 
-2) CHALLENGE
+### 2) CHALLENGE
 
 <img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/gameoff2022Stage2DuckArmyChallengeV20221129.png" width="80%">
 
@@ -30,35 +36,19 @@ http://store.usbong.ph/gameoff (work-in-progress)
 <img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/usbongGameoff2022MobileV20221130T0611NoteMSPAINT.png" width="80%">
 
 
-## OBJECTIVE
-
-1) increase: know-how of MAJORITY
-
-2) share: know-how with MAJORITY
-
-where: know-how : COMPUTER SERVICES
-
-### OUTPUT#1
-
-SELL COMPUTERS via SERVICES<br/>
-where: COMPUTER : software and hardware<br/>
-
-#### REMINDER: NOT QUICK MONEY
-
-### OUTPUT#2
-
-set of reusable computer instructions that execute via the <b>Web Browser</b> 
-
-## Additional Notes
+# Additional Notes
 1) Javascript+ as ActionScript 2.0
 2) PHP + CodeIgniter (version 3)
 
-## References
-1) [USBONG 囲碁](https://github.com/usbong/IGO)
+# Select References
 
-2) [ALL I NEED IS ONE DREAM: NIGHTWING AND HIS DUCK ARMY](https://www.redbubble.com/i/sticker/Nightwing-and-his-duck-Army-by-one-dream/103360727.EJUG5#&gid=1&pid=3)
+1) [GAME OFF 2021: TUGON](https://github.com/usbong/tugon)
 
-3) BLUEBLADE Technologies: MAJIKA PICTURE SLIDING PUZZLE GAME (J2ME)<br/>
+2) [USBONG 囲碁](https://github.com/usbong/IGO)
+
+3) [ALL I NEED IS ONE DREAM: NIGHTWING AND HIS DUCK ARMY](https://www.redbubble.com/i/sticker/Nightwing-and-his-duck-Army-by-one-dream/103360727.EJUG5#&gid=1&pid=3)
+
+4) BLUEBLADE Technologies: MAJIKA PICTURE SLIDING PUZZLE GAME (J2ME)<br/>
 --> notes: auto-generate PUZZLE from finished OUTPUT,<br/>
 --> to be certain that CORRECT sequence exists;<br/>
 --> learns: in FF1, TILE SLIDING PUZZLE GAME to also exist<br/>
