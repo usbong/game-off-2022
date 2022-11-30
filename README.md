@@ -38,9 +38,27 @@ http://store.usbong.ph/gameoff (work-in-progress)
 <img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/usbongGameoff2022MobileV20221130T0611NoteMSPAINT.png" width="80%">
 
 
-# Additional Notes
-1) Javascript+ as ActionScript 2.0
-2) PHP + CodeIgniter (version 3)
+# SPECIAL PROMO!
+includes: BONUS MINI ACTION GAME INSIDE!
+
+# DEVELOPMENT NOTES:
+
+finished: WHOLE GAME in ONE (1) Month<br/>
+
+## <b>Operating Systems:</b>
+Windows, macOS, Linux Ubuntu, Android<br/>
+
+## <b>Select Tools:</b><br/>
+<b>Image:</b> GIMP, MSPAINT, Android Camera<br/>
+<br/>
+<b>Audio:</b> GarageBand, Audacity, Android Recorder<br/>
+<br/>
+<b>Text:</b> Notepad, Notepad++, Featherpad<br/>
+--> Computer Languages: HTML, CSS, Javascript (as ActionScript 2.0),<br/>
+--> PHP (+CodeIgniter (version 3))<br/>
+<br/>
+<b>Network:</b> WinSCP (Windows to Linux Server)
+
 
 # Select References
 
