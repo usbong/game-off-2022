@@ -46,6 +46,8 @@ https://masarapmabuhay.itch.io/just-reconnect
 # SPECIAL PROMO!
 includes: BONUS MINI ACTION GAME INSIDE!
 
+<img src="https://github.com/usbong/game-off-2022/blob/main/screenshots/actual/gameoff2022ACTION0-V20221201T1319.png" width="40%">
+
 # DEVELOPMENT NOTES:
 
 finished: WHOLE GAME in ONE (1) Month<br/>
@@ -63,6 +65,8 @@ Windows, macOS, Linux Ubuntu, Android<br/>
 --> PHP (+CodeIgniter (version 3))<br/>
 <br/>
 <b>Network:</b> WinSCP (Windows to Linux Server)
+<br/>
+<b>Server:</b> Amazon Web Services
 
 
 # Select References
